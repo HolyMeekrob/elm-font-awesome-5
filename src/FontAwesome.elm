@@ -1,160 +1,94 @@
 module FontAwesome
     exposing
         ( Animation(..)
-        , Mask(..)
-        , Name(..)
+        , Attribute(..)
+        , MaskAttr(..)
+        , Icon(..)
         , Pull(..)
         , Size(..)
         , Style(..)
-        , create
         , elem
         , icon
-        , setAnimation
-        , setHasBorder
-        , setHasFixedWidth
-        , setMask
-        , setPull
-        , setSize
-        , setStyle
-        , setTransform
         )
 
-import Html exposing (Attribute, Html, span)
-import Html.Attributes exposing (attribute, class)
-import String exposing (cons, isEmpty)
+import Html exposing (Html, span)
+import Html.Attributes
 
 
-create : Name -> Icon
-create n =
-    { name = n
-    , style = defaultStyle n
-    , size = Normal
-    , hasFixedWidth = False
-    , hasBorder = False
-    , pull = NoPull
-    , animation = NoAnimation
-    , transform = Nothing
-    , mask = NoMask
-    }
-
-
-setStyle : Style -> Icon -> Icon
-setStyle style icon =
-    { icon | style = style }
-
-
-setSize : Size -> Icon -> Icon
-setSize size icon =
-    { icon | size = size }
-
-
-setHasFixedWidth : Bool -> Icon -> Icon
-setHasFixedWidth hasFixedWidth icon =
-    { icon | hasFixedWidth = hasFixedWidth }
-
-
-setHasBorder : Bool -> Icon -> Icon
-setHasBorder hasBorder icon =
-    { icon | hasBorder = hasBorder }
-
-
-setPull : Pull -> Icon -> Icon
-setPull pull icon =
-    { icon | pull = pull }
-
-
-setAnimation : Animation -> Icon -> Icon
-setAnimation animation icon =
-    { icon | animation = animation }
-
-
-setTransform : Maybe String -> Icon -> Icon
-setTransform transform icon =
-    { icon | transform = transform }
-
-
-setMask : Mask -> Icon -> Icon
-setMask mask icon =
-    { icon | mask = mask }
-
-
-icon : Name -> Html msg
-icon name =
+icon : Icon -> Html msg
+icon icon =
     let
-        icon =
-            create name
+        style =
+            defaultStyle icon
     in
-        elem icon
+        elem icon style [] []
 
 
-elem : Icon -> Html msg
-elem icon =
+elem : Icon -> Style -> List Attribute -> List (Html.Attribute msg) -> Html msg
+elem icon style attributes htmlAttributes =
+    span
+        (classes icon style attributes
+            :: transformAttr attributes
+            ++ maskAttr attributes
+            ++ htmlAttributes
+        )
+        []
+
+
+iconClass : Icon -> String
+iconClass icon =
     let
-        classAttr =
-            class (classes icon)
-
-        transformAttr =
-            transform icon.transform
-
-        maskAttr =
-            mask icon.mask
+        root =
+            name icon
     in
-        span
-            (classAttr
-                :: transform icon.transform
-                ++ mask icon.mask
-            )
-            []
+        "fa-" ++ root
 
 
-classes : Icon -> String
-classes icon =
-    let
-        classNames =
-            [ style icon.style
-            , name icon.name
-            , size icon.size
-            , width icon.hasFixedWidth
-            , border icon.hasBorder
-            , pull icon.pull
-            , animation icon.animation
-            ]
+animationClass : Animation -> String
+animationClass animation =
+    case animation of
+        NoAnimation ->
+            ""
 
-        prependSpace class classes =
-            if (isEmpty classes) then
-                class
-            else if (isEmpty class) then
-                classes
-            else
-                classes ++ " " ++ class
-    in
-        List.foldl prependSpace "" classNames
+        Spin ->
+            "fa-spin"
+
+        Pulse ->
+            "fa-pulse"
 
 
-name : Name -> String
-name n =
-    "fa-" ++ nameOfName n
+borderClass : Bool -> String
+borderClass hasBorder =
+    if hasBorder then
+        "fa-border"
+    else
+        ""
 
 
-style : Style -> String
-style s =
-    case s of
-        Solid ->
-            "fas"
-
-        Regular ->
-            "far"
-
-        Light ->
-            "fal"
-
-        Brand ->
-            "fab"
+widthClass : Bool -> String
+widthClass hasFixedWidth =
+    if hasFixedWidth then
+        "fa-fw"
+    else
+        ""
 
 
-size : Size -> String
-size sz =
-    case sz of
+pullClass : Pull -> String
+pullClass p =
+    case p of
+        NoPull ->
+            ""
+
+        Left ->
+            "fa-pull-left"
+
+        Right ->
+            "fa-pull-right"
+
+
+sizeClass : Size -> String
+sizeClass size =
+    case size of
         Normal ->
             ""
 
@@ -171,101 +105,97 @@ size sz =
             "fa-" ++ toString n ++ "x"
 
 
-width : Bool -> String
-width hasFixedWidth =
-    if hasFixedWidth then
-        "fa-fw"
-    else
-        ""
+styleClass : Style -> String
+styleClass style =
+    case style of
+        Solid ->
+            "fas"
+
+        Regular ->
+            "far"
+
+        Light ->
+            "fal"
+
+        Brand ->
+            "fab"
 
 
-border : Bool -> String
-border hasBorder =
-    if hasBorder then
-        "fa-border"
-    else
-        ""
+className : Attribute -> ( String, Bool )
+className attr =
+    case attr of
+        Animation animation ->
+            ( animationClass animation, True )
+
+        HasBorder hasBorder ->
+            ( borderClass hasBorder, True )
+
+        HasFixedWidth hasFixedWidth ->
+            ( widthClass hasFixedWidth, True )
+
+        Mask _ ->
+            ( "", False )
+
+        Pull direction ->
+            ( pullClass direction, True )
+
+        Size size ->
+            ( sizeClass size, True )
+
+        Transform _ ->
+            ( "", False )
 
 
-pull : Pull -> String
-pull p =
-    case p of
-        NoPull ->
-            ""
-
-        Left ->
-            "fa-pull-left"
-
-        Right ->
-            "fa-pull-right"
+classes : Icon -> Style -> List Attribute -> Html.Attribute msg
+classes icon style attributes =
+    ( styleClass style, True )
+        :: ( iconClass icon, True )
+        :: List.map className attributes
+        |> Html.Attributes.classList
 
 
-animation : Animation -> String
-animation a =
-    case a of
-        NoAnimation ->
-            ""
+transform : Attribute -> List (Html.Attribute msg) -> List (Html.Attribute msg)
+transform attr attrs =
+    case attr of
+        Transform str ->
+            (Html.Attributes.attribute "data-fa-transform" str) :: attrs
 
-        Spin ->
-            "fa-spin"
-
-        Pulse ->
-            "fa-pulse"
-
-
-transform : Maybe String -> List (Html.Attribute msg)
-transform t =
-    case t of
-        Nothing ->
-            []
-
-        Just str ->
-            [ attribute "data-fa-transform" str ]
-
-
-mask : Mask -> List (Html.Attribute msg)
-mask m =
-    case m of
-        NoMask ->
-            []
-
-        Mask n s ->
-            [ attribute "data-fa-mask" <| style s ++ " " ++ name n ]
-
-
-nameOfName : Name -> String
-nameOfName n =
-    case n of
-        AddressBook ->
-            "address-book"
-
-        Edit ->
-            "edit"
-
-
-defaultStyle : Name -> Style
-defaultStyle n =
-    case n of
         _ ->
-            Regular
+            attrs
 
 
-type alias Icon =
-    { name : Name
-    , style : Style
-    , size : Size
-    , hasFixedWidth : Bool
-    , hasBorder : Bool
-    , pull : Pull
-    , animation : Animation
-    , transform : Maybe String
-    , mask : Mask
-    }
+transformAttr : List Attribute -> List (Html.Attribute msg)
+transformAttr attributes =
+    List.foldr transform [] attributes
 
 
-type Name
-    = AddressBook
-    | Edit
+mask : Attribute -> List (Html.Attribute msg) -> List (Html.Attribute msg)
+mask attr attrs =
+    case attr of
+        Mask (MaskIcon icon style) ->
+            let
+                val =
+                    styleClass style ++ " " ++ iconClass icon
+            in
+                (Html.Attributes.attribute "data-fa-mask" val) :: attrs
+
+        _ ->
+            attrs
+
+
+maskAttr : List Attribute -> List (Html.Attribute msg)
+maskAttr attributes =
+    List.foldr mask [] attributes
+
+
+type Attribute
+    = Animation Animation
+    | HasBorder Bool
+    | HasFixedWidth Bool
+    | Mask MaskAttr
+    | Pull Pull
+    | Size Size
+    | Transform String
 
 
 type Style
@@ -295,6 +225,34 @@ type Animation
     | Pulse
 
 
-type Mask
+type MaskAttr
     = NoMask
-    | Mask Name Style
+    | MaskIcon Icon Style
+
+
+
+-- The following section will need to be updated whenever
+-- new icons are added. They've been placed at the bottom
+-- so that all other lines are unchanged
+
+
+type Icon
+    = AddressBook
+    | Edit
+
+
+defaultStyle : Icon -> Style
+defaultStyle icon =
+    case icon of
+        _ ->
+            Regular
+
+
+name : Icon -> String
+name icon =
+    case icon of
+        AddressBook ->
+            "address-book"
+
+        Edit ->
+            "edit"
