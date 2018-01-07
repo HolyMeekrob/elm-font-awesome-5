@@ -236,6 +236,9 @@ mask m =
 nameOfName : Name -> String
 nameOfName n =
     case n of
+        AddressBook ->
+            "address-book"
+
         Edit ->
             "edit"
 
@@ -243,7 +246,7 @@ nameOfName n =
 defaultStyle : Name -> Style
 defaultStyle n =
     case n of
-        Edit ->
+        _ ->
             Regular
 
 
@@ -261,7 +264,8 @@ type alias Icon =
 
 
 type Name
-    = Edit
+    = AddressBook
+    | Edit
 
 
 type Style
