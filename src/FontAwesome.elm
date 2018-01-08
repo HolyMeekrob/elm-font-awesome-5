@@ -385,6 +385,53 @@ type Icon
     | Avianex
     | Aviato
     | AWS
+    | Backward
+    | BalanceScale
+    | Ban
+    | Bandcamp
+    | Barcode
+    | Bars
+    | Bath
+    | BatteryEmpty
+    | BatteryFull
+    | BatteryHalf
+    | BatteryQuarter
+    | BatteryThreeQuarters
+    | Bed
+    | Beer
+    | Behance
+    | BehanceSquare
+    | Bell
+    | BellSlash
+    | Bicycle
+    | BIMobject
+    | Binoculars
+    | BirthdayCake
+    | Bitbucket
+    | Bitcoin
+    | Bity
+    | BlackTie
+    | Blackberry
+    | Blind
+    | Blogger
+    | BloggerB
+    | Bluetooth
+    | BluetoothB
+    | Bold
+    | Bolt
+    | Bomb
+    | Book
+    | Bookmark
+    | Braille
+    | Briefcase
+    | Btc
+    | Bug
+    | Building
+    | Bullhorn
+    | Bullseye
+    | BuromobelExperte
+    | Bus
+    | BuySellAds
     | Edit
     | FiveHundredPx
 
@@ -480,6 +527,66 @@ defaultStyle icon =
             Brand
 
         AWS ->
+            Brand
+
+        Bandcamp ->
+            Brand
+
+        Behance ->
+            Brand
+
+        BehanceSquare ->
+            Brand
+
+        Bell ->
+            Regular
+
+        BellSlash ->
+            Regular
+
+        BIMobject ->
+            Brand
+
+        Bitbucket ->
+            Brand
+
+        Bitcoin ->
+            Brand
+
+        Bity ->
+            Brand
+
+        BlackTie ->
+            Brand
+
+        Blackberry ->
+            Brand
+
+        Blogger ->
+            Brand
+
+        BloggerB ->
+            Brand
+
+        Bluetooth ->
+            Brand
+
+        BluetoothB ->
+            Brand
+
+        Bookmark ->
+            Regular
+
+        Btc ->
+            Brand
+
+        Building ->
+            Regular
+
+        BuromobelExperte ->
+            Brand
+
+        BuySellAds ->
             Brand
 
         FiveHundredPx ->
@@ -677,6 +784,147 @@ name icon =
 
         AWS ->
             "aws"
+
+        Backward ->
+            "backward"
+
+        BalanceScale ->
+            "balance-scale"
+
+        Ban ->
+            "ban"
+
+        Bandcamp ->
+            "bandcamp"
+
+        Barcode ->
+            "barcode"
+
+        Bars ->
+            "bars"
+
+        Bath ->
+            "bath"
+
+        BatteryEmpty ->
+            "battery-empty"
+
+        BatteryFull ->
+            "battery-full"
+
+        BatteryHalf ->
+            "battery-half"
+
+        BatteryQuarter ->
+            "battery-quarter"
+
+        BatteryThreeQuarters ->
+            "battery-three-quarters"
+
+        Bed ->
+            "bed"
+
+        Beer ->
+            "beer"
+
+        Behance ->
+            "behance"
+
+        BehanceSquare ->
+            "behance-square"
+
+        Bell ->
+            "bell"
+
+        BellSlash ->
+            "bell-slash"
+
+        Bicycle ->
+            "bicycle"
+
+        BIMobject ->
+            "bimobject"
+
+        Binoculars ->
+            "binoculars"
+
+        BirthdayCake ->
+            "birthday-cake"
+
+        Bitbucket ->
+            "bitbucket"
+
+        Bitcoin ->
+            "bitcoin"
+
+        Bity ->
+            "bity"
+
+        BlackTie ->
+            "black-tie"
+
+        Blackberry ->
+            "blackberry"
+
+        Blind ->
+            "blind"
+
+        Blogger ->
+            "blogger"
+
+        BloggerB ->
+            "blogger-b"
+
+        Bluetooth ->
+            "bluetooth"
+
+        BluetoothB ->
+            "bluetooth-b"
+
+        Bold ->
+            "bold"
+
+        Bolt ->
+            "bolt"
+
+        Bomb ->
+            "bomb"
+
+        Book ->
+            "book"
+
+        Bookmark ->
+            "bookmark"
+
+        Braille ->
+            "braille"
+
+        Briefcase ->
+            "briefcase"
+
+        Btc ->
+            "btc"
+
+        Bug ->
+            "bug"
+
+        Building ->
+            "building"
+
+        Bullhorn ->
+            "bullhorn"
+
+        Bullseye ->
+            "bullseye"
+
+        BuromobelExperte ->
+            "buromobelexperte"
+
+        Bus ->
+            "bus"
+
+        BuySellAds ->
+            "buysellads"
 
         Edit ->
             "edit"

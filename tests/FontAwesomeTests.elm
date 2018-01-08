@@ -320,8 +320,117 @@ testHtmlAttribute htmlAttribute =
 iconFuzzer : Fuzz.Fuzzer FA.Icon
 iconFuzzer =
     Fuzz.oneOf
-        [ Fuzz.constant FA.AddressBook
+        [ Fuzz.constant FA.AccessibleIcon
+        , Fuzz.constant FA.Accusoft
+        , Fuzz.constant FA.AddressBook
+        , Fuzz.constant FA.AddressCard
+        , Fuzz.constant FA.Adjust
+        , Fuzz.constant FA.Adn
+        , Fuzz.constant FA.Adversal
+        , Fuzz.constant FA.AffiliateTheme
+        , Fuzz.constant FA.Algolia
+        , Fuzz.constant FA.AlignCenter
+        , Fuzz.constant FA.AlignJustify
+        , Fuzz.constant FA.AlignLeft
+        , Fuzz.constant FA.AlignRight
+        , Fuzz.constant FA.Amazon
+        , Fuzz.constant FA.AmazonPay
+        , Fuzz.constant FA.Ambulance
+        , Fuzz.constant FA.AmericanSignLanguageInterpreting
+        , Fuzz.constant FA.Amilia
+        , Fuzz.constant FA.Anchor
+        , Fuzz.constant FA.Android
+        , Fuzz.constant FA.AngelList
+        , Fuzz.constant FA.AngleDoubleDown
+        , Fuzz.constant FA.AngleDoubleLeft
+        , Fuzz.constant FA.AngleDoubleRight
+        , Fuzz.constant FA.AngleDoubleUp
+        , Fuzz.constant FA.AngleDown
+        , Fuzz.constant FA.AngleLeft
+        , Fuzz.constant FA.AngleRight
+        , Fuzz.constant FA.AngleUp
+        , Fuzz.constant FA.AngryCreative
+        , Fuzz.constant FA.Angular
+        , Fuzz.constant FA.AppStore
+        , Fuzz.constant FA.AppStoreIos
+        , Fuzz.constant FA.Apper
+        , Fuzz.constant FA.Apple
+        , Fuzz.constant FA.ApplePay
+        , Fuzz.constant FA.Archive
+        , Fuzz.constant FA.ArrowAltCircleDown
+        , Fuzz.constant FA.ArrowAltCircleLeft
+        , Fuzz.constant FA.ArrowAltCircleRight
+        , Fuzz.constant FA.ArrowAltCircleUp
+        , Fuzz.constant FA.ArrowCircleDown
+        , Fuzz.constant FA.ArrowCircleLeft
+        , Fuzz.constant FA.ArrowCircleRight
+        , Fuzz.constant FA.ArrowCircleUp
+        , Fuzz.constant FA.ArrowDown
+        , Fuzz.constant FA.ArrowLeft
+        , Fuzz.constant FA.ArrowRight
+        , Fuzz.constant FA.ArrowUp
+        , Fuzz.constant FA.ArrowsAlt
+        , Fuzz.constant FA.ArrowsAltHorizontal
+        , Fuzz.constant FA.ArrowsAltVertical
+        , Fuzz.constant FA.AssistiveListeningSystems
+        , Fuzz.constant FA.Asterisk
+        , Fuzz.constant FA.Asymmetrik
+        , Fuzz.constant FA.At
+        , Fuzz.constant FA.Audible
+        , Fuzz.constant FA.AudioDescription
+        , Fuzz.constant FA.AutoPrefixer
+        , Fuzz.constant FA.Avianex
+        , Fuzz.constant FA.Aviato
+        , Fuzz.constant FA.AWS
+        , Fuzz.constant FA.Backward
+        , Fuzz.constant FA.BalanceScale
+        , Fuzz.constant FA.Ban
+        , Fuzz.constant FA.Bandcamp
+        , Fuzz.constant FA.Barcode
+        , Fuzz.constant FA.Bars
+        , Fuzz.constant FA.Bath
+        , Fuzz.constant FA.BatteryEmpty
+        , Fuzz.constant FA.BatteryFull
+        , Fuzz.constant FA.BatteryHalf
+        , Fuzz.constant FA.BatteryQuarter
+        , Fuzz.constant FA.BatteryThreeQuarters
+        , Fuzz.constant FA.Bed
+        , Fuzz.constant FA.Beer
+        , Fuzz.constant FA.Behance
+        , Fuzz.constant FA.BehanceSquare
+        , Fuzz.constant FA.Bell
+        , Fuzz.constant FA.BellSlash
+        , Fuzz.constant FA.Bicycle
+        , Fuzz.constant FA.BIMobject
+        , Fuzz.constant FA.Binoculars
+        , Fuzz.constant FA.BirthdayCake
+        , Fuzz.constant FA.Bitbucket
+        , Fuzz.constant FA.Bitcoin
+        , Fuzz.constant FA.Bity
+        , Fuzz.constant FA.BlackTie
+        , Fuzz.constant FA.Blackberry
+        , Fuzz.constant FA.Blind
+        , Fuzz.constant FA.Blogger
+        , Fuzz.constant FA.BloggerB
+        , Fuzz.constant FA.Bluetooth
+        , Fuzz.constant FA.BluetoothB
+        , Fuzz.constant FA.Bold
+        , Fuzz.constant FA.Bolt
+        , Fuzz.constant FA.Bomb
+        , Fuzz.constant FA.Book
+        , Fuzz.constant FA.Bookmark
+        , Fuzz.constant FA.Braille
+        , Fuzz.constant FA.Briefcase
+        , Fuzz.constant FA.Btc
+        , Fuzz.constant FA.Bug
+        , Fuzz.constant FA.Building
+        , Fuzz.constant FA.Bullhorn
+        , Fuzz.constant FA.Bullseye
+        , Fuzz.constant FA.BuromobelExperte
+        , Fuzz.constant FA.Bus
+        , Fuzz.constant FA.BuySellAds
         , Fuzz.constant FA.Edit
+        , Fuzz.constant FA.FiveHundredPx
         ]
 
 
@@ -742,6 +851,147 @@ name icon =
         FA.AWS ->
             "aws"
 
+        FA.Backward ->
+            "backward"
+
+        FA.BalanceScale ->
+            "balance-scale"
+
+        FA.Ban ->
+            "ban"
+
+        FA.Bandcamp ->
+            "bandcamp"
+
+        FA.Barcode ->
+            "barcode"
+
+        FA.Bars ->
+            "bars"
+
+        FA.Bath ->
+            "bath"
+
+        FA.BatteryEmpty ->
+            "battery-empty"
+
+        FA.BatteryFull ->
+            "battery-full"
+
+        FA.BatteryHalf ->
+            "battery-half"
+
+        FA.BatteryQuarter ->
+            "battery-quarter"
+
+        FA.BatteryThreeQuarters ->
+            "battery-three-quarters"
+
+        FA.Bed ->
+            "bed"
+
+        FA.Beer ->
+            "beer"
+
+        FA.Behance ->
+            "behance"
+
+        FA.BehanceSquare ->
+            "behance-square"
+
+        FA.Bell ->
+            "bell"
+
+        FA.BellSlash ->
+            "bell-slash"
+
+        FA.Bicycle ->
+            "bicycle"
+
+        FA.BIMobject ->
+            "bimobject"
+
+        FA.Binoculars ->
+            "binoculars"
+
+        FA.BirthdayCake ->
+            "birthday-cake"
+
+        FA.Bitbucket ->
+            "bitbucket"
+
+        FA.Bitcoin ->
+            "bitcoin"
+
+        FA.Bity ->
+            "bity"
+
+        FA.BlackTie ->
+            "black-tie"
+
+        FA.Blackberry ->
+            "blackberry"
+
+        FA.Blind ->
+            "blind"
+
+        FA.Blogger ->
+            "blogger"
+
+        FA.BloggerB ->
+            "blogger-b"
+
+        FA.Bluetooth ->
+            "bluetooth"
+
+        FA.BluetoothB ->
+            "bluetooth-b"
+
+        FA.Bold ->
+            "bold"
+
+        FA.Bolt ->
+            "bolt"
+
+        FA.Bomb ->
+            "bomb"
+
+        FA.Book ->
+            "book"
+
+        FA.Bookmark ->
+            "bookmark"
+
+        FA.Braille ->
+            "braille"
+
+        FA.Briefcase ->
+            "briefcase"
+
+        FA.Btc ->
+            "btc"
+
+        FA.Bug ->
+            "bug"
+
+        FA.Building ->
+            "building"
+
+        FA.Bullhorn ->
+            "bullhorn"
+
+        FA.Bullseye ->
+            "bullseye"
+
+        FA.BuromobelExperte ->
+            "buromobelexperte"
+
+        FA.Bus ->
+            "bus"
+
+        FA.BuySellAds ->
+            "buysellads"
+
         FA.Edit ->
             "edit"
 
@@ -840,6 +1090,66 @@ defaultStyle icon =
             FA.Brand
 
         FA.AWS ->
+            FA.Brand
+
+        FA.Bandcamp ->
+            FA.Brand
+
+        FA.Behance ->
+            FA.Brand
+
+        FA.BehanceSquare ->
+            FA.Brand
+
+        FA.Bell ->
+            FA.Regular
+
+        FA.BellSlash ->
+            FA.Regular
+
+        FA.BIMobject ->
+            FA.Brand
+
+        FA.Bitbucket ->
+            FA.Brand
+
+        FA.Bitcoin ->
+            FA.Brand
+
+        FA.Bity ->
+            FA.Brand
+
+        FA.BlackTie ->
+            FA.Brand
+
+        FA.Blackberry ->
+            FA.Brand
+
+        FA.Blogger ->
+            FA.Brand
+
+        FA.BloggerB ->
+            FA.Brand
+
+        FA.Bluetooth ->
+            FA.Brand
+
+        FA.BluetoothB ->
+            FA.Brand
+
+        FA.Bookmark ->
+            FA.Regular
+
+        FA.Btc ->
+            FA.Brand
+
+        FA.Building ->
+            FA.Regular
+
+        FA.BuromobelExperte ->
+            FA.Brand
+
+        FA.BuySellAds ->
             FA.Brand
 
         FA.FiveHundredPx ->
