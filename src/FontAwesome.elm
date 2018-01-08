@@ -323,22 +323,363 @@ type Animation
 
 
 type Icon
-    = AddressBook
+    = AccessibleIcon
+    | Accusoft
+    | AddressBook
+    | AddressCard
+    | Adjust
+    | Adn
+    | Adversal
+    | AffiliateTheme
+    | Algolia
+    | AlignCenter
+    | AlignJustify
+    | AlignLeft
+    | AlignRight
+    | Amazon
+    | AmazonPay
+    | Ambulance
+    | AmericanSignLanguageInterpreting
+    | Amilia
+    | Anchor
+    | Android
+    | AngelList
+    | AngleDoubleDown
+    | AngleDoubleLeft
+    | AngleDoubleRight
+    | AngleDoubleUp
+    | AngleDown
+    | AngleLeft
+    | AngleRight
+    | AngleUp
+    | AngryCreative
+    | Angular
+    | AppStore
+    | AppStoreIos
+    | Apper
+    | Apple
+    | ApplePay
+    | Archive
+    | ArrowAltCircleDown
+    | ArrowAltCircleLeft
+    | ArrowAltCircleRight
+    | ArrowAltCircleUp
+    | ArrowCircleDown
+    | ArrowCircleLeft
+    | ArrowCircleRight
+    | ArrowCircleUp
+    | ArrowDown
+    | ArrowLeft
+    | ArrowRight
+    | ArrowUp
+    | ArrowsAlt
+    | ArrowsAltHorizontal
+    | ArrowsAltVertical
+    | AssistiveListeningSystems
+    | Asterisk
+    | Asymmetrik
+    | At
+    | Audible
+    | AudioDescription
+    | AutoPrefixer
+    | Avianex
+    | Aviato
+    | AWS
     | Edit
+    | FiveHundredPx
 
 
 defaultStyle : Icon -> Style
 defaultStyle icon =
     case icon of
-        _ ->
+        Accusoft ->
+            Brand
+
+        AccessibleIcon ->
+            Brand
+
+        AddressBook ->
             Regular
+
+        AddressCard ->
+            Regular
+
+        ArrowAltCircleDown ->
+            Regular
+
+        ArrowAltCircleLeft ->
+            Regular
+
+        ArrowAltCircleRight ->
+            Regular
+
+        ArrowAltCircleUp ->
+            Regular
+
+        Adn ->
+            Brand
+
+        Adversal ->
+            Brand
+
+        AffiliateTheme ->
+            Brand
+
+        Algolia ->
+            Brand
+
+        Amazon ->
+            Brand
+
+        AmazonPay ->
+            Brand
+
+        Amilia ->
+            Brand
+
+        Android ->
+            Brand
+
+        AngelList ->
+            Brand
+
+        AngryCreative ->
+            Brand
+
+        Angular ->
+            Brand
+
+        AppStore ->
+            Brand
+
+        AppStoreIos ->
+            Brand
+
+        Apper ->
+            Brand
+
+        Apple ->
+            Brand
+
+        ApplePay ->
+            Brand
+
+        Asymmetrik ->
+            Brand
+
+        Audible ->
+            Brand
+
+        AutoPrefixer ->
+            Brand
+
+        Avianex ->
+            Brand
+
+        Aviato ->
+            Brand
+
+        AWS ->
+            Brand
+
+        FiveHundredPx ->
+            Brand
+
+        _ ->
+            Solid
 
 
 name : Icon -> String
 name icon =
     case icon of
+        AccessibleIcon ->
+            "accessible-icon"
+
+        Accusoft ->
+            "accusoft"
+
         AddressBook ->
             "address-book"
 
+        AddressCard ->
+            "address-card"
+
+        Adjust ->
+            "adjust"
+
+        Adn ->
+            "adn"
+
+        Adversal ->
+            "adversal"
+
+        AffiliateTheme ->
+            "affiliatetheme"
+
+        Algolia ->
+            "algolia"
+
+        AlignCenter ->
+            "align-center"
+
+        AlignJustify ->
+            "align-justify"
+
+        AlignLeft ->
+            "align-left"
+
+        AlignRight ->
+            "align-right"
+
+        Amazon ->
+            "amazon"
+
+        AmazonPay ->
+            "amazon-pay"
+
+        Ambulance ->
+            "ambulance"
+
+        AmericanSignLanguageInterpreting ->
+            "american-sign-language-interpreting"
+
+        Amilia ->
+            "amilia"
+
+        Anchor ->
+            "anchor"
+
+        Android ->
+            "android"
+
+        AngelList ->
+            "angellist"
+
+        AngleDoubleDown ->
+            "angle-double-down"
+
+        AngleDoubleLeft ->
+            "angle-double-left"
+
+        AngleDoubleRight ->
+            "angle-double-right"
+
+        AngleDoubleUp ->
+            "angle-double-up"
+
+        AngleDown ->
+            "angle-down"
+
+        AngleLeft ->
+            "angle-left"
+
+        AngleRight ->
+            "angle-right"
+
+        AngleUp ->
+            "angle-up"
+
+        AngryCreative ->
+            "angry-creative"
+
+        Angular ->
+            "angular"
+
+        AppStore ->
+            "app-store"
+
+        AppStoreIos ->
+            "app-store-ios"
+
+        Apper ->
+            "apper"
+
+        Apple ->
+            "apple"
+
+        ApplePay ->
+            "apple-pay"
+
+        Archive ->
+            "archive"
+
+        ArrowAltCircleDown ->
+            "arrow-alt-circle-down"
+
+        ArrowAltCircleLeft ->
+            "arrow-alt-circle-left"
+
+        ArrowAltCircleRight ->
+            "arrow-alt-circle-right"
+
+        ArrowAltCircleUp ->
+            "arrow-alt-circle-up"
+
+        ArrowCircleDown ->
+            "arrow-circle-down"
+
+        ArrowCircleLeft ->
+            "arrow-circle-left"
+
+        ArrowCircleRight ->
+            "arrow-circle-right"
+
+        ArrowCircleUp ->
+            "arrow-circle-up"
+
+        ArrowDown ->
+            "arrow-up"
+
+        ArrowLeft ->
+            "arrow-left"
+
+        ArrowRight ->
+            "arrow-right"
+
+        ArrowUp ->
+            "arrow-up"
+
+        ArrowsAlt ->
+            "arrows-alt"
+
+        ArrowsAltHorizontal ->
+            "arrows-alt-h"
+
+        ArrowsAltVertical ->
+            "arrows-alt-v"
+
+        AssistiveListeningSystems ->
+            "assistive-listening-systems"
+
+        Asterisk ->
+            "asterisk"
+
+        Asymmetrik ->
+            "asymmetrik"
+
+        At ->
+            "at"
+
+        Audible ->
+            "audible"
+
+        AudioDescription ->
+            "audio-description"
+
+        AutoPrefixer ->
+            "autoprefixer"
+
+        Avianex ->
+            "avianex"
+
+        Aviato ->
+            "aviato"
+
+        AWS ->
+            "aws"
+
         Edit ->
             "edit"
+
+        FiveHundredPx ->
+            "500px"

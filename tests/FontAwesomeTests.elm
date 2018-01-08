@@ -556,15 +556,294 @@ styleClass style =
 name : FA.Icon -> String
 name icon =
     case icon of
+        FA.AccessibleIcon ->
+            "accessible-icon"
+
+        FA.Accusoft ->
+            "accusoft"
+
         FA.AddressBook ->
             "address-book"
 
+        FA.AddressCard ->
+            "address-card"
+
+        FA.Adjust ->
+            "adjust"
+
+        FA.Adn ->
+            "adn"
+
+        FA.Adversal ->
+            "adversal"
+
+        FA.AffiliateTheme ->
+            "affiliatetheme"
+
+        FA.Algolia ->
+            "algolia"
+
+        FA.AlignCenter ->
+            "align-center"
+
+        FA.AlignJustify ->
+            "align-justify"
+
+        FA.AlignLeft ->
+            "align-left"
+
+        FA.AlignRight ->
+            "align-right"
+
+        FA.Amazon ->
+            "amazon"
+
+        FA.AmazonPay ->
+            "amazon-pay"
+
+        FA.Ambulance ->
+            "ambulance"
+
+        FA.AmericanSignLanguageInterpreting ->
+            "american-sign-language-interpreting"
+
+        FA.Amilia ->
+            "amilia"
+
+        FA.Anchor ->
+            "anchor"
+
+        FA.Android ->
+            "android"
+
+        FA.AngelList ->
+            "angellist"
+
+        FA.AngleDoubleDown ->
+            "angle-double-down"
+
+        FA.AngleDoubleLeft ->
+            "angle-double-left"
+
+        FA.AngleDoubleRight ->
+            "angle-double-right"
+
+        FA.AngleDoubleUp ->
+            "angle-double-up"
+
+        FA.AngleDown ->
+            "angle-down"
+
+        FA.AngleLeft ->
+            "angle-left"
+
+        FA.AngleRight ->
+            "angle-right"
+
+        FA.AngleUp ->
+            "angle-up"
+
+        FA.AngryCreative ->
+            "angry-creative"
+
+        FA.Angular ->
+            "angular"
+
+        FA.AppStore ->
+            "app-store"
+
+        FA.AppStoreIos ->
+            "app-store-ios"
+
+        FA.Apper ->
+            "apper"
+
+        FA.Apple ->
+            "apple"
+
+        FA.ApplePay ->
+            "apple-pay"
+
+        FA.Archive ->
+            "archive"
+
+        FA.ArrowAltCircleDown ->
+            "arrow-alt-circle-down"
+
+        FA.ArrowAltCircleLeft ->
+            "arrow-alt-circle-left"
+
+        FA.ArrowAltCircleRight ->
+            "arrow-alt-circle-right"
+
+        FA.ArrowAltCircleUp ->
+            "arrow-alt-circle-up"
+
+        FA.ArrowCircleDown ->
+            "arrow-circle-down"
+
+        FA.ArrowCircleLeft ->
+            "arrow-circle-left"
+
+        FA.ArrowCircleRight ->
+            "arrow-circle-right"
+
+        FA.ArrowCircleUp ->
+            "arrow-circle-up"
+
+        FA.ArrowDown ->
+            "arrow-up"
+
+        FA.ArrowLeft ->
+            "arrow-left"
+
+        FA.ArrowRight ->
+            "arrow-right"
+
+        FA.ArrowUp ->
+            "arrow-up"
+
+        FA.ArrowsAlt ->
+            "arrows-alt"
+
+        FA.ArrowsAltHorizontal ->
+            "arrows-alt-h"
+
+        FA.ArrowsAltVertical ->
+            "arrows-alt-v"
+
+        FA.AssistiveListeningSystems ->
+            "assistive-listening-systems"
+
+        FA.Asterisk ->
+            "asterisk"
+
+        FA.Asymmetrik ->
+            "asymmetrik"
+
+        FA.At ->
+            "at"
+
+        FA.Audible ->
+            "audible"
+
+        FA.AudioDescription ->
+            "audio-description"
+
+        FA.AutoPrefixer ->
+            "autoprefixer"
+
+        FA.Avianex ->
+            "avianex"
+
+        FA.Aviato ->
+            "aviato"
+
+        FA.AWS ->
+            "aws"
+
         FA.Edit ->
             "edit"
+
+        FA.FiveHundredPx ->
+            "500px"
 
 
 defaultStyle : FA.Icon -> FA.Style
 defaultStyle icon =
     case icon of
-        _ ->
+        FA.Accusoft ->
+            FA.Brand
+
+        FA.AccessibleIcon ->
+            FA.Brand
+
+        FA.AddressBook ->
             FA.Regular
+
+        FA.AddressCard ->
+            FA.Regular
+
+        FA.ArrowAltCircleDown ->
+            FA.Regular
+
+        FA.ArrowAltCircleLeft ->
+            FA.Regular
+
+        FA.ArrowAltCircleRight ->
+            FA.Regular
+
+        FA.ArrowAltCircleUp ->
+            FA.Regular
+
+        FA.Adn ->
+            FA.Brand
+
+        FA.Adversal ->
+            FA.Brand
+
+        FA.AffiliateTheme ->
+            FA.Brand
+
+        FA.Algolia ->
+            FA.Brand
+
+        FA.Amazon ->
+            FA.Brand
+
+        FA.AmazonPay ->
+            FA.Brand
+
+        FA.Amilia ->
+            FA.Brand
+
+        FA.Android ->
+            FA.Brand
+
+        FA.AngelList ->
+            FA.Brand
+
+        FA.AngryCreative ->
+            FA.Brand
+
+        FA.Angular ->
+            FA.Brand
+
+        FA.AppStore ->
+            FA.Brand
+
+        FA.AppStoreIos ->
+            FA.Brand
+
+        FA.Apper ->
+            FA.Brand
+
+        FA.Apple ->
+            FA.Brand
+
+        FA.ApplePay ->
+            FA.Brand
+
+        FA.Asymmetrik ->
+            FA.Brand
+
+        FA.Audible ->
+            FA.Brand
+
+        FA.AutoPrefixer ->
+            FA.Brand
+
+        FA.Avianex ->
+            FA.Brand
+
+        FA.Aviato ->
+            FA.Brand
+
+        FA.AWS ->
+            FA.Brand
+
+        FA.FiveHundredPx ->
+            FA.Brand
+
+        _ ->
+            FA.Solid
