@@ -3,6 +3,7 @@ module FontAwesomeTests exposing (..)
 import FontAwesome as FA
 import Expect
 import Fuzz
+import Html
 import Html.Attributes
 import Test exposing (Test, describe, fuzz, fuzz3, test)
 import Test.Html.Query as Query
@@ -37,13 +38,26 @@ testIcon =
 
 testFa : List Test
 testFa =
+    [ describe "without html attributes" testFaWithoutHtmlAttributes
+    , describe "with html attributes" testFaWithHtmlAttributes
+    ]
+
+
+testFaWithoutHtmlAttributes : List Test
+testFaWithoutHtmlAttributes =
     [ Test.fuzzWith
         { runs = 1000 }
-        (Fuzz.tuple3 ( iconFuzzer, styleFuzzer, attributesFuzzer ))
+        (Fuzz.tuple4
+            ( iconFuzzer
+            , styleFuzzer
+            , attributesFuzzer
+            , htmlAttributesFuzzer
+            )
+        )
         "handles all attributes"
       <|
-        \( icon, style, attributes ) ->
-            FA.fa icon style attributes []
+        \( icon, style, attributes, htmlAttributes ) ->
+            FA.fa icon style attributes htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all
                     [ testIconClass icon
@@ -57,6 +71,90 @@ testFa =
                     , testMask attributes
                     ]
     ]
+
+
+testFaWithHtmlAttributes : List Test
+testFaWithHtmlAttributes =
+    [ testFaWithCustomClasses
+    , testFaWithStandardAttributes
+    , testFaWithCustomAttributes
+    ]
+
+
+testFaWithCustomClasses : Test
+testFaWithCustomClasses =
+    let
+        classOne =
+            "custom-class-one"
+
+        classTwo =
+            "custom-class-two"
+    in
+        testFaHelper
+            "handles custom classes"
+            [ Html.Attributes.class classOne
+            , Html.Attributes.class classTwo
+            ]
+            (\msg ->
+                Query.has
+                    [ Selector.class classOne
+                    , Selector.class classTwo
+                    ]
+                    msg
+            )
+
+
+testFaWithStandardAttributes : Test
+testFaWithStandardAttributes =
+    let
+        title =
+            "This is the title"
+
+        id =
+            "custom-id"
+    in
+        testFaHelper
+            "handles standard attributes"
+            [ Html.Attributes.title title
+            , Html.Attributes.id
+                id
+            ]
+            (\msg ->
+                Query.has
+                    [ Selector.id id
+                    , Selector.attribute (Html.Attributes.title title)
+                    ]
+                    msg
+            )
+
+
+testFaWithCustomAttributes : Test
+testFaWithCustomAttributes =
+    let
+        attr1Name =
+            "data-attr"
+
+        attr1Val =
+            "attr one val"
+
+        attr2Name =
+            "attr-two"
+
+        attr2Val =
+            "attr two val"
+    in
+        testFaHelper
+            "handles custom attributes"
+            [ Html.Attributes.attribute attr1Name attr1Val
+            , Html.Attributes.attribute attr2Name attr2Val
+            ]
+            (\msg ->
+                Query.has
+                    [ Selector.attribute (Html.Attributes.attribute attr1Name attr1Val)
+                    , Selector.attribute (Html.Attributes.attribute attr2Name attr2Val)
+                    ]
+                    msg
+            )
 
 
 testIconClass : FA.Icon -> Query.Single msg -> Expect.Expectation
@@ -210,6 +308,11 @@ testMask attributes =
                 Query.hasNot [ Selector.attribute (htmlAttribute "") ]
 
 
+testHtmlAttribute : Html.Attribute Never -> Query.Single msg -> Expect.Expectation
+testHtmlAttribute htmlAttribute =
+    Query.has [ Selector.attribute htmlAttribute ]
+
+
 
 -- FUZZERS
 
@@ -320,8 +423,53 @@ attributesFuzzer =
             |> Fuzz.map (removeMaybes)
 
 
+htmlAttributesFuzzer : Fuzz.Fuzzer (List (Html.Attribute msg))
+htmlAttributesFuzzer =
+    let
+        htmlAttributeFuzzer =
+            Fuzz.oneOf
+                [ Fuzz.map Html.Attributes.class Fuzz.string
+                , Fuzz.map Html.Attributes.title Fuzz.string
+                , Fuzz.map2 Html.Attributes.attribute Fuzz.string Fuzz.string
+                ]
+    in
+        Fuzz.list htmlAttributeFuzzer
+
+
 
 -- HELPERS
+
+
+testFaHelper :
+    String
+    -> List (Html.Attribute msg)
+    -> (Query.Single msg -> Expect.Expectation)
+    -> Test
+testFaHelper desc htmlAttributes expectation =
+    Test.fuzz3
+        iconFuzzer
+        styleFuzzer
+        attributesFuzzer
+        desc
+    <|
+        \icon style attributes ->
+            FA.fa icon
+                style
+                attributes
+                htmlAttributes
+                |> Query.fromHtml
+                |> Expect.all
+                    [ testIconClass icon
+                    , testStyle style
+                    , testBorder attributes
+                    , testWidth attributes
+                    , testAnimation attributes
+                    , testPull attributes
+                    , testSize attributes
+                    , testTransform attributes
+                    , testMask attributes
+                    , expectation
+                    ]
 
 
 last : (a -> Bool) -> List a -> Maybe a
