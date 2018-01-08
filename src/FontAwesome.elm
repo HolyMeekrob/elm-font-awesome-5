@@ -2,7 +2,6 @@ module FontAwesome
     exposing
         ( Animation(..)
         , Attribute(..)
-        , MaskAttr(..)
         , Icon(..)
         , Pull(..)
         , Size(..)
@@ -47,9 +46,6 @@ iconClass icon =
 animationClass : Animation -> String
 animationClass animation =
     case animation of
-        NoAnimation ->
-            ""
-
         Spin ->
             "fa-spin"
 
@@ -57,28 +53,19 @@ animationClass animation =
             "fa-pulse"
 
 
-borderClass : Bool -> String
-borderClass hasBorder =
-    if hasBorder then
-        "fa-border"
-    else
-        ""
+borderClass : String
+borderClass =
+    "fa-border"
 
 
-widthClass : Bool -> String
-widthClass hasFixedWidth =
-    if hasFixedWidth then
-        "fa-fw"
-    else
-        ""
+widthClass : String
+widthClass =
+    "fa-fw"
 
 
 pullClass : Pull -> String
 pullClass p =
     case p of
-        NoPull ->
-            ""
-
         Left ->
             "fa-pull-left"
 
@@ -127,13 +114,13 @@ className attr =
         Animation animation ->
             ( animationClass animation, True )
 
-        HasBorder hasBorder ->
-            ( borderClass hasBorder, True )
+        HasBorder ->
+            ( borderClass, True )
 
-        HasFixedWidth hasFixedWidth ->
-            ( widthClass hasFixedWidth, True )
+        HasFixedWidth ->
+            ( widthClass, True )
 
-        Mask _ ->
+        Mask _ _ ->
             ( "", False )
 
         Pull direction ->
@@ -172,7 +159,7 @@ transformAttr attributes =
 mask : Attribute -> List (Html.Attribute msg) -> List (Html.Attribute msg)
 mask attr attrs =
     case attr of
-        Mask (MaskIcon icon style) ->
+        Mask icon style ->
             let
                 val =
                     styleClass style ++ " " ++ iconClass icon
@@ -190,9 +177,9 @@ maskAttr attributes =
 
 type Attribute
     = Animation Animation
-    | HasBorder Bool
-    | HasFixedWidth Bool
-    | Mask MaskAttr
+    | HasBorder
+    | HasFixedWidth
+    | Mask Icon Style
     | Pull Pull
     | Size Size
     | Transform String
@@ -214,20 +201,13 @@ type Size
 
 
 type Pull
-    = NoPull
-    | Left
+    = Left
     | Right
 
 
 type Animation
-    = NoAnimation
-    | Spin
+    = Spin
     | Pulse
-
-
-type MaskAttr
-    = NoMask
-    | MaskIcon Icon Style
 
 
 
