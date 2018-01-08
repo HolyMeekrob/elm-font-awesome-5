@@ -6,7 +6,7 @@ module FontAwesome
         , Pull(..)
         , Size(..)
         , Style(..)
-        , elem
+        , fa
         , icon
         )
 
@@ -20,18 +20,124 @@ icon icon =
         style =
             defaultStyle icon
     in
-        elem icon style [] []
+        fa icon style [] []
 
 
-elem : Icon -> Style -> List Attribute -> List (Html.Attribute msg) -> Html msg
-elem icon style attributes htmlAttributes =
-    span
-        (classes icon style attributes
-            :: transformAttr attributes
-            ++ maskAttr attributes
-            ++ htmlAttributes
-        )
-        []
+fa : Icon -> Style -> List Attribute -> List (Html.Attribute msg) -> Html msg
+fa icon style attributes htmlAttributes =
+    let
+        attrs =
+            filterAttrs attributes
+    in
+        span
+            (classes icon style attrs
+                :: transformAttr attrs
+                ++ maskAttr attrs
+                ++ htmlAttributes
+            )
+            []
+
+
+isAnimation : Attribute -> Bool
+isAnimation attribute =
+    case attribute of
+        Animation _ ->
+            True
+
+        _ ->
+            False
+
+
+isPull : Attribute -> Bool
+isPull attribute =
+    case attribute of
+        Pull _ ->
+            True
+
+        _ ->
+            False
+
+
+isSize : Attribute -> Bool
+isSize attribute =
+    case attribute of
+        Size _ ->
+            True
+
+        _ ->
+            False
+
+
+isBorder : Attribute -> Bool
+isBorder attribute =
+    case attribute of
+        HasBorder ->
+            True
+
+        _ ->
+            False
+
+
+isWidth : Attribute -> Bool
+isWidth attribute =
+    case attribute of
+        HasFixedWidth ->
+            True
+
+        _ ->
+            False
+
+
+isMask : Attribute -> Bool
+isMask attribute =
+    case attribute of
+        Mask _ _ ->
+            True
+
+        _ ->
+            False
+
+
+isTransform : Attribute -> Bool
+isTransform attribute =
+    case attribute of
+        Transform _ ->
+            True
+
+        _ ->
+            False
+
+
+onlyOne : (a -> Bool) -> a -> ( Bool, List a ) -> ( Bool, List a )
+onlyOne f curr ( found, list ) =
+    case ( f curr, found ) of
+        ( True, False ) ->
+            ( True, curr :: list )
+
+        ( True, True ) ->
+            ( found, list )
+
+        ( False, _ ) ->
+            ( found, curr :: list )
+
+
+dedup : (a -> Bool) -> List a -> List a
+dedup f list =
+    List.foldr (onlyOne f) ( False, [] ) list
+        |> Tuple.second
+
+
+filterAttrs : List Attribute -> List Attribute
+filterAttrs attributes =
+    -- TODO: Deduplicate each type of attribute
+    attributes
+        |> dedup isAnimation
+        |> dedup isPull
+        |> dedup isSize
+        |> dedup isBorder
+        |> dedup isWidth
+        |> dedup isMask
+        |> dedup isTransform
 
 
 iconClass : Icon -> String
