@@ -320,7 +320,8 @@ testHtmlAttribute htmlAttribute =
 iconFuzzer : Fuzz.Fuzzer FA.Icon
 iconFuzzer =
     Fuzz.oneOf
-        [ Fuzz.constant FA.AccessibleIcon
+        [ Fuzz.constant FA.FiveHundredPx
+        , Fuzz.constant FA.AccessibleIcon
         , Fuzz.constant FA.Accusoft
         , Fuzz.constant FA.AddressBook
         , Fuzz.constant FA.AddressCard
@@ -571,7 +572,55 @@ iconFuzzer =
         , Fuzz.constant FA.Eye
         , Fuzz.constant FA.EyeDropper
         , Fuzz.constant FA.EyeSlash
-        , Fuzz.constant FA.FiveHundredPx
+        , Fuzz.constant FA.Facebook
+        , Fuzz.constant FA.Facebook_f
+        , Fuzz.constant FA.FacebookMessenger
+        , Fuzz.constant FA.FacebookSquare
+        , Fuzz.constant FA.FastBackward
+        , Fuzz.constant FA.FastForward
+        , Fuzz.constant FA.Fax
+        , Fuzz.constant FA.Female
+        , Fuzz.constant FA.FighterJet
+        , Fuzz.constant FA.File
+        , Fuzz.constant FA.FileAlt
+        , Fuzz.constant FA.FileArchive
+        , Fuzz.constant FA.FileAudio
+        , Fuzz.constant FA.FileCode
+        , Fuzz.constant FA.FileExcel
+        , Fuzz.constant FA.FileImage
+        , Fuzz.constant FA.FilePdf
+        , Fuzz.constant FA.FilePowerPoint
+        , Fuzz.constant FA.FileVideo
+        , Fuzz.constant FA.FileWord
+        , Fuzz.constant FA.Film
+        , Fuzz.constant FA.Filter
+        , Fuzz.constant FA.Fire
+        , Fuzz.constant FA.FireExtinguisher
+        , Fuzz.constant FA.Firefox
+        , Fuzz.constant FA.FirstOrder
+        , Fuzz.constant FA.FirstDraft
+        , Fuzz.constant FA.Flag
+        , Fuzz.constant FA.FlagCheckered
+        , Fuzz.constant FA.Flask
+        , Fuzz.constant FA.Flickr
+        , Fuzz.constant FA.Fly
+        , Fuzz.constant FA.Folder
+        , Fuzz.constant FA.FolderOpen
+        , Fuzz.constant FA.Font
+        , Fuzz.constant FA.FontAwesome
+        , Fuzz.constant FA.FontAwesomeAlt
+        , Fuzz.constant FA.FontAwesomeFlag
+        , Fuzz.constant FA.FontIcons
+        , Fuzz.constant FA.FontIcons_fi
+        , Fuzz.constant FA.FortAwesome
+        , Fuzz.constant FA.FortAwesomeAlt
+        , Fuzz.constant FA.Forumbee
+        , Fuzz.constant FA.Forward
+        , Fuzz.constant FA.Foursquare
+        , Fuzz.constant FA.FreeCodeCamp
+        , Fuzz.constant FA.FreeBSD
+        , Fuzz.constant FA.Frown
+        , Fuzz.constant FA.Futbol
         ]
 
 
@@ -806,6 +855,9 @@ styleClass style =
 name : FA.Icon -> String
 name icon =
     case icon of
+        FA.FiveHundredPx ->
+            "500px"
+
         FA.AccessibleIcon ->
             "accessible-icon"
 
@@ -1559,13 +1611,158 @@ name icon =
         FA.EyeSlash ->
             "eye-slash"
 
-        FA.FiveHundredPx ->
-            "500px"
+        FA.Facebook ->
+            "facebook"
+
+        FA.Facebook_f ->
+            "facebook-f"
+
+        FA.FacebookMessenger ->
+            "facebook-messenger"
+
+        FA.FacebookSquare ->
+            "facebook-square"
+
+        FA.FastBackward ->
+            "fast-backward"
+
+        FA.FastForward ->
+            "fast-forward"
+
+        FA.Fax ->
+            "fax"
+
+        FA.Female ->
+            "female"
+
+        FA.FighterJet ->
+            "fighter-jet"
+
+        FA.File ->
+            "file"
+
+        FA.FileAlt ->
+            "file-alt"
+
+        FA.FileArchive ->
+            "file-archive"
+
+        FA.FileAudio ->
+            "file-audio"
+
+        FA.FileCode ->
+            "file-code"
+
+        FA.FileExcel ->
+            "file-excel"
+
+        FA.FileImage ->
+            "file-image"
+
+        FA.FilePdf ->
+            "file-pdf"
+
+        FA.FilePowerPoint ->
+            "file-powerpoint"
+
+        FA.FileVideo ->
+            "file-video"
+
+        FA.FileWord ->
+            "file-word"
+
+        FA.Film ->
+            "film"
+
+        FA.Filter ->
+            "filter"
+
+        FA.Fire ->
+            "fire"
+
+        FA.FireExtinguisher ->
+            "fire-extinguisher"
+
+        FA.Firefox ->
+            "firefox"
+
+        FA.FirstOrder ->
+            "first-order"
+
+        FA.FirstDraft ->
+            "firstdraft"
+
+        FA.Flag ->
+            "flag"
+
+        FA.FlagCheckered ->
+            "flag-checkered"
+
+        FA.Flask ->
+            "flask"
+
+        FA.Flickr ->
+            "flickr"
+
+        FA.Fly ->
+            "fly"
+
+        FA.Folder ->
+            "folder"
+
+        FA.FolderOpen ->
+            "folder-open"
+
+        FA.Font ->
+            "font"
+
+        FA.FontAwesome ->
+            "font-awesome"
+
+        FA.FontAwesomeAlt ->
+            "font-awesome-alt"
+
+        FA.FontAwesomeFlag ->
+            "font-awesome-flag"
+
+        FA.FontIcons ->
+            "fonticons"
+
+        FA.FontIcons_fi ->
+            "fonticons-fi"
+
+        FA.FortAwesome ->
+            "fort-awesome"
+
+        FA.FortAwesomeAlt ->
+            "fort-awesome-alt"
+
+        FA.Forumbee ->
+            "forumbee"
+
+        FA.Forward ->
+            "forward"
+
+        FA.Foursquare ->
+            "foursquare"
+
+        FA.FreeCodeCamp ->
+            "free-code-camp"
+
+        FA.FreeBSD ->
+            "freebsd"
+
+        FA.Frown ->
+            "frown"
+
+        FA.Futbol ->
+            "futbol"
 
 
 brandStyles : List FA.Icon
 brandStyles =
-    [ FA.Accusoft
+    [ FA.FiveHundredPx
+    , FA.Accusoft
     , FA.AccessibleIcon
     , FA.Adn
     , FA.Adversal
@@ -1656,7 +1853,26 @@ brandStyles =
     , FA.Ethereum
     , FA.Etsy
     , FA.ExpeditedSSL
-    , FA.FiveHundredPx
+    , FA.Facebook
+    , FA.Facebook_f
+    , FA.FacebookMessenger
+    , FA.FacebookSquare
+    , FA.Firefox
+    , FA.FirstOrder
+    , FA.FirstDraft
+    , FA.Flickr
+    , FA.Fly
+    , FA.FontAwesome
+    , FA.FontAwesomeAlt
+    , FA.FontAwesomeFlag
+    , FA.FontIcons
+    , FA.FontIcons_fi
+    , FA.FortAwesome
+    , FA.FortAwesomeAlt
+    , FA.Forumbee
+    , FA.Foursquare
+    , FA.FreeCodeCamp
+    , FA.FreeBSD
     ]
 
 

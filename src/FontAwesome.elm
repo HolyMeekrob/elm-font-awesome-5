@@ -323,7 +323,8 @@ type Animation
 
 
 type Icon
-    = AccessibleIcon
+    = FiveHundredPx
+    | AccessibleIcon
     | Accusoft
     | AddressBook
     | AddressCard
@@ -574,12 +575,61 @@ type Icon
     | Eye
     | EyeDropper
     | EyeSlash
-    | FiveHundredPx
+    | Facebook
+    | Facebook_f
+    | FacebookMessenger
+    | FacebookSquare
+    | FastBackward
+    | FastForward
+    | Fax
+    | Female
+    | FighterJet
+    | File
+    | FileAlt
+    | FileArchive
+    | FileAudio
+    | FileCode
+    | FileExcel
+    | FileImage
+    | FilePdf
+    | FilePowerPoint
+    | FileVideo
+    | FileWord
+    | Film
+    | Filter
+    | Fire
+    | FireExtinguisher
+    | Firefox
+    | FirstOrder
+    | FirstDraft
+    | Flag
+    | FlagCheckered
+    | Flask
+    | Flickr
+    | Fly
+    | Folder
+    | FolderOpen
+    | Font
+    | FontAwesome
+    | FontAwesomeAlt
+    | FontAwesomeFlag
+    | FontIcons
+    | FontIcons_fi
+    | FortAwesome
+    | FortAwesomeAlt
+    | Forumbee
+    | Forward
+    | Foursquare
+    | FreeCodeCamp
+    | FreeBSD
+    | Frown
+    | Futbol
 
 
 brandStyles : List Icon
 brandStyles =
-    [ Accusoft
+    [ FiveHundredPx
+    , Accusoft
     , AccessibleIcon
     , Adn
     , Adversal
@@ -670,7 +720,26 @@ brandStyles =
     , Ethereum
     , Etsy
     , ExpeditedSSL
-    , FiveHundredPx
+    , Facebook
+    , Facebook_f
+    , FacebookMessenger
+    , FacebookSquare
+    , Firefox
+    , FirstOrder
+    , FirstDraft
+    , Flickr
+    , Fly
+    , FontAwesome
+    , FontAwesomeAlt
+    , FontAwesomeFlag
+    , FontIcons
+    , FontIcons_fi
+    , FortAwesome
+    , FortAwesomeAlt
+    , Forumbee
+    , Foursquare
+    , FreeCodeCamp
+    , FreeBSD
     ]
 
 
@@ -685,6 +754,9 @@ defaultStyle icon =
 name : Icon -> String
 name icon =
     case icon of
+        FiveHundredPx ->
+            "500px"
+
         AccessibleIcon ->
             "accessible-icon"
 
@@ -1438,5 +1510,149 @@ name icon =
         EyeSlash ->
             "eye-slash"
 
-        FiveHundredPx ->
-            "500px"
+        Facebook ->
+            "facebook"
+
+        Facebook_f ->
+            "facebook-f"
+
+        FacebookMessenger ->
+            "facebook-messenger"
+
+        FacebookSquare ->
+            "facebook-square"
+
+        FastBackward ->
+            "fast-backward"
+
+        FastForward ->
+            "fast-forward"
+
+        Fax ->
+            "fax"
+
+        Female ->
+            "female"
+
+        FighterJet ->
+            "fighter-jet"
+
+        File ->
+            "file"
+
+        FileAlt ->
+            "file-alt"
+
+        FileArchive ->
+            "file-archive"
+
+        FileAudio ->
+            "file-audio"
+
+        FileCode ->
+            "file-code"
+
+        FileExcel ->
+            "file-excel"
+
+        FileImage ->
+            "file-image"
+
+        FilePdf ->
+            "file-pdf"
+
+        FilePowerPoint ->
+            "file-powerpoint"
+
+        FileVideo ->
+            "file-video"
+
+        FileWord ->
+            "file-word"
+
+        Film ->
+            "film"
+
+        Filter ->
+            "filter"
+
+        Fire ->
+            "fire"
+
+        FireExtinguisher ->
+            "fire-extinguisher"
+
+        Firefox ->
+            "firefox"
+
+        FirstOrder ->
+            "first-order"
+
+        FirstDraft ->
+            "firstdraft"
+
+        Flag ->
+            "flag"
+
+        FlagCheckered ->
+            "flag-checkered"
+
+        Flask ->
+            "flask"
+
+        Flickr ->
+            "flickr"
+
+        Fly ->
+            "fly"
+
+        Folder ->
+            "folder"
+
+        FolderOpen ->
+            "folder-open"
+
+        Font ->
+            "font"
+
+        FontAwesome ->
+            "font-awesome"
+
+        FontAwesomeAlt ->
+            "font-awesome-alt"
+
+        FontAwesomeFlag ->
+            "font-awesome-flag"
+
+        FontIcons ->
+            "fonticons"
+
+        FontIcons_fi ->
+            "fonticons-fi"
+
+        FortAwesome ->
+            "fort-awesome"
+
+        FortAwesomeAlt ->
+            "fort-awesome-alt"
+
+        Forumbee ->
+            "forumbee"
+
+        Forward ->
+            "forward"
+
+        Foursquare ->
+            "foursquare"
+
+        FreeCodeCamp ->
+            "free-code-camp"
+
+        FreeBSD ->
+            "freebsd"
+
+        Frown ->
+            "frown"
+
+        Futbol ->
+            "futbol"
