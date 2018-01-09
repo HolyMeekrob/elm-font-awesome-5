@@ -432,6 +432,95 @@ type Icon
     | BuromobelExperte
     | Bus
     | BuySellAds
+    | Calculator
+    | Calendar
+    | CalendarAlt
+    | CalendarCheck
+    | CalendarMinus
+    | CalendarPlus
+    | CalendarTimes
+    | Camera
+    | CameraRetro
+    | Car
+    | CaretDown
+    | CaretLeft
+    | CaretRight
+    | CaretUp
+    | CaretSquareDown
+    | CaretSquareLeft
+    | CaretSquareRight
+    | CaretSquareUp
+    | CartArrowDown
+    | CartPlus
+    | CCAmazonPay
+    | CCAmex
+    | CCApplePay
+    | CCDinersClub
+    | CCDiscover
+    | CCJCB
+    | CCMastercard
+    | CCPayPal
+    | CCStripe
+    | CCVisa
+    | Centercode
+    | Certificate
+    | ChartArea
+    | ChartBar
+    | ChartLine
+    | ChartPie
+    | Check
+    | CheckCircle
+    | CheckSquare
+    | ChevronCircleDown
+    | ChevronCircleLeft
+    | ChevronCircleRight
+    | ChevronCircleUp
+    | ChevronDown
+    | ChevronLeft
+    | ChevronRight
+    | ChevronUp
+    | Child
+    | Chrome
+    | Circle
+    | CircleNotched
+    | Clipboard
+    | Clock
+    | Clone
+    | ClosedCaptioning
+    | Cloud
+    | CloudDownloadAlt
+    | CloudUploadAlt
+    | CloudScale
+    | Cloudsmith
+    | Cloudversify
+    | Code
+    | CodeBranch
+    | CodePen
+    | CodiePie
+    | Coffee
+    | Cog
+    | Cogs
+    | Columns
+    | Comment
+    | CommentAlt
+    | Comments
+    | Compass
+    | Compress
+    | ConnectDevelop
+    | Contao
+    | Copy
+    | Copyright
+    | CPanel
+    | CreativeCommons
+    | CreditCard
+    | Crop
+    | Crosshairs
+    | CSS3
+    | CSS3Alt
+    | Cube
+    | Cubes
+    | Cut
+    | Cuttlefish
     | Edit
     | FiveHundredPx
 
@@ -444,24 +533,6 @@ defaultStyle icon =
 
         AccessibleIcon ->
             Brand
-
-        AddressBook ->
-            Regular
-
-        AddressCard ->
-            Regular
-
-        ArrowAltCircleDown ->
-            Regular
-
-        ArrowAltCircleLeft ->
-            Regular
-
-        ArrowAltCircleRight ->
-            Regular
-
-        ArrowAltCircleUp ->
-            Regular
 
         Adn ->
             Brand
@@ -538,12 +609,6 @@ defaultStyle icon =
         BehanceSquare ->
             Brand
 
-        Bell ->
-            Regular
-
-        BellSlash ->
-            Regular
-
         BIMobject ->
             Brand
 
@@ -574,19 +639,85 @@ defaultStyle icon =
         BluetoothB ->
             Brand
 
-        Bookmark ->
-            Regular
-
         Btc ->
             Brand
-
-        Building ->
-            Regular
 
         BuromobelExperte ->
             Brand
 
         BuySellAds ->
+            Brand
+
+        CCAmazonPay ->
+            Brand
+
+        CCAmex ->
+            Brand
+
+        CCApplePay ->
+            Brand
+
+        CCDinersClub ->
+            Brand
+
+        CCDiscover ->
+            Brand
+
+        CCJCB ->
+            Brand
+
+        CCMastercard ->
+            Brand
+
+        CCPayPal ->
+            Brand
+
+        CCStripe ->
+            Brand
+
+        CCVisa ->
+            Brand
+
+        Centercode ->
+            Brand
+
+        Chrome ->
+            Brand
+
+        CloudScale ->
+            Brand
+
+        Cloudsmith ->
+            Brand
+
+        Cloudversify ->
+            Brand
+
+        CodePen ->
+            Brand
+
+        CodiePie ->
+            Brand
+
+        ConnectDevelop ->
+            Brand
+
+        Contao ->
+            Brand
+
+        CPanel ->
+            Brand
+
+        CreativeCommons ->
+            Brand
+
+        CSS3 ->
+            Brand
+
+        CSS3Alt ->
+            Brand
+
+        Cuttlefish ->
             Brand
 
         FiveHundredPx ->
@@ -925,6 +1056,273 @@ name icon =
 
         BuySellAds ->
             "buysellads"
+
+        Calculator ->
+            "calculator"
+
+        Calendar ->
+            "calendar"
+
+        CalendarAlt ->
+            "calendar-alt"
+
+        CalendarCheck ->
+            "calendar-check"
+
+        CalendarMinus ->
+            "calendar-minus"
+
+        CalendarPlus ->
+            "calendar-plus"
+
+        CalendarTimes ->
+            "calendar-times"
+
+        Camera ->
+            "camera"
+
+        CameraRetro ->
+            "camera-retro"
+
+        Car ->
+            "car"
+
+        CaretDown ->
+            "caret-down"
+
+        CaretLeft ->
+            "caret-left"
+
+        CaretRight ->
+            "caret-right"
+
+        CaretUp ->
+            "caret-up"
+
+        CaretSquareDown ->
+            "caret-square-down"
+
+        CaretSquareLeft ->
+            "caret-square-left"
+
+        CaretSquareRight ->
+            "caret-square-right"
+
+        CaretSquareUp ->
+            "caret-square-up"
+
+        CartArrowDown ->
+            "cart-arrow-down"
+
+        CartPlus ->
+            "cart-plus"
+
+        CCAmazonPay ->
+            "cc-amazon-pay"
+
+        CCAmex ->
+            "cc-amex"
+
+        CCApplePay ->
+            "cc-apple-pay"
+
+        CCDinersClub ->
+            "cc-diners-club"
+
+        CCDiscover ->
+            "cc-discover"
+
+        CCJCB ->
+            "cc-jcb"
+
+        CCMastercard ->
+            "cc-mastercard"
+
+        CCPayPal ->
+            "cc-paypal"
+
+        CCStripe ->
+            "cc-stripe"
+
+        CCVisa ->
+            "cc-visa"
+
+        Centercode ->
+            "centercode"
+
+        Certificate ->
+            "certificate"
+
+        ChartArea ->
+            "chart-area"
+
+        ChartBar ->
+            "chart-bar"
+
+        ChartLine ->
+            "chart-line"
+
+        ChartPie ->
+            "chart-pie"
+
+        Check ->
+            "check"
+
+        CheckCircle ->
+            "check-circle"
+
+        CheckSquare ->
+            "check-square"
+
+        ChevronCircleDown ->
+            "chevron-circle-down"
+
+        ChevronCircleLeft ->
+            "chevron-circle-left"
+
+        ChevronCircleRight ->
+            "chevron-circle-right"
+
+        ChevronCircleUp ->
+            "chevron-circle-up"
+
+        ChevronDown ->
+            "chevron-down"
+
+        ChevronLeft ->
+            "chevron-left"
+
+        ChevronRight ->
+            "chevron-right"
+
+        ChevronUp ->
+            "chevron-up"
+
+        Child ->
+            "child"
+
+        Chrome ->
+            "chrome"
+
+        Circle ->
+            "circle"
+
+        CircleNotched ->
+            "circle-notch"
+
+        Clipboard ->
+            "clipboard"
+
+        Clock ->
+            "clock"
+
+        Clone ->
+            "clone"
+
+        ClosedCaptioning ->
+            "closed-captioning"
+
+        Cloud ->
+            "cloud"
+
+        CloudDownloadAlt ->
+            "cloud-download-alt"
+
+        CloudUploadAlt ->
+            "cloud-upload-alt"
+
+        CloudScale ->
+            "cloudscale"
+
+        Cloudsmith ->
+            "cloudsmith"
+
+        Cloudversify ->
+            "cloudversify"
+
+        Code ->
+            "code"
+
+        CodeBranch ->
+            "code-branch"
+
+        CodePen ->
+            "codepen"
+
+        CodiePie ->
+            "codiepie"
+
+        Coffee ->
+            "coffee"
+
+        Cog ->
+            "cog"
+
+        Cogs ->
+            "cogs"
+
+        Columns ->
+            "columns"
+
+        Comment ->
+            "comment"
+
+        CommentAlt ->
+            "comment-alt"
+
+        Comments ->
+            "comments"
+
+        Compass ->
+            "compass"
+
+        Compress ->
+            "compress"
+
+        ConnectDevelop ->
+            "connectdevelop"
+
+        Contao ->
+            "contao"
+
+        Copy ->
+            "copy"
+
+        Copyright ->
+            "copyright"
+
+        CPanel ->
+            "cpanel"
+
+        CreativeCommons ->
+            "creative-commons"
+
+        CreditCard ->
+            "credit-card"
+
+        Crop ->
+            "crop"
+
+        Crosshairs ->
+            "crosshairs"
+
+        CSS3 ->
+            "css3"
+
+        CSS3Alt ->
+            "css3-alt"
+
+        Cube ->
+            "cube"
+
+        Cubes ->
+            "cubes"
+
+        Cut ->
+            "cut"
+
+        Cuttlefish ->
+            "cuttlefish"
 
         Edit ->
             "edit"

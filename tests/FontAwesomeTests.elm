@@ -429,6 +429,95 @@ iconFuzzer =
         , Fuzz.constant FA.BuromobelExperte
         , Fuzz.constant FA.Bus
         , Fuzz.constant FA.BuySellAds
+        , Fuzz.constant FA.Calculator
+        , Fuzz.constant FA.Calendar
+        , Fuzz.constant FA.CalendarAlt
+        , Fuzz.constant FA.CalendarCheck
+        , Fuzz.constant FA.CalendarMinus
+        , Fuzz.constant FA.CalendarPlus
+        , Fuzz.constant FA.CalendarTimes
+        , Fuzz.constant FA.Camera
+        , Fuzz.constant FA.CameraRetro
+        , Fuzz.constant FA.Car
+        , Fuzz.constant FA.CaretDown
+        , Fuzz.constant FA.CaretLeft
+        , Fuzz.constant FA.CaretRight
+        , Fuzz.constant FA.CaretUp
+        , Fuzz.constant FA.CaretSquareDown
+        , Fuzz.constant FA.CaretSquareLeft
+        , Fuzz.constant FA.CaretSquareRight
+        , Fuzz.constant FA.CaretSquareUp
+        , Fuzz.constant FA.CartArrowDown
+        , Fuzz.constant FA.CartPlus
+        , Fuzz.constant FA.CCAmazonPay
+        , Fuzz.constant FA.CCAmex
+        , Fuzz.constant FA.CCApplePay
+        , Fuzz.constant FA.CCDinersClub
+        , Fuzz.constant FA.CCDiscover
+        , Fuzz.constant FA.CCJCB
+        , Fuzz.constant FA.CCMastercard
+        , Fuzz.constant FA.CCPayPal
+        , Fuzz.constant FA.CCStripe
+        , Fuzz.constant FA.CCVisa
+        , Fuzz.constant FA.Centercode
+        , Fuzz.constant FA.Certificate
+        , Fuzz.constant FA.ChartArea
+        , Fuzz.constant FA.ChartBar
+        , Fuzz.constant FA.ChartLine
+        , Fuzz.constant FA.ChartPie
+        , Fuzz.constant FA.Check
+        , Fuzz.constant FA.CheckCircle
+        , Fuzz.constant FA.CheckSquare
+        , Fuzz.constant FA.ChevronCircleDown
+        , Fuzz.constant FA.ChevronCircleLeft
+        , Fuzz.constant FA.ChevronCircleRight
+        , Fuzz.constant FA.ChevronCircleUp
+        , Fuzz.constant FA.ChevronDown
+        , Fuzz.constant FA.ChevronLeft
+        , Fuzz.constant FA.ChevronRight
+        , Fuzz.constant FA.ChevronUp
+        , Fuzz.constant FA.Child
+        , Fuzz.constant FA.Chrome
+        , Fuzz.constant FA.Circle
+        , Fuzz.constant FA.CircleNotched
+        , Fuzz.constant FA.Clipboard
+        , Fuzz.constant FA.Clock
+        , Fuzz.constant FA.Clone
+        , Fuzz.constant FA.ClosedCaptioning
+        , Fuzz.constant FA.Cloud
+        , Fuzz.constant FA.CloudDownloadAlt
+        , Fuzz.constant FA.CloudUploadAlt
+        , Fuzz.constant FA.CloudScale
+        , Fuzz.constant FA.Cloudsmith
+        , Fuzz.constant FA.Cloudversify
+        , Fuzz.constant FA.Code
+        , Fuzz.constant FA.CodeBranch
+        , Fuzz.constant FA.CodePen
+        , Fuzz.constant FA.CodiePie
+        , Fuzz.constant FA.Coffee
+        , Fuzz.constant FA.Cog
+        , Fuzz.constant FA.Cogs
+        , Fuzz.constant FA.Columns
+        , Fuzz.constant FA.Comment
+        , Fuzz.constant FA.CommentAlt
+        , Fuzz.constant FA.Comments
+        , Fuzz.constant FA.Compass
+        , Fuzz.constant FA.Compress
+        , Fuzz.constant FA.ConnectDevelop
+        , Fuzz.constant FA.Contao
+        , Fuzz.constant FA.Copy
+        , Fuzz.constant FA.Copyright
+        , Fuzz.constant FA.CPanel
+        , Fuzz.constant FA.CreativeCommons
+        , Fuzz.constant FA.CreditCard
+        , Fuzz.constant FA.Crop
+        , Fuzz.constant FA.Crosshairs
+        , Fuzz.constant FA.CSS3
+        , Fuzz.constant FA.CSS3Alt
+        , Fuzz.constant FA.Cube
+        , Fuzz.constant FA.Cubes
+        , Fuzz.constant FA.Cut
+        , Fuzz.constant FA.Cuttlefish
         , Fuzz.constant FA.Edit
         , Fuzz.constant FA.FiveHundredPx
         ]
@@ -992,6 +1081,273 @@ name icon =
         FA.BuySellAds ->
             "buysellads"
 
+        FA.Calculator ->
+            "calculator"
+
+        FA.Calendar ->
+            "calendar"
+
+        FA.CalendarAlt ->
+            "calendar-alt"
+
+        FA.CalendarCheck ->
+            "calendar-check"
+
+        FA.CalendarMinus ->
+            "calendar-minus"
+
+        FA.CalendarPlus ->
+            "calendar-plus"
+
+        FA.CalendarTimes ->
+            "calendar-times"
+
+        FA.Camera ->
+            "camera"
+
+        FA.CameraRetro ->
+            "camera-retro"
+
+        FA.Car ->
+            "car"
+
+        FA.CaretDown ->
+            "caret-down"
+
+        FA.CaretLeft ->
+            "caret-left"
+
+        FA.CaretRight ->
+            "caret-right"
+
+        FA.CaretUp ->
+            "caret-up"
+
+        FA.CaretSquareDown ->
+            "caret-square-down"
+
+        FA.CaretSquareLeft ->
+            "caret-square-left"
+
+        FA.CaretSquareRight ->
+            "caret-square-right"
+
+        FA.CaretSquareUp ->
+            "caret-square-up"
+
+        FA.CartArrowDown ->
+            "cart-arrow-down"
+
+        FA.CartPlus ->
+            "cart-plus"
+
+        FA.CCAmazonPay ->
+            "cc-amazon-pay"
+
+        FA.CCAmex ->
+            "cc-amex"
+
+        FA.CCApplePay ->
+            "cc-apple-pay"
+
+        FA.CCDinersClub ->
+            "cc-diners-club"
+
+        FA.CCDiscover ->
+            "cc-discover"
+
+        FA.CCJCB ->
+            "cc-jcb"
+
+        FA.CCMastercard ->
+            "cc-mastercard"
+
+        FA.CCPayPal ->
+            "cc-paypal"
+
+        FA.CCStripe ->
+            "cc-stripe"
+
+        FA.CCVisa ->
+            "cc-visa"
+
+        FA.Centercode ->
+            "centercode"
+
+        FA.Certificate ->
+            "certificate"
+
+        FA.ChartArea ->
+            "chart-area"
+
+        FA.ChartBar ->
+            "chart-bar"
+
+        FA.ChartLine ->
+            "chart-line"
+
+        FA.ChartPie ->
+            "chart-pie"
+
+        FA.Check ->
+            "check"
+
+        FA.CheckCircle ->
+            "check-circle"
+
+        FA.CheckSquare ->
+            "check-square"
+
+        FA.ChevronCircleDown ->
+            "chevron-circle-down"
+
+        FA.ChevronCircleLeft ->
+            "chevron-circle-left"
+
+        FA.ChevronCircleRight ->
+            "chevron-circle-right"
+
+        FA.ChevronCircleUp ->
+            "chevron-circle-up"
+
+        FA.ChevronDown ->
+            "chevron-down"
+
+        FA.ChevronLeft ->
+            "chevron-left"
+
+        FA.ChevronRight ->
+            "chevron-right"
+
+        FA.ChevronUp ->
+            "chevron-up"
+
+        FA.Child ->
+            "child"
+
+        FA.Chrome ->
+            "chrome"
+
+        FA.Circle ->
+            "circle"
+
+        FA.CircleNotched ->
+            "circle-notch"
+
+        FA.Clipboard ->
+            "clipboard"
+
+        FA.Clock ->
+            "clock"
+
+        FA.Clone ->
+            "clone"
+
+        FA.ClosedCaptioning ->
+            "closed-captioning"
+
+        FA.Cloud ->
+            "cloud"
+
+        FA.CloudDownloadAlt ->
+            "cloud-download-alt"
+
+        FA.CloudUploadAlt ->
+            "cloud-upload-alt"
+
+        FA.CloudScale ->
+            "cloudscale"
+
+        FA.Cloudsmith ->
+            "cloudsmith"
+
+        FA.Cloudversify ->
+            "cloudversify"
+
+        FA.Code ->
+            "code"
+
+        FA.CodeBranch ->
+            "code-branch"
+
+        FA.CodePen ->
+            "codepen"
+
+        FA.CodiePie ->
+            "codiepie"
+
+        FA.Coffee ->
+            "coffee"
+
+        FA.Cog ->
+            "cog"
+
+        FA.Cogs ->
+            "cogs"
+
+        FA.Columns ->
+            "columns"
+
+        FA.Comment ->
+            "comment"
+
+        FA.CommentAlt ->
+            "comment-alt"
+
+        FA.Comments ->
+            "comments"
+
+        FA.Compass ->
+            "compass"
+
+        FA.Compress ->
+            "compress"
+
+        FA.ConnectDevelop ->
+            "connectdevelop"
+
+        FA.Contao ->
+            "contao"
+
+        FA.Copy ->
+            "copy"
+
+        FA.Copyright ->
+            "copyright"
+
+        FA.CPanel ->
+            "cpanel"
+
+        FA.CreativeCommons ->
+            "creative-commons"
+
+        FA.CreditCard ->
+            "credit-card"
+
+        FA.Crop ->
+            "crop"
+
+        FA.Crosshairs ->
+            "crosshairs"
+
+        FA.CSS3 ->
+            "css3"
+
+        FA.CSS3Alt ->
+            "css3-alt"
+
+        FA.Cube ->
+            "cube"
+
+        FA.Cubes ->
+            "cubes"
+
+        FA.Cut ->
+            "cut"
+
+        FA.Cuttlefish ->
+            "cuttlefish"
+
         FA.Edit ->
             "edit"
 
@@ -1007,24 +1363,6 @@ defaultStyle icon =
 
         FA.AccessibleIcon ->
             FA.Brand
-
-        FA.AddressBook ->
-            FA.Regular
-
-        FA.AddressCard ->
-            FA.Regular
-
-        FA.ArrowAltCircleDown ->
-            FA.Regular
-
-        FA.ArrowAltCircleLeft ->
-            FA.Regular
-
-        FA.ArrowAltCircleRight ->
-            FA.Regular
-
-        FA.ArrowAltCircleUp ->
-            FA.Regular
 
         FA.Adn ->
             FA.Brand
@@ -1101,12 +1439,6 @@ defaultStyle icon =
         FA.BehanceSquare ->
             FA.Brand
 
-        FA.Bell ->
-            FA.Regular
-
-        FA.BellSlash ->
-            FA.Regular
-
         FA.BIMobject ->
             FA.Brand
 
@@ -1137,19 +1469,85 @@ defaultStyle icon =
         FA.BluetoothB ->
             FA.Brand
 
-        FA.Bookmark ->
-            FA.Regular
-
         FA.Btc ->
             FA.Brand
-
-        FA.Building ->
-            FA.Regular
 
         FA.BuromobelExperte ->
             FA.Brand
 
         FA.BuySellAds ->
+            FA.Brand
+
+        FA.CCAmazonPay ->
+            FA.Brand
+
+        FA.CCAmex ->
+            FA.Brand
+
+        FA.CCApplePay ->
+            FA.Brand
+
+        FA.CCDinersClub ->
+            FA.Brand
+
+        FA.CCDiscover ->
+            FA.Brand
+
+        FA.CCJCB ->
+            FA.Brand
+
+        FA.CCMastercard ->
+            FA.Brand
+
+        FA.CCPayPal ->
+            FA.Brand
+
+        FA.CCStripe ->
+            FA.Brand
+
+        FA.CCVisa ->
+            FA.Brand
+
+        FA.Centercode ->
+            FA.Brand
+
+        FA.Chrome ->
+            FA.Brand
+
+        FA.CloudScale ->
+            FA.Brand
+
+        FA.Cloudsmith ->
+            FA.Brand
+
+        FA.Cloudversify ->
+            FA.Brand
+
+        FA.CodePen ->
+            FA.Brand
+
+        FA.CodiePie ->
+            FA.Brand
+
+        FA.ConnectDevelop ->
+            FA.Brand
+
+        FA.Contao ->
+            FA.Brand
+
+        FA.CPanel ->
+            FA.Brand
+
+        FA.CreativeCommons ->
+            FA.Brand
+
+        FA.CSS3 ->
+            FA.Brand
+
+        FA.CSS3Alt ->
+            FA.Brand
+
+        FA.Cuttlefish ->
             FA.Brand
 
         FA.FiveHundredPx ->
