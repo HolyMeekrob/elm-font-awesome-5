@@ -18,7 +18,7 @@ icon : Name -> Html msg
 icon name =
     let
         icon =
-            Icon Name Solid
+            Icon name Solid
     in
         iconStyled icon
 
@@ -36,7 +36,7 @@ fa icon attributes htmlAttributes =
     in
         span
             (classes icon attrs
-                :: buildAttrs attrs
+                :: buildAttrs attrs htmlAttributes
             )
             []
 
@@ -54,7 +54,7 @@ fab brand attributes htmlAttributes =
     in
         span
             (brandClasses brand attributes
-                :: buildAttrs attrs
+                :: buildAttrs attrs htmlAttributes
             )
             []
 
@@ -64,8 +64,8 @@ buildAttrs :
     -> List (Html.Attribute msg)
     -> List (Html.Attribute msg)
 buildAttrs attributes htmlAttributes =
-    transformAttr attrs
-        ++ maskAttr attrs
+    transformAttr attributes
+        ++ maskAttr attributes
         ++ htmlAttributes
 
 
@@ -122,7 +122,7 @@ isWidth attribute =
 isMask : Attribute -> Bool
 isMask attribute =
     case attribute of
-        Mask _ _ ->
+        Mask _ ->
             True
 
         _ ->
@@ -183,7 +183,7 @@ brandClass : Brand -> String
 brandClass brand =
     let
         root =
-            brandName n
+            brandName brand
     in
         "fa-" ++ root
 
@@ -262,7 +262,7 @@ className attr =
         HasFixedWidth ->
             ( widthClass, True )
 
-        Mask _ _ ->
+        Mask _ ->
             ( "", False )
 
         Pull direction ->
@@ -329,7 +329,7 @@ type Attribute
     = Animation Animation
     | HasBorder
     | HasFixedWidth
-    | Mask Icon Style
+    | Mask Icon
     | Pull Pull
     | Size Size
     | Transform String
@@ -366,7 +366,7 @@ type Animation
 
 
 type Icon
-    = Name Style
+    = Icon Name Style
 
 
 type Name
