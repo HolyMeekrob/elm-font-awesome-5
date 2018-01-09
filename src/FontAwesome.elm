@@ -1,41 +1,41 @@
 module FontAwesome
     exposing
         ( Animation(..)
+        , Brand(..)
         , Attribute(..)
         , Icon(..)
         , Pull(..)
         , Size(..)
         , Style(..)
         , fa
+        , fab
         , icon
+        , iconStyled
+        , logo
         )
 
 import Html exposing (Html, span)
 import Html.Attributes
 
 
-icon : Name -> Html msg
-icon name =
-    let
-        icon =
-            Icon name Solid
-    in
-        iconStyled icon
+icon : Icon -> Html msg
+icon icon =
+    iconStyled icon Solid
 
 
-iconStyled : Icon -> Html msg
-iconStyled icon =
-    fa icon [] []
+iconStyled : Icon -> Style -> Html msg
+iconStyled icon style =
+    fa icon style [] []
 
 
-fa : Icon -> List Attribute -> List (Html.Attribute msg) -> Html msg
-fa icon attributes htmlAttributes =
+fa : Icon -> Style -> List Attribute -> List (Html.Attribute msg) -> Html msg
+fa icon style attributes htmlAttributes =
     let
         attrs =
             filterAttrs attributes
     in
         span
-            (classes icon attrs
+            (classes icon style attrs
                 :: buildAttrs attrs htmlAttributes
             )
             []
@@ -122,7 +122,7 @@ isWidth attribute =
 isMask : Attribute -> Bool
 isMask attribute =
     case attribute of
-        Mask _ ->
+        Mask _ _ ->
             True
 
         _ ->
@@ -170,11 +170,11 @@ filterAttrs attributes =
         |> dedup isTransform
 
 
-nameClass : Name -> String
-nameClass n =
+iconClass : Icon -> String
+iconClass icon =
     let
         root =
-            name n
+            name icon
     in
         "fa-" ++ root
 
@@ -262,7 +262,7 @@ className attr =
         HasFixedWidth ->
             ( widthClass, True )
 
-        Mask _ ->
+        Mask _ _ ->
             ( "", False )
 
         Pull direction ->
@@ -275,10 +275,10 @@ className attr =
             ( "", False )
 
 
-classes : Icon -> List Attribute -> Html.Attribute msg
-classes (Icon name style) attributes =
+classes : Icon -> Style -> List Attribute -> Html.Attribute msg
+classes icon style attributes =
     ( styleClass style, True )
-        :: ( nameClass name, True )
+        :: ( iconClass icon, True )
         :: List.map className attributes
         |> Html.Attributes.classList
 
@@ -309,10 +309,10 @@ transformAttr attributes =
 mask : Attribute -> List (Html.Attribute msg) -> List (Html.Attribute msg)
 mask attr attrs =
     case attr of
-        Mask (Icon name style) ->
+        Mask icon style ->
             let
                 val =
-                    styleClass style ++ " " ++ nameClass name
+                    styleClass style ++ " " ++ iconClass icon
             in
                 (Html.Attributes.attribute "data-fa-mask" val) :: attrs
 
@@ -329,7 +329,7 @@ type Attribute
     = Animation Animation
     | HasBorder
     | HasFixedWidth
-    | Mask Icon
+    | Mask Icon Style
     | Pull Pull
     | Size Size
     | Transform String
@@ -366,10 +366,6 @@ type Animation
 
 
 type Icon
-    = Icon Name Style
-
-
-type Name
     = AddressBook
     | Edit
 
@@ -379,9 +375,9 @@ type Brand
     | Facebook
 
 
-name : Name -> String
-name name =
-    case name of
+name : Icon -> String
+name icon =
+    case icon of
         AddressBook ->
             "address-book"
 
