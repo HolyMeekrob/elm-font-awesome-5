@@ -545,7 +545,35 @@ type Icon
     | Dropbox
     | Drupal
     | Dyalog
+    | EarlyBirds
+    | Edge
     | Edit
+    | Eject
+    | EllipsisHorizontal
+    | EllipsisVertical
+    | Ember
+    | Empire
+    | Envelope
+    | EnvelopeOpen
+    | EnvelopeSquare
+    | Envira
+    | Eraser
+    | Erlang
+    | Ethereum
+    | Etsy
+    | EuroSign
+    | ExchangeAlt
+    | Exclamation
+    | ExclamationCircle
+    | ExclamationTriangle
+    | Expand
+    | ExpandArrowsAlt
+    | ExpeditedSSL
+    | ExternalLinkAlt
+    | ExternalLinkSquareAlt
+    | Eye
+    | EyeDropper
+    | EyeSlash
     | FiveHundredPx
 
 
@@ -633,6 +661,15 @@ brandStyles =
     , Dropbox
     , Drupal
     , Dyalog
+    , EarlyBirds
+    , Edge
+    , Ember
+    , Empire
+    , Envira
+    , Erlang
+    , Ethereum
+    , Etsy
+    , ExpeditedSSL
     , FiveHundredPx
     ]
 
@@ -1314,8 +1351,92 @@ name icon =
         Dyalog ->
             "dyalog"
 
+        EarlyBirds ->
+            "earlybirds"
+
         Edit ->
             "edit"
+
+        Edge ->
+            "edge"
+
+        Eject ->
+            "eject"
+
+        EllipsisHorizontal ->
+            "ellipsis-h"
+
+        EllipsisVertical ->
+            "ellipsis-v"
+
+        Ember ->
+            "ember"
+
+        Empire ->
+            "empire"
+
+        Envelope ->
+            "envelope"
+
+        EnvelopeOpen ->
+            "envelope-open"
+
+        EnvelopeSquare ->
+            "envelope-square"
+
+        Envira ->
+            "envira"
+
+        Eraser ->
+            "eraser"
+
+        Erlang ->
+            "erlang"
+
+        Ethereum ->
+            "ethereum"
+
+        Etsy ->
+            "etsy"
+
+        EuroSign ->
+            "euro-sign"
+
+        ExchangeAlt ->
+            "exchange-alt"
+
+        Exclamation ->
+            "exclamation"
+
+        ExclamationCircle ->
+            "exclamation-circle"
+
+        ExclamationTriangle ->
+            "exclamation-triangle"
+
+        Expand ->
+            "expand"
+
+        ExpandArrowsAlt ->
+            "expand-arrows-alt"
+
+        ExpeditedSSL ->
+            "expeditedssl"
+
+        ExternalLinkAlt ->
+            "external-link-alt"
+
+        ExternalLinkSquareAlt ->
+            "external-link-square-alt"
+
+        Eye ->
+            "eye"
+
+        EyeDropper ->
+            "eye-dropper"
+
+        EyeSlash ->
+            "eye-slash"
 
         FiveHundredPx ->
             "500px"

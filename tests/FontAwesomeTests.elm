@@ -542,7 +542,35 @@ iconFuzzer =
         , Fuzz.constant FA.Dropbox
         , Fuzz.constant FA.Drupal
         , Fuzz.constant FA.Dyalog
+        , Fuzz.constant FA.EarlyBirds
+        , Fuzz.constant FA.Edge
         , Fuzz.constant FA.Edit
+        , Fuzz.constant FA.Eject
+        , Fuzz.constant FA.EllipsisHorizontal
+        , Fuzz.constant FA.EllipsisVertical
+        , Fuzz.constant FA.Ember
+        , Fuzz.constant FA.Empire
+        , Fuzz.constant FA.Envelope
+        , Fuzz.constant FA.EnvelopeOpen
+        , Fuzz.constant FA.EnvelopeSquare
+        , Fuzz.constant FA.Envira
+        , Fuzz.constant FA.Eraser
+        , Fuzz.constant FA.Erlang
+        , Fuzz.constant FA.Ethereum
+        , Fuzz.constant FA.Etsy
+        , Fuzz.constant FA.EuroSign
+        , Fuzz.constant FA.ExchangeAlt
+        , Fuzz.constant FA.Exclamation
+        , Fuzz.constant FA.ExclamationCircle
+        , Fuzz.constant FA.ExclamationTriangle
+        , Fuzz.constant FA.Expand
+        , Fuzz.constant FA.ExpandArrowsAlt
+        , Fuzz.constant FA.ExpeditedSSL
+        , Fuzz.constant FA.ExternalLinkAlt
+        , Fuzz.constant FA.ExternalLinkSquareAlt
+        , Fuzz.constant FA.Eye
+        , Fuzz.constant FA.EyeDropper
+        , Fuzz.constant FA.EyeSlash
         , Fuzz.constant FA.FiveHundredPx
         ]
 
@@ -1444,8 +1472,92 @@ name icon =
         FA.Dyalog ->
             "dyalog"
 
+        FA.EarlyBirds ->
+            "earlybirds"
+
         FA.Edit ->
             "edit"
+
+        FA.Edge ->
+            "edge"
+
+        FA.Eject ->
+            "eject"
+
+        FA.EllipsisHorizontal ->
+            "ellipsis-h"
+
+        FA.EllipsisVertical ->
+            "ellipsis-v"
+
+        FA.Ember ->
+            "ember"
+
+        FA.Empire ->
+            "empire"
+
+        FA.Envelope ->
+            "envelope"
+
+        FA.EnvelopeOpen ->
+            "envelope-open"
+
+        FA.EnvelopeSquare ->
+            "envelope-square"
+
+        FA.Envira ->
+            "envira"
+
+        FA.Eraser ->
+            "eraser"
+
+        FA.Erlang ->
+            "erlang"
+
+        FA.Ethereum ->
+            "ethereum"
+
+        FA.Etsy ->
+            "etsy"
+
+        FA.EuroSign ->
+            "euro-sign"
+
+        FA.ExchangeAlt ->
+            "exchange-alt"
+
+        FA.Exclamation ->
+            "exclamation"
+
+        FA.ExclamationCircle ->
+            "exclamation-circle"
+
+        FA.ExclamationTriangle ->
+            "exclamation-triangle"
+
+        FA.Expand ->
+            "expand"
+
+        FA.ExpandArrowsAlt ->
+            "expand-arrows-alt"
+
+        FA.ExpeditedSSL ->
+            "expeditedssl"
+
+        FA.ExternalLinkAlt ->
+            "external-link-alt"
+
+        FA.ExternalLinkSquareAlt ->
+            "external-link-square-alt"
+
+        FA.Eye ->
+            "eye"
+
+        FA.EyeDropper ->
+            "eye-dropper"
+
+        FA.EyeSlash ->
+            "eye-slash"
 
         FA.FiveHundredPx ->
             "500px"
@@ -1535,6 +1647,15 @@ brandStyles =
     , FA.Dropbox
     , FA.Drupal
     , FA.Dyalog
+    , FA.EarlyBirds
+    , FA.Edge
+    , FA.Ember
+    , FA.Empire
+    , FA.Envira
+    , FA.Erlang
+    , FA.Ethereum
+    , FA.Etsy
+    , FA.ExpeditedSSL
     , FA.FiveHundredPx
     ]
 
