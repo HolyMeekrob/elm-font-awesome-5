@@ -525,206 +525,82 @@ type Icon
     | FiveHundredPx
 
 
+brandStyles : List Icon
+brandStyles =
+    [ Accusoft
+    , AccessibleIcon
+    , Adn
+    , Adversal
+    , AffiliateTheme
+    , Algolia
+    , Amazon
+    , AmazonPay
+    , Amilia
+    , Android
+    , AngelList
+    , AngryCreative
+    , Angular
+    , AppStore
+    , AppStoreIos
+    , Apper
+    , Apple
+    , ApplePay
+    , Asymmetrik
+    , Audible
+    , AutoPrefixer
+    , Avianex
+    , Aviato
+    , AWS
+    , Bandcamp
+    , Behance
+    , BehanceSquare
+    , BIMobject
+    , Bitbucket
+    , Bitcoin
+    , Bity
+    , BlackTie
+    , Blackberry
+    , Blogger
+    , BloggerB
+    , Bluetooth
+    , BluetoothB
+    , Btc
+    , BuromobelExperte
+    , BuySellAds
+    , CCAmazonPay
+    , CCAmex
+    , CCApplePay
+    , CCDinersClub
+    , CCDiscover
+    , CCJCB
+    , CCMastercard
+    , CCPayPal
+    , CCStripe
+    , CCVisa
+    , Centercode
+    , Chrome
+    , CloudScale
+    , Cloudsmith
+    , Cloudversify
+    , CodePen
+    , CodiePie
+    , ConnectDevelop
+    , Contao
+    , CPanel
+    , CreativeCommons
+    , CSS3
+    , CSS3Alt
+    , Cuttlefish
+    , FiveHundredPx
+    ]
+
+
 defaultStyle : Icon -> Style
 defaultStyle icon =
-    case icon of
-        Accusoft ->
-            Brand
-
-        AccessibleIcon ->
-            Brand
-
-        Adn ->
-            Brand
-
-        Adversal ->
-            Brand
-
-        AffiliateTheme ->
-            Brand
-
-        Algolia ->
-            Brand
-
-        Amazon ->
-            Brand
-
-        AmazonPay ->
-            Brand
-
-        Amilia ->
-            Brand
-
-        Android ->
-            Brand
-
-        AngelList ->
-            Brand
-
-        AngryCreative ->
-            Brand
-
-        Angular ->
-            Brand
-
-        AppStore ->
-            Brand
-
-        AppStoreIos ->
-            Brand
-
-        Apper ->
-            Brand
-
-        Apple ->
-            Brand
-
-        ApplePay ->
-            Brand
-
-        Asymmetrik ->
-            Brand
-
-        Audible ->
-            Brand
-
-        AutoPrefixer ->
-            Brand
-
-        Avianex ->
-            Brand
-
-        Aviato ->
-            Brand
-
-        AWS ->
-            Brand
-
-        Bandcamp ->
-            Brand
-
-        Behance ->
-            Brand
-
-        BehanceSquare ->
-            Brand
-
-        BIMobject ->
-            Brand
-
-        Bitbucket ->
-            Brand
-
-        Bitcoin ->
-            Brand
-
-        Bity ->
-            Brand
-
-        BlackTie ->
-            Brand
-
-        Blackberry ->
-            Brand
-
-        Blogger ->
-            Brand
-
-        BloggerB ->
-            Brand
-
-        Bluetooth ->
-            Brand
-
-        BluetoothB ->
-            Brand
-
-        Btc ->
-            Brand
-
-        BuromobelExperte ->
-            Brand
-
-        BuySellAds ->
-            Brand
-
-        CCAmazonPay ->
-            Brand
-
-        CCAmex ->
-            Brand
-
-        CCApplePay ->
-            Brand
-
-        CCDinersClub ->
-            Brand
-
-        CCDiscover ->
-            Brand
-
-        CCJCB ->
-            Brand
-
-        CCMastercard ->
-            Brand
-
-        CCPayPal ->
-            Brand
-
-        CCStripe ->
-            Brand
-
-        CCVisa ->
-            Brand
-
-        Centercode ->
-            Brand
-
-        Chrome ->
-            Brand
-
-        CloudScale ->
-            Brand
-
-        Cloudsmith ->
-            Brand
-
-        Cloudversify ->
-            Brand
-
-        CodePen ->
-            Brand
-
-        CodiePie ->
-            Brand
-
-        ConnectDevelop ->
-            Brand
-
-        Contao ->
-            Brand
-
-        CPanel ->
-            Brand
-
-        CreativeCommons ->
-            Brand
-
-        CSS3 ->
-            Brand
-
-        CSS3Alt ->
-            Brand
-
-        Cuttlefish ->
-            Brand
-
-        FiveHundredPx ->
-            Brand
-
-        _ ->
-            Solid
+    if (List.member icon brandStyles) then
+        Brand
+    else
+        Solid
 
 
 name : Icon -> String

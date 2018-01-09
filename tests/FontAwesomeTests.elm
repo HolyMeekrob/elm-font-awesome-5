@@ -1355,203 +1355,79 @@ name icon =
             "500px"
 
 
+brandStyles : List FA.Icon
+brandStyles =
+    [ FA.Accusoft
+    , FA.AccessibleIcon
+    , FA.Adn
+    , FA.Adversal
+    , FA.AffiliateTheme
+    , FA.Algolia
+    , FA.Amazon
+    , FA.AmazonPay
+    , FA.Amilia
+    , FA.Android
+    , FA.AngelList
+    , FA.AngryCreative
+    , FA.Angular
+    , FA.AppStore
+    , FA.AppStoreIos
+    , FA.Apper
+    , FA.Apple
+    , FA.ApplePay
+    , FA.Asymmetrik
+    , FA.Audible
+    , FA.AutoPrefixer
+    , FA.Avianex
+    , FA.Aviato
+    , FA.AWS
+    , FA.Bandcamp
+    , FA.Behance
+    , FA.BehanceSquare
+    , FA.BIMobject
+    , FA.Bitbucket
+    , FA.Bitcoin
+    , FA.Bity
+    , FA.BlackTie
+    , FA.Blackberry
+    , FA.Blogger
+    , FA.BloggerB
+    , FA.Bluetooth
+    , FA.BluetoothB
+    , FA.Btc
+    , FA.BuromobelExperte
+    , FA.BuySellAds
+    , FA.CCAmazonPay
+    , FA.CCAmex
+    , FA.CCApplePay
+    , FA.CCDinersClub
+    , FA.CCDiscover
+    , FA.CCJCB
+    , FA.CCMastercard
+    , FA.CCPayPal
+    , FA.CCStripe
+    , FA.CCVisa
+    , FA.Centercode
+    , FA.Chrome
+    , FA.CloudScale
+    , FA.Cloudsmith
+    , FA.Cloudversify
+    , FA.CodePen
+    , FA.CodiePie
+    , FA.ConnectDevelop
+    , FA.Contao
+    , FA.CPanel
+    , FA.CreativeCommons
+    , FA.CSS3
+    , FA.CSS3Alt
+    , FA.Cuttlefish
+    , FA.FiveHundredPx
+    ]
+
+
 defaultStyle : FA.Icon -> FA.Style
 defaultStyle icon =
-    case icon of
-        FA.Accusoft ->
-            FA.Brand
-
-        FA.AccessibleIcon ->
-            FA.Brand
-
-        FA.Adn ->
-            FA.Brand
-
-        FA.Adversal ->
-            FA.Brand
-
-        FA.AffiliateTheme ->
-            FA.Brand
-
-        FA.Algolia ->
-            FA.Brand
-
-        FA.Amazon ->
-            FA.Brand
-
-        FA.AmazonPay ->
-            FA.Brand
-
-        FA.Amilia ->
-            FA.Brand
-
-        FA.Android ->
-            FA.Brand
-
-        FA.AngelList ->
-            FA.Brand
-
-        FA.AngryCreative ->
-            FA.Brand
-
-        FA.Angular ->
-            FA.Brand
-
-        FA.AppStore ->
-            FA.Brand
-
-        FA.AppStoreIos ->
-            FA.Brand
-
-        FA.Apper ->
-            FA.Brand
-
-        FA.Apple ->
-            FA.Brand
-
-        FA.ApplePay ->
-            FA.Brand
-
-        FA.Asymmetrik ->
-            FA.Brand
-
-        FA.Audible ->
-            FA.Brand
-
-        FA.AutoPrefixer ->
-            FA.Brand
-
-        FA.Avianex ->
-            FA.Brand
-
-        FA.Aviato ->
-            FA.Brand
-
-        FA.AWS ->
-            FA.Brand
-
-        FA.Bandcamp ->
-            FA.Brand
-
-        FA.Behance ->
-            FA.Brand
-
-        FA.BehanceSquare ->
-            FA.Brand
-
-        FA.BIMobject ->
-            FA.Brand
-
-        FA.Bitbucket ->
-            FA.Brand
-
-        FA.Bitcoin ->
-            FA.Brand
-
-        FA.Bity ->
-            FA.Brand
-
-        FA.BlackTie ->
-            FA.Brand
-
-        FA.Blackberry ->
-            FA.Brand
-
-        FA.Blogger ->
-            FA.Brand
-
-        FA.BloggerB ->
-            FA.Brand
-
-        FA.Bluetooth ->
-            FA.Brand
-
-        FA.BluetoothB ->
-            FA.Brand
-
-        FA.Btc ->
-            FA.Brand
-
-        FA.BuromobelExperte ->
-            FA.Brand
-
-        FA.BuySellAds ->
-            FA.Brand
-
-        FA.CCAmazonPay ->
-            FA.Brand
-
-        FA.CCAmex ->
-            FA.Brand
-
-        FA.CCApplePay ->
-            FA.Brand
-
-        FA.CCDinersClub ->
-            FA.Brand
-
-        FA.CCDiscover ->
-            FA.Brand
-
-        FA.CCJCB ->
-            FA.Brand
-
-        FA.CCMastercard ->
-            FA.Brand
-
-        FA.CCPayPal ->
-            FA.Brand
-
-        FA.CCStripe ->
-            FA.Brand
-
-        FA.CCVisa ->
-            FA.Brand
-
-        FA.Centercode ->
-            FA.Brand
-
-        FA.Chrome ->
-            FA.Brand
-
-        FA.CloudScale ->
-            FA.Brand
-
-        FA.Cloudsmith ->
-            FA.Brand
-
-        FA.Cloudversify ->
-            FA.Brand
-
-        FA.CodePen ->
-            FA.Brand
-
-        FA.CodiePie ->
-            FA.Brand
-
-        FA.ConnectDevelop ->
-            FA.Brand
-
-        FA.Contao ->
-            FA.Brand
-
-        FA.CPanel ->
-            FA.Brand
-
-        FA.CreativeCommons ->
-            FA.Brand
-
-        FA.CSS3 ->
-            FA.Brand
-
-        FA.CSS3Alt ->
-            FA.Brand
-
-        FA.Cuttlefish ->
-            FA.Brand
-
-        FA.FiveHundredPx ->
-            FA.Brand
-
-        _ ->
-            FA.Solid
+    if (List.member icon brandStyles) then
+        FA.Brand
+    else
+        FA.Solid
