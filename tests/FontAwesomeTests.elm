@@ -518,6 +518,30 @@ iconFuzzer =
         , Fuzz.constant FA.Cubes
         , Fuzz.constant FA.Cut
         , Fuzz.constant FA.Cuttlefish
+        , Fuzz.constant FA.DAndD
+        , Fuzz.constant FA.Dashcube
+        , Fuzz.constant FA.Database
+        , Fuzz.constant FA.Deaf
+        , Fuzz.constant FA.Delicious
+        , Fuzz.constant FA.DeployDog
+        , Fuzz.constant FA.Deskpro
+        , Fuzz.constant FA.Desktop
+        , Fuzz.constant FA.DeviantArt
+        , Fuzz.constant FA.Digg
+        , Fuzz.constant FA.DigitalOcean
+        , Fuzz.constant FA.Discord
+        , Fuzz.constant FA.Discourse
+        , Fuzz.constant FA.DocHub
+        , Fuzz.constant FA.Docker
+        , Fuzz.constant FA.DollarSign
+        , Fuzz.constant FA.DotCircle
+        , Fuzz.constant FA.Download
+        , Fuzz.constant FA.Draft2Digital
+        , Fuzz.constant FA.Dribbble
+        , Fuzz.constant FA.DribbbleSquare
+        , Fuzz.constant FA.Dropbox
+        , Fuzz.constant FA.Drupal
+        , Fuzz.constant FA.Dyalog
         , Fuzz.constant FA.Edit
         , Fuzz.constant FA.FiveHundredPx
         ]
@@ -1348,6 +1372,78 @@ name icon =
         FA.Cuttlefish ->
             "cuttlefish"
 
+        FA.DAndD ->
+            "d-and-d"
+
+        FA.Dashcube ->
+            "dashcube"
+
+        FA.Database ->
+            "database"
+
+        FA.Deaf ->
+            "deaf"
+
+        FA.Delicious ->
+            "delicious"
+
+        FA.DeployDog ->
+            "deploydog"
+
+        FA.Deskpro ->
+            "deskpro"
+
+        FA.Desktop ->
+            "desktop"
+
+        FA.DeviantArt ->
+            "deviantart"
+
+        FA.Digg ->
+            "digg"
+
+        FA.DigitalOcean ->
+            "digital-ocean"
+
+        FA.Discord ->
+            "discord"
+
+        FA.Discourse ->
+            "discourse"
+
+        FA.DocHub ->
+            "dochub"
+
+        FA.Docker ->
+            "docker"
+
+        FA.DollarSign ->
+            "dollar-sign"
+
+        FA.DotCircle ->
+            "dot-circle"
+
+        FA.Download ->
+            "download"
+
+        FA.Draft2Digital ->
+            "draft2digital"
+
+        FA.Dribbble ->
+            "dribbble"
+
+        FA.DribbbleSquare ->
+            "dribbble-square"
+
+        FA.Dropbox ->
+            "dropbox"
+
+        FA.Drupal ->
+            "drupal"
+
+        FA.Dyalog ->
+            "dyalog"
+
         FA.Edit ->
             "edit"
 
@@ -1421,6 +1517,24 @@ brandStyles =
     , FA.CSS3
     , FA.CSS3Alt
     , FA.Cuttlefish
+    , FA.DAndD
+    , FA.Dashcube
+    , FA.Delicious
+    , FA.DeployDog
+    , FA.Deskpro
+    , FA.DeviantArt
+    , FA.Digg
+    , FA.DigitalOcean
+    , FA.Discord
+    , FA.Discourse
+    , FA.DocHub
+    , FA.Docker
+    , FA.Draft2Digital
+    , FA.Dribbble
+    , FA.DribbbleSquare
+    , FA.Dropbox
+    , FA.Drupal
+    , FA.Dyalog
     , FA.FiveHundredPx
     ]
 

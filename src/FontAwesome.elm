@@ -521,6 +521,30 @@ type Icon
     | Cubes
     | Cut
     | Cuttlefish
+    | DAndD
+    | Dashcube
+    | Database
+    | Deaf
+    | Delicious
+    | DeployDog
+    | Deskpro
+    | Desktop
+    | DeviantArt
+    | Digg
+    | DigitalOcean
+    | Discord
+    | Discourse
+    | DocHub
+    | Docker
+    | DollarSign
+    | DotCircle
+    | Download
+    | Draft2Digital
+    | Dribbble
+    | DribbbleSquare
+    | Dropbox
+    | Drupal
+    | Dyalog
     | Edit
     | FiveHundredPx
 
@@ -591,6 +615,24 @@ brandStyles =
     , CSS3
     , CSS3Alt
     , Cuttlefish
+    , DAndD
+    , Dashcube
+    , Delicious
+    , DeployDog
+    , Deskpro
+    , DeviantArt
+    , Digg
+    , DigitalOcean
+    , Discord
+    , Discourse
+    , DocHub
+    , Docker
+    , Draft2Digital
+    , Dribbble
+    , DribbbleSquare
+    , Dropbox
+    , Drupal
+    , Dyalog
     , FiveHundredPx
     ]
 
@@ -1199,6 +1241,78 @@ name icon =
 
         Cuttlefish ->
             "cuttlefish"
+
+        DAndD ->
+            "d-and-d"
+
+        Dashcube ->
+            "dashcube"
+
+        Database ->
+            "database"
+
+        Deaf ->
+            "deaf"
+
+        Delicious ->
+            "delicious"
+
+        DeployDog ->
+            "deploydog"
+
+        Deskpro ->
+            "deskpro"
+
+        Desktop ->
+            "desktop"
+
+        DeviantArt ->
+            "deviantart"
+
+        Digg ->
+            "digg"
+
+        DigitalOcean ->
+            "digital-ocean"
+
+        Discord ->
+            "discord"
+
+        Discourse ->
+            "discourse"
+
+        DocHub ->
+            "dochub"
+
+        Docker ->
+            "docker"
+
+        DollarSign ->
+            "dollar-sign"
+
+        DotCircle ->
+            "dot-circle"
+
+        Download ->
+            "download"
+
+        Draft2Digital ->
+            "draft2digital"
+
+        Dribbble ->
+            "dribbble"
+
+        DribbbleSquare ->
+            "dribbble-square"
+
+        Dropbox ->
+            "dropbox"
+
+        Drupal ->
+            "drupal"
+
+        Dyalog ->
+            "dyalog"
 
         Edit ->
             "edit"
