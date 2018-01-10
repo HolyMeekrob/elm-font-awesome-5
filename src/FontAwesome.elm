@@ -28,7 +28,7 @@ module FontAwesome
 
 -}
 
-import Html exposing (Html)
+import Html exposing (Attribute, Html)
 import Html.Attributes
 
 
@@ -50,12 +50,7 @@ icon icon =
     iconWithOptions Info Regular [ HasFixedWidth (Size Large) (HtmlTag Span) ] [] == <span class="far fa-info fa-fw fa-lg"></span>
 
 -}
-iconWithOptions :
-    Icon
-    -> Style
-    -> List Option
-    -> List (Html.Attribute msg)
-    -> Html msg
+iconWithOptions : Icon -> Style -> List Option -> List (Attribute msg) -> Html msg
 iconWithOptions icon style options htmlAttributes =
     let
         opts =
@@ -86,11 +81,7 @@ logo logo =
     logoWithOptions Uber [Transform "shrink-6"] [] == <i class="fab fa-uber" data-fa-transform="shrink-6"></i>
 
 -}
-logoWithOptions :
-    Logo
-    -> List Option
-    -> List (Html.Attribute msg)
-    -> Html msg
+logoWithOptions : Logo -> List Option -> List (Attribute msg) -> Html msg
 logoWithOptions logo options htmlAttributes =
     let
         opts =
@@ -116,13 +107,7 @@ findTag option previousTag =
             previousTag
 
 
-tag :
-    List Option
-    ->
-        (List (Html.Attribute msg)
-         -> List (Html msg)
-         -> Html msg
-        )
+tag : List Option -> (List (Attribute msg) -> List (Html msg) -> Html msg)
 tag opts =
     let
         tag =
@@ -136,10 +121,7 @@ tag opts =
                 Html.span
 
 
-htmlAttrs :
-    List Option
-    -> List (Html.Attribute msg)
-    -> List (Html.Attribute msg)
+htmlAttrs : List Option -> List (Attribute msg) -> List (Attribute msg)
 htmlAttrs options htmlAttributes =
     transformAttr options
         ++ maskAttr options
@@ -360,7 +342,7 @@ className opt =
             ( "", False )
 
 
-classes : Icon -> Style -> List Option -> Html.Attribute msg
+classes : Icon -> Style -> List Option -> Attribute msg
 classes icon style options =
     ( styleClass style, True )
         :: ( iconClass icon, True )
@@ -368,7 +350,7 @@ classes icon style options =
         |> Html.Attributes.classList
 
 
-logoClasses : Logo -> List Option -> Html.Attribute msg
+logoClasses : Logo -> List Option -> Attribute msg
 logoClasses logo options =
     ( "fab", True )
         :: ( logoClass logo, True )
@@ -376,7 +358,7 @@ logoClasses logo options =
         |> Html.Attributes.classList
 
 
-transform : Option -> List (Html.Attribute msg) -> List (Html.Attribute msg)
+transform : Option -> List (Attribute msg) -> List (Attribute msg)
 transform opt opts =
     case opt of
         Transform str ->
@@ -386,12 +368,12 @@ transform opt opts =
             opts
 
 
-transformAttr : List Option -> List (Html.Attribute msg)
+transformAttr : List Option -> List (Attribute msg)
 transformAttr options =
     List.foldr transform [] options
 
 
-mask : Option -> List (Html.Attribute msg) -> List (Html.Attribute msg)
+mask : Option -> List (Attribute msg) -> List (Attribute msg)
 mask opt opts =
     case opt of
         Mask icon style ->
@@ -405,7 +387,7 @@ mask opt opts =
             opts
 
 
-maskAttr : List Option -> List (Html.Attribute msg)
+maskAttr : List Option -> List (Attribute msg)
 maskAttr options =
     List.foldr mask [] options
 

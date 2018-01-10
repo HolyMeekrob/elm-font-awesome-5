@@ -3,7 +3,7 @@ module FontAwesomeTests exposing (..)
 import FontAwesome as FA
 import Expect
 import Fuzz
-import Html
+import Html exposing (Attribute)
 import Html.Attributes
 import Test exposing (Test, describe, fuzz, fuzz2, fuzz3, test)
 import Test.Html.Query as Query
@@ -150,7 +150,7 @@ testLogoWithCustomClasses =
 
 testCustomClasses :
     (String
-     -> List (Html.Attribute msg)
+     -> List (Attribute msg)
      -> (Query.Single msg -> Expect.Expectation)
      -> Test
     )
@@ -190,7 +190,7 @@ testLogoWithStandardAttributes =
 
 testStandardAttributes :
     (String
-     -> List (Html.Attribute msg)
+     -> List (Attribute msg)
      -> (Query.Single msg -> Expect.Expectation)
      -> Test
     )
@@ -231,7 +231,7 @@ testLogoWithCustomAttributes =
 
 testCustomAttributes :
     (String
-     -> List (Html.Attribute msg)
+     -> List (Attribute msg)
      -> (Query.Single msg -> Expect.Expectation)
      -> Test
     )
@@ -437,10 +437,7 @@ testMask options =
                 Query.hasNot [ Selector.attribute (htmlAttribute "") ]
 
 
-testHtmlAttribute :
-    Html.Attribute Never
-    -> Query.Single msg
-    -> Expect.Expectation
+testHtmlAttribute : Attribute Never -> Query.Single msg -> Expect.Expectation
 testHtmlAttribute htmlAttribute =
     Query.has [ Selector.attribute htmlAttribute ]
 
@@ -1529,7 +1526,7 @@ optionsFuzzer =
             |> Fuzz.map (removeMaybes)
 
 
-htmlAttributesFuzzer : Fuzz.Fuzzer (List (Html.Attribute msg))
+htmlAttributesFuzzer : Fuzz.Fuzzer (List (Attribute msg))
 htmlAttributesFuzzer =
     let
         htmlAttributeFuzzer =
@@ -1548,7 +1545,7 @@ htmlAttributesFuzzer =
 
 testIconHelper :
     String
-    -> List (Html.Attribute msg)
+    -> List (Attribute msg)
     -> (Query.Single msg -> Expect.Expectation)
     -> Test
 testIconHelper desc htmlAttributes expectation =
@@ -1576,7 +1573,7 @@ testIconHelper desc htmlAttributes expectation =
 
 testLogoHelper :
     String
-    -> List (Html.Attribute msg)
+    -> List (Attribute msg)
     -> (Query.Single msg -> Expect.Expectation)
     -> Test
 testLogoHelper desc htmlAttributes expectation =
