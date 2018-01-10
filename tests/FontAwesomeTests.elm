@@ -23,14 +23,14 @@ suite =
 
 testLogo : List Test
 testLogo =
-    [ fuzz brandFuzzer "has brand name and style only" <|
-        \brand ->
-            FA.logo brand
+    [ fuzz logoFuzzer "has logo name and style only" <|
+        \logo ->
+            FA.logo logo
                 |> Query.fromHtml
                 |> Expect.all
                     [ Query.has [ Selector.tag "span" ]
                     , Query.has
-                        [ Selector.exactClassName ("fab " ++ brandClass brand) ]
+                        [ Selector.exactClassName ("fab " ++ logoClass logo) ]
                     ]
     ]
 
@@ -112,18 +112,18 @@ testFabWithoutHtmlAttributes =
     [ Test.fuzzWith
         { runs = 500 }
         (Fuzz.tuple3
-            ( brandFuzzer
+            ( logoFuzzer
             , attributesFuzzer
             , htmlAttributesFuzzer
             )
         )
         "handles all attributes"
       <|
-        \( brand, attributes, htmlAttributes ) ->
-            FA.fab brand attributes htmlAttributes
+        \( logo, attributes, htmlAttributes ) ->
+            FA.fab logo attributes htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all
-                    [ testBrandClass brand
+                    [ testLogoClass logo
                     , testBorder attributes
                     , testWidth attributes
                     , testAnimation attributes
@@ -158,7 +158,7 @@ testFaWithCustomClasses =
 
 testFabWithCustomClasses : Test
 testFabWithCustomClasses =
-    testCustomClasses testFabHelper "custom classes for brand"
+    testCustomClasses testFabHelper "custom classes for logo"
 
 
 testCustomClasses :
@@ -198,7 +198,7 @@ testFaWithStandardAttributes =
 
 testFabWithStandardAttributes : Test
 testFabWithStandardAttributes =
-    testStandardAttributes testFabHelper "standard attributes for brand"
+    testStandardAttributes testFabHelper "standard attributes for logo"
 
 
 testStandardAttributes :
@@ -239,7 +239,7 @@ testFaWithCustomAttributes =
 
 testFabWithCustomAttributes : Test
 testFabWithCustomAttributes =
-    testCustomAttributes testFabHelper "custom attributes for brand"
+    testCustomAttributes testFabHelper "custom attributes for logo"
 
 
 testCustomAttributes :
@@ -283,9 +283,9 @@ testIconClass icon =
     Query.has [ Selector.class ("fa-" ++ name icon) ]
 
 
-testBrandClass : FA.Brand -> Query.Single msg -> Expect.Expectation
-testBrandClass brand =
-    Query.has [ Selector.class ("fa-" ++ brandName brand) ]
+testLogoClass : FA.Logo -> Query.Single msg -> Expect.Expectation
+testLogoClass logo =
+    Query.has [ Selector.class ("fa-" ++ logoName logo) ]
 
 
 testStyle : FA.Style -> Query.Single msg -> Expect.Expectation
@@ -1074,8 +1074,8 @@ iconFuzzer =
         ]
 
 
-brandFuzzer : Fuzz.Fuzzer FA.Brand
-brandFuzzer =
+logoFuzzer : Fuzz.Fuzzer FA.Logo
+logoFuzzer =
     Fuzz.oneOf
         [ Fuzz.constant FA.FiveHundredPx
         , Fuzz.constant FA.AccessibleIcon
@@ -1553,14 +1553,14 @@ testFabHelper :
     -> (Query.Single msg -> Expect.Expectation)
     -> Test
 testFabHelper desc htmlAttributes expectation =
-    Test.fuzz2 brandFuzzer attributesFuzzer desc <|
-        \brand attributes ->
-            FA.fab brand
+    Test.fuzz2 logoFuzzer attributesFuzzer desc <|
+        \logo attributes ->
+            FA.fab logo
                 attributes
                 htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all
-                    [ testBrandClass brand
+                    [ testLogoClass logo
                     , testBorder attributes
                     , testWidth attributes
                     , testAnimation attributes
@@ -1645,9 +1645,9 @@ iconClass icon =
     "fa-" ++ name icon
 
 
-brandClass : FA.Brand -> String
-brandClass brand =
-    "fa-" ++ brandName brand
+logoClass : FA.Logo -> String
+logoClass logo =
+    "fa-" ++ logoName logo
 
 
 name : FA.Icon -> String
@@ -3511,9 +3511,9 @@ name icon =
             "yen-sign"
 
 
-brandName : FA.Brand -> String
-brandName brand =
-    case brand of
+logoName : FA.Logo -> String
+logoName logo =
+    case logo of
         FA.FiveHundredPx ->
             "500px"
 

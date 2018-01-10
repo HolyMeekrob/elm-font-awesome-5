@@ -1,7 +1,7 @@
 module FontAwesome
     exposing
         ( Animation(..)
-        , Brand(..)
+        , Logo(..)
         , Attribute(..)
         , Icon(..)
         , Pull(..)
@@ -36,34 +36,34 @@ fa icon style attributes htmlAttributes =
     in
         span
             (classes icon style attrs
-                :: buildAttrs attrs htmlAttributes
+                :: htmlAttrs attrs htmlAttributes
             )
             []
 
 
-logo : Brand -> Html msg
-logo brand =
-    fab brand [] []
+logo : Logo -> Html msg
+logo logo =
+    fab logo [] []
 
 
-fab : Brand -> List Attribute -> List (Html.Attribute msg) -> Html msg
-fab brand attributes htmlAttributes =
+fab : Logo -> List Attribute -> List (Html.Attribute msg) -> Html msg
+fab logo attributes htmlAttributes =
     let
         attrs =
             filterAttrs attributes
     in
         span
-            (brandClasses brand attributes
-                :: buildAttrs attrs htmlAttributes
+            (logoClasses logo attributes
+                :: htmlAttrs attrs htmlAttributes
             )
             []
 
 
-buildAttrs :
+htmlAttrs :
     List Attribute
     -> List (Html.Attribute msg)
     -> List (Html.Attribute msg)
-buildAttrs attributes htmlAttributes =
+htmlAttrs attributes htmlAttributes =
     transformAttr attributes
         ++ maskAttr attributes
         ++ htmlAttributes
@@ -179,11 +179,11 @@ iconClass icon =
         "fa-" ++ root
 
 
-brandClass : Brand -> String
-brandClass brand =
+logoClass : Logo -> String
+logoClass logo =
     let
         root =
-            brandName brand
+            logoName logo
     in
         "fa-" ++ root
 
@@ -283,10 +283,10 @@ classes icon style attributes =
         |> Html.Attributes.classList
 
 
-brandClasses : Brand -> List Attribute -> Html.Attribute msg
-brandClasses brand attributes =
+logoClasses : Logo -> List Attribute -> Html.Attribute msg
+logoClasses logo attributes =
     ( "fab", True )
-        :: ( brandClass brand, True )
+        :: ( logoClass logo, True )
         :: List.map className attributes
         |> Html.Attributes.classList
 
@@ -295,7 +295,7 @@ transform : Attribute -> List (Html.Attribute msg) -> List (Html.Attribute msg)
 transform attr attrs =
     case attr of
         Transform str ->
-            (Html.Attributes.attribute "data-fa-transform" str) :: attrs
+            Html.Attributes.attribute "data-fa-transform" str :: attrs
 
         _ ->
             attrs
@@ -314,7 +314,7 @@ mask attr attrs =
                 val =
                     styleClass style ++ " " ++ iconClass icon
             in
-                (Html.Attributes.attribute "data-fa-mask" val) :: attrs
+                Html.Attributes.attribute "data-fa-mask" val :: attrs
 
         _ ->
             attrs
@@ -987,7 +987,7 @@ type Icon
     | YenSign
 
 
-type Brand
+type Logo
     = FiveHundredPx
     | AccessibleIcon
     | Accusoft
@@ -3177,9 +3177,9 @@ name icon =
             "yen-sign"
 
 
-brandName : Brand -> String
-brandName brand =
-    case brand of
+logoName : Logo -> String
+logoName logo =
+    case logo of
         FiveHundredPx ->
             "500px"
 
