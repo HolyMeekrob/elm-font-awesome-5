@@ -12,9 +12,16 @@ module FontAwesome
         , iconWithOptions
         , logo
         , logoWithOptions
+        , useCSS
+        , useSvg
         )
 
 {-| A type-checked interface for using the Font Awesome icon library.
+
+
+# CDN Helpers
+
+@docs useSvg, useCSS
 
 
 # Elements
@@ -30,6 +37,34 @@ module FontAwesome
 
 import Html exposing (Attribute, Html)
 import Html.Attributes
+
+
+{-| A convenience helper for including Font Awesome SVGs on your page using their CDN.
+Place this inside your &lt;head&gt; tag.
+-}
+useSvg : Html msg
+useSvg =
+    Html.node "script"
+        [ Html.Attributes.defer True
+        , Html.Attributes.src "https://use.fontawesome.com/releases/v5.0.3/js/all.js"
+        ]
+        []
+
+
+{-| A convenience helper for including Font Awesome CSS on your page using their CDN.
+Place this inside your &lt;head&gt; tag.
+
+Note that some features will not work if you choose CSS rather than SVGs.
+Please refer to Font Awesome's documentation for details.
+
+-}
+useCSS : Html msg
+useCSS =
+    Html.node "link"
+        [ Html.Attributes.href "https://use.fontawesome.com/releases/v5.0.3/css/all.css"
+        , Html.Attributes.rel "stylesheet"
+        ]
+        []
 
 
 {-| Create an icon with the default style (Solid), default tag (&lt;i&gt;)
