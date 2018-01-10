@@ -1,7 +1,7 @@
 module FontAwesome
     exposing
         ( Animation(..)
-        , Attribute(..)
+        , Option(..)
         , HtmlTag(..)
         , Icon(..)
         , Logo(..)
@@ -24,7 +24,7 @@ module FontAwesome
 
 # Options
 
-@docs Attribute, Animation, HtmlTag, Pull, Size, Style, Icon, Logo
+@docs Option, Animation, HtmlTag, Pull, Size, Style, Icon, Logo
 
 -}
 
@@ -53,17 +53,17 @@ icon icon =
 iconWithOptions :
     Icon
     -> Style
-    -> List Attribute
+    -> List Option
     -> List (Html.Attribute msg)
     -> Html msg
-iconWithOptions icon style attributes htmlAttributes =
+iconWithOptions icon style options htmlAttributes =
     let
-        attrs =
-            filterAttrs attributes
+        opts =
+            filterAttrs options
     in
-        tag attrs
-            (classes icon style attrs
-                :: htmlAttrs attrs htmlAttributes
+        tag opts
+            (classes icon style opts
+                :: htmlAttrs opts htmlAttributes
             )
             []
 
@@ -88,27 +88,27 @@ logo logo =
 -}
 logoWithOptions :
     Logo
-    -> List Attribute
+    -> List Option
     -> List (Html.Attribute msg)
     -> Html msg
-logoWithOptions logo attributes htmlAttributes =
+logoWithOptions logo options htmlAttributes =
     let
-        attrs =
-            filterAttrs attributes
+        opts =
+            filterAttrs options
 
         htmlTag =
-            tag attrs
+            tag opts
     in
         htmlTag
-            (logoClasses logo attributes
-                :: htmlAttrs attrs htmlAttributes
+            (logoClasses logo options
+                :: htmlAttrs opts htmlAttributes
             )
             []
 
 
-findTag : Attribute -> HtmlTag -> HtmlTag
-findTag attribute previousTag =
-    case attribute of
+findTag : Option -> HtmlTag -> HtmlTag
+findTag option previousTag =
+    case option of
         HtmlTag tag ->
             tag
 
@@ -117,16 +117,16 @@ findTag attribute previousTag =
 
 
 tag :
-    List Attribute
+    List Option
     ->
         (List (Html.Attribute msg)
          -> List (Html msg)
          -> Html msg
         )
-tag attrs =
+tag opts =
     let
         tag =
-            List.foldl findTag I attrs
+            List.foldl findTag I opts
     in
         case tag of
             I ->
@@ -137,18 +137,18 @@ tag attrs =
 
 
 htmlAttrs :
-    List Attribute
+    List Option
     -> List (Html.Attribute msg)
     -> List (Html.Attribute msg)
-htmlAttrs attributes htmlAttributes =
-    transformAttr attributes
-        ++ maskAttr attributes
+htmlAttrs options htmlAttributes =
+    transformAttr options
+        ++ maskAttr options
         ++ htmlAttributes
 
 
-isAnimation : Attribute -> Bool
-isAnimation attribute =
-    case attribute of
+isAnimation : Option -> Bool
+isAnimation option =
+    case option of
         Animation _ ->
             True
 
@@ -156,9 +156,9 @@ isAnimation attribute =
             False
 
 
-isBorder : Attribute -> Bool
-isBorder attribute =
-    case attribute of
+isBorder : Option -> Bool
+isBorder option =
+    case option of
         HasBorder ->
             True
 
@@ -166,9 +166,9 @@ isBorder attribute =
             False
 
 
-isHtmlTag : Attribute -> Bool
-isHtmlTag attribute =
-    case attribute of
+isHtmlTag : Option -> Bool
+isHtmlTag option =
+    case option of
         HtmlTag _ ->
             True
 
@@ -176,9 +176,9 @@ isHtmlTag attribute =
             False
 
 
-isMask : Attribute -> Bool
-isMask attribute =
-    case attribute of
+isMask : Option -> Bool
+isMask option =
+    case option of
         Mask _ _ ->
             True
 
@@ -186,9 +186,9 @@ isMask attribute =
             False
 
 
-isPull : Attribute -> Bool
-isPull attribute =
-    case attribute of
+isPull : Option -> Bool
+isPull option =
+    case option of
         Pull _ ->
             True
 
@@ -196,9 +196,9 @@ isPull attribute =
             False
 
 
-isSize : Attribute -> Bool
-isSize attribute =
-    case attribute of
+isSize : Option -> Bool
+isSize option =
+    case option of
         Size _ ->
             True
 
@@ -206,9 +206,9 @@ isSize attribute =
             False
 
 
-isTransform : Attribute -> Bool
-isTransform attribute =
-    case attribute of
+isTransform : Option -> Bool
+isTransform option =
+    case option of
         Transform _ ->
             True
 
@@ -216,9 +216,9 @@ isTransform attribute =
             False
 
 
-isWidth : Attribute -> Bool
-isWidth attribute =
-    case attribute of
+isWidth : Option -> Bool
+isWidth option =
+    case option of
         HasFixedWidth ->
             True
 
@@ -245,9 +245,9 @@ dedup f list =
         |> Tuple.second
 
 
-filterAttrs : List Attribute -> List Attribute
-filterAttrs attributes =
-    attributes
+filterAttrs : List Option -> List Option
+filterAttrs options =
+    options
         |> dedup isAnimation
         |> dedup isBorder
         |> dedup isHtmlTag
@@ -338,9 +338,9 @@ styleClass style =
             "fal"
 
 
-className : Attribute -> ( String, Bool )
-className attr =
-    case attr of
+className : Option -> ( String, Bool )
+className opt =
+    case opt of
         Animation animation ->
             ( animationClass animation, True )
 
@@ -360,54 +360,54 @@ className attr =
             ( "", False )
 
 
-classes : Icon -> Style -> List Attribute -> Html.Attribute msg
-classes icon style attributes =
+classes : Icon -> Style -> List Option -> Html.Attribute msg
+classes icon style options =
     ( styleClass style, True )
         :: ( iconClass icon, True )
-        :: List.map className attributes
+        :: List.map className options
         |> Html.Attributes.classList
 
 
-logoClasses : Logo -> List Attribute -> Html.Attribute msg
-logoClasses logo attributes =
+logoClasses : Logo -> List Option -> Html.Attribute msg
+logoClasses logo options =
     ( "fab", True )
         :: ( logoClass logo, True )
-        :: List.map className attributes
+        :: List.map className options
         |> Html.Attributes.classList
 
 
-transform : Attribute -> List (Html.Attribute msg) -> List (Html.Attribute msg)
-transform attr attrs =
-    case attr of
+transform : Option -> List (Html.Attribute msg) -> List (Html.Attribute msg)
+transform opt opts =
+    case opt of
         Transform str ->
-            Html.Attributes.attribute "data-fa-transform" str :: attrs
+            Html.Attributes.attribute "data-fa-transform" str :: opts
 
         _ ->
-            attrs
+            opts
 
 
-transformAttr : List Attribute -> List (Html.Attribute msg)
-transformAttr attributes =
-    List.foldr transform [] attributes
+transformAttr : List Option -> List (Html.Attribute msg)
+transformAttr options =
+    List.foldr transform [] options
 
 
-mask : Attribute -> List (Html.Attribute msg) -> List (Html.Attribute msg)
-mask attr attrs =
-    case attr of
+mask : Option -> List (Html.Attribute msg) -> List (Html.Attribute msg)
+mask opt opts =
+    case opt of
         Mask icon style ->
             let
                 val =
                     styleClass style ++ " " ++ iconClass icon
             in
-                Html.Attributes.attribute "data-fa-mask" val :: attrs
+                Html.Attributes.attribute "data-fa-mask" val :: opts
 
         _ ->
-            attrs
+            opts
 
 
-maskAttr : List Attribute -> List (Html.Attribute msg)
-maskAttr attributes =
-    List.foldr mask [] attributes
+maskAttr : List Option -> List (Html.Attribute msg)
+maskAttr options =
+    List.foldr mask [] options
 
 
 {-| Font Awesome specific options. Any number of these can be passed in
@@ -431,7 +431,7 @@ See Font Awesome's documentation for supported instructions.
 Documentation for the other options appears with their type definitions below.
 
 -}
-type Attribute
+type Option
     = Animation Animation
     | HasBorder
     | HasFixedWidth

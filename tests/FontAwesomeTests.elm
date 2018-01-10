@@ -69,26 +69,26 @@ testIconWithoutHtmlAttributes =
         (Fuzz.tuple4
             ( iconFuzzer
             , styleFuzzer
-            , attributesFuzzer
+            , optionsFuzzer
             , htmlAttributesFuzzer
             )
         )
-        "handles all attributes"
+        "handles all options"
       <|
-        \( icon, style, attributes, htmlAttributes ) ->
-            FA.iconWithOptions icon style attributes htmlAttributes
+        \( icon, style, options, htmlAttributes ) ->
+            FA.iconWithOptions icon style options htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all
                     [ testIconClass icon
                     , testStyle style
-                    , testBorder attributes
-                    , testWidth attributes
-                    , testHtmlTag attributes
-                    , testAnimation attributes
-                    , testPull attributes
-                    , testSize attributes
-                    , testTransform attributes
-                    , testMask attributes
+                    , testBorder options
+                    , testWidth options
+                    , testHtmlTag options
+                    , testAnimation options
+                    , testPull options
+                    , testSize options
+                    , testTransform options
+                    , testMask options
                     ]
     ]
 
@@ -99,25 +99,25 @@ testLogoWithoutHtmlAttributes =
         { runs = 500 }
         (Fuzz.tuple3
             ( logoFuzzer
-            , attributesFuzzer
+            , optionsFuzzer
             , htmlAttributesFuzzer
             )
         )
-        "handles all attributes"
+        "handles all options"
       <|
-        \( logo, attributes, htmlAttributes ) ->
-            FA.logoWithOptions logo attributes htmlAttributes
+        \( logo, options, htmlAttributes ) ->
+            FA.logoWithOptions logo options htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all
                     [ testLogoClass logo
-                    , testBorder attributes
-                    , testWidth attributes
-                    , testHtmlTag attributes
-                    , testAnimation attributes
-                    , testPull attributes
-                    , testSize attributes
-                    , testTransform attributes
-                    , testMask attributes
+                    , testBorder options
+                    , testWidth options
+                    , testHtmlTag options
+                    , testAnimation options
+                    , testPull options
+                    , testSize options
+                    , testTransform options
+                    , testMask options
                     ]
     ]
 
@@ -282,11 +282,11 @@ testStyle style =
     Query.has [ Selector.class (styleClass style) ]
 
 
-testBorder : List FA.Attribute -> Query.Single msg -> Expect.Expectation
-testBorder attributes =
+testBorder : List FA.Option -> Query.Single msg -> Expect.Expectation
+testBorder options =
     let
         expectation =
-            if (List.member FA.HasBorder attributes) then
+            if (List.member FA.HasBorder options) then
                 Query.has
             else
                 Query.hasNot
@@ -294,11 +294,11 @@ testBorder attributes =
         expectation [ Selector.class "fa-border" ]
 
 
-testWidth : List FA.Attribute -> Query.Single msg -> Expect.Expectation
-testWidth attributes =
+testWidth : List FA.Option -> Query.Single msg -> Expect.Expectation
+testWidth options =
     let
         expectation =
-            if (List.member FA.HasFixedWidth attributes) then
+            if (List.member FA.HasFixedWidth options) then
                 Query.has
             else
                 Query.hasNot
@@ -306,13 +306,13 @@ testWidth attributes =
         expectation [ Selector.class "fa-fw" ]
 
 
-testAnimation : List FA.Attribute -> Query.Single msg -> Expect.Expectation
-testAnimation attributes =
+testAnimation : List FA.Option -> Query.Single msg -> Expect.Expectation
+testAnimation options =
     let
-        attr =
-            last isAnimation attributes
+        opt =
+            last isAnimation options
     in
-        case attr of
+        case opt of
             Just (FA.Animation FA.Spin) ->
                 Query.has [ Selector.class "fa-spin" ]
 
@@ -326,13 +326,13 @@ testAnimation attributes =
                     ]
 
 
-testHtmlTag : List FA.Attribute -> Query.Single msg -> Expect.Expectation
-testHtmlTag attributes =
+testHtmlTag : List FA.Option -> Query.Single msg -> Expect.Expectation
+testHtmlTag options =
     let
-        attr =
-            last isHtmlTag attributes
+        opt =
+            last isHtmlTag options
     in
-        case attr of
+        case opt of
             Just (FA.HtmlTag FA.Span) ->
                 Query.has [ Selector.tag "span" ]
 
@@ -340,13 +340,13 @@ testHtmlTag attributes =
                 Query.has [ Selector.tag "i" ]
 
 
-testPull : List FA.Attribute -> Query.Single msg -> Expect.Expectation
-testPull attributes =
+testPull : List FA.Option -> Query.Single msg -> Expect.Expectation
+testPull options =
     let
-        attr =
-            last isPull attributes
+        opt =
+            last isPull options
     in
-        case attr of
+        case opt of
             Just (FA.Pull FA.Left) ->
                 Query.has [ Selector.class "fa-pull-left" ]
 
@@ -360,13 +360,13 @@ testPull attributes =
                     ]
 
 
-testSize : List FA.Attribute -> Query.Single msg -> Expect.Expectation
-testSize attributes =
+testSize : List FA.Option -> Query.Single msg -> Expect.Expectation
+testSize options =
     let
-        attr =
-            last isSize attributes
+        opt =
+            last isSize options
     in
-        case attr of
+        case opt of
             Just (FA.Size FA.ExtraSmall) ->
                 Query.has [ Selector.class "fa-xs" ]
 
@@ -397,16 +397,16 @@ testSize attributes =
                     ]
 
 
-testTransform : List FA.Attribute -> Query.Single msg -> Expect.Expectation
-testTransform attributes =
+testTransform : List FA.Option -> Query.Single msg -> Expect.Expectation
+testTransform options =
     let
-        attr =
-            last isTransform attributes
+        opt =
+            last isTransform options
 
         htmlAttribute =
             Html.Attributes.attribute "data-fa-transform"
     in
-        case attr of
+        case opt of
             Just (FA.Transform str) ->
                 Query.has [ Selector.attribute (htmlAttribute str) ]
 
@@ -415,16 +415,16 @@ testTransform attributes =
                 Query.hasNot [ Selector.attribute (htmlAttribute "") ]
 
 
-testMask : List FA.Attribute -> Query.Single msg -> Expect.Expectation
-testMask attributes =
+testMask : List FA.Option -> Query.Single msg -> Expect.Expectation
+testMask options =
     let
-        attr =
-            last isMask attributes
+        opt =
+            last isMask options
 
         htmlAttribute =
             Html.Attributes.attribute "data-fa-mask"
     in
-        case attr of
+        case opt of
             Just (FA.Mask icon style) ->
                 Query.has
                     [ Selector.attribute <|
@@ -1427,17 +1427,17 @@ styleFuzzer =
         ]
 
 
-borderFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
+borderFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 borderFuzzer =
     Fuzz.maybe (Fuzz.constant FA.HasBorder)
 
 
-widthFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
+widthFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 widthFuzzer =
     Fuzz.maybe (Fuzz.constant FA.HasFixedWidth)
 
 
-htmlTagFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
+htmlTagFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 htmlTagFuzzer =
     let
         fuzzer =
@@ -1450,7 +1450,7 @@ htmlTagFuzzer =
             |> Fuzz.maybe
 
 
-animationFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
+animationFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 animationFuzzer =
     let
         fuzzer =
@@ -1463,7 +1463,7 @@ animationFuzzer =
             |> Fuzz.maybe
 
 
-pullFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
+pullFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 pullFuzzer =
     let
         fuzzer =
@@ -1476,7 +1476,7 @@ pullFuzzer =
             |> Fuzz.maybe
 
 
-sizeFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
+sizeFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 sizeFuzzer =
     let
         multFuzzer =
@@ -1495,22 +1495,22 @@ sizeFuzzer =
             |> Fuzz.maybe
 
 
-transformFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
+transformFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 transformFuzzer =
     Fuzz.map FA.Transform Fuzz.string
         |> Fuzz.maybe
 
 
-maskFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
+maskFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 maskFuzzer =
     Fuzz.map2 FA.Mask iconFuzzer styleFuzzer
         |> Fuzz.maybe
 
 
-attributesFuzzer : Fuzz.Fuzzer (List FA.Attribute)
-attributesFuzzer =
+optionsFuzzer : Fuzz.Fuzzer (List FA.Option)
+optionsFuzzer =
     let
-        attributeFuzzer =
+        optionFuzzer =
             Fuzz.oneOf
                 [ animationFuzzer
                 , borderFuzzer
@@ -1525,7 +1525,7 @@ attributesFuzzer =
         removeMaybes =
             List.filterMap identity
     in
-        Fuzz.list attributeFuzzer
+        Fuzz.list optionFuzzer
             |> Fuzz.map (removeMaybes)
 
 
@@ -1552,24 +1552,24 @@ testIconHelper :
     -> (Query.Single msg -> Expect.Expectation)
     -> Test
 testIconHelper desc htmlAttributes expectation =
-    Test.fuzz3 iconFuzzer styleFuzzer attributesFuzzer desc <|
-        \icon style attributes ->
+    Test.fuzz3 iconFuzzer styleFuzzer optionsFuzzer desc <|
+        \icon style options ->
             FA.iconWithOptions icon
                 style
-                attributes
+                options
                 htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all
                     [ testIconClass icon
                     , testStyle style
-                    , testBorder attributes
-                    , testWidth attributes
-                    , testHtmlTag attributes
-                    , testAnimation attributes
-                    , testPull attributes
-                    , testSize attributes
-                    , testTransform attributes
-                    , testMask attributes
+                    , testBorder options
+                    , testWidth options
+                    , testHtmlTag options
+                    , testAnimation options
+                    , testPull options
+                    , testSize options
+                    , testTransform options
+                    , testMask options
                     , expectation
                     ]
 
@@ -1580,22 +1580,22 @@ testLogoHelper :
     -> (Query.Single msg -> Expect.Expectation)
     -> Test
 testLogoHelper desc htmlAttributes expectation =
-    Test.fuzz2 logoFuzzer attributesFuzzer desc <|
-        \logo attributes ->
+    Test.fuzz2 logoFuzzer optionsFuzzer desc <|
+        \logo options ->
             FA.logoWithOptions logo
-                attributes
+                options
                 htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all
                     [ testLogoClass logo
-                    , testBorder attributes
-                    , testWidth attributes
-                    , testHtmlTag attributes
-                    , testAnimation attributes
-                    , testPull attributes
-                    , testSize attributes
-                    , testTransform attributes
-                    , testMask attributes
+                    , testBorder options
+                    , testWidth options
+                    , testHtmlTag options
+                    , testAnimation options
+                    , testPull options
+                    , testSize options
+                    , testTransform options
+                    , testMask options
                     , expectation
                     ]
 
@@ -1605,9 +1605,9 @@ last f =
     List.filter f >> List.reverse >> List.head
 
 
-isAnimation : FA.Attribute -> Bool
-isAnimation attribute =
-    case attribute of
+isAnimation : FA.Option -> Bool
+isAnimation option =
+    case option of
         FA.Animation _ ->
             True
 
@@ -1615,9 +1615,9 @@ isAnimation attribute =
             False
 
 
-isHtmlTag : FA.Attribute -> Bool
-isHtmlTag attribute =
-    case attribute of
+isHtmlTag : FA.Option -> Bool
+isHtmlTag option =
+    case option of
         FA.HtmlTag _ ->
             True
 
@@ -1625,9 +1625,9 @@ isHtmlTag attribute =
             False
 
 
-isPull : FA.Attribute -> Bool
-isPull attribute =
-    case attribute of
+isPull : FA.Option -> Bool
+isPull option =
+    case option of
         FA.Pull _ ->
             True
 
@@ -1635,9 +1635,9 @@ isPull attribute =
             False
 
 
-isSize : FA.Attribute -> Bool
-isSize attribute =
-    case attribute of
+isSize : FA.Option -> Bool
+isSize option =
+    case option of
         FA.Size _ ->
             True
 
@@ -1645,9 +1645,9 @@ isSize attribute =
             False
 
 
-isTransform : FA.Attribute -> Bool
-isTransform attribute =
-    case attribute of
+isTransform : FA.Option -> Bool
+isTransform option =
+    case option of
         FA.Transform _ ->
             True
 
@@ -1655,9 +1655,9 @@ isTransform attribute =
             False
 
 
-isMask : FA.Attribute -> Bool
-isMask attribute =
-    case attribute of
+isMask : FA.Option -> Bool
+isMask option =
+    case option of
         FA.Mask _ _ ->
             True
 
