@@ -8,23 +8,55 @@ module FontAwesome
         , Pull(..)
         , Size(..)
         , Style(..)
-        , fa
-        , fab
         , icon
+        , iconWithOptions
         , logo
+        , logoWithOptions
         )
+
+{-| A type-checked interface for using the Font Awesome icon library.
+
+
+# Elements
+
+@docs icon, iconWithOptions, logo, logoWithOptions
+
+
+# Options
+
+@docs Attribute, Animation, HtmlTag, Pull, Size, Style, Icon, Logo
+
+-}
 
 import Html exposing (Html)
 import Html.Attributes
 
 
+{-| Create an icon with the default style (Solid), default tag (&lt;i&gt;)
+and no additional options or attributes.
+
+    icon File == <i class="fas fa-file"></i>
+
+-}
 icon : Icon -> Html msg
 icon icon =
-    fa icon Solid [] []
+    iconWithOptions icon Solid [] []
 
 
-fa : Icon -> Style -> List Attribute -> List (Html.Attribute msg) -> Html msg
-fa icon style attributes htmlAttributes =
+{-| Create an icon with the given options and attributes.
+
+    iconWithOptions Spinner Solid [ Animation Spin ] [] == <i class="fas fa-spinner fa-spin"></i>
+    iconWithOptions Question Light [ HasBorder (Pull Right) ] [ Html.title "Question"] == <i class="fal fa-question fa-border fa-pull-right" title="Question"></i>
+    iconWithOptions Info Regular [ HasFixedWidth (Size Large) (HtmlTag Span) ] [] == <span class="far fa-info fa-fw fa-lg"></span>
+
+-}
+iconWithOptions :
+    Icon
+    -> Style
+    -> List Attribute
+    -> List (Html.Attribute msg)
+    -> Html msg
+iconWithOptions icon style attributes htmlAttributes =
     let
         attrs =
             filterAttrs attributes
@@ -36,13 +68,30 @@ fa icon style attributes htmlAttributes =
             []
 
 
+{-| Create a brand logo with the default tag (&lt;i&gt;) and no additional options
+or attributes.
+
+    logo Google == <i class="fab fa-google"></i>
+
+-}
 logo : Logo -> Html msg
 logo logo =
-    fab logo [] []
+    logoWithOptions logo [] []
 
 
-fab : Logo -> List Attribute -> List (Html.Attribute msg) -> Html msg
-fab logo attributes htmlAttributes =
+{-| Create a brand logo with the given options and attributes.
+
+    logoWithOptions Apple [Mult 3] [Html.id "apple-logo"] == <i class="fab fa-apple fa-3x" id="apple-logo"></i>
+    logoWithOptions Facebook [Span (Mask Circle Solid)] [] == <span class="fab fa-facebook" data-fa-mask="fas fa-circle"></span>
+    logoWithOptions Uber [Transform "shrink-6"] [] == <i class="fab fa-uber" data-fa-transform="shrink-6"></i>
+
+-}
+logoWithOptions :
+    Logo
+    -> List Attribute
+    -> List (Html.Attribute msg)
+    -> Html msg
+logoWithOptions logo attributes htmlAttributes =
     let
         attrs =
             filterAttrs attributes
@@ -361,6 +410,27 @@ maskAttr attributes =
     List.foldr mask [] attributes
 
 
+{-| Font Awesome specific options. Any number of these can be passed in
+when generating an icon or logo. If any option is repeated, then only one
+will be selected. However, there is no guarantee as to which option will be
+selected is undefined, so please only use each option once per icon or logo.
+
+Including the HasBorder option will draw a border around the icon or logo.
+
+Including the HasFixedWidth option will set a fixed width on the icon or logo.
+All elements with this option will have the same width.
+
+The Mask option allows you to set an outer icon or logo which sits behind
+the main Font Awesome element.
+<br /><b>Default: no mask</b>
+
+The Transform options accepts transformation instructions for the element.
+See Font Awesome's documentation for supported instructions.
+<br /><b>Default: no transformation</b>
+
+Documentation for the other options appears with their type definitions below.
+
+-}
 type Attribute
     = Animation Animation
     | HasBorder
@@ -372,12 +442,23 @@ type Attribute
     | Transform String
 
 
+{-| Every icon has one variation per style. Some of the Solid, most of the
+Regular, and all of the Light variations require Font Awesome Pro, so if you
+are using the free version then please refer to Font Awesome's icon library
+to determine which styles are available to you.
+-}
 type Style
     = Solid
     | Regular
     | Light
 
 
+{-| Font Awesome's size options. Valid values for the Mult options are
+integers 2 - 10 inclusive.
+
+<b>Default: Normal</b>
+
+-}
 type Size
     = Normal
     | ExtraSmall
@@ -386,16 +467,31 @@ type Size
     | Mult Int
 
 
+{-| Options for pulling a logo or icon to the left or right.
+
+<b>Default: none</b>
+
+-}
 type Pull
     = Left
     | Right
 
 
+{-| Font Awesome's built-in animations.
+
+<b>Default: none</b>
+
+-}
 type Animation
     = Spin
     | Pulse
 
 
+{-| Surrounding tag for icon and logo elements.
+
+<b>Default: &lt;i&gt;</b>
+
+-}
 type HtmlTag
     = I
     | Span
@@ -407,6 +503,8 @@ type HtmlTag
 -- so that all other lines are unchanged
 
 
+{-| All of the supported Font Awesome icons.
+-}
 type Icon
     = AddressBook
     | AddressCard
@@ -1029,6 +1127,8 @@ type Icon
     | YenSign
 
 
+{-| All of the supported Font Awesome brand logos.
+-}
 type Logo
     = FiveHundredPx
     | AccessibleIcon

@@ -1,12 +1,12 @@
 {
     "version": "1.0.0",
-    "summary": "Strongly typed Font Awesome HTML elements",
-    "repository": "https://github.com/HolyMeekrob/elm-font-awesome.git",
+    "summary": "helpful summary of your project, less than 80 characters",
+    "repository": "https://github.com/user/project.git",
     "license": "BSD3",
     "source-directories": [
         "src"
     ],
-    "exposed-modules": [],
+    "exposed-modules": ["FontAwesome"],
     "dependencies": {
         "elm-lang/core": "5.1.1 <= v < 6.0.0",
         "elm-lang/html": "2.0.0 <= v < 3.0.0"
