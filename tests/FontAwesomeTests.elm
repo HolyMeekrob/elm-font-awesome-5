@@ -14,7 +14,6 @@ suite : Test
 suite =
     describe "FontAwesome module"
         [ describe "icon" testIcon
-        , describe "iconStyled" testIconStyled
         , describe "fa" testFa
         , describe "logo" testLogo
         , describe "fab" testFab
@@ -28,7 +27,7 @@ testLogo =
             FA.logo logo
                 |> Query.fromHtml
                 |> Expect.all
-                    [ Query.has [ Selector.tag "span" ]
+                    [ Query.has [ Selector.tag "i" ]
                     , Query.has
                         [ Selector.exactClassName ("fab " ++ logoClass logo) ]
                     ]
@@ -42,23 +41,9 @@ testIcon =
             FA.icon icon
                 |> Query.fromHtml
                 |> Expect.all
-                    [ Query.has [ Selector.tag "span" ]
+                    [ Query.has [ Selector.tag "i" ]
                     , Query.has
                         [ Selector.exactClassName ("fas " ++ iconClass icon) ]
-                    ]
-    ]
-
-
-testIconStyled : List Test
-testIconStyled =
-    [ fuzz2 iconFuzzer styleFuzzer "has icon name and style only" <|
-        \icon style ->
-            FA.iconStyled icon style
-                |> Query.fromHtml
-                |> Expect.all
-                    [ Query.has [ Selector.tag "span" ]
-                    , Query.has
-                        [ Selector.exactClassName (styleClass style ++ " " ++ iconClass icon) ]
                     ]
     ]
 
@@ -98,6 +83,7 @@ testFaWithoutHtmlAttributes =
                     , testStyle style
                     , testBorder attributes
                     , testWidth attributes
+                    , testHtmlTag attributes
                     , testAnimation attributes
                     , testPull attributes
                     , testSize attributes
@@ -126,6 +112,7 @@ testFabWithoutHtmlAttributes =
                     [ testLogoClass logo
                     , testBorder attributes
                     , testWidth attributes
+                    , testHtmlTag attributes
                     , testAnimation attributes
                     , testPull attributes
                     , testSize attributes
@@ -335,6 +322,20 @@ testAnimation attributes =
                     [ Selector.class "fa-spin"
                     , Selector.class "fa-pulse"
                     ]
+
+
+testHtmlTag : List FA.Attribute -> Query.Single msg -> Expect.Expectation
+testHtmlTag attributes =
+    let
+        attr =
+            last isHtmlTag attributes
+    in
+        case attr of
+            Just (FA.HtmlTag FA.Span) ->
+                Query.has [ Selector.tag "span" ]
+
+            _ ->
+                Query.has [ Selector.tag "i" ]
 
 
 testPull : List FA.Attribute -> Query.Single msg -> Expect.Expectation
@@ -1089,7 +1090,7 @@ logoFuzzer =
         , Fuzz.constant FA.Amilia
         , Fuzz.constant FA.Android
         , Fuzz.constant FA.AngelList
-        , Fuzz.constant FA.AngelCreative
+        , Fuzz.constant FA.AngryCreative
         , Fuzz.constant FA.Angular
         , Fuzz.constant FA.AppStore
         , Fuzz.constant FA.AppStoreIos
@@ -1425,6 +1426,19 @@ widthFuzzer =
     Fuzz.maybe (Fuzz.constant FA.HasFixedWidth)
 
 
+htmlTagFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
+htmlTagFuzzer =
+    let
+        fuzzer =
+            Fuzz.oneOf
+                [ Fuzz.constant FA.I
+                , Fuzz.constant FA.Span
+                ]
+    in
+        Fuzz.map FA.HtmlTag fuzzer
+            |> Fuzz.maybe
+
+
 animationFuzzer : Fuzz.Fuzzer (Maybe FA.Attribute)
 animationFuzzer =
     let
@@ -1490,6 +1504,7 @@ attributesFuzzer =
                 [ animationFuzzer
                 , borderFuzzer
                 , widthFuzzer
+                , htmlTagFuzzer
                 , maskFuzzer
                 , pullFuzzer
                 , sizeFuzzer
@@ -1538,6 +1553,7 @@ testFaHelper desc htmlAttributes expectation =
                     , testStyle style
                     , testBorder attributes
                     , testWidth attributes
+                    , testHtmlTag attributes
                     , testAnimation attributes
                     , testPull attributes
                     , testSize attributes
@@ -1563,6 +1579,7 @@ testFabHelper desc htmlAttributes expectation =
                     [ testLogoClass logo
                     , testBorder attributes
                     , testWidth attributes
+                    , testHtmlTag attributes
                     , testAnimation attributes
                     , testPull attributes
                     , testSize attributes
@@ -1581,6 +1598,16 @@ isAnimation : FA.Attribute -> Bool
 isAnimation attribute =
     case attribute of
         FA.Animation _ ->
+            True
+
+        _ ->
+            False
+
+
+isHtmlTag : FA.Attribute -> Bool
+isHtmlTag attribute =
+    case attribute of
+        FA.HtmlTag _ ->
             True
 
         _ ->
@@ -3550,7 +3577,7 @@ logoName logo =
         FA.AngelList ->
             "angellist"
 
-        FA.AngelCreative ->
+        FA.AngryCreative ->
             "angrycreative"
 
         FA.Angular ->

@@ -1,31 +1,26 @@
 module FontAwesome
     exposing
         ( Animation(..)
-        , Logo(..)
         , Attribute(..)
+        , HtmlTag(..)
         , Icon(..)
+        , Logo(..)
         , Pull(..)
         , Size(..)
         , Style(..)
         , fa
         , fab
         , icon
-        , iconStyled
         , logo
         )
 
-import Html exposing (Html, span)
+import Html exposing (Html)
 import Html.Attributes
 
 
 icon : Icon -> Html msg
 icon icon =
-    iconStyled icon Solid
-
-
-iconStyled : Icon -> Style -> Html msg
-iconStyled icon style =
-    fa icon style [] []
+    fa icon Solid [] []
 
 
 fa : Icon -> Style -> List Attribute -> List (Html.Attribute msg) -> Html msg
@@ -34,7 +29,7 @@ fa icon style attributes htmlAttributes =
         attrs =
             filterAttrs attributes
     in
-        span
+        tag attrs
             (classes icon style attrs
                 :: htmlAttrs attrs htmlAttributes
             )
@@ -51,12 +46,45 @@ fab logo attributes htmlAttributes =
     let
         attrs =
             filterAttrs attributes
+
+        htmlTag =
+            tag attrs
     in
-        span
+        htmlTag
             (logoClasses logo attributes
                 :: htmlAttrs attrs htmlAttributes
             )
             []
+
+
+findTag : Attribute -> HtmlTag -> HtmlTag
+findTag attribute previousTag =
+    case attribute of
+        HtmlTag tag ->
+            tag
+
+        _ ->
+            previousTag
+
+
+tag :
+    List Attribute
+    ->
+        (List (Html.Attribute msg)
+         -> List (Html msg)
+         -> Html msg
+        )
+tag attrs =
+    let
+        tag =
+            List.foldl findTag I attrs
+    in
+        case tag of
+            I ->
+                Html.i
+
+            Span ->
+                Html.span
 
 
 htmlAttrs :
@@ -73,6 +101,36 @@ isAnimation : Attribute -> Bool
 isAnimation attribute =
     case attribute of
         Animation _ ->
+            True
+
+        _ ->
+            False
+
+
+isBorder : Attribute -> Bool
+isBorder attribute =
+    case attribute of
+        HasBorder ->
+            True
+
+        _ ->
+            False
+
+
+isHtmlTag : Attribute -> Bool
+isHtmlTag attribute =
+    case attribute of
+        HtmlTag _ ->
+            True
+
+        _ ->
+            False
+
+
+isMask : Attribute -> Bool
+isMask attribute =
+    case attribute of
+        Mask _ _ ->
             True
 
         _ ->
@@ -99,10 +157,10 @@ isSize attribute =
             False
 
 
-isBorder : Attribute -> Bool
-isBorder attribute =
+isTransform : Attribute -> Bool
+isTransform attribute =
     case attribute of
-        HasBorder ->
+        Transform _ ->
             True
 
         _ ->
@@ -113,26 +171,6 @@ isWidth : Attribute -> Bool
 isWidth attribute =
     case attribute of
         HasFixedWidth ->
-            True
-
-        _ ->
-            False
-
-
-isMask : Attribute -> Bool
-isMask attribute =
-    case attribute of
-        Mask _ _ ->
-            True
-
-        _ ->
-            False
-
-
-isTransform : Attribute -> Bool
-isTransform attribute =
-    case attribute of
-        Transform _ ->
             True
 
         _ ->
@@ -162,12 +200,13 @@ filterAttrs : List Attribute -> List Attribute
 filterAttrs attributes =
     attributes
         |> dedup isAnimation
+        |> dedup isBorder
+        |> dedup isHtmlTag
+        |> dedup isMask
         |> dedup isPull
         |> dedup isSize
-        |> dedup isBorder
-        |> dedup isWidth
-        |> dedup isMask
         |> dedup isTransform
+        |> dedup isWidth
 
 
 iconClass : Icon -> String
@@ -262,16 +301,13 @@ className attr =
         HasFixedWidth ->
             ( widthClass, True )
 
-        Mask _ _ ->
-            ( "", False )
-
         Pull direction ->
             ( pullClass direction, True )
 
         Size size ->
             ( sizeClass size, True )
 
-        Transform _ ->
+        _ ->
             ( "", False )
 
 
@@ -329,6 +365,7 @@ type Attribute
     = Animation Animation
     | HasBorder
     | HasFixedWidth
+    | HtmlTag HtmlTag
     | Mask Icon Style
     | Pull Pull
     | Size Size
@@ -357,6 +394,11 @@ type Pull
 type Animation
     = Spin
     | Pulse
+
+
+type HtmlTag
+    = I
+    | Span
 
 
 
@@ -1000,7 +1042,7 @@ type Logo
     | Amilia
     | Android
     | AngelList
-    | AngelCreative
+    | AngryCreative
     | Angular
     | AppStore
     | AppStoreIos
@@ -3216,7 +3258,7 @@ logoName logo =
         AngelList ->
             "angellist"
 
-        AngelCreative ->
+        AngryCreative ->
             "angrycreative"
 
         Angular ->
