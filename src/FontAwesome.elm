@@ -194,6 +194,16 @@ isHtmlTag option =
             False
 
 
+isInvertColor : Option -> Bool
+isInvertColor option =
+    case option of
+        InvertColor ->
+            True
+
+        _ ->
+            False
+
+
 isMask : Option -> Bool
 isMask option =
     case option of
@@ -269,6 +279,7 @@ filterAttrs options =
         |> dedup isAnimation
         |> dedup isBorder
         |> dedup isHtmlTag
+        |> dedup isInvertColor
         |> dedup isMask
         |> dedup isPull
         |> dedup isSize
@@ -312,6 +323,11 @@ borderClass =
 widthClass : String
 widthClass =
     "fa-fw"
+
+
+invertClass : String
+invertClass =
+    "fa-inverse"
 
 
 pullClass : Pull -> String
@@ -367,6 +383,9 @@ className opt =
 
         HasFixedWidth ->
             ( widthClass, True )
+
+        InvertColor ->
+            ( invertClass, True )
 
         Pull direction ->
             ( pullClass direction, True )
@@ -475,6 +494,8 @@ Including the HasBorder option will draw a border around the icon or logo.
 Including the HasFixedWidth option will set a fixed width on the icon or logo.
 All elements with this option will have the same width.
 
+Including the InvertColor option will invert the color of the logo.
+
 The Mask option allows you to set an outer icon or logo which sits behind
 the main Font Awesome element. It only works if you are using SVG elements.
 <br /><b>Default: no mask</b>
@@ -487,6 +508,7 @@ type Option
     | HasBorder
     | HasFixedWidth
     | HtmlTag HtmlTag
+    | InvertColor
     | Mask Icon Style
     | Pull Pull
     | Size Size

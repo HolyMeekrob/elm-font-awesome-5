@@ -125,6 +125,7 @@ testIconWithoutHtmlAttributes =
                     , testStyle style
                     , testBorder options
                     , testWidth options
+                    , testInvertColor options
                     , testHtmlTag options
                     , testAnimation options
                     , testPull options
@@ -154,6 +155,7 @@ testLogoWithoutHtmlAttributes =
                     [ testLogoClass logo
                     , testBorder options
                     , testWidth options
+                    , testInvertColor options
                     , testHtmlTag options
                     , testAnimation options
                     , testPull options
@@ -346,6 +348,18 @@ testWidth options =
                 Query.hasNot
     in
         expectation [ Selector.class "fa-fw" ]
+
+
+testInvertColor : List FA.Option -> Query.Single msg -> Expect.Expectation
+testInvertColor options =
+    let
+        expectation =
+            if (List.member FA.InvertColor options) then
+                Query.has
+            else
+                Query.hasNot
+    in
+        expectation [ Selector.class "fa-inverse" ]
 
 
 testAnimation : List FA.Option -> Query.Single msg -> Expect.Expectation
@@ -1510,6 +1524,11 @@ widthFuzzer =
     Fuzz.maybe (Fuzz.constant FA.HasFixedWidth)
 
 
+invertFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
+invertFuzzer =
+    Fuzz.maybe (Fuzz.constant FA.InvertColor)
+
+
 htmlTagFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 htmlTagFuzzer =
     let
@@ -1602,6 +1621,7 @@ optionsFuzzer =
                 [ animationFuzzer
                 , borderFuzzer
                 , widthFuzzer
+                , invertFuzzer
                 , htmlTagFuzzer
                 , maskFuzzer
                 , pullFuzzer
@@ -1651,6 +1671,7 @@ testIconHelper desc htmlAttributes expectation =
                     , testStyle style
                     , testBorder options
                     , testWidth options
+                    , testInvertColor options
                     , testHtmlTag options
                     , testAnimation options
                     , testPull options
@@ -1677,6 +1698,7 @@ testLogoHelper desc htmlAttributes expectation =
                     [ testLogoClass logo
                     , testBorder options
                     , testWidth options
+                    , testInvertColor options
                     , testHtmlTag options
                     , testAnimation options
                     , testPull options
