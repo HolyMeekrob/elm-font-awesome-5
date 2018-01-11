@@ -439,6 +439,44 @@ testSize options =
                     ]
 
 
+transformText : FA.Transform -> String
+transformText transform =
+    case transform of
+        FA.Grow n ->
+            "grow-" ++ toString n
+
+        FA.Shrink n ->
+            "shrink-" ++ toString n
+
+        FA.ShiftDown n ->
+            "down-" ++ toString n
+
+        FA.ShiftLeft n ->
+            "left-" ++ toString n
+
+        FA.ShiftRight n ->
+            "right-" ++ toString n
+
+        FA.ShiftUp n ->
+            "up-" ++ toString n
+
+        FA.Rotate n ->
+            "rotate-" ++ toString n
+
+        FA.FlipHorizontal ->
+            "flip-h"
+
+        FA.FlipVertical ->
+            "flip-v"
+
+
+transform : List FA.Transform -> String
+transform transforms =
+    transforms
+        |> List.map transformText
+        |> String.join " "
+
+
 testTransform : List FA.Option -> Query.Single msg -> Expect.Expectation
 testTransform options =
     let
@@ -449,8 +487,11 @@ testTransform options =
             Html.Attributes.attribute "data-fa-transform"
     in
         case opt of
-            Just (FA.Transform str) ->
-                Query.has [ Selector.attribute (htmlAttribute str) ]
+            Just (FA.Transform transforms) ->
+                Query.has
+                    [ Selector.attribute
+                        (htmlAttribute <| transform transforms)
+                    ]
 
             -- TODO: How to ensure that an element does not have an attribute?
             _ ->
@@ -1529,8 +1570,22 @@ sizeFuzzer =
 
 transformFuzzer : Fuzz.Fuzzer (Maybe FA.Option)
 transformFuzzer =
-    Fuzz.map FA.Transform Fuzz.string
-        |> Fuzz.maybe
+    let
+        fuzzer =
+            Fuzz.oneOf
+                [ Fuzz.map FA.Grow Fuzz.float
+                , Fuzz.map FA.Shrink Fuzz.float
+                , Fuzz.map FA.ShiftDown Fuzz.float
+                , Fuzz.map FA.ShiftLeft Fuzz.float
+                , Fuzz.map FA.ShiftRight Fuzz.float
+                , Fuzz.map FA.ShiftUp Fuzz.float
+                , Fuzz.map FA.Rotate Fuzz.float
+                , Fuzz.constant FA.FlipHorizontal
+                , Fuzz.constant FA.FlipVertical
+                ]
+    in
+        Fuzz.map FA.Transform (Fuzz.list fuzzer)
+            |> Fuzz.maybe
 
 
 maskFuzzer : Fuzz.Fuzzer (Maybe FA.Option)

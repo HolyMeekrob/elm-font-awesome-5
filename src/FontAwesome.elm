@@ -8,6 +8,7 @@ module FontAwesome
         , Pull(..)
         , Size(..)
         , Style(..)
+        , Transform(..)
         , icon
         , iconWithOptions
         , logo
@@ -31,7 +32,7 @@ module FontAwesome
 
 # Options
 
-@docs Option, Animation, HtmlTag, Pull, Size, Style, Icon, Logo
+@docs Option, Animation, HtmlTag, Pull, Size, Style, Transform, Icon, Logo
 
 -}
 
@@ -393,11 +394,48 @@ logoClasses logo options =
         |> Html.Attributes.classList
 
 
+transformText : Transform -> String
+transformText transform =
+    case transform of
+        Grow n ->
+            "grow-" ++ toString n
+
+        Shrink n ->
+            "shrink-" ++ toString n
+
+        ShiftDown n ->
+            "down-" ++ toString n
+
+        ShiftLeft n ->
+            "left-" ++ toString n
+
+        ShiftRight n ->
+            "right-" ++ toString n
+
+        ShiftUp n ->
+            "up-" ++ toString n
+
+        Rotate n ->
+            "rotate-" ++ toString n
+
+        FlipHorizontal ->
+            "flip-h"
+
+        FlipVertical ->
+            "flip-v"
+
+
 transform : Option -> List (Attribute msg) -> List (Attribute msg)
 transform opt opts =
     case opt of
-        Transform str ->
-            Html.Attributes.attribute "data-fa-transform" str :: opts
+        Transform transforms ->
+            let
+                str =
+                    transforms
+                        |> List.map transformText
+                        |> String.join " "
+            in
+                Html.Attributes.attribute "data-fa-transform" str :: opts
 
         _ ->
             opts
@@ -438,12 +476,8 @@ Including the HasFixedWidth option will set a fixed width on the icon or logo.
 All elements with this option will have the same width.
 
 The Mask option allows you to set an outer icon or logo which sits behind
-the main Font Awesome element.
+the main Font Awesome element. It only works if you are using SVG elements.
 <br /><b>Default: no mask</b>
-
-The Transform options accepts transformation instructions for the element.
-See Font Awesome's documentation for supported instructions.
-<br /><b>Default: no transformation</b>
 
 Documentation for the other options appears with their type definitions below.
 
@@ -456,7 +490,7 @@ type Option
     | Mask Icon Style
     | Pull Pull
     | Size Size
-    | Transform String
+    | Transform (List Transform)
 
 
 {-| Every icon has one variation per style. Some of the Solid, most of the
@@ -512,6 +546,24 @@ type Animation
 type HtmlTag
     = I
     | Span
+
+
+{-| The Transform options accepts transformation instructions for the element.
+See Font Awesome's documentation for supported instructions.
+
+<b>Default: no transformation</b>
+
+-}
+type Transform
+    = Grow Float
+    | Shrink Float
+    | ShiftDown Float
+    | ShiftLeft Float
+    | ShiftRight Float
+    | ShiftUp Float
+    | Rotate Float
+    | FlipHorizontal
+    | FlipVertical
 
 
 
