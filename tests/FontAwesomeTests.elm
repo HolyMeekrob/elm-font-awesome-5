@@ -1,5 +1,6 @@
 module FontAwesomeTests exposing (..)
 
+import FontAwesome.Icon as Icon exposing (Icon)
 import FontAwesome as FA
 import Expect
 import Fuzz
@@ -16,9 +17,7 @@ suite =
         [ describe "useSvg" testUseSvg
         , describe "useCSS" testUseCSS
         , describe "icon" testIcon
-        , describe "logo" testLogo
         , describe "iconWithOptions" testIconWithOptions
-        , describe "logoWithOptions" testLogoWithOptions
         ]
 
 
@@ -70,22 +69,7 @@ testIcon =
                 |> Query.fromHtml
                 |> Expect.all
                     [ Query.has [ Selector.tag "i" ]
-                    , Query.has
-                        [ Selector.exactClassName ("fas " ++ iconClass icon) ]
-                    ]
-    ]
-
-
-testLogo : List Test
-testLogo =
-    [ fuzz logoFuzzer "has logo name and style only" <|
-        \logo ->
-            FA.logo logo
-                |> Query.fromHtml
-                |> Expect.all
-                    [ Query.has [ Selector.tag "i" ]
-                    , Query.has
-                        [ Selector.exactClassName ("fab " ++ logoClass logo) ]
+                    , testStyle icon FA.Solid
                     ]
     ]
 
@@ -94,13 +78,6 @@ testIconWithOptions : List Test
 testIconWithOptions =
     [ describe "without html attributes" testIconWithoutHtmlAttributes
     , describe "with html attributes" testIconWithHtmlAttributes
-    ]
-
-
-testLogoWithOptions : List Test
-testLogoWithOptions =
-    [ describe "without html attributes" testLogoWithoutHtmlAttributes
-    , describe "with html attributes" testLogoWithHtmlAttributes
     ]
 
 
@@ -122,37 +99,7 @@ testIconWithoutHtmlAttributes =
                 |> Query.fromHtml
                 |> Expect.all
                     [ testIconClass icon
-                    , testStyle style
-                    , testBorder options
-                    , testWidth options
-                    , testInvertColor options
-                    , testHtmlTag options
-                    , testAnimation options
-                    , testPull options
-                    , testSize options
-                    , testTransform options
-                    , testMask options
-                    ]
-    ]
-
-
-testLogoWithoutHtmlAttributes : List Test
-testLogoWithoutHtmlAttributes =
-    [ Test.fuzzWith
-        { runs = 500 }
-        (Fuzz.tuple3
-            ( logoFuzzer
-            , optionsFuzzer
-            , htmlAttributesFuzzer
-            )
-        )
-        "handles all options"
-      <|
-        \( logo, options, htmlAttributes ) ->
-            FA.logoWithOptions logo options htmlAttributes
-                |> Query.fromHtml
-                |> Expect.all
-                    [ testLogoClass logo
+                    , testStyle icon style
                     , testBorder options
                     , testWidth options
                     , testInvertColor options
@@ -174,22 +121,9 @@ testIconWithHtmlAttributes =
     ]
 
 
-testLogoWithHtmlAttributes : List Test
-testLogoWithHtmlAttributes =
-    [ testLogoWithCustomClasses
-    , testLogoWithStandardAttributes
-    , testLogoWithCustomAttributes
-    ]
-
-
 testIconWithCustomClasses : Test
 testIconWithCustomClasses =
     testCustomClasses testIconHelper "custom classes for icon"
-
-
-testLogoWithCustomClasses : Test
-testLogoWithCustomClasses =
-    testCustomClasses testLogoHelper "custom classes for logo"
 
 
 testCustomClasses :
@@ -227,11 +161,6 @@ testIconWithStandardAttributes =
     testStandardAttributes testIconHelper "standard attributes for icon"
 
 
-testLogoWithStandardAttributes : Test
-testLogoWithStandardAttributes =
-    testStandardAttributes testLogoHelper "standard attributes for logo"
-
-
 testStandardAttributes :
     (String
      -> List (Attribute msg)
@@ -266,11 +195,6 @@ testStandardAttributes helper desc =
 testIconWithCustomAttributes : Test
 testIconWithCustomAttributes =
     testCustomAttributes testIconHelper "custom attributes for icon"
-
-
-testLogoWithCustomAttributes : Test
-testLogoWithCustomAttributes =
-    testCustomAttributes testLogoHelper "custom attributes for logo"
 
 
 testCustomAttributes :
@@ -311,19 +235,19 @@ testCustomAttributes helper desc =
             )
 
 
-testIconClass : FA.Icon -> Query.Single msg -> Expect.Expectation
+testIconClass : Icon -> Query.Single msg -> Expect.Expectation
 testIconClass icon =
-    Query.has [ Selector.class ("fa-" ++ name icon) ]
+    case icon of
+        Icon.Icon name ->
+            Query.has [ Selector.class ("fa-" ++ name) ]
+
+        Icon.Logo name ->
+            Query.has [ Selector.class ("fa-" ++ name) ]
 
 
-testLogoClass : FA.Logo -> Query.Single msg -> Expect.Expectation
-testLogoClass logo =
-    Query.has [ Selector.class ("fa-" ++ logoName logo) ]
-
-
-testStyle : FA.Style -> Query.Single msg -> Expect.Expectation
-testStyle style =
-    Query.has [ Selector.class (styleClass style) ]
+testStyle : Icon -> FA.Style -> Query.Single msg -> Expect.Expectation
+testStyle icon style =
+    Query.has [ Selector.class (styleClass icon style) ]
 
 
 testBorder : List FA.Option -> Query.Single msg -> Expect.Expectation
@@ -526,7 +450,7 @@ testMask options =
                 Query.has
                     [ Selector.attribute <|
                         htmlAttribute
-                            (styleClass style ++ " " ++ iconClass icon)
+                            (styleClass icon style ++ " " ++ iconClass icon)
                     ]
 
             -- TODO: How to ensure that an element does not have an attribute?
@@ -543,965 +467,959 @@ testHtmlAttribute htmlAttribute =
 -- FUZZERS
 
 
-iconFuzzer : Fuzz.Fuzzer FA.Icon
+iconFuzzer : Fuzz.Fuzzer Icon
 iconFuzzer =
     Fuzz.oneOf
-        [ Fuzz.constant FA.AddressBook
-        , Fuzz.constant FA.AddressCard
-        , Fuzz.constant FA.Adjust
-        , Fuzz.constant FA.AlarmClock
-        , Fuzz.constant FA.AlignCenter
-        , Fuzz.constant FA.AlignJustify
-        , Fuzz.constant FA.AlignLeft
-        , Fuzz.constant FA.AlignRight
-        , Fuzz.constant FA.Ambulance
-        , Fuzz.constant FA.AmericanSignLanguageInterpreting
-        , Fuzz.constant FA.Anchor
-        , Fuzz.constant FA.AngleDoubleDown
-        , Fuzz.constant FA.AngleDoubleLeft
-        , Fuzz.constant FA.AngleDoubleRight
-        , Fuzz.constant FA.AngleDoubleUp
-        , Fuzz.constant FA.AngleDown
-        , Fuzz.constant FA.AngleLeft
-        , Fuzz.constant FA.AngleRight
-        , Fuzz.constant FA.AngleUp
-        , Fuzz.constant FA.Archive
-        , Fuzz.constant FA.ArrowAltCircleDown
-        , Fuzz.constant FA.ArrowAltCircleLeft
-        , Fuzz.constant FA.ArrowAltCircleRight
-        , Fuzz.constant FA.ArrowAltCircleUp
-        , Fuzz.constant FA.ArrowAltDown
-        , Fuzz.constant FA.ArrowAltFromBottom
-        , Fuzz.constant FA.ArrowAltFromLeft
-        , Fuzz.constant FA.ArrowAltFromRight
-        , Fuzz.constant FA.ArrowAltFromTop
-        , Fuzz.constant FA.ArrowAltLeft
-        , Fuzz.constant FA.ArrowAltRight
-        , Fuzz.constant FA.ArrowAltSquareDown
-        , Fuzz.constant FA.ArrowAltSquareLeft
-        , Fuzz.constant FA.ArrowAltSquareRight
-        , Fuzz.constant FA.ArrowAltSquareUp
-        , Fuzz.constant FA.ArrowAltToBottom
-        , Fuzz.constant FA.ArrowAltToLeft
-        , Fuzz.constant FA.ArrowAltToRight
-        , Fuzz.constant FA.ArrowAltToTop
-        , Fuzz.constant FA.ArrowAltUp
-        , Fuzz.constant FA.ArrowCircleDown
-        , Fuzz.constant FA.ArrowCircleLeft
-        , Fuzz.constant FA.ArrowCircleRight
-        , Fuzz.constant FA.ArrowCircleUp
-        , Fuzz.constant FA.ArrowDown
-        , Fuzz.constant FA.ArrowFromBottom
-        , Fuzz.constant FA.ArrowFromLeft
-        , Fuzz.constant FA.ArrowFromRight
-        , Fuzz.constant FA.ArrowFromTop
-        , Fuzz.constant FA.ArrowLeft
-        , Fuzz.constant FA.ArrowRight
-        , Fuzz.constant FA.ArrowSquareDown
-        , Fuzz.constant FA.ArrowSquareLeft
-        , Fuzz.constant FA.ArrowSquareRight
-        , Fuzz.constant FA.ArrowSquareUp
-        , Fuzz.constant FA.ArrowToBottom
-        , Fuzz.constant FA.ArrowToLeft
-        , Fuzz.constant FA.ArrowToRight
-        , Fuzz.constant FA.ArrowToTop
-        , Fuzz.constant FA.ArrowUp
-        , Fuzz.constant FA.Arrows
-        , Fuzz.constant FA.ArrowsAlt
-        , Fuzz.constant FA.ArrowsAltHorizontal
-        , Fuzz.constant FA.ArrowsAltVertical
-        , Fuzz.constant FA.ArrowsHorizontal
-        , Fuzz.constant FA.ArrowsVertical
-        , Fuzz.constant FA.AssistiveListeningSystems
-        , Fuzz.constant FA.Asterisk
-        , Fuzz.constant FA.At
-        , Fuzz.constant FA.AudioDescription
-        , Fuzz.constant FA.Backward
-        , Fuzz.constant FA.Badge
-        , Fuzz.constant FA.BadgeCheck
-        , Fuzz.constant FA.BalanceScale
-        , Fuzz.constant FA.Ban
-        , Fuzz.constant FA.Barcode
-        , Fuzz.constant FA.Bars
-        , Fuzz.constant FA.Bath
-        , Fuzz.constant FA.BatteryBolt
-        , Fuzz.constant FA.BatteryEmpty
-        , Fuzz.constant FA.BatteryFull
-        , Fuzz.constant FA.BatteryHalf
-        , Fuzz.constant FA.BatteryQuarter
-        , Fuzz.constant FA.BatterySlash
-        , Fuzz.constant FA.BatteryThreeQuarters
-        , Fuzz.constant FA.Bed
-        , Fuzz.constant FA.Beer
-        , Fuzz.constant FA.Bell
-        , Fuzz.constant FA.BellSlash
-        , Fuzz.constant FA.Bicycle
-        , Fuzz.constant FA.Binoculars
-        , Fuzz.constant FA.BirthdayCake
-        , Fuzz.constant FA.Blind
-        , Fuzz.constant FA.Bold
-        , Fuzz.constant FA.Bolt
-        , Fuzz.constant FA.Bomb
-        , Fuzz.constant FA.Book
-        , Fuzz.constant FA.Bookmark
-        , Fuzz.constant FA.Braille
-        , Fuzz.constant FA.Briefcase
-        , Fuzz.constant FA.Browser
-        , Fuzz.constant FA.Bug
-        , Fuzz.constant FA.Building
-        , Fuzz.constant FA.Bullhorn
-        , Fuzz.constant FA.Bullseye
-        , Fuzz.constant FA.Bus
-        , Fuzz.constant FA.Calculator
-        , Fuzz.constant FA.Calendar
-        , Fuzz.constant FA.CalendarAlt
-        , Fuzz.constant FA.CalendarCheck
-        , Fuzz.constant FA.CalendarEdit
-        , Fuzz.constant FA.CalendarExclamation
-        , Fuzz.constant FA.CalendarMinus
-        , Fuzz.constant FA.CalendarPlus
-        , Fuzz.constant FA.CalendarTimes
-        , Fuzz.constant FA.Camera
-        , Fuzz.constant FA.CameraAlt
-        , Fuzz.constant FA.CameraRetro
-        , Fuzz.constant FA.Car
-        , Fuzz.constant FA.CaretCircleDown
-        , Fuzz.constant FA.CaretCircleLeft
-        , Fuzz.constant FA.CaretCircleRight
-        , Fuzz.constant FA.CaretCircleUp
-        , Fuzz.constant FA.CaretDown
-        , Fuzz.constant FA.CaretLeft
-        , Fuzz.constant FA.CaretRight
-        , Fuzz.constant FA.CaretSquareDown
-        , Fuzz.constant FA.CaretSquareLeft
-        , Fuzz.constant FA.CaretSquareRight
-        , Fuzz.constant FA.CaretSquareUp
-        , Fuzz.constant FA.CaretUp
-        , Fuzz.constant FA.CartArrowDown
-        , Fuzz.constant FA.CartPlus
-        , Fuzz.constant FA.Certificate
-        , Fuzz.constant FA.ChartArea
-        , Fuzz.constant FA.ChartBar
-        , Fuzz.constant FA.ChartLine
-        , Fuzz.constant FA.ChartPie
-        , Fuzz.constant FA.Check
-        , Fuzz.constant FA.CheckCircle
-        , Fuzz.constant FA.CheckSquare
-        , Fuzz.constant FA.ChevronCircleDown
-        , Fuzz.constant FA.ChevronCircleLeft
-        , Fuzz.constant FA.ChevronCircleRight
-        , Fuzz.constant FA.ChevronCircleUp
-        , Fuzz.constant FA.ChevronDoubleDown
-        , Fuzz.constant FA.ChevronDoubleLeft
-        , Fuzz.constant FA.ChevronDoubleRight
-        , Fuzz.constant FA.ChevronDoubleUp
-        , Fuzz.constant FA.ChevronDown
-        , Fuzz.constant FA.ChevronLeft
-        , Fuzz.constant FA.ChevronRight
-        , Fuzz.constant FA.ChevronSquareDown
-        , Fuzz.constant FA.ChevronSquareLeft
-        , Fuzz.constant FA.ChevronSquareRight
-        , Fuzz.constant FA.ChevronSquareUp
-        , Fuzz.constant FA.ChevronUp
-        , Fuzz.constant FA.Child
-        , Fuzz.constant FA.Circle
-        , Fuzz.constant FA.CircleNotch
-        , Fuzz.constant FA.Clipboard
-        , Fuzz.constant FA.Clock
-        , Fuzz.constant FA.Clone
-        , Fuzz.constant FA.ClosedCaptioning
-        , Fuzz.constant FA.Cloud
-        , Fuzz.constant FA.CloudDownload
-        , Fuzz.constant FA.CloudDownloadAlt
-        , Fuzz.constant FA.CloudUpload
-        , Fuzz.constant FA.CloudUploadAlt
-        , Fuzz.constant FA.Club
-        , Fuzz.constant FA.Code
-        , Fuzz.constant FA.CodeBranch
-        , Fuzz.constant FA.CodeCommit
-        , Fuzz.constant FA.CodeMerge
-        , Fuzz.constant FA.Coffee
-        , Fuzz.constant FA.Cog
-        , Fuzz.constant FA.Cogs
-        , Fuzz.constant FA.Columns
-        , Fuzz.constant FA.Comment
-        , Fuzz.constant FA.CommentAlt
-        , Fuzz.constant FA.Comments
-        , Fuzz.constant FA.Compass
-        , Fuzz.constant FA.Compress
-        , Fuzz.constant FA.CompressAlt
-        , Fuzz.constant FA.CompressWide
-        , Fuzz.constant FA.Copy
-        , Fuzz.constant FA.Copyright
-        , Fuzz.constant FA.CreditCard
-        , Fuzz.constant FA.CreditCardBlank
-        , Fuzz.constant FA.CreditCardFront
-        , Fuzz.constant FA.Crop
-        , Fuzz.constant FA.Crosshairs
-        , Fuzz.constant FA.Cube
-        , Fuzz.constant FA.Cubes
-        , Fuzz.constant FA.Cut
-        , Fuzz.constant FA.Database
-        , Fuzz.constant FA.Deaf
-        , Fuzz.constant FA.Desktop
-        , Fuzz.constant FA.DesktopAlt
-        , Fuzz.constant FA.Diamond
-        , Fuzz.constant FA.DollarSign
-        , Fuzz.constant FA.DotCircle
-        , Fuzz.constant FA.Download
-        , Fuzz.constant FA.Edit
-        , Fuzz.constant FA.Eject
-        , Fuzz.constant FA.EllipsisHorizontal
-        , Fuzz.constant FA.EllipsisHorizontalAlt
-        , Fuzz.constant FA.EllipsisVertical
-        , Fuzz.constant FA.EllipsisVerticalAlt
-        , Fuzz.constant FA.Envelope
-        , Fuzz.constant FA.EnvelopeOpen
-        , Fuzz.constant FA.EnvelopeSquare
-        , Fuzz.constant FA.Eraser
-        , Fuzz.constant FA.EuroSign
-        , Fuzz.constant FA.Exchange
-        , Fuzz.constant FA.ExchangeAlt
-        , Fuzz.constant FA.Exclamation
-        , Fuzz.constant FA.ExclamationCircle
-        , Fuzz.constant FA.ExclamationSquare
-        , Fuzz.constant FA.ExclamationTriangle
-        , Fuzz.constant FA.Expand
-        , Fuzz.constant FA.ExpandAlt
-        , Fuzz.constant FA.ExpandArrows
-        , Fuzz.constant FA.ExpandArrowsAlt
-        , Fuzz.constant FA.ExpandWide
-        , Fuzz.constant FA.ExternalLink
-        , Fuzz.constant FA.ExternalLinkAlt
-        , Fuzz.constant FA.ExternalLinkSquare
-        , Fuzz.constant FA.ExternalLinkSquareAlt
-        , Fuzz.constant FA.Eye
-        , Fuzz.constant FA.EyeDropper
-        , Fuzz.constant FA.EyeSlash
-        , Fuzz.constant FA.FastBackward
-        , Fuzz.constant FA.FastForward
-        , Fuzz.constant FA.Fax
-        , Fuzz.constant FA.Female
-        , Fuzz.constant FA.FighterJet
-        , Fuzz.constant FA.File
-        , Fuzz.constant FA.FileAlt
-        , Fuzz.constant FA.FileArchive
-        , Fuzz.constant FA.FileAudio
-        , Fuzz.constant FA.FileCheck
-        , Fuzz.constant FA.FileCode
-        , Fuzz.constant FA.FileEdit
-        , Fuzz.constant FA.FileExcel
-        , Fuzz.constant FA.FileExclamation
-        , Fuzz.constant FA.FileImage
-        , Fuzz.constant FA.FileMinus
-        , Fuzz.constant FA.FilePdf
-        , Fuzz.constant FA.FilePlus
-        , Fuzz.constant FA.FilePowerpoint
-        , Fuzz.constant FA.FileTimes
-        , Fuzz.constant FA.FileVideo
-        , Fuzz.constant FA.FileWord
-        , Fuzz.constant FA.Film
-        , Fuzz.constant FA.FilmAlt
-        , Fuzz.constant FA.Filter
-        , Fuzz.constant FA.Fire
-        , Fuzz.constant FA.FireExtinguisher
-        , Fuzz.constant FA.Flag
-        , Fuzz.constant FA.FlagCheckered
-        , Fuzz.constant FA.Flask
-        , Fuzz.constant FA.Folder
-        , Fuzz.constant FA.FolderOpen
-        , Fuzz.constant FA.Font
-        , Fuzz.constant FA.Forward
-        , Fuzz.constant FA.Frown
-        , Fuzz.constant FA.Futbol
-        , Fuzz.constant FA.Gamepad
-        , Fuzz.constant FA.Gavel
-        , Fuzz.constant FA.Gem
-        , Fuzz.constant FA.Genderless
-        , Fuzz.constant FA.Gift
-        , Fuzz.constant FA.GlassMartini
-        , Fuzz.constant FA.Globe
-        , Fuzz.constant FA.GraduationCap
-        , Fuzz.constant FA.HSquare
-        , Fuzz.constant FA.H1
-        , Fuzz.constant FA.H2
-        , Fuzz.constant FA.H3
-        , Fuzz.constant FA.HandLizard
-        , Fuzz.constant FA.HandPaper
-        , Fuzz.constant FA.HandPeace
-        , Fuzz.constant FA.HandPointDown
-        , Fuzz.constant FA.HandPointLeft
-        , Fuzz.constant FA.HandPointRight
-        , Fuzz.constant FA.HandPointUp
-        , Fuzz.constant FA.HandPointer
-        , Fuzz.constant FA.HandRock
-        , Fuzz.constant FA.HandScissors
-        , Fuzz.constant FA.HandSpock
-        , Fuzz.constant FA.Handshake
-        , Fuzz.constant FA.Hashtag
-        , Fuzz.constant FA.Hdd
-        , Fuzz.constant FA.Heading
-        , Fuzz.constant FA.Headphones
-        , Fuzz.constant FA.Heart
-        , Fuzz.constant FA.Heartbeat
-        , Fuzz.constant FA.Hexagon
-        , Fuzz.constant FA.History
-        , Fuzz.constant FA.Home
-        , Fuzz.constant FA.Hospital
-        , Fuzz.constant FA.Hourglass
-        , Fuzz.constant FA.HourglassEnd
-        , Fuzz.constant FA.HourglassHalf
-        , Fuzz.constant FA.HourglassStart
-        , Fuzz.constant FA.ICursor
-        , Fuzz.constant FA.IdBadge
-        , Fuzz.constant FA.IdCard
-        , Fuzz.constant FA.Image
-        , Fuzz.constant FA.Images
-        , Fuzz.constant FA.Inbox
-        , Fuzz.constant FA.InboxIn
-        , Fuzz.constant FA.InboxOut
-        , Fuzz.constant FA.Indent
-        , Fuzz.constant FA.Industry
-        , Fuzz.constant FA.IndustryAlt
-        , Fuzz.constant FA.Info
-        , Fuzz.constant FA.InfoCircle
-        , Fuzz.constant FA.InfoSquare
-        , Fuzz.constant FA.Italic
-        , Fuzz.constant FA.JackOLantern
-        , Fuzz.constant FA.Key
-        , Fuzz.constant FA.Keyboard
-        , Fuzz.constant FA.Language
-        , Fuzz.constant FA.Laptop
-        , Fuzz.constant FA.Leaf
-        , Fuzz.constant FA.Lemon
-        , Fuzz.constant FA.LevelDown
-        , Fuzz.constant FA.LevelDownAlt
-        , Fuzz.constant FA.LevelUp
-        , Fuzz.constant FA.LevelUpAlt
-        , Fuzz.constant FA.LifeRing
-        , Fuzz.constant FA.Lightbulb
-        , Fuzz.constant FA.Link
-        , Fuzz.constant FA.LiraSign
-        , Fuzz.constant FA.List
-        , Fuzz.constant FA.ListAlt
-        , Fuzz.constant FA.ListOl
-        , Fuzz.constant FA.ListUl
-        , Fuzz.constant FA.LocationArrow
-        , Fuzz.constant FA.Lock
-        , Fuzz.constant FA.LockAlt
-        , Fuzz.constant FA.LockOpen
-        , Fuzz.constant FA.LockOpenAlt
-        , Fuzz.constant FA.LongArrowAltDown
-        , Fuzz.constant FA.LongArrowAltLeft
-        , Fuzz.constant FA.LongArrowAltRight
-        , Fuzz.constant FA.LongArrowAltUp
-        , Fuzz.constant FA.LongArrowDown
-        , Fuzz.constant FA.LongArrowLeft
-        , Fuzz.constant FA.LongArrowRight
-        , Fuzz.constant FA.LongArrowUp
-        , Fuzz.constant FA.LowVision
-        , Fuzz.constant FA.Magic
-        , Fuzz.constant FA.Magnet
-        , Fuzz.constant FA.Male
-        , Fuzz.constant FA.Map
-        , Fuzz.constant FA.MapMarker
-        , Fuzz.constant FA.MapMarkerAlt
-        , Fuzz.constant FA.MapPin
-        , Fuzz.constant FA.MapSigns
-        , Fuzz.constant FA.Mars
-        , Fuzz.constant FA.MarsDouble
-        , Fuzz.constant FA.MarsStroke
-        , Fuzz.constant FA.MarsStrokeHorizontal
-        , Fuzz.constant FA.MarsStrokeVertical
-        , Fuzz.constant FA.Medkit
-        , Fuzz.constant FA.Meh
-        , Fuzz.constant FA.Mercury
-        , Fuzz.constant FA.Microchip
-        , Fuzz.constant FA.Microphone
-        , Fuzz.constant FA.MicrophoneAlt
-        , Fuzz.constant FA.MicrophoneSlash
-        , Fuzz.constant FA.Minus
-        , Fuzz.constant FA.MinusCircle
-        , Fuzz.constant FA.MinusHexagon
-        , Fuzz.constant FA.MinusOctagon
-        , Fuzz.constant FA.MinusSquare
-        , Fuzz.constant FA.Mobile
-        , Fuzz.constant FA.MobileAlt
-        , Fuzz.constant FA.MobileAndroid
-        , Fuzz.constant FA.MobileAndroidAlt
-        , Fuzz.constant FA.MoneyBill
-        , Fuzz.constant FA.MoneyBillAlt
-        , Fuzz.constant FA.Moon
-        , Fuzz.constant FA.Motorcycle
-        , Fuzz.constant FA.MousePointer
-        , Fuzz.constant FA.Music
-        , Fuzz.constant FA.Neuter
-        , Fuzz.constant FA.Newspaper
-        , Fuzz.constant FA.ObjectGroup
-        , Fuzz.constant FA.ObjectUngroup
-        , Fuzz.constant FA.Octagon
-        , Fuzz.constant FA.Outdent
+        [ Fuzz.constant FA.accessibleIcon
+        , Fuzz.constant FA.accusoft
+        , Fuzz.constant FA.addressBook
+        , Fuzz.constant FA.addressCard
+        , Fuzz.constant FA.adjust
+        , Fuzz.constant FA.adn
+        , Fuzz.constant FA.adversal
+        , Fuzz.constant FA.affiliateTheme
+        , Fuzz.constant FA.alarmClock
+        , Fuzz.constant FA.algolia
+        , Fuzz.constant FA.alignCenter
+        , Fuzz.constant FA.alignJustify
+        , Fuzz.constant FA.alignLeft
+        , Fuzz.constant FA.alignRight
+        , Fuzz.constant FA.amazon
+        , Fuzz.constant FA.amazonPay
+        , Fuzz.constant FA.ambulance
+        , Fuzz.constant FA.americanSignLanguageInterpreting
+        , Fuzz.constant FA.amilia
+        , Fuzz.constant FA.anchor
+        , Fuzz.constant FA.android
+        , Fuzz.constant FA.angelList
+        , Fuzz.constant FA.angleDoubleDown
+        , Fuzz.constant FA.angleDoubleLeft
+        , Fuzz.constant FA.angleDoubleRight
+        , Fuzz.constant FA.angleDoubleUp
+        , Fuzz.constant FA.angleDown
+        , Fuzz.constant FA.angleLeft
+        , Fuzz.constant FA.angleRight
+        , Fuzz.constant FA.angleUp
+        , Fuzz.constant FA.angryCreative
+        , Fuzz.constant FA.angular
+        , Fuzz.constant FA.appStore
+        , Fuzz.constant FA.appStoreIos
+        , Fuzz.constant FA.apper
+        , Fuzz.constant FA.apple
+        , Fuzz.constant FA.applePay
+        , Fuzz.constant FA.archive
+        , Fuzz.constant FA.arrowAltCircleDown
+        , Fuzz.constant FA.arrowAltCircleLeft
+        , Fuzz.constant FA.arrowAltCircleRight
+        , Fuzz.constant FA.arrowAltCircleUp
+        , Fuzz.constant FA.arrowAltDown
+        , Fuzz.constant FA.arrowAltFromBottom
+        , Fuzz.constant FA.arrowAltFromLeft
+        , Fuzz.constant FA.arrowAltFromRight
+        , Fuzz.constant FA.arrowAltFromTop
+        , Fuzz.constant FA.arrowAltLeft
+        , Fuzz.constant FA.arrowAltRight
+        , Fuzz.constant FA.arrowAltSquareDown
+        , Fuzz.constant FA.arrowAltSquareLeft
+        , Fuzz.constant FA.arrowAltSquareRight
+        , Fuzz.constant FA.arrowAltSquareUp
+        , Fuzz.constant FA.arrowAltToBottom
+        , Fuzz.constant FA.arrowAltToLeft
+        , Fuzz.constant FA.arrowAltToRight
+        , Fuzz.constant FA.arrowAltToTop
+        , Fuzz.constant FA.arrowAltUp
+        , Fuzz.constant FA.arrowCircleDown
+        , Fuzz.constant FA.arrowCircleLeft
+        , Fuzz.constant FA.arrowCircleRight
+        , Fuzz.constant FA.arrowCircleUp
+        , Fuzz.constant FA.arrowDown
+        , Fuzz.constant FA.arrowFromBottom
+        , Fuzz.constant FA.arrowFromLeft
+        , Fuzz.constant FA.arrowFromRight
+        , Fuzz.constant FA.arrowFromTop
+        , Fuzz.constant FA.arrowLeft
+        , Fuzz.constant FA.arrowRight
+        , Fuzz.constant FA.arrowSquareDown
+        , Fuzz.constant FA.arrowSquareLeft
+        , Fuzz.constant FA.arrowSquareRight
+        , Fuzz.constant FA.arrowSquareUp
+        , Fuzz.constant FA.arrowToBottom
+        , Fuzz.constant FA.arrowToLeft
+        , Fuzz.constant FA.arrowToRight
+        , Fuzz.constant FA.arrowToTop
+        , Fuzz.constant FA.arrowUp
+        , Fuzz.constant FA.arrows
+        , Fuzz.constant FA.arrowsAlt
+        , Fuzz.constant FA.arrowsAltHorizontal
+        , Fuzz.constant FA.arrowsAltVertical
+        , Fuzz.constant FA.arrowsHorizontal
+        , Fuzz.constant FA.arrowsVertical
+        , Fuzz.constant FA.assistiveListeningSystems
+        , Fuzz.constant FA.asterisk
+        , Fuzz.constant FA.asymmetrik
+        , Fuzz.constant FA.at
+        , Fuzz.constant FA.audible
+        , Fuzz.constant FA.audioDescription
+        , Fuzz.constant FA.autoprefixer
+        , Fuzz.constant FA.avianex
+        , Fuzz.constant FA.aviato
+        , Fuzz.constant FA.aws
+        , Fuzz.constant FA.bIMobject
+        , Fuzz.constant FA.backward
+        , Fuzz.constant FA.badge
+        , Fuzz.constant FA.badgeCheck
+        , Fuzz.constant FA.balanceScale
+        , Fuzz.constant FA.ban
+        , Fuzz.constant FA.bandcamp
+        , Fuzz.constant FA.barcode
+        , Fuzz.constant FA.bars
+        , Fuzz.constant FA.bath
+        , Fuzz.constant FA.batteryBolt
+        , Fuzz.constant FA.batteryEmpty
+        , Fuzz.constant FA.batteryFull
+        , Fuzz.constant FA.batteryHalf
+        , Fuzz.constant FA.batteryQuarter
+        , Fuzz.constant FA.batterySlash
+        , Fuzz.constant FA.batteryThreeQuarters
+        , Fuzz.constant FA.bed
+        , Fuzz.constant FA.beer
+        , Fuzz.constant FA.behance
+        , Fuzz.constant FA.behanceSquare
+        , Fuzz.constant FA.bell
+        , Fuzz.constant FA.bellSlash
+        , Fuzz.constant FA.bicycle
+        , Fuzz.constant FA.binoculars
+        , Fuzz.constant FA.birthdayCake
+        , Fuzz.constant FA.bitbucket
+        , Fuzz.constant FA.bitcoin
+        , Fuzz.constant FA.bity
+        , Fuzz.constant FA.blackTie
+        , Fuzz.constant FA.blackberry
+        , Fuzz.constant FA.blind
+        , Fuzz.constant FA.blogger
+        , Fuzz.constant FA.bloggerB
+        , Fuzz.constant FA.bluetooth
+        , Fuzz.constant FA.bluetoothB
+        , Fuzz.constant FA.bold
+        , Fuzz.constant FA.bolt
+        , Fuzz.constant FA.bomb
+        , Fuzz.constant FA.book
+        , Fuzz.constant FA.bookmark
+        , Fuzz.constant FA.braille
+        , Fuzz.constant FA.briefcase
+        , Fuzz.constant FA.browser
+        , Fuzz.constant FA.btc
+        , Fuzz.constant FA.bug
+        , Fuzz.constant FA.building
+        , Fuzz.constant FA.bullhorn
+        , Fuzz.constant FA.bullseye
+        , Fuzz.constant FA.buromobelExperte
+        , Fuzz.constant FA.bus
+        , Fuzz.constant FA.buySellAds
+        , Fuzz.constant FA.cCAmazonPay
+        , Fuzz.constant FA.cCAmex
+        , Fuzz.constant FA.cCApplePay
+        , Fuzz.constant FA.cCDinersClub
+        , Fuzz.constant FA.cCDiscover
+        , Fuzz.constant FA.cCJcb
+        , Fuzz.constant FA.cCMastercard
+        , Fuzz.constant FA.cCPayPal
+        , Fuzz.constant FA.cCStripe
+        , Fuzz.constant FA.cCVisa
+        , Fuzz.constant FA.cSS3
+        , Fuzz.constant FA.cSS3Alt
+        , Fuzz.constant FA.calculator
+        , Fuzz.constant FA.calendar
+        , Fuzz.constant FA.calendarAlt
+        , Fuzz.constant FA.calendarCheck
+        , Fuzz.constant FA.calendarEdit
+        , Fuzz.constant FA.calendarExclamation
+        , Fuzz.constant FA.calendarMinus
+        , Fuzz.constant FA.calendarPlus
+        , Fuzz.constant FA.calendarTimes
+        , Fuzz.constant FA.camera
+        , Fuzz.constant FA.cameraAlt
+        , Fuzz.constant FA.cameraRetro
+        , Fuzz.constant FA.car
+        , Fuzz.constant FA.caretCircleDown
+        , Fuzz.constant FA.caretCircleLeft
+        , Fuzz.constant FA.caretCircleRight
+        , Fuzz.constant FA.caretCircleUp
+        , Fuzz.constant FA.caretDown
+        , Fuzz.constant FA.caretLeft
+        , Fuzz.constant FA.caretRight
+        , Fuzz.constant FA.caretSquareDown
+        , Fuzz.constant FA.caretSquareLeft
+        , Fuzz.constant FA.caretSquareRight
+        , Fuzz.constant FA.caretSquareUp
+        , Fuzz.constant FA.caretUp
+        , Fuzz.constant FA.cartArrowDown
+        , Fuzz.constant FA.cartPlus
+        , Fuzz.constant FA.centercode
+        , Fuzz.constant FA.certificate
+        , Fuzz.constant FA.chartArea
+        , Fuzz.constant FA.chartBar
+        , Fuzz.constant FA.chartLine
+        , Fuzz.constant FA.chartPie
+        , Fuzz.constant FA.check
+        , Fuzz.constant FA.checkCircle
+        , Fuzz.constant FA.checkSquare
+        , Fuzz.constant FA.chevronCircleDown
+        , Fuzz.constant FA.chevronCircleLeft
+        , Fuzz.constant FA.chevronCircleRight
+        , Fuzz.constant FA.chevronCircleUp
+        , Fuzz.constant FA.chevronDoubleDown
+        , Fuzz.constant FA.chevronDoubleLeft
+        , Fuzz.constant FA.chevronDoubleRight
+        , Fuzz.constant FA.chevronDoubleUp
+        , Fuzz.constant FA.chevronDown
+        , Fuzz.constant FA.chevronLeft
+        , Fuzz.constant FA.chevronRight
+        , Fuzz.constant FA.chevronSquareDown
+        , Fuzz.constant FA.chevronSquareLeft
+        , Fuzz.constant FA.chevronSquareRight
+        , Fuzz.constant FA.chevronSquareUp
+        , Fuzz.constant FA.chevronUp
+        , Fuzz.constant FA.child
+        , Fuzz.constant FA.chrome
+        , Fuzz.constant FA.circle
+        , Fuzz.constant FA.circleNotch
+        , Fuzz.constant FA.clipboard
+        , Fuzz.constant FA.clock
+        , Fuzz.constant FA.clone
+        , Fuzz.constant FA.closedCaptioning
+        , Fuzz.constant FA.cloud
+        , Fuzz.constant FA.cloudDownload
+        , Fuzz.constant FA.cloudDownloadAlt
+        , Fuzz.constant FA.cloudScale
+        , Fuzz.constant FA.cloudUpload
+        , Fuzz.constant FA.cloudUploadAlt
+        , Fuzz.constant FA.cloudsmith
+        , Fuzz.constant FA.cloudversify
+        , Fuzz.constant FA.club
+        , Fuzz.constant FA.code
+        , Fuzz.constant FA.codeBranch
+        , Fuzz.constant FA.codeCommit
+        , Fuzz.constant FA.codeMerge
+        , Fuzz.constant FA.codePen
+        , Fuzz.constant FA.codiePie
+        , Fuzz.constant FA.coffee
+        , Fuzz.constant FA.cog
+        , Fuzz.constant FA.cogs
+        , Fuzz.constant FA.columns
+        , Fuzz.constant FA.comment
+        , Fuzz.constant FA.commentAlt
+        , Fuzz.constant FA.comments
+        , Fuzz.constant FA.compass
+        , Fuzz.constant FA.compress
+        , Fuzz.constant FA.compressAlt
+        , Fuzz.constant FA.compressWide
+        , Fuzz.constant FA.connectDevelop
+        , Fuzz.constant FA.contao
+        , Fuzz.constant FA.copy
+        , Fuzz.constant FA.copyright
+        , Fuzz.constant FA.cpanel
+        , Fuzz.constant FA.creativeCommons
+        , Fuzz.constant FA.creditCard
+        , Fuzz.constant FA.creditCardBlank
+        , Fuzz.constant FA.creditCardFront
+        , Fuzz.constant FA.crop
+        , Fuzz.constant FA.crosshairs
+        , Fuzz.constant FA.cube
+        , Fuzz.constant FA.cubes
+        , Fuzz.constant FA.cut
+        , Fuzz.constant FA.cuttlefish
 
         -- Note: The rest of these are commented out because including them
         -- results in a stack overflow when running elm-test. Practically, it
         -- shouldn't matter, as there's nothing special about the rest of these
         -- types that would result in different test outcomes.
-        -- , Fuzz.constant FA.PaintBrush
-        -- , Fuzz.constant FA.PaperPlane
-        -- , Fuzz.constant FA.Paperclip
-        -- , Fuzz.constant FA.Paragraph
-        -- , Fuzz.constant FA.Paste
-        -- , Fuzz.constant FA.Pause
-        -- , Fuzz.constant FA.PauseCircle
-        -- , Fuzz.constant FA.Paw
-        -- , Fuzz.constant FA.Pen
-        -- , Fuzz.constant FA.PenAlt
-        -- , Fuzz.constant FA.PenSquare
-        -- , Fuzz.constant FA.Pencil
-        -- , Fuzz.constant FA.PencilAlt
-        -- , Fuzz.constant FA.Percent
-        -- , Fuzz.constant FA.Phone
-        -- , Fuzz.constant FA.PhoneSlash
-        -- , Fuzz.constant FA.PhoneSquare
-        -- , Fuzz.constant FA.PhoneVolume
-        -- , Fuzz.constant FA.Plane
-        -- , Fuzz.constant FA.PlaneAlt
-        -- , Fuzz.constant FA.Play
-        -- , Fuzz.constant FA.PlayCircle
-        -- , Fuzz.constant FA.Plug
-        -- , Fuzz.constant FA.Plus
-        -- , Fuzz.constant FA.PlusCircle
-        -- , Fuzz.constant FA.PlusHexagon
-        -- , Fuzz.constant FA.PlusOctagon
-        -- , Fuzz.constant FA.PlusSquare
-        -- , Fuzz.constant FA.Podcast
-        -- , Fuzz.constant FA.Poo
-        -- , Fuzz.constant FA.Portrait
-        -- , Fuzz.constant FA.PoundSign
-        -- , Fuzz.constant FA.PowerOff
-        -- , Fuzz.constant FA.Print
-        -- , Fuzz.constant FA.PuzzlePiece
-        -- , Fuzz.constant FA.Qrcode
-        -- , Fuzz.constant FA.Question
-        -- , Fuzz.constant FA.QuestionCircle
-        -- , Fuzz.constant FA.QuestionSquare
-        -- , Fuzz.constant FA.QuoteLeft
-        -- , Fuzz.constant FA.QuoteRight
-        -- , Fuzz.constant FA.Random
-        -- , Fuzz.constant FA.RectangleLandscape
-        -- , Fuzz.constant FA.RectanglePortrait
-        -- , Fuzz.constant FA.RectangleWide
-        -- , Fuzz.constant FA.Recycle
-        -- , Fuzz.constant FA.Redo
-        -- , Fuzz.constant FA.RedoAlt
-        -- , Fuzz.constant FA.Registered
-        -- , Fuzz.constant FA.Repeat
-        -- , Fuzz.constant FA.Repeat1
-        -- , Fuzz.constant FA.Repeat1Alt
-        -- , Fuzz.constant FA.RepeatAlt
-        -- , Fuzz.constant FA.Reply
-        -- , Fuzz.constant FA.ReplyAll
-        -- , Fuzz.constant FA.Retweet
-        -- , Fuzz.constant FA.RetweetAlt
-        -- , Fuzz.constant FA.Road
-        -- , Fuzz.constant FA.Rocket
-        -- , Fuzz.constant FA.RSS
-        -- , Fuzz.constant FA.RSSSquare
-        -- , Fuzz.constant FA.RubleSign
-        -- , Fuzz.constant FA.RupeeSign
-        -- , Fuzz.constant FA.Save
-        -- , Fuzz.constant FA.Scrubber
-        -- , Fuzz.constant FA.Search
-        -- , Fuzz.constant FA.SearchMinus
-        -- , Fuzz.constant FA.SearchPlus
-        -- , Fuzz.constant FA.Server
-        -- , Fuzz.constant FA.Share
-        -- , Fuzz.constant FA.ShareAll
-        -- , Fuzz.constant FA.ShareAlt
-        -- , Fuzz.constant FA.ShareAltSquare
-        -- , Fuzz.constant FA.ShareSquare
-        -- , Fuzz.constant FA.ShekelSign
-        -- , Fuzz.constant FA.Shield
-        -- , Fuzz.constant FA.ShieldAlt
-        -- , Fuzz.constant FA.ShieldCheck
-        -- , Fuzz.constant FA.Ship
-        -- , Fuzz.constant FA.ShoppingBag
-        -- , Fuzz.constant FA.ShoppingBasket
-        -- , Fuzz.constant FA.ShoppingCart
-        -- , Fuzz.constant FA.Shower
-        -- , Fuzz.constant FA.SignIn
-        -- , Fuzz.constant FA.SignInAlt
-        -- , Fuzz.constant FA.SignLanguage
-        -- , Fuzz.constant FA.SignOut
-        -- , Fuzz.constant FA.SignOutAlt
-        -- , Fuzz.constant FA.Signal
-        -- , Fuzz.constant FA.Sitemap
-        -- , Fuzz.constant FA.SlidersHorizontal
-        -- , Fuzz.constant FA.SlidersHorizontalSquare
-        -- , Fuzz.constant FA.SlidersV
-        -- , Fuzz.constant FA.SlidersVSquare
-        -- , Fuzz.constant FA.Smile
-        -- , Fuzz.constant FA.Snowflake
-        -- , Fuzz.constant FA.Sort
-        -- , Fuzz.constant FA.SortAlphaDown
-        -- , Fuzz.constant FA.SortAlphaUp
-        -- , Fuzz.constant FA.SortAmountDown
-        -- , Fuzz.constant FA.SortAmountUp
-        -- , Fuzz.constant FA.SortDown
-        -- , Fuzz.constant FA.SortNumericDown
-        -- , Fuzz.constant FA.SortNumericUp
-        -- , Fuzz.constant FA.SortUp
-        -- , Fuzz.constant FA.SpaceShuttle
-        -- , Fuzz.constant FA.Spade
-        -- , Fuzz.constant FA.Spinner
-        -- , Fuzz.constant FA.SpinnerThird
-        -- , Fuzz.constant FA.Square
-        -- , Fuzz.constant FA.Star
-        -- , Fuzz.constant FA.StarExclamation
-        -- , Fuzz.constant FA.StarHalf
-        -- , Fuzz.constant FA.StepBackward
-        -- , Fuzz.constant FA.StepForward
-        -- , Fuzz.constant FA.Stethoscope
-        -- , Fuzz.constant FA.StickyNote
-        -- , Fuzz.constant FA.Stop
-        -- , Fuzz.constant FA.StopCircle
-        -- , Fuzz.constant FA.Stopwatch
-        -- , Fuzz.constant FA.StreetView
-        -- , Fuzz.constant FA.Strikethrough
-        -- , Fuzz.constant FA.Subscript
-        -- , Fuzz.constant FA.Subway
-        -- , Fuzz.constant FA.Suitcase
-        -- , Fuzz.constant FA.Sun
-        -- , Fuzz.constant FA.Superscript
-        -- , Fuzz.constant FA.Sync
-        -- , Fuzz.constant FA.SyncAlt
-        -- , Fuzz.constant FA.Table
-        -- , Fuzz.constant FA.Tablet
-        -- , Fuzz.constant FA.TabletAlt
-        -- , Fuzz.constant FA.TabletAndroid
-        -- , Fuzz.constant FA.TabletAndroidAlt
-        -- , Fuzz.constant FA.Tachometer
-        -- , Fuzz.constant FA.TachometerAlt
-        -- , Fuzz.constant FA.Tag
-        -- , Fuzz.constant FA.Tags
-        -- , Fuzz.constant FA.Tasks
-        -- , Fuzz.constant FA.Taxi
-        -- , Fuzz.constant FA.Terminal
-        -- , Fuzz.constant FA.TextHeight
-        -- , Fuzz.constant FA.TextWidth
-        -- , Fuzz.constant FA.Th
-        -- , Fuzz.constant FA.ThLarge
-        -- , Fuzz.constant FA.ThList
-        -- , Fuzz.constant FA.ThermometerEmpty
-        -- , Fuzz.constant FA.ThermometerFull
-        -- , Fuzz.constant FA.ThermometerHalf
-        -- , Fuzz.constant FA.ThermometerQuarter
-        -- , Fuzz.constant FA.ThermometerThreeQuarters
-        -- , Fuzz.constant FA.ThumbsDown
-        -- , Fuzz.constant FA.ThumbsUp
-        -- , Fuzz.constant FA.Thumbtack
-        -- , Fuzz.constant FA.Ticket
-        -- , Fuzz.constant FA.TicketAlt
-        -- , Fuzz.constant FA.Times
-        -- , Fuzz.constant FA.TimesCircle
-        -- , Fuzz.constant FA.TimesHexagon
-        -- , Fuzz.constant FA.TimesOctagon
-        -- , Fuzz.constant FA.TimesSquare
-        -- , Fuzz.constant FA.Tint
-        -- , Fuzz.constant FA.ToggleOff
-        -- , Fuzz.constant FA.ToggleOn
-        -- , Fuzz.constant FA.Trademark
-        -- , Fuzz.constant FA.Train
-        -- , Fuzz.constant FA.Transgender
-        -- , Fuzz.constant FA.TransgenderAlt
-        -- , Fuzz.constant FA.Trash
-        -- , Fuzz.constant FA.TrashAlt
-        -- , Fuzz.constant FA.Tree
-        -- , Fuzz.constant FA.TreeAlt
-        -- , Fuzz.constant FA.Triangle
-        -- , Fuzz.constant FA.Trophy
-        -- , Fuzz.constant FA.TrophyAlt
-        -- , Fuzz.constant FA.Truck
-        -- , Fuzz.constant FA.TTY
-        -- , Fuzz.constant FA.TV
-        -- , Fuzz.constant FA.TVRetro
-        -- , Fuzz.constant FA.Umbrella
-        -- , Fuzz.constant FA.Underline
-        -- , Fuzz.constant FA.Undo
-        -- , Fuzz.constant FA.UndoAlt
-        -- , Fuzz.constant FA.UniversalAccess
-        -- , Fuzz.constant FA.University
-        -- , Fuzz.constant FA.Unlink
-        -- , Fuzz.constant FA.Unlock
-        -- , Fuzz.constant FA.UnlockAlt
-        -- , Fuzz.constant FA.Upload
-        -- , Fuzz.constant FA.UsdCircle
-        -- , Fuzz.constant FA.UsdSquare
-        -- , Fuzz.constant FA.User
-        -- , Fuzz.constant FA.UserAlt
-        -- , Fuzz.constant FA.UserCircle
-        -- , Fuzz.constant FA.UserMd
-        -- , Fuzz.constant FA.UserPlus
-        -- , Fuzz.constant FA.UserSecret
-        -- , Fuzz.constant FA.UserTimes
-        -- , Fuzz.constant FA.Users
-        -- , Fuzz.constant FA.UtensilFork
-        -- , Fuzz.constant FA.UtensilKnife
-        -- , Fuzz.constant FA.UtensilSpoon
-        -- , Fuzz.constant FA.Utensils
-        -- , Fuzz.constant FA.UtensilsAlt
-        -- , Fuzz.constant FA.Venus
-        -- , Fuzz.constant FA.VenusDouble
-        -- , Fuzz.constant FA.VenusMars
-        -- , Fuzz.constant FA.Video
-        -- , Fuzz.constant FA.VolumeDown
-        -- , Fuzz.constant FA.VolumeMute
-        -- , Fuzz.constant FA.VolumeOff
-        -- , Fuzz.constant FA.VolumeUp
-        -- , Fuzz.constant FA.Watch
-        -- , Fuzz.constant FA.Wheelchair
-        -- , Fuzz.constant FA.Wifi
-        -- , Fuzz.constant FA.Window
-        -- , Fuzz.constant FA.WindowAlt
-        -- , Fuzz.constant FA.WindowClose
-        -- , Fuzz.constant FA.WindowMaximize
-        -- , Fuzz.constant FA.WindowMinimize
-        -- , Fuzz.constant FA.WindowRestore
-        -- , Fuzz.constant FA.WonSign
-        -- , Fuzz.constant FA.Wrench
-        -- , Fuzz.constant FA.YenSign
-        ]
-
-
-logoFuzzer : Fuzz.Fuzzer FA.Logo
-logoFuzzer =
-    Fuzz.oneOf
-        [ Fuzz.constant FA.FiveHundredPx
-        , Fuzz.constant FA.AccessibleIcon
-        , Fuzz.constant FA.Accusoft
-        , Fuzz.constant FA.Adn
-        , Fuzz.constant FA.Adversal
-        , Fuzz.constant FA.AffiliateTheme
-        , Fuzz.constant FA.Algolia
-        , Fuzz.constant FA.Amazon
-        , Fuzz.constant FA.AmazonPay
-        , Fuzz.constant FA.Amilia
-        , Fuzz.constant FA.Android
-        , Fuzz.constant FA.AngelList
-        , Fuzz.constant FA.AngryCreative
-        , Fuzz.constant FA.Angular
-        , Fuzz.constant FA.AppStore
-        , Fuzz.constant FA.AppStoreIos
-        , Fuzz.constant FA.Apper
-        , Fuzz.constant FA.Apple
-        , Fuzz.constant FA.ApplePay
-        , Fuzz.constant FA.Asymmetrik
-        , Fuzz.constant FA.Audible
-        , Fuzz.constant FA.Autoprefixer
-        , Fuzz.constant FA.Avianex
-        , Fuzz.constant FA.Aviato
-        , Fuzz.constant FA.Aws
-        , Fuzz.constant FA.Bandcamp
-        , Fuzz.constant FA.Behance
-        , Fuzz.constant FA.BehanceSquare
-        , Fuzz.constant FA.BIMobject
-        , Fuzz.constant FA.Bitbucket
-        , Fuzz.constant FA.Bitcoin
-        , Fuzz.constant FA.Bity
-        , Fuzz.constant FA.BlackTie
-        , Fuzz.constant FA.Blackberry
-        , Fuzz.constant FA.Blogger
-        , Fuzz.constant FA.BloggerB
-        , Fuzz.constant FA.Bluetooth
-        , Fuzz.constant FA.BluetoothB
-        , Fuzz.constant FA.Btc
-        , Fuzz.constant FA.BuromobelExperte
-        , Fuzz.constant FA.BuySellAds
-        , Fuzz.constant FA.CCAmazonPay
-        , Fuzz.constant FA.CCAmex
-        , Fuzz.constant FA.CCApplePay
-        , Fuzz.constant FA.CCDinersClub
-        , Fuzz.constant FA.CCDiscover
-        , Fuzz.constant FA.CCJcb
-        , Fuzz.constant FA.CCMastercard
-        , Fuzz.constant FA.CCPayPal
-        , Fuzz.constant FA.CCStripe
-        , Fuzz.constant FA.CCVisa
-        , Fuzz.constant FA.Centercode
-        , Fuzz.constant FA.Chrome
-        , Fuzz.constant FA.CloudScale
-        , Fuzz.constant FA.Cloudsmith
-        , Fuzz.constant FA.Cloudversify
-        , Fuzz.constant FA.CodePen
-        , Fuzz.constant FA.CodiePie
-        , Fuzz.constant FA.ConnectDevelop
-        , Fuzz.constant FA.Contao
-        , Fuzz.constant FA.Cpanel
-        , Fuzz.constant FA.CreativeCommons
-        , Fuzz.constant FA.CSS3
-        , Fuzz.constant FA.CSS3Alt
-        , Fuzz.constant FA.Cuttlefish
-        , Fuzz.constant FA.DAndD
-        , Fuzz.constant FA.Dashcube
-        , Fuzz.constant FA.Delicious
-        , Fuzz.constant FA.DeployDog
-        , Fuzz.constant FA.Deskpro
-        , Fuzz.constant FA.DeviantArt
-        , Fuzz.constant FA.Digg
-        , Fuzz.constant FA.DigitalOcean
-        , Fuzz.constant FA.Discord
-        , Fuzz.constant FA.Discourse
-        , Fuzz.constant FA.DocHub
-        , Fuzz.constant FA.Docker
-        , Fuzz.constant FA.Draft2Digital
-        , Fuzz.constant FA.Dribbble
-        , Fuzz.constant FA.DribbbleSquare
-        , Fuzz.constant FA.Dropbox
-        , Fuzz.constant FA.Drupal
-        , Fuzz.constant FA.Dyalog
-        , Fuzz.constant FA.EarlyBirds
-        , Fuzz.constant FA.Edge
-        , Fuzz.constant FA.Elementor
-        , Fuzz.constant FA.Ember
-        , Fuzz.constant FA.Empire
-        , Fuzz.constant FA.Envira
-        , Fuzz.constant FA.Erlang
-        , Fuzz.constant FA.Ethereum
-        , Fuzz.constant FA.Etsy
-        , Fuzz.constant FA.ExpeditedSSL
-        , Fuzz.constant FA.Facebook
-        , Fuzz.constant FA.FacebookF
-        , Fuzz.constant FA.FacebookMessenger
-        , Fuzz.constant FA.FacebookSquare
-        , Fuzz.constant FA.Firefox
-        , Fuzz.constant FA.FirstOrder
-        , Fuzz.constant FA.FirstDraft
-        , Fuzz.constant FA.Flickr
-        , Fuzz.constant FA.Fly
-        , Fuzz.constant FA.FontAwesome
-        , Fuzz.constant FA.FontAwesomeAlt
-        , Fuzz.constant FA.FontAwesomeFlag
-        , Fuzz.constant FA.FontIcons
-        , Fuzz.constant FA.FontIconsFi
-        , Fuzz.constant FA.FortAwesome
-        , Fuzz.constant FA.FortAwesomeAlt
-        , Fuzz.constant FA.Forumbee
-        , Fuzz.constant FA.Foursquare
-        , Fuzz.constant FA.FreeCodeCamp
-        , Fuzz.constant FA.FreeBSD
-        , Fuzz.constant FA.GetPocket
-        , Fuzz.constant FA.GG
-        , Fuzz.constant FA.GGCircle
-        , Fuzz.constant FA.Git
-        , Fuzz.constant FA.GitSquare
-        , Fuzz.constant FA.GitHub
-        , Fuzz.constant FA.GitHubAlt
-        , Fuzz.constant FA.GitHubSquare
-        , Fuzz.constant FA.GitKraken
-        , Fuzz.constant FA.GitLab
-        , Fuzz.constant FA.Gitter
-        , Fuzz.constant FA.Glide
-        , Fuzz.constant FA.GlideG
-        , Fuzz.constant FA.Gofore
-        , Fuzz.constant FA.Goodreads
-        , Fuzz.constant FA.GoodreadsG
-        , Fuzz.constant FA.Google
-        , Fuzz.constant FA.GoogleDrive
-        , Fuzz.constant FA.GooglePlay
-        , Fuzz.constant FA.GooglePlus
-        , Fuzz.constant FA.GooglePlusG
-        , Fuzz.constant FA.GooglePlusSquare
-        , Fuzz.constant FA.GoogleWallet
-        , Fuzz.constant FA.Gratipay
-        , Fuzz.constant FA.Grav
-        , Fuzz.constant FA.Gripfire
-        , Fuzz.constant FA.Grunt
-        , Fuzz.constant FA.Gulp
-        , Fuzz.constant FA.HackerNews
-        , Fuzz.constant FA.HackerNewsSquare
-        , Fuzz.constant FA.HireAHelper
-        , Fuzz.constant FA.Hooli
-        , Fuzz.constant FA.Hotjar
-        , Fuzz.constant FA.Houzz
-        , Fuzz.constant FA.Html5
-        , Fuzz.constant FA.HubSpot
-        , Fuzz.constant FA.Imdb
-        , Fuzz.constant FA.Instagram
-        , Fuzz.constant FA.InternetExplorer
-        , Fuzz.constant FA.IoxHost
-        , Fuzz.constant FA.Itunes
-        , Fuzz.constant FA.ItunesNote
-        , Fuzz.constant FA.Jenkins
-        , Fuzz.constant FA.Joget
-        , Fuzz.constant FA.Joomla
-        , Fuzz.constant FA.Js
-        , Fuzz.constant FA.JsSquare
-        , Fuzz.constant FA.JSFiddle
-        , Fuzz.constant FA.KeyCDN
-        , Fuzz.constant FA.Kickstarter
-        , Fuzz.constant FA.KickstarterK
-        , Fuzz.constant FA.Korvue
-        , Fuzz.constant FA.Laravel
-        , Fuzz.constant FA.Lastfm
-        , Fuzz.constant FA.LastfmSquare
-        , Fuzz.constant FA.Leanpub
-        , Fuzz.constant FA.Less
-        , Fuzz.constant FA.Line
-        , Fuzz.constant FA.LinkedIn
-        , Fuzz.constant FA.LinkedInInverted
-        , Fuzz.constant FA.Linode
-        , Fuzz.constant FA.Linux
-        , Fuzz.constant FA.Lyft
-        , Fuzz.constant FA.Magento
-        , Fuzz.constant FA.Maxcdn
-        , Fuzz.constant FA.MedApps
-        , Fuzz.constant FA.Medium
-        , Fuzz.constant FA.MediumM
-        , Fuzz.constant FA.Medrt
-        , Fuzz.constant FA.Meetup
-        , Fuzz.constant FA.Microsoft
-        , Fuzz.constant FA.Mix
-        , Fuzz.constant FA.Mixcloud
-        , Fuzz.constant FA.Mizuni
-        , Fuzz.constant FA.MODX
-        , Fuzz.constant FA.Monero
-        , Fuzz.constant FA.Napster
-        , Fuzz.constant FA.NintendoSwitch
-        , Fuzz.constant FA.Node
-        , Fuzz.constant FA.Nodejs
-        , Fuzz.constant FA.Npm
-        , Fuzz.constant FA.NS8
-        , Fuzz.constant FA.Nutritionix
-        , Fuzz.constant FA.Odnoklassniki
-        , Fuzz.constant FA.OdnoklassnikiSquare
-        , Fuzz.constant FA.OpenCart
-        , Fuzz.constant FA.OpenID
-        , Fuzz.constant FA.Opera
-        , Fuzz.constant FA.OptinMonster
-        , Fuzz.constant FA.OpenSourceInitiative
-        , Fuzz.constant FA.Page4
-        , Fuzz.constant FA.PageLines
-        , Fuzz.constant FA.PalFed
-        , Fuzz.constant FA.Patreon
-        , Fuzz.constant FA.PayPal
-        , Fuzz.constant FA.Periscope
-        , Fuzz.constant FA.Phabricator
-        , Fuzz.constant FA.PhoenixFramework
-        , Fuzz.constant FA.PiedPiper
-        , Fuzz.constant FA.PiedPiperAlt
-        , Fuzz.constant FA.PiedPiperPp
-        , Fuzz.constant FA.Pinterest
-        , Fuzz.constant FA.PinterestP
-        , Fuzz.constant FA.PinterestSquare
-        , Fuzz.constant FA.Playstation
-        , Fuzz.constant FA.ProductHunt
-        , Fuzz.constant FA.Pushed
-        , Fuzz.constant FA.Python
-        , Fuzz.constant FA.QQ
-        , Fuzz.constant FA.Quora
-        , Fuzz.constant FA.Ravelry
-        , Fuzz.constant FA.React
-        , Fuzz.constant FA.Rebel
-        , Fuzz.constant FA.RedRiver
-        , Fuzz.constant FA.Reddit
-        , Fuzz.constant FA.RedditAlien
-        , Fuzz.constant FA.RedditSquare
-        , Fuzz.constant FA.Rendact
-        , Fuzz.constant FA.Renren
-        , Fuzz.constant FA.Replyd
-        , Fuzz.constant FA.Resolving
-        , Fuzz.constant FA.RocketChat
-        , Fuzz.constant FA.RockRMS
-        , Fuzz.constant FA.Safari
-        , Fuzz.constant FA.Sass
-        , Fuzz.constant FA.Schlix
-        , Fuzz.constant FA.Scribd
-        , Fuzz.constant FA.Searchengin
-        , Fuzz.constant FA.SellCast
-        , Fuzz.constant FA.Sellsy
-        , Fuzz.constant FA.ServiceStack
-        , Fuzz.constant FA.ShirtsInBulk
-        , Fuzz.constant FA.SimplyBuilt
-        , Fuzz.constant FA.Sistrix
-        , Fuzz.constant FA.SkyAtlas
-        , Fuzz.constant FA.Skype
-        , Fuzz.constant FA.Slack
-        , Fuzz.constant FA.SlackHash
-        , Fuzz.constant FA.Slideshare
-        , Fuzz.constant FA.Snapchat
-        , Fuzz.constant FA.SnapchatGhost
-        , Fuzz.constant FA.SnapchatSquare
-        , Fuzz.constant FA.SoundCloud
-        , Fuzz.constant FA.Speakap
-        , Fuzz.constant FA.Spotify
-        , Fuzz.constant FA.StackExchange
-        , Fuzz.constant FA.StackOverflow
-        , Fuzz.constant FA.StayLinked
-        , Fuzz.constant FA.Steam
-        , Fuzz.constant FA.SteamSquare
-        , Fuzz.constant FA.SteamSymbol
-        , Fuzz.constant FA.StickerMule
-        , Fuzz.constant FA.Strava
-        , Fuzz.constant FA.Stripe
-        , Fuzz.constant FA.StripeS
-        , Fuzz.constant FA.StudioVinari
-        , Fuzz.constant FA.StumbleUpon
-        , Fuzz.constant FA.StumbleUponCircle
-        , Fuzz.constant FA.Superpowers
-        , Fuzz.constant FA.Supple
-        , Fuzz.constant FA.Telegram
-        , Fuzz.constant FA.TelegramPlane
-        , Fuzz.constant FA.TencentWeibo
-        , Fuzz.constant FA.ThemeIsle
-        , Fuzz.constant FA.Trello
-        , Fuzz.constant FA.TripAdvisor
-        , Fuzz.constant FA.Tumblr
-        , Fuzz.constant FA.TumblrSquare
-        , Fuzz.constant FA.Twitch
-        , Fuzz.constant FA.Twitter
-        , Fuzz.constant FA.TwitterSquare
-        , Fuzz.constant FA.Typo3
-        , Fuzz.constant FA.Uber
-        , Fuzz.constant FA.UIkit
-        , Fuzz.constant FA.Uniregistry
-        , Fuzz.constant FA.Untappd
-        , Fuzz.constant FA.USB
-        , Fuzz.constant FA.UsSunnah
-        , Fuzz.constant FA.Vaadin
-        , Fuzz.constant FA.Viacoin
-        , Fuzz.constant FA.Viadeo
-        , Fuzz.constant FA.ViadeoSquare
-        , Fuzz.constant FA.Viber
-        , Fuzz.constant FA.Vimeo
-        , Fuzz.constant FA.VimeoSquare
-        , Fuzz.constant FA.VimeoV
-        , Fuzz.constant FA.Vine
-        , Fuzz.constant FA.VK
-        , Fuzz.constant FA.Vnv
-        , Fuzz.constant FA.Vuejs
-        , Fuzz.constant FA.Weibo
-        , Fuzz.constant FA.Weixin
-        , Fuzz.constant FA.WhatsApp
-        , Fuzz.constant FA.WhatsAppSquare
-        , Fuzz.constant FA.WHMCS
-        , Fuzz.constant FA.Wikipedia
-        , Fuzz.constant FA.Windows
-        , Fuzz.constant FA.WordPress
-        , Fuzz.constant FA.WordPressSimple
-        , Fuzz.constant FA.WPBeginner
-        , Fuzz.constant FA.WPExplorer
-        , Fuzz.constant FA.WPForms
-        , Fuzz.constant FA.Xbox
-        , Fuzz.constant FA.XING
-        , Fuzz.constant FA.XINGSquare
-        , Fuzz.constant FA.YCombinator
-        , Fuzz.constant FA.Yahoo
-        , Fuzz.constant FA.Yandex
-        , Fuzz.constant FA.YandexInternational
-        , Fuzz.constant FA.Yelp
-        , Fuzz.constant FA.Yoast
-        , Fuzz.constant FA.YouTube
-        , Fuzz.constant FA.YouTubeSquare
+        -- , Fuzz.constant FA.dAndD
+        -- , Fuzz.constant FA.dashcube
+        -- , Fuzz.constant FA.database
+        -- , Fuzz.constant FA.deaf
+        -- , Fuzz.constant FA.delicious
+        -- , Fuzz.constant FA.deployDog
+        -- , Fuzz.constant FA.deskpro
+        -- , Fuzz.constant FA.desktop
+        -- , Fuzz.constant FA.desktopAlt
+        -- , Fuzz.constant FA.deviantArt
+        -- , Fuzz.constant FA.diamond
+        -- , Fuzz.constant FA.digg
+        -- , Fuzz.constant FA.digitalOcean
+        -- , Fuzz.constant FA.discord
+        -- , Fuzz.constant FA.discourse
+        -- , Fuzz.constant FA.docHub
+        -- , Fuzz.constant FA.docker
+        -- , Fuzz.constant FA.dollarSign
+        -- , Fuzz.constant FA.dotCircle
+        -- , Fuzz.constant FA.download
+        -- , Fuzz.constant FA.draft2Digital
+        -- , Fuzz.constant FA.dribbble
+        -- , Fuzz.constant FA.dribbbleSquare
+        -- , Fuzz.constant FA.dropbox
+        -- , Fuzz.constant FA.drupal
+        -- , Fuzz.constant FA.dyalog
+        -- , Fuzz.constant FA.earlyBirds
+        -- , Fuzz.constant FA.edge
+        -- , Fuzz.constant FA.edit
+        -- , Fuzz.constant FA.eject
+        -- , Fuzz.constant FA.elementor
+        -- , Fuzz.constant FA.ellipsisHorizontal
+        -- , Fuzz.constant FA.ellipsisHorizontalAlt
+        -- , Fuzz.constant FA.ellipsisVertical
+        -- , Fuzz.constant FA.ellipsisVerticalAlt
+        -- , Fuzz.constant FA.ember
+        -- , Fuzz.constant FA.empire
+        -- , Fuzz.constant FA.envelope
+        -- , Fuzz.constant FA.envelopeOpen
+        -- , Fuzz.constant FA.envelopeSquare
+        -- , Fuzz.constant FA.envira
+        -- , Fuzz.constant FA.eraser
+        -- , Fuzz.constant FA.erlang
+        -- , Fuzz.constant FA.ethereum
+        -- , Fuzz.constant FA.etsy
+        -- , Fuzz.constant FA.euroSign
+        -- , Fuzz.constant FA.exchange
+        -- , Fuzz.constant FA.exchangeAlt
+        -- , Fuzz.constant FA.exclamation
+        -- , Fuzz.constant FA.exclamationCircle
+        -- , Fuzz.constant FA.exclamationSquare
+        -- , Fuzz.constant FA.exclamationTriangle
+        -- , Fuzz.constant FA.expand
+        -- , Fuzz.constant FA.expandAlt
+        -- , Fuzz.constant FA.expandArrows
+        -- , Fuzz.constant FA.expandArrowsAlt
+        -- , Fuzz.constant FA.expandWide
+        -- , Fuzz.constant FA.expeditedSSL
+        -- , Fuzz.constant FA.externalLink
+        -- , Fuzz.constant FA.externalLinkAlt
+        -- , Fuzz.constant FA.externalLinkSquare
+        -- , Fuzz.constant FA.externalLinkSquareAlt
+        -- , Fuzz.constant FA.eye
+        -- , Fuzz.constant FA.eyeDropper
+        -- , Fuzz.constant FA.eyeSlash
+        -- , Fuzz.constant FA.facebook
+        -- , Fuzz.constant FA.facebookF
+        -- , Fuzz.constant FA.facebookMessenger
+        -- , Fuzz.constant FA.facebookSquare
+        -- , Fuzz.constant FA.fastBackward
+        -- , Fuzz.constant FA.fastForward
+        -- , Fuzz.constant FA.fax
+        -- , Fuzz.constant FA.female
+        -- , Fuzz.constant FA.fighterJet
+        -- , Fuzz.constant FA.file
+        -- , Fuzz.constant FA.fileAlt
+        -- , Fuzz.constant FA.fileArchive
+        -- , Fuzz.constant FA.fileAudio
+        -- , Fuzz.constant FA.fileCheck
+        -- , Fuzz.constant FA.fileCode
+        -- , Fuzz.constant FA.fileEdit
+        -- , Fuzz.constant FA.fileExcel
+        -- , Fuzz.constant FA.fileExclamation
+        -- , Fuzz.constant FA.fileImage
+        -- , Fuzz.constant FA.fileMinus
+        -- , Fuzz.constant FA.filePdf
+        -- , Fuzz.constant FA.filePlus
+        -- , Fuzz.constant FA.filePowerpoint
+        -- , Fuzz.constant FA.fileTimes
+        -- , Fuzz.constant FA.fileVideo
+        -- , Fuzz.constant FA.fileWord
+        -- , Fuzz.constant FA.film
+        -- , Fuzz.constant FA.filmAlt
+        -- , Fuzz.constant FA.filter
+        -- , Fuzz.constant FA.fire
+        -- , Fuzz.constant FA.fireExtinguisher
+        -- , Fuzz.constant FA.firefox
+        -- , Fuzz.constant FA.firstDraft
+        -- , Fuzz.constant FA.firstOrder
+        -- , Fuzz.constant FA.fiveHundredPx
+        -- , Fuzz.constant FA.flag
+        -- , Fuzz.constant FA.flagCheckered
+        -- , Fuzz.constant FA.flask
+        -- , Fuzz.constant FA.flickr
+        -- , Fuzz.constant FA.fly
+        -- , Fuzz.constant FA.folder
+        -- , Fuzz.constant FA.folderOpen
+        -- , Fuzz.constant FA.font
+        -- , Fuzz.constant FA.fontAwesome
+        -- , Fuzz.constant FA.fontAwesomeAlt
+        -- , Fuzz.constant FA.fontAwesomeFlag
+        -- , Fuzz.constant FA.fontIcons
+        -- , Fuzz.constant FA.fontIconsFi
+        -- , Fuzz.constant FA.fortAwesome
+        -- , Fuzz.constant FA.fortAwesomeAlt
+        -- , Fuzz.constant FA.forumbee
+        -- , Fuzz.constant FA.forward
+        -- , Fuzz.constant FA.foursquare
+        -- , Fuzz.constant FA.freeBSD
+        -- , Fuzz.constant FA.freeCodeCamp
+        -- , Fuzz.constant FA.frown
+        -- , Fuzz.constant FA.futbol
+        -- , Fuzz.constant FA.gG
+        -- , Fuzz.constant FA.gGCircle
+        -- , Fuzz.constant FA.gamepad
+        -- , Fuzz.constant FA.gavel
+        -- , Fuzz.constant FA.gem
+        -- , Fuzz.constant FA.genderless
+        -- , Fuzz.constant FA.getPocket
+        -- , Fuzz.constant FA.gift
+        -- , Fuzz.constant FA.git
+        -- , Fuzz.constant FA.gitHub
+        -- , Fuzz.constant FA.gitHubAlt
+        -- , Fuzz.constant FA.gitHubSquare
+        -- , Fuzz.constant FA.gitKraken
+        -- , Fuzz.constant FA.gitLab
+        -- , Fuzz.constant FA.gitSquare
+        -- , Fuzz.constant FA.gitter
+        -- , Fuzz.constant FA.glassMartini
+        -- , Fuzz.constant FA.glide
+        -- , Fuzz.constant FA.glideG
+        -- , Fuzz.constant FA.globe
+        -- , Fuzz.constant FA.gofore
+        -- , Fuzz.constant FA.goodreads
+        -- , Fuzz.constant FA.goodreadsG
+        -- , Fuzz.constant FA.google
+        -- , Fuzz.constant FA.googleDrive
+        -- , Fuzz.constant FA.googlePlay
+        -- , Fuzz.constant FA.googlePlus
+        -- , Fuzz.constant FA.googlePlusG
+        -- , Fuzz.constant FA.googlePlusSquare
+        -- , Fuzz.constant FA.googleWallet
+        -- , Fuzz.constant FA.graduationCap
+        -- , Fuzz.constant FA.gratipay
+        -- , Fuzz.constant FA.grav
+        -- , Fuzz.constant FA.gripfire
+        -- , Fuzz.constant FA.grunt
+        -- , Fuzz.constant FA.gulp
+        -- , Fuzz.constant FA.h1
+        -- , Fuzz.constant FA.h2
+        -- , Fuzz.constant FA.h3
+        -- , Fuzz.constant FA.hSquare
+        -- , Fuzz.constant FA.hackerNews
+        -- , Fuzz.constant FA.hackerNewsSquare
+        -- , Fuzz.constant FA.handLizard
+        -- , Fuzz.constant FA.handPaper
+        -- , Fuzz.constant FA.handPeace
+        -- , Fuzz.constant FA.handPointDown
+        -- , Fuzz.constant FA.handPointLeft
+        -- , Fuzz.constant FA.handPointRight
+        -- , Fuzz.constant FA.handPointUp
+        -- , Fuzz.constant FA.handPointer
+        -- , Fuzz.constant FA.handRock
+        -- , Fuzz.constant FA.handScissors
+        -- , Fuzz.constant FA.handSpock
+        -- , Fuzz.constant FA.handshake
+        -- , Fuzz.constant FA.hashtag
+        -- , Fuzz.constant FA.hdd
+        -- , Fuzz.constant FA.heading
+        -- , Fuzz.constant FA.headphones
+        -- , Fuzz.constant FA.heart
+        -- , Fuzz.constant FA.heartbeat
+        -- , Fuzz.constant FA.hexagon
+        -- , Fuzz.constant FA.hireAHelper
+        -- , Fuzz.constant FA.history
+        -- , Fuzz.constant FA.home
+        -- , Fuzz.constant FA.hooli
+        -- , Fuzz.constant FA.hospital
+        -- , Fuzz.constant FA.hotjar
+        -- , Fuzz.constant FA.hourglass
+        -- , Fuzz.constant FA.hourglassEnd
+        -- , Fuzz.constant FA.hourglassHalf
+        -- , Fuzz.constant FA.hourglassStart
+        -- , Fuzz.constant FA.houzz
+        -- , Fuzz.constant FA.html5
+        -- , Fuzz.constant FA.hubSpot
+        -- , Fuzz.constant FA.iCursor
+        -- , Fuzz.constant FA.idBadge
+        -- , Fuzz.constant FA.idCard
+        -- , Fuzz.constant FA.image
+        -- , Fuzz.constant FA.images
+        -- , Fuzz.constant FA.imdb
+        -- , Fuzz.constant FA.inbox
+        -- , Fuzz.constant FA.inboxIn
+        -- , Fuzz.constant FA.inboxOut
+        -- , Fuzz.constant FA.indent
+        -- , Fuzz.constant FA.industry
+        -- , Fuzz.constant FA.industryAlt
+        -- , Fuzz.constant FA.info
+        -- , Fuzz.constant FA.infoCircle
+        -- , Fuzz.constant FA.infoSquare
+        -- , Fuzz.constant FA.instagram
+        -- , Fuzz.constant FA.internetExplorer
+        -- , Fuzz.constant FA.ioxHost
+        -- , Fuzz.constant FA.italic
+        -- , Fuzz.constant FA.itunes
+        -- , Fuzz.constant FA.itunesNote
+        -- , Fuzz.constant FA.jSFiddle
+        -- , Fuzz.constant FA.jackOLantern
+        -- , Fuzz.constant FA.jenkins
+        -- , Fuzz.constant FA.joget
+        -- , Fuzz.constant FA.joomla
+        -- , Fuzz.constant FA.js
+        -- , Fuzz.constant FA.jsSquare
+        -- , Fuzz.constant FA.key
+        -- , Fuzz.constant FA.keyCDN
+        -- , Fuzz.constant FA.keyboard
+        -- , Fuzz.constant FA.kickstarter
+        -- , Fuzz.constant FA.kickstarterK
+        -- , Fuzz.constant FA.korvue
+        -- , Fuzz.constant FA.language
+        -- , Fuzz.constant FA.laptop
+        -- , Fuzz.constant FA.laravel
+        -- , Fuzz.constant FA.lastfm
+        -- , Fuzz.constant FA.lastfmSquare
+        -- , Fuzz.constant FA.leaf
+        -- , Fuzz.constant FA.leanpub
+        -- , Fuzz.constant FA.lemon
+        -- , Fuzz.constant FA.less
+        -- , Fuzz.constant FA.levelDown
+        -- , Fuzz.constant FA.levelDownAlt
+        -- , Fuzz.constant FA.levelUp
+        -- , Fuzz.constant FA.levelUpAlt
+        -- , Fuzz.constant FA.lifeRing
+        -- , Fuzz.constant FA.lightbulb
+        -- , Fuzz.constant FA.line
+        -- , Fuzz.constant FA.link
+        -- , Fuzz.constant FA.linkedIn
+        -- , Fuzz.constant FA.linkedInInverted
+        -- , Fuzz.constant FA.linode
+        -- , Fuzz.constant FA.linux
+        -- , Fuzz.constant FA.liraSign
+        -- , Fuzz.constant FA.list
+        -- , Fuzz.constant FA.listAlt
+        -- , Fuzz.constant FA.listOl
+        -- , Fuzz.constant FA.listUl
+        -- , Fuzz.constant FA.locationArrow
+        -- , Fuzz.constant FA.lock
+        -- , Fuzz.constant FA.lockAlt
+        -- , Fuzz.constant FA.lockOpen
+        -- , Fuzz.constant FA.lockOpenAlt
+        -- , Fuzz.constant FA.longArrowAltDown
+        -- , Fuzz.constant FA.longArrowAltLeft
+        -- , Fuzz.constant FA.longArrowAltRight
+        -- , Fuzz.constant FA.longArrowAltUp
+        -- , Fuzz.constant FA.longArrowDown
+        -- , Fuzz.constant FA.longArrowLeft
+        -- , Fuzz.constant FA.longArrowRight
+        -- , Fuzz.constant FA.longArrowUp
+        -- , Fuzz.constant FA.lowVision
+        -- , Fuzz.constant FA.lyft
+        -- , Fuzz.constant FA.mODX
+        -- , Fuzz.constant FA.magento
+        -- , Fuzz.constant FA.magic
+        -- , Fuzz.constant FA.magnet
+        -- , Fuzz.constant FA.male
+        -- , Fuzz.constant FA.map
+        -- , Fuzz.constant FA.mapMarker
+        -- , Fuzz.constant FA.mapMarkerAlt
+        -- , Fuzz.constant FA.mapPin
+        -- , Fuzz.constant FA.mapSigns
+        -- , Fuzz.constant FA.mars
+        -- , Fuzz.constant FA.marsDouble
+        -- , Fuzz.constant FA.marsStroke
+        -- , Fuzz.constant FA.marsStrokeHorizontal
+        -- , Fuzz.constant FA.marsStrokeVertical
+        -- , Fuzz.constant FA.maxcdn
+        -- , Fuzz.constant FA.medApps
+        -- , Fuzz.constant FA.medium
+        -- , Fuzz.constant FA.mediumM
+        -- , Fuzz.constant FA.medkit
+        -- , Fuzz.constant FA.medrt
+        -- , Fuzz.constant FA.meetup
+        -- , Fuzz.constant FA.meh
+        -- , Fuzz.constant FA.mercury
+        -- , Fuzz.constant FA.microchip
+        -- , Fuzz.constant FA.microphone
+        -- , Fuzz.constant FA.microphoneAlt
+        -- , Fuzz.constant FA.microphoneSlash
+        -- , Fuzz.constant FA.microsoft
+        -- , Fuzz.constant FA.minus
+        -- , Fuzz.constant FA.minusCircle
+        -- , Fuzz.constant FA.minusHexagon
+        -- , Fuzz.constant FA.minusOctagon
+        -- , Fuzz.constant FA.minusSquare
+        -- , Fuzz.constant FA.mix
+        -- , Fuzz.constant FA.mixcloud
+        -- , Fuzz.constant FA.mizuni
+        -- , Fuzz.constant FA.mobile
+        -- , Fuzz.constant FA.mobileAlt
+        -- , Fuzz.constant FA.mobileAndroid
+        -- , Fuzz.constant FA.mobileAndroidAlt
+        -- , Fuzz.constant FA.monero
+        -- , Fuzz.constant FA.moneyBill
+        -- , Fuzz.constant FA.moneyBillAlt
+        -- , Fuzz.constant FA.moon
+        -- , Fuzz.constant FA.motorcycle
+        -- , Fuzz.constant FA.mousePointer
+        -- , Fuzz.constant FA.music
+        -- , Fuzz.constant FA.nS8
+        -- , Fuzz.constant FA.napster
+        -- , Fuzz.constant FA.neuter
+        -- , Fuzz.constant FA.newspaper
+        -- , Fuzz.constant FA.nintendoSwitch
+        -- , Fuzz.constant FA.node
+        -- , Fuzz.constant FA.nodejs
+        -- , Fuzz.constant FA.npm
+        -- , Fuzz.constant FA.nutritionix
+        -- , Fuzz.constant FA.objectGroup
+        -- , Fuzz.constant FA.objectUngroup
+        -- , Fuzz.constant FA.octagon
+        -- , Fuzz.constant FA.odnoklassniki
+        -- , Fuzz.constant FA.odnoklassnikiSquare
+        -- , Fuzz.constant FA.openCart
+        -- , Fuzz.constant FA.openID
+        -- , Fuzz.constant FA.openSourceInitiative
+        -- , Fuzz.constant FA.opera
+        -- , Fuzz.constant FA.optinMonster
+        -- , Fuzz.constant FA.outdent
+        -- , Fuzz.constant FA.page4
+        -- , Fuzz.constant FA.pageLines
+        -- , Fuzz.constant FA.paintBrush
+        -- , Fuzz.constant FA.palFed
+        -- , Fuzz.constant FA.paperPlane
+        -- , Fuzz.constant FA.paperclip
+        -- , Fuzz.constant FA.paragraph
+        -- , Fuzz.constant FA.paste
+        -- , Fuzz.constant FA.patreon
+        -- , Fuzz.constant FA.pause
+        -- , Fuzz.constant FA.pauseCircle
+        -- , Fuzz.constant FA.paw
+        -- , Fuzz.constant FA.payPal
+        -- , Fuzz.constant FA.pen
+        -- , Fuzz.constant FA.penAlt
+        -- , Fuzz.constant FA.penSquare
+        -- , Fuzz.constant FA.pencil
+        -- , Fuzz.constant FA.pencilAlt
+        -- , Fuzz.constant FA.percent
+        -- , Fuzz.constant FA.periscope
+        -- , Fuzz.constant FA.phabricator
+        -- , Fuzz.constant FA.phoenixFramework
+        -- , Fuzz.constant FA.phone
+        -- , Fuzz.constant FA.phoneSlash
+        -- , Fuzz.constant FA.phoneSquare
+        -- , Fuzz.constant FA.phoneVolume
+        -- , Fuzz.constant FA.piedPiper
+        -- , Fuzz.constant FA.piedPiperAlt
+        -- , Fuzz.constant FA.piedPiperPp
+        -- , Fuzz.constant FA.pinterest
+        -- , Fuzz.constant FA.pinterestP
+        -- , Fuzz.constant FA.pinterestSquare
+        -- , Fuzz.constant FA.plane
+        -- , Fuzz.constant FA.planeAlt
+        -- , Fuzz.constant FA.play
+        -- , Fuzz.constant FA.playCircle
+        -- , Fuzz.constant FA.playstation
+        -- , Fuzz.constant FA.plug
+        -- , Fuzz.constant FA.plus
+        -- , Fuzz.constant FA.plusCircle
+        -- , Fuzz.constant FA.plusHexagon
+        -- , Fuzz.constant FA.plusOctagon
+        -- , Fuzz.constant FA.plusSquare
+        -- , Fuzz.constant FA.podcast
+        -- , Fuzz.constant FA.poo
+        -- , Fuzz.constant FA.portrait
+        -- , Fuzz.constant FA.poundSign
+        -- , Fuzz.constant FA.powerOff
+        -- , Fuzz.constant FA.print
+        -- , Fuzz.constant FA.productHunt
+        -- , Fuzz.constant FA.pushed
+        -- , Fuzz.constant FA.puzzlePiece
+        -- , Fuzz.constant FA.python
+        -- , Fuzz.constant FA.qQ
+        -- , Fuzz.constant FA.qrcode
+        -- , Fuzz.constant FA.question
+        -- , Fuzz.constant FA.questionCircle
+        -- , Fuzz.constant FA.questionSquare
+        -- , Fuzz.constant FA.quora
+        -- , Fuzz.constant FA.quoteLeft
+        -- , Fuzz.constant FA.quoteRight
+        -- , Fuzz.constant FA.rSS
+        -- , Fuzz.constant FA.rSSSquare
+        -- , Fuzz.constant FA.random
+        -- , Fuzz.constant FA.ravelry
+        -- , Fuzz.constant FA.react
+        -- , Fuzz.constant FA.rebel
+        -- , Fuzz.constant FA.rectangleLandscape
+        -- , Fuzz.constant FA.rectanglePortrait
+        -- , Fuzz.constant FA.rectangleWide
+        -- , Fuzz.constant FA.recycle
+        -- , Fuzz.constant FA.redRiver
+        -- , Fuzz.constant FA.reddit
+        -- , Fuzz.constant FA.redditAlien
+        -- , Fuzz.constant FA.redditSquare
+        -- , Fuzz.constant FA.redo
+        -- , Fuzz.constant FA.redoAlt
+        -- , Fuzz.constant FA.registered
+        -- , Fuzz.constant FA.rendact
+        -- , Fuzz.constant FA.renren
+        -- , Fuzz.constant FA.repeat
+        -- , Fuzz.constant FA.repeat1
+        -- , Fuzz.constant FA.repeat1Alt
+        -- , Fuzz.constant FA.repeatAlt
+        -- , Fuzz.constant FA.reply
+        -- , Fuzz.constant FA.replyAll
+        -- , Fuzz.constant FA.replyd
+        -- , Fuzz.constant FA.resolving
+        -- , Fuzz.constant FA.retweet
+        -- , Fuzz.constant FA.retweetAlt
+        -- , Fuzz.constant FA.road
+        -- , Fuzz.constant FA.rockRMS
+        -- , Fuzz.constant FA.rocket
+        -- , Fuzz.constant FA.rocketChat
+        -- , Fuzz.constant FA.rubleSign
+        -- , Fuzz.constant FA.rupeeSign
+        -- , Fuzz.constant FA.safari
+        -- , Fuzz.constant FA.sass
+        -- , Fuzz.constant FA.save
+        -- , Fuzz.constant FA.schlix
+        -- , Fuzz.constant FA.scribd
+        -- , Fuzz.constant FA.scrubber
+        -- , Fuzz.constant FA.search
+        -- , Fuzz.constant FA.searchMinus
+        -- , Fuzz.constant FA.searchPlus
+        -- , Fuzz.constant FA.searchengin
+        -- , Fuzz.constant FA.sellCast
+        -- , Fuzz.constant FA.sellsy
+        -- , Fuzz.constant FA.server
+        -- , Fuzz.constant FA.serviceStack
+        -- , Fuzz.constant FA.share
+        -- , Fuzz.constant FA.shareAll
+        -- , Fuzz.constant FA.shareAlt
+        -- , Fuzz.constant FA.shareAltSquare
+        -- , Fuzz.constant FA.shareSquare
+        -- , Fuzz.constant FA.shekelSign
+        -- , Fuzz.constant FA.shield
+        -- , Fuzz.constant FA.shieldAlt
+        -- , Fuzz.constant FA.shieldCheck
+        -- , Fuzz.constant FA.ship
+        -- , Fuzz.constant FA.shirtsInBulk
+        -- , Fuzz.constant FA.shoppingBag
+        -- , Fuzz.constant FA.shoppingBasket
+        -- , Fuzz.constant FA.shoppingCart
+        -- , Fuzz.constant FA.shower
+        -- , Fuzz.constant FA.signIn
+        -- , Fuzz.constant FA.signInAlt
+        -- , Fuzz.constant FA.signLanguage
+        -- , Fuzz.constant FA.signOut
+        -- , Fuzz.constant FA.signOutAlt
+        -- , Fuzz.constant FA.signal
+        -- , Fuzz.constant FA.simplyBuilt
+        -- , Fuzz.constant FA.sistrix
+        -- , Fuzz.constant FA.sitemap
+        -- , Fuzz.constant FA.skyAtlas
+        -- , Fuzz.constant FA.skype
+        -- , Fuzz.constant FA.slack
+        -- , Fuzz.constant FA.slackHash
+        -- , Fuzz.constant FA.slidersHorizontal
+        -- , Fuzz.constant FA.slidersHorizontalSquare
+        -- , Fuzz.constant FA.slidersV
+        -- , Fuzz.constant FA.slidersVSquare
+        -- , Fuzz.constant FA.slideshare
+        -- , Fuzz.constant FA.smile
+        -- , Fuzz.constant FA.snapchat
+        -- , Fuzz.constant FA.snapchatGhost
+        -- , Fuzz.constant FA.snapchatSquare
+        -- , Fuzz.constant FA.snowflake
+        -- , Fuzz.constant FA.sort
+        -- , Fuzz.constant FA.sortAlphaDown
+        -- , Fuzz.constant FA.sortAlphaUp
+        -- , Fuzz.constant FA.sortAmountDown
+        -- , Fuzz.constant FA.sortAmountUp
+        -- , Fuzz.constant FA.sortDown
+        -- , Fuzz.constant FA.sortNumericDown
+        -- , Fuzz.constant FA.sortNumericUp
+        -- , Fuzz.constant FA.sortUp
+        -- , Fuzz.constant FA.soundCloud
+        -- , Fuzz.constant FA.spaceShuttle
+        -- , Fuzz.constant FA.spade
+        -- , Fuzz.constant FA.speakap
+        -- , Fuzz.constant FA.spinner
+        -- , Fuzz.constant FA.spinnerThird
+        -- , Fuzz.constant FA.spotify
+        -- , Fuzz.constant FA.square
+        -- , Fuzz.constant FA.stackExchange
+        -- , Fuzz.constant FA.stackOverflow
+        -- , Fuzz.constant FA.star
+        -- , Fuzz.constant FA.starExclamation
+        -- , Fuzz.constant FA.starHalf
+        -- , Fuzz.constant FA.stayLinked
+        -- , Fuzz.constant FA.steam
+        -- , Fuzz.constant FA.steamSquare
+        -- , Fuzz.constant FA.steamSymbol
+        -- , Fuzz.constant FA.stepBackward
+        -- , Fuzz.constant FA.stepForward
+        -- , Fuzz.constant FA.stethoscope
+        -- , Fuzz.constant FA.stickerMule
+        -- , Fuzz.constant FA.stickyNote
+        -- , Fuzz.constant FA.stop
+        -- , Fuzz.constant FA.stopCircle
+        -- , Fuzz.constant FA.stopwatch
+        -- , Fuzz.constant FA.strava
+        -- , Fuzz.constant FA.streetView
+        -- , Fuzz.constant FA.strikethrough
+        -- , Fuzz.constant FA.stripe
+        -- , Fuzz.constant FA.stripeS
+        -- , Fuzz.constant FA.studioVinari
+        -- , Fuzz.constant FA.stumbleUpon
+        -- , Fuzz.constant FA.stumbleUponCircle
+        -- , Fuzz.constant FA.subscript
+        -- , Fuzz.constant FA.subway
+        -- , Fuzz.constant FA.suitcase
+        -- , Fuzz.constant FA.sun
+        -- , Fuzz.constant FA.superpowers
+        -- , Fuzz.constant FA.superscript
+        -- , Fuzz.constant FA.supple
+        -- , Fuzz.constant FA.sync
+        -- , Fuzz.constant FA.syncAlt
+        -- , Fuzz.constant FA.tTY
+        -- , Fuzz.constant FA.tV
+        -- , Fuzz.constant FA.tVRetro
+        -- , Fuzz.constant FA.table
+        -- , Fuzz.constant FA.tablet
+        -- , Fuzz.constant FA.tabletAlt
+        -- , Fuzz.constant FA.tabletAndroid
+        -- , Fuzz.constant FA.tabletAndroidAlt
+        -- , Fuzz.constant FA.tachometer
+        -- , Fuzz.constant FA.tachometerAlt
+        -- , Fuzz.constant FA.tag
+        -- , Fuzz.constant FA.tags
+        -- , Fuzz.constant FA.tasks
+        -- , Fuzz.constant FA.taxi
+        -- , Fuzz.constant FA.telegram
+        -- , Fuzz.constant FA.telegramPlane
+        -- , Fuzz.constant FA.tencentWeibo
+        -- , Fuzz.constant FA.terminal
+        -- , Fuzz.constant FA.textHeight
+        -- , Fuzz.constant FA.textWidth
+        -- , Fuzz.constant FA.th
+        -- , Fuzz.constant FA.thLarge
+        -- , Fuzz.constant FA.thList
+        -- , Fuzz.constant FA.themeIsle
+        -- , Fuzz.constant FA.thermometerEmpty
+        -- , Fuzz.constant FA.thermometerFull
+        -- , Fuzz.constant FA.thermometerHalf
+        -- , Fuzz.constant FA.thermometerQuarter
+        -- , Fuzz.constant FA.thermometerThreeQuarters
+        -- , Fuzz.constant FA.thumbsDown
+        -- , Fuzz.constant FA.thumbsUp
+        -- , Fuzz.constant FA.thumbtack
+        -- , Fuzz.constant FA.ticket
+        -- , Fuzz.constant FA.ticketAlt
+        -- , Fuzz.constant FA.times
+        -- , Fuzz.constant FA.timesCircle
+        -- , Fuzz.constant FA.timesHexagon
+        -- , Fuzz.constant FA.timesOctagon
+        -- , Fuzz.constant FA.timesSquare
+        -- , Fuzz.constant FA.tint
+        -- , Fuzz.constant FA.toggleOff
+        -- , Fuzz.constant FA.toggleOn
+        -- , Fuzz.constant FA.trademark
+        -- , Fuzz.constant FA.train
+        -- , Fuzz.constant FA.transgender
+        -- , Fuzz.constant FA.transgenderAlt
+        -- , Fuzz.constant FA.trash
+        -- , Fuzz.constant FA.trashAlt
+        -- , Fuzz.constant FA.tree
+        -- , Fuzz.constant FA.treeAlt
+        -- , Fuzz.constant FA.trello
+        -- , Fuzz.constant FA.triangle
+        -- , Fuzz.constant FA.tripAdvisor
+        -- , Fuzz.constant FA.trophy
+        -- , Fuzz.constant FA.trophyAlt
+        -- , Fuzz.constant FA.truck
+        -- , Fuzz.constant FA.tumblr
+        -- , Fuzz.constant FA.tumblrSquare
+        -- , Fuzz.constant FA.twitch
+        -- , Fuzz.constant FA.twitter
+        -- , Fuzz.constant FA.twitterSquare
+        -- , Fuzz.constant FA.typo3
+        -- , Fuzz.constant FA.uIkit
+        -- , Fuzz.constant FA.uSB
+        -- , Fuzz.constant FA.uber
+        -- , Fuzz.constant FA.umbrella
+        -- , Fuzz.constant FA.underline
+        -- , Fuzz.constant FA.undo
+        -- , Fuzz.constant FA.undoAlt
+        -- , Fuzz.constant FA.uniregistry
+        -- , Fuzz.constant FA.universalAccess
+        -- , Fuzz.constant FA.university
+        -- , Fuzz.constant FA.unlink
+        -- , Fuzz.constant FA.unlock
+        -- , Fuzz.constant FA.unlockAlt
+        -- , Fuzz.constant FA.untappd
+        -- , Fuzz.constant FA.upload
+        -- , Fuzz.constant FA.usSunnah
+        -- , Fuzz.constant FA.usdCircle
+        -- , Fuzz.constant FA.usdSquare
+        -- , Fuzz.constant FA.user
+        -- , Fuzz.constant FA.userAlt
+        -- , Fuzz.constant FA.userCircle
+        -- , Fuzz.constant FA.userMd
+        -- , Fuzz.constant FA.userPlus
+        -- , Fuzz.constant FA.userSecret
+        -- , Fuzz.constant FA.userTimes
+        -- , Fuzz.constant FA.users
+        -- , Fuzz.constant FA.utensilFork
+        -- , Fuzz.constant FA.utensilKnife
+        -- , Fuzz.constant FA.utensilSpoon
+        -- , Fuzz.constant FA.utensils
+        -- , Fuzz.constant FA.utensilsAlt
+        -- , Fuzz.constant FA.vK
+        -- , Fuzz.constant FA.vaadin
+        -- , Fuzz.constant FA.venus
+        -- , Fuzz.constant FA.venusDouble
+        -- , Fuzz.constant FA.venusMars
+        -- , Fuzz.constant FA.viacoin
+        -- , Fuzz.constant FA.viadeo
+        -- , Fuzz.constant FA.viadeoSquare
+        -- , Fuzz.constant FA.viber
+        -- , Fuzz.constant FA.video
+        -- , Fuzz.constant FA.vimeo
+        -- , Fuzz.constant FA.vimeoSquare
+        -- , Fuzz.constant FA.vimeoV
+        -- , Fuzz.constant FA.vine
+        -- , Fuzz.constant FA.vnv
+        -- , Fuzz.constant FA.volumeDown
+        -- , Fuzz.constant FA.volumeMute
+        -- , Fuzz.constant FA.volumeOff
+        -- , Fuzz.constant FA.volumeUp
+        -- , Fuzz.constant FA.vuejs
+        -- , Fuzz.constant FA.wHMCS
+        -- , Fuzz.constant FA.wPBeginner
+        -- , Fuzz.constant FA.wPExplorer
+        -- , Fuzz.constant FA.wPForms
+        -- , Fuzz.constant FA.watch
+        -- , Fuzz.constant FA.weibo
+        -- , Fuzz.constant FA.weixin
+        -- , Fuzz.constant FA.whatsApp
+        -- , Fuzz.constant FA.whatsAppSquare
+        -- , Fuzz.constant FA.wheelchair
+        -- , Fuzz.constant FA.wifi
+        -- , Fuzz.constant FA.wikipedia
+        -- , Fuzz.constant FA.window
+        -- , Fuzz.constant FA.windowAlt
+        -- , Fuzz.constant FA.windowClose
+        -- , Fuzz.constant FA.windowMaximize
+        -- , Fuzz.constant FA.windowMinimize
+        -- , Fuzz.constant FA.windowRestore
+        -- , Fuzz.constant FA.windows
+        -- , Fuzz.constant FA.wonSign
+        -- , Fuzz.constant FA.wordPress
+        -- , Fuzz.constant FA.wordPressSimple
+        -- , Fuzz.constant FA.wrench
+        -- , Fuzz.constant FA.xING
+        -- , Fuzz.constant FA.xINGSquare
+        -- , Fuzz.constant FA.xbox
+        -- , Fuzz.constant FA.yCombinator
+        -- , Fuzz.constant FA.yahoo
+        -- , Fuzz.constant FA.yandex
+        -- , Fuzz.constant FA.yandexInternational
+        -- , Fuzz.constant FA.yelp
+        -- , Fuzz.constant FA.yenSign
+        -- , Fuzz.constant FA.yoast
+        -- , Fuzz.constant FA.youTube
+        -- , Fuzz.constant FA.youTubeSquare
         ]
 
 
@@ -1668,34 +1586,7 @@ testIconHelper desc htmlAttributes expectation =
                 |> Query.fromHtml
                 |> Expect.all
                     [ testIconClass icon
-                    , testStyle style
-                    , testBorder options
-                    , testWidth options
-                    , testInvertColor options
-                    , testHtmlTag options
-                    , testAnimation options
-                    , testPull options
-                    , testSize options
-                    , testTransform options
-                    , testMask options
-                    , expectation
-                    ]
-
-
-testLogoHelper :
-    String
-    -> List (Attribute msg)
-    -> (Query.Single msg -> Expect.Expectation)
-    -> Test
-testLogoHelper desc htmlAttributes expectation =
-    Test.fuzz2 logoFuzzer optionsFuzzer desc <|
-        \logo options ->
-            FA.logoWithOptions logo
-                options
-                htmlAttributes
-                |> Query.fromHtml
-                |> Expect.all
-                    [ testLogoClass logo
+                    , testStyle icon style
                     , testBorder options
                     , testWidth options
                     , testInvertColor options
@@ -1774,2867 +1665,29 @@ isMask option =
             False
 
 
-styleClass : FA.Style -> String
-styleClass style =
-    case style of
-        FA.Solid ->
-            "fas"
-
-        FA.Regular ->
-            "far"
-
-        FA.Light ->
-            "fal"
-
-
-iconClass : FA.Icon -> String
-iconClass icon =
-    "fa-" ++ name icon
-
-
-logoClass : FA.Logo -> String
-logoClass logo =
-    "fa-" ++ logoName logo
-
-
-name : FA.Icon -> String
-name icon =
+styleClass : Icon -> FA.Style -> String
+styleClass icon style =
     case icon of
-        FA.AddressBook ->
-            "address-book"
+        Icon.Logo _ ->
+            "fab"
 
-        FA.AddressCard ->
-            "address-card"
+        Icon.Icon _ ->
+            case style of
+                FA.Solid ->
+                    "fas"
 
-        FA.Adjust ->
-            "adjust"
+                FA.Regular ->
+                    "far"
 
-        FA.AlarmClock ->
-            "alarm-clock"
+                FA.Light ->
+                    "fal"
 
-        FA.AlignCenter ->
-            "align-center"
 
-        FA.AlignJustify ->
-            "align-justify"
+iconClass : Icon -> String
+iconClass icon =
+    case icon of
+        Icon.Icon str ->
+            "fa-" ++ str
 
-        FA.AlignLeft ->
-            "align-left"
-
-        FA.AlignRight ->
-            "align-right"
-
-        FA.Ambulance ->
-            "ambulance"
-
-        FA.AmericanSignLanguageInterpreting ->
-            "american-sign-language-interpreting"
-
-        FA.Anchor ->
-            "anchor"
-
-        FA.AngleDoubleDown ->
-            "angle-double-down"
-
-        FA.AngleDoubleLeft ->
-            "angle-double-left"
-
-        FA.AngleDoubleRight ->
-            "angle-double-right"
-
-        FA.AngleDoubleUp ->
-            "angle-double-up"
-
-        FA.AngleDown ->
-            "angle-down"
-
-        FA.AngleLeft ->
-            "angle-left"
-
-        FA.AngleRight ->
-            "angle-right"
-
-        FA.AngleUp ->
-            "angle-up"
-
-        FA.Archive ->
-            "archive"
-
-        FA.ArrowAltCircleDown ->
-            "arrow-alt-circle-down"
-
-        FA.ArrowAltCircleLeft ->
-            "arrow-alt-circle-left"
-
-        FA.ArrowAltCircleRight ->
-            "arrow-alt-circle-right"
-
-        FA.ArrowAltCircleUp ->
-            "arrow-alt-circle-up"
-
-        FA.ArrowAltDown ->
-            "arrow-alt-down"
-
-        FA.ArrowAltFromBottom ->
-            "arrow-alt-from-bottom"
-
-        FA.ArrowAltFromLeft ->
-            "arrow-alt-from-left"
-
-        FA.ArrowAltFromRight ->
-            "arrow-alt-from-right"
-
-        FA.ArrowAltFromTop ->
-            "arrow-alt-from-top"
-
-        FA.ArrowAltLeft ->
-            "arrow-alt-left"
-
-        FA.ArrowAltRight ->
-            "arrow-alt-right"
-
-        FA.ArrowAltSquareDown ->
-            "arrow-alt-square-down"
-
-        FA.ArrowAltSquareLeft ->
-            "arrow-alt-square-left"
-
-        FA.ArrowAltSquareRight ->
-            "arrow-alt-square-right"
-
-        FA.ArrowAltSquareUp ->
-            "arrow-alt-square-up"
-
-        FA.ArrowAltToBottom ->
-            "arrow-alt-to-bottom"
-
-        FA.ArrowAltToLeft ->
-            "arrow-alt-to-left"
-
-        FA.ArrowAltToRight ->
-            "arrow-alt-to-right"
-
-        FA.ArrowAltToTop ->
-            "arrow-alt-to-top"
-
-        FA.ArrowAltUp ->
-            "arrow-alt-up"
-
-        FA.ArrowCircleDown ->
-            "arrow-circle-down"
-
-        FA.ArrowCircleLeft ->
-            "arrow-circle-left"
-
-        FA.ArrowCircleRight ->
-            "arrow-circle-right"
-
-        FA.ArrowCircleUp ->
-            "arrow-circle-up"
-
-        FA.ArrowDown ->
-            "arrow-down"
-
-        FA.ArrowFromBottom ->
-            "arrow-from-bottom"
-
-        FA.ArrowFromLeft ->
-            "arrow-from-left"
-
-        FA.ArrowFromRight ->
-            "arrow-from-right"
-
-        FA.ArrowFromTop ->
-            "arrow-from-top"
-
-        FA.ArrowLeft ->
-            "arrow-left"
-
-        FA.ArrowRight ->
-            "arrow-right"
-
-        FA.ArrowSquareDown ->
-            "arrow-square-down"
-
-        FA.ArrowSquareLeft ->
-            "arrow-square-left"
-
-        FA.ArrowSquareRight ->
-            "arrow-square-right"
-
-        FA.ArrowSquareUp ->
-            "arrow-square-up"
-
-        FA.ArrowToBottom ->
-            "arrow-to-bottom"
-
-        FA.ArrowToLeft ->
-            "arrow-to-left"
-
-        FA.ArrowToRight ->
-            "arrow-to-right"
-
-        FA.ArrowToTop ->
-            "arrow-to-top"
-
-        FA.ArrowUp ->
-            "arrow-up"
-
-        FA.Arrows ->
-            "arrows"
-
-        FA.ArrowsAlt ->
-            "arrows-alt"
-
-        FA.ArrowsAltHorizontal ->
-            "arrows-alt-h"
-
-        FA.ArrowsAltVertical ->
-            "arrows-alt-v"
-
-        FA.ArrowsHorizontal ->
-            "arrows-h"
-
-        FA.ArrowsVertical ->
-            "arrows-v"
-
-        FA.AssistiveListeningSystems ->
-            "assistive-listening-systems"
-
-        FA.Asterisk ->
-            "asterisk"
-
-        FA.At ->
-            "at"
-
-        FA.AudioDescription ->
-            "audio-description"
-
-        FA.Backward ->
-            "backward"
-
-        FA.Badge ->
-            "badge"
-
-        FA.BadgeCheck ->
-            "badge-check"
-
-        FA.BalanceScale ->
-            "balance-scale"
-
-        FA.Ban ->
-            "ban"
-
-        FA.Barcode ->
-            "barcode"
-
-        FA.Bars ->
-            "bars"
-
-        FA.Bath ->
-            "bath"
-
-        FA.BatteryBolt ->
-            "battery-bolt"
-
-        FA.BatteryEmpty ->
-            "battery-empty"
-
-        FA.BatteryFull ->
-            "battery-full"
-
-        FA.BatteryHalf ->
-            "battery-half"
-
-        FA.BatteryQuarter ->
-            "battery-quarter"
-
-        FA.BatterySlash ->
-            "battery-slash"
-
-        FA.BatteryThreeQuarters ->
-            "battery-three-quarters"
-
-        FA.Bed ->
-            "bed"
-
-        FA.Beer ->
-            "beer"
-
-        FA.Bell ->
-            "bell"
-
-        FA.BellSlash ->
-            "bell-slash"
-
-        FA.Bicycle ->
-            "bicycle"
-
-        FA.Binoculars ->
-            "binoculars"
-
-        FA.BirthdayCake ->
-            "birthday-cake"
-
-        FA.Blind ->
-            "blind"
-
-        FA.Bold ->
-            "bold"
-
-        FA.Bolt ->
-            "bolt"
-
-        FA.Bomb ->
-            "bomb"
-
-        FA.Book ->
-            "book"
-
-        FA.Bookmark ->
-            "bookmark"
-
-        FA.Braille ->
-            "braille"
-
-        FA.Briefcase ->
-            "briefcase"
-
-        FA.Browser ->
-            "browser"
-
-        FA.Bug ->
-            "bug"
-
-        FA.Building ->
-            "building"
-
-        FA.Bullhorn ->
-            "bullhorn"
-
-        FA.Bullseye ->
-            "bullseye"
-
-        FA.Bus ->
-            "bus"
-
-        FA.Calculator ->
-            "calculator"
-
-        FA.Calendar ->
-            "calendar"
-
-        FA.CalendarAlt ->
-            "calendar-alt"
-
-        FA.CalendarCheck ->
-            "calendar-check"
-
-        FA.CalendarEdit ->
-            "calendar-edit"
-
-        FA.CalendarExclamation ->
-            "calendar-exclamation"
-
-        FA.CalendarMinus ->
-            "calendar-minus"
-
-        FA.CalendarPlus ->
-            "calendar-plus"
-
-        FA.CalendarTimes ->
-            "calendar-times"
-
-        FA.Camera ->
-            "camera"
-
-        FA.CameraAlt ->
-            "camera-alt"
-
-        FA.CameraRetro ->
-            "camera-retro"
-
-        FA.Car ->
-            "car"
-
-        FA.CaretCircleDown ->
-            "caret-circle-down"
-
-        FA.CaretCircleLeft ->
-            "caret-circle-left"
-
-        FA.CaretCircleRight ->
-            "caret-circle-right"
-
-        FA.CaretCircleUp ->
-            "caret-circle-up"
-
-        FA.CaretDown ->
-            "caret-down"
-
-        FA.CaretLeft ->
-            "caret-left"
-
-        FA.CaretRight ->
-            "caret-right"
-
-        FA.CaretSquareDown ->
-            "caret-square-down"
-
-        FA.CaretSquareLeft ->
-            "caret-square-left"
-
-        FA.CaretSquareRight ->
-            "caret-square-right"
-
-        FA.CaretSquareUp ->
-            "caret-square-up"
-
-        FA.CaretUp ->
-            "caret-up"
-
-        FA.CartArrowDown ->
-            "cart-arrow-down"
-
-        FA.CartPlus ->
-            "cart-plus"
-
-        FA.Certificate ->
-            "certificate"
-
-        FA.ChartArea ->
-            "chart-area"
-
-        FA.ChartBar ->
-            "chart-bar"
-
-        FA.ChartLine ->
-            "chart-line"
-
-        FA.ChartPie ->
-            "chart-pie"
-
-        FA.Check ->
-            "check"
-
-        FA.CheckCircle ->
-            "check-circle"
-
-        FA.CheckSquare ->
-            "check-square"
-
-        FA.ChevronCircleDown ->
-            "chevron-circle-down"
-
-        FA.ChevronCircleLeft ->
-            "chevron-circle-left"
-
-        FA.ChevronCircleRight ->
-            "chevron-circle-right"
-
-        FA.ChevronCircleUp ->
-            "chevron-circle-up"
-
-        FA.ChevronDoubleDown ->
-            "chevron-double-down"
-
-        FA.ChevronDoubleLeft ->
-            "chevron-double-left"
-
-        FA.ChevronDoubleRight ->
-            "chevron-double-right"
-
-        FA.ChevronDoubleUp ->
-            "chevron-double-up"
-
-        FA.ChevronDown ->
-            "chevron-down"
-
-        FA.ChevronLeft ->
-            "chevron-left"
-
-        FA.ChevronRight ->
-            "chevron-right"
-
-        FA.ChevronSquareDown ->
-            "chevron-square-down"
-
-        FA.ChevronSquareLeft ->
-            "chevron-square-left"
-
-        FA.ChevronSquareRight ->
-            "chevron-square-right"
-
-        FA.ChevronSquareUp ->
-            "chevron-square-up"
-
-        FA.ChevronUp ->
-            "chevron-up"
-
-        FA.Child ->
-            "child"
-
-        FA.Circle ->
-            "circle"
-
-        FA.CircleNotch ->
-            "circle-notch"
-
-        FA.Clipboard ->
-            "clipboard"
-
-        FA.Clock ->
-            "clock"
-
-        FA.Clone ->
-            "clone"
-
-        FA.ClosedCaptioning ->
-            "closed-captioning"
-
-        FA.Cloud ->
-            "cloud"
-
-        FA.CloudDownload ->
-            "cloud-download"
-
-        FA.CloudDownloadAlt ->
-            "cloud-download-alt"
-
-        FA.CloudUpload ->
-            "cloud-upload"
-
-        FA.CloudUploadAlt ->
-            "cloud-upload-alt"
-
-        FA.Club ->
-            "club"
-
-        FA.Code ->
-            "code"
-
-        FA.CodeBranch ->
-            "code-branch"
-
-        FA.CodeCommit ->
-            "code-commit"
-
-        FA.CodeMerge ->
-            "code-merge"
-
-        FA.Coffee ->
-            "coffee"
-
-        FA.Cog ->
-            "cog"
-
-        FA.Cogs ->
-            "cogs"
-
-        FA.Columns ->
-            "columns"
-
-        FA.Comment ->
-            "comment"
-
-        FA.CommentAlt ->
-            "comment-alt"
-
-        FA.Comments ->
-            "comments"
-
-        FA.Compass ->
-            "compass"
-
-        FA.Compress ->
-            "compress"
-
-        FA.CompressAlt ->
-            "compress-alt"
-
-        FA.CompressWide ->
-            "compress-wide"
-
-        FA.Copy ->
-            "copy"
-
-        FA.Copyright ->
-            "copyright"
-
-        FA.CreditCard ->
-            "credit-card"
-
-        FA.CreditCardBlank ->
-            "credit-card-blank"
-
-        FA.CreditCardFront ->
-            "credit-card-front"
-
-        FA.Crop ->
-            "crop"
-
-        FA.Crosshairs ->
-            "crosshairs"
-
-        FA.Cube ->
-            "cube"
-
-        FA.Cubes ->
-            "cubes"
-
-        FA.Cut ->
-            "cut"
-
-        FA.Database ->
-            "database"
-
-        FA.Deaf ->
-            "deaf"
-
-        FA.Desktop ->
-            "desktop"
-
-        FA.DesktopAlt ->
-            "desktop-alt"
-
-        FA.Diamond ->
-            "diamond"
-
-        FA.DollarSign ->
-            "dollar-sign"
-
-        FA.DotCircle ->
-            "dot-circle"
-
-        FA.Download ->
-            "download"
-
-        FA.Edit ->
-            "edit"
-
-        FA.Eject ->
-            "eject"
-
-        FA.EllipsisHorizontal ->
-            "ellipsis-h"
-
-        FA.EllipsisHorizontalAlt ->
-            "ellipsis-h-alt"
-
-        FA.EllipsisVertical ->
-            "ellipsis-v"
-
-        FA.EllipsisVerticalAlt ->
-            "ellipsis-v-alt"
-
-        FA.Envelope ->
-            "envelope"
-
-        FA.EnvelopeOpen ->
-            "envelope-open"
-
-        FA.EnvelopeSquare ->
-            "envelope-square"
-
-        FA.Eraser ->
-            "eraser"
-
-        FA.EuroSign ->
-            "euro-sign"
-
-        FA.Exchange ->
-            "exchange"
-
-        FA.ExchangeAlt ->
-            "exchange-alt"
-
-        FA.Exclamation ->
-            "exclamation"
-
-        FA.ExclamationCircle ->
-            "exclamation-circle"
-
-        FA.ExclamationSquare ->
-            "exclamation-square"
-
-        FA.ExclamationTriangle ->
-            "exclamation-triangle"
-
-        FA.Expand ->
-            "expand"
-
-        FA.ExpandAlt ->
-            "expand-alt"
-
-        FA.ExpandArrows ->
-            "expand-arrows"
-
-        FA.ExpandArrowsAlt ->
-            "expand-arrows-alt"
-
-        FA.ExpandWide ->
-            "expand-wide"
-
-        FA.ExternalLink ->
-            "external-link"
-
-        FA.ExternalLinkAlt ->
-            "external-link-alt"
-
-        FA.ExternalLinkSquare ->
-            "external-link-square"
-
-        FA.ExternalLinkSquareAlt ->
-            "external-link-square-alt"
-
-        FA.Eye ->
-            "eye"
-
-        FA.EyeDropper ->
-            "eye-dropper"
-
-        FA.EyeSlash ->
-            "eye-slash"
-
-        FA.FastBackward ->
-            "fast-backward"
-
-        FA.FastForward ->
-            "fast-forward"
-
-        FA.Fax ->
-            "fax"
-
-        FA.Female ->
-            "female"
-
-        FA.FighterJet ->
-            "fighter-jet"
-
-        FA.File ->
-            "file"
-
-        FA.FileAlt ->
-            "file-alt"
-
-        FA.FileArchive ->
-            "file-archive"
-
-        FA.FileAudio ->
-            "file-audio"
-
-        FA.FileCheck ->
-            "file-check"
-
-        FA.FileCode ->
-            "file-code"
-
-        FA.FileEdit ->
-            "file-edit"
-
-        FA.FileExcel ->
-            "file-excel"
-
-        FA.FileExclamation ->
-            "file-exclamation"
-
-        FA.FileImage ->
-            "file-image"
-
-        FA.FileMinus ->
-            "file-minus"
-
-        FA.FilePdf ->
-            "file-pdf"
-
-        FA.FilePlus ->
-            "file-plus"
-
-        FA.FilePowerpoint ->
-            "file-powerpoint"
-
-        FA.FileTimes ->
-            "file-times"
-
-        FA.FileVideo ->
-            "file-video"
-
-        FA.FileWord ->
-            "file-word"
-
-        FA.Film ->
-            "film"
-
-        FA.FilmAlt ->
-            "film-alt"
-
-        FA.Filter ->
-            "filter"
-
-        FA.Fire ->
-            "fire"
-
-        FA.FireExtinguisher ->
-            "fire-extinguisher"
-
-        FA.Flag ->
-            "flag"
-
-        FA.FlagCheckered ->
-            "flag-checkered"
-
-        FA.Flask ->
-            "flask"
-
-        FA.Folder ->
-            "folder"
-
-        FA.FolderOpen ->
-            "folder-open"
-
-        FA.Font ->
-            "font"
-
-        FA.Forward ->
-            "forward"
-
-        FA.Frown ->
-            "frown"
-
-        FA.Futbol ->
-            "futbol"
-
-        FA.Gamepad ->
-            "gamepad"
-
-        FA.Gavel ->
-            "gavel"
-
-        FA.Gem ->
-            "gem"
-
-        FA.Genderless ->
-            "genderless"
-
-        FA.Gift ->
-            "gift"
-
-        FA.GlassMartini ->
-            "glass-martini"
-
-        FA.Globe ->
-            "globe"
-
-        FA.GraduationCap ->
-            "graduation-cap"
-
-        FA.HSquare ->
-            "h-square"
-
-        FA.H1 ->
-            "h1"
-
-        FA.H2 ->
-            "h2"
-
-        FA.H3 ->
-            "h3"
-
-        FA.HandLizard ->
-            "hand-lizard"
-
-        FA.HandPaper ->
-            "hand-paper"
-
-        FA.HandPeace ->
-            "hand-peace"
-
-        FA.HandPointDown ->
-            "hand-point-down"
-
-        FA.HandPointLeft ->
-            "hand-point-left"
-
-        FA.HandPointRight ->
-            "hand-point-right"
-
-        FA.HandPointUp ->
-            "hand-point-up"
-
-        FA.HandPointer ->
-            "hand-pointer"
-
-        FA.HandRock ->
-            "hand-rock"
-
-        FA.HandScissors ->
-            "hand-scissors"
-
-        FA.HandSpock ->
-            "hand-spock"
-
-        FA.Handshake ->
-            "handshake"
-
-        FA.Hashtag ->
-            "hashtag"
-
-        FA.Hdd ->
-            "hdd"
-
-        FA.Heading ->
-            "heading"
-
-        FA.Headphones ->
-            "headphones"
-
-        FA.Heart ->
-            "heart"
-
-        FA.Heartbeat ->
-            "heartbeat"
-
-        FA.Hexagon ->
-            "hexagon"
-
-        FA.History ->
-            "history"
-
-        FA.Home ->
-            "home"
-
-        FA.Hospital ->
-            "hospital"
-
-        FA.Hourglass ->
-            "hourglass"
-
-        FA.HourglassEnd ->
-            "hourglass-end"
-
-        FA.HourglassHalf ->
-            "hourglass-half"
-
-        FA.HourglassStart ->
-            "hourglass-start"
-
-        FA.ICursor ->
-            "i-cursor"
-
-        FA.IdBadge ->
-            "id-badge"
-
-        FA.IdCard ->
-            "id-card"
-
-        FA.Image ->
-            "image"
-
-        FA.Images ->
-            "images"
-
-        FA.Inbox ->
-            "inbox"
-
-        FA.InboxIn ->
-            "inbox-in"
-
-        FA.InboxOut ->
-            "inbox-out"
-
-        FA.Indent ->
-            "indent"
-
-        FA.Industry ->
-            "industry"
-
-        FA.IndustryAlt ->
-            "industry-alt"
-
-        FA.Info ->
-            "info"
-
-        FA.InfoCircle ->
-            "info-circle"
-
-        FA.InfoSquare ->
-            "info-square"
-
-        FA.Italic ->
-            "italic"
-
-        FA.JackOLantern ->
-            "jack-o-lantern"
-
-        FA.Key ->
-            "key"
-
-        FA.Keyboard ->
-            "keyboard"
-
-        FA.Language ->
-            "language"
-
-        FA.Laptop ->
-            "laptop"
-
-        FA.Leaf ->
-            "leaf"
-
-        FA.Lemon ->
-            "lemon"
-
-        FA.LevelDown ->
-            "level-down"
-
-        FA.LevelDownAlt ->
-            "level-down-alt"
-
-        FA.LevelUp ->
-            "level-up"
-
-        FA.LevelUpAlt ->
-            "level-up-alt"
-
-        FA.LifeRing ->
-            "life-ring"
-
-        FA.Lightbulb ->
-            "lightbulb"
-
-        FA.Link ->
-            "link"
-
-        FA.LiraSign ->
-            "lira-sign"
-
-        FA.List ->
-            "list"
-
-        FA.ListAlt ->
-            "list-alt"
-
-        FA.ListOl ->
-            "list-ol"
-
-        FA.ListUl ->
-            "list-ul"
-
-        FA.LocationArrow ->
-            "location-arrow"
-
-        FA.Lock ->
-            "lock"
-
-        FA.LockAlt ->
-            "lock-alt"
-
-        FA.LockOpen ->
-            "lock-open"
-
-        FA.LockOpenAlt ->
-            "lock-open-alt"
-
-        FA.LongArrowAltDown ->
-            "long-arrow-alt-down"
-
-        FA.LongArrowAltLeft ->
-            "long-arrow-alt-left"
-
-        FA.LongArrowAltRight ->
-            "long-arrow-alt-right"
-
-        FA.LongArrowAltUp ->
-            "long-arrow-alt-up"
-
-        FA.LongArrowDown ->
-            "long-arrow-down"
-
-        FA.LongArrowLeft ->
-            "long-arrow-left"
-
-        FA.LongArrowRight ->
-            "long-arrow-right"
-
-        FA.LongArrowUp ->
-            "long-arrow-up"
-
-        FA.LowVision ->
-            "low-vision"
-
-        FA.Magic ->
-            "magic"
-
-        FA.Magnet ->
-            "magnet"
-
-        FA.Male ->
-            "male"
-
-        FA.Map ->
-            "map"
-
-        FA.MapMarker ->
-            "map-marker"
-
-        FA.MapMarkerAlt ->
-            "map-marker-alt"
-
-        FA.MapPin ->
-            "map-pin"
-
-        FA.MapSigns ->
-            "map-signs"
-
-        FA.Mars ->
-            "mars"
-
-        FA.MarsDouble ->
-            "mars-double"
-
-        FA.MarsStroke ->
-            "mars-stroke"
-
-        FA.MarsStrokeHorizontal ->
-            "mars-stroke-h"
-
-        FA.MarsStrokeVertical ->
-            "mars-stroke-v"
-
-        FA.Medkit ->
-            "medkit"
-
-        FA.Meh ->
-            "meh"
-
-        FA.Mercury ->
-            "mercury"
-
-        FA.Microchip ->
-            "microchip"
-
-        FA.Microphone ->
-            "microphone"
-
-        FA.MicrophoneAlt ->
-            "microphone-alt"
-
-        FA.MicrophoneSlash ->
-            "microphone-slash"
-
-        FA.Minus ->
-            "minus"
-
-        FA.MinusCircle ->
-            "minus-circle"
-
-        FA.MinusHexagon ->
-            "minus-hexagon"
-
-        FA.MinusOctagon ->
-            "minus-octagon"
-
-        FA.MinusSquare ->
-            "minus-square"
-
-        FA.Mobile ->
-            "mobile"
-
-        FA.MobileAlt ->
-            "mobile-alt"
-
-        FA.MobileAndroid ->
-            "mobile-android"
-
-        FA.MobileAndroidAlt ->
-            "mobile-android-alt"
-
-        FA.MoneyBill ->
-            "money-bill"
-
-        FA.MoneyBillAlt ->
-            "money-bill-alt"
-
-        FA.Moon ->
-            "moon"
-
-        FA.Motorcycle ->
-            "motorcycle"
-
-        FA.MousePointer ->
-            "mouse-pointer"
-
-        FA.Music ->
-            "music"
-
-        FA.Neuter ->
-            "neuter"
-
-        FA.Newspaper ->
-            "newspaper"
-
-        FA.ObjectGroup ->
-            "object-group"
-
-        FA.ObjectUngroup ->
-            "object-ungroup"
-
-        FA.Octagon ->
-            "octagon"
-
-        FA.Outdent ->
-            "outdent"
-
-        FA.PaintBrush ->
-            "paint-brush"
-
-        FA.PaperPlane ->
-            "paper-plane"
-
-        FA.Paperclip ->
-            "paperclip"
-
-        FA.Paragraph ->
-            "paragraph"
-
-        FA.Paste ->
-            "paste"
-
-        FA.Pause ->
-            "pause"
-
-        FA.PauseCircle ->
-            "pause-circle"
-
-        FA.Paw ->
-            "paw"
-
-        FA.Pen ->
-            "pen"
-
-        FA.PenAlt ->
-            "pen-alt"
-
-        FA.PenSquare ->
-            "pen-square"
-
-        FA.Pencil ->
-            "pencil"
-
-        FA.PencilAlt ->
-            "pencil-alt"
-
-        FA.Percent ->
-            "percent"
-
-        FA.Phone ->
-            "phone"
-
-        FA.PhoneSlash ->
-            "phone-slash"
-
-        FA.PhoneSquare ->
-            "phone-square"
-
-        FA.PhoneVolume ->
-            "phone-volume"
-
-        FA.Plane ->
-            "plane"
-
-        FA.PlaneAlt ->
-            "plane-alt"
-
-        FA.Play ->
-            "play"
-
-        FA.PlayCircle ->
-            "play-circle"
-
-        FA.Plug ->
-            "plug"
-
-        FA.Plus ->
-            "plus"
-
-        FA.PlusCircle ->
-            "plus-circle"
-
-        FA.PlusHexagon ->
-            "plus-hexagon"
-
-        FA.PlusOctagon ->
-            "plus-octagon"
-
-        FA.PlusSquare ->
-            "plus-square"
-
-        FA.Podcast ->
-            "podcast"
-
-        FA.Poo ->
-            "poo"
-
-        FA.Portrait ->
-            "portrait"
-
-        FA.PoundSign ->
-            "pound-sign"
-
-        FA.PowerOff ->
-            "power-off"
-
-        FA.Print ->
-            "print"
-
-        FA.PuzzlePiece ->
-            "puzzle-piece"
-
-        FA.Qrcode ->
-            "qrcode"
-
-        FA.Question ->
-            "question"
-
-        FA.QuestionCircle ->
-            "question-circle"
-
-        FA.QuestionSquare ->
-            "question-square"
-
-        FA.QuoteLeft ->
-            "quote-left"
-
-        FA.QuoteRight ->
-            "quote-right"
-
-        FA.Random ->
-            "random"
-
-        FA.RectangleLandscape ->
-            "rectangle-landscape"
-
-        FA.RectanglePortrait ->
-            "rectangle-portrait"
-
-        FA.RectangleWide ->
-            "rectangle-wide"
-
-        FA.Recycle ->
-            "recycle"
-
-        FA.Redo ->
-            "redo"
-
-        FA.RedoAlt ->
-            "redo-alt"
-
-        FA.Registered ->
-            "registered"
-
-        FA.Repeat ->
-            "repeat"
-
-        FA.Repeat1 ->
-            "repeat-1"
-
-        FA.Repeat1Alt ->
-            "repeat-1-alt"
-
-        FA.RepeatAlt ->
-            "repeat-alt"
-
-        FA.Reply ->
-            "reply"
-
-        FA.ReplyAll ->
-            "reply-all"
-
-        FA.Retweet ->
-            "retweet"
-
-        FA.RetweetAlt ->
-            "retweet-alt"
-
-        FA.Road ->
-            "road"
-
-        FA.Rocket ->
-            "rocket"
-
-        FA.RSS ->
-            "rss"
-
-        FA.RSSSquare ->
-            "rss-square"
-
-        FA.RubleSign ->
-            "ruble-sign"
-
-        FA.RupeeSign ->
-            "rupee-sign"
-
-        FA.Save ->
-            "save"
-
-        FA.Scrubber ->
-            "scrubber"
-
-        FA.Search ->
-            "search"
-
-        FA.SearchMinus ->
-            "search-minus"
-
-        FA.SearchPlus ->
-            "search-plus"
-
-        FA.Server ->
-            "server"
-
-        FA.Share ->
-            "share"
-
-        FA.ShareAll ->
-            "share-all"
-
-        FA.ShareAlt ->
-            "share-alt"
-
-        FA.ShareAltSquare ->
-            "share-alt-square"
-
-        FA.ShareSquare ->
-            "share-square"
-
-        FA.ShekelSign ->
-            "shekel-sign"
-
-        FA.Shield ->
-            "shield"
-
-        FA.ShieldAlt ->
-            "shield-alt"
-
-        FA.ShieldCheck ->
-            "shield-check"
-
-        FA.Ship ->
-            "ship"
-
-        FA.ShoppingBag ->
-            "shopping-bag"
-
-        FA.ShoppingBasket ->
-            "shopping-basket"
-
-        FA.ShoppingCart ->
-            "shopping-cart"
-
-        FA.Shower ->
-            "shower"
-
-        FA.SignIn ->
-            "sign-in"
-
-        FA.SignInAlt ->
-            "sign-in-alt"
-
-        FA.SignLanguage ->
-            "sign-language"
-
-        FA.SignOut ->
-            "sign-out"
-
-        FA.SignOutAlt ->
-            "sign-out-alt"
-
-        FA.Signal ->
-            "signal"
-
-        FA.Sitemap ->
-            "sitemap"
-
-        FA.SlidersHorizontal ->
-            "sliders-h"
-
-        FA.SlidersHorizontalSquare ->
-            "sliders-h-square"
-
-        FA.SlidersV ->
-            "sliders-v"
-
-        FA.SlidersVSquare ->
-            "sliders-v-square"
-
-        FA.Smile ->
-            "smile"
-
-        FA.Snowflake ->
-            "snowflake"
-
-        FA.Sort ->
-            "sort"
-
-        FA.SortAlphaDown ->
-            "sort-alpha-down"
-
-        FA.SortAlphaUp ->
-            "sort-alpha-up"
-
-        FA.SortAmountDown ->
-            "sort-amount-down"
-
-        FA.SortAmountUp ->
-            "sort-amount-up"
-
-        FA.SortDown ->
-            "sort-down"
-
-        FA.SortNumericDown ->
-            "sort-numeric-down"
-
-        FA.SortNumericUp ->
-            "sort-numeric-up"
-
-        FA.SortUp ->
-            "sort-up"
-
-        FA.SpaceShuttle ->
-            "space-shuttle"
-
-        FA.Spade ->
-            "spade"
-
-        FA.Spinner ->
-            "spinner"
-
-        FA.SpinnerThird ->
-            "spinner-third"
-
-        FA.Square ->
-            "square"
-
-        FA.Star ->
-            "star"
-
-        FA.StarExclamation ->
-            "star-exclamation"
-
-        FA.StarHalf ->
-            "star-half"
-
-        FA.StepBackward ->
-            "step-backward"
-
-        FA.StepForward ->
-            "step-forward"
-
-        FA.Stethoscope ->
-            "stethoscope"
-
-        FA.StickyNote ->
-            "sticky-note"
-
-        FA.Stop ->
-            "stop"
-
-        FA.StopCircle ->
-            "stop-circle"
-
-        FA.Stopwatch ->
-            "stopwatch"
-
-        FA.StreetView ->
-            "street-view"
-
-        FA.Strikethrough ->
-            "strikethrough"
-
-        FA.Subscript ->
-            "subscript"
-
-        FA.Subway ->
-            "subway"
-
-        FA.Suitcase ->
-            "suitcase"
-
-        FA.Sun ->
-            "sun"
-
-        FA.Superscript ->
-            "superscript"
-
-        FA.Sync ->
-            "sync"
-
-        FA.SyncAlt ->
-            "sync-alt"
-
-        FA.Table ->
-            "table"
-
-        FA.Tablet ->
-            "tablet"
-
-        FA.TabletAlt ->
-            "tablet-alt"
-
-        FA.TabletAndroid ->
-            "tablet-android"
-
-        FA.TabletAndroidAlt ->
-            "tablet-android-alt"
-
-        FA.Tachometer ->
-            "tachometer"
-
-        FA.TachometerAlt ->
-            "tachometer-alt"
-
-        FA.Tag ->
-            "tag"
-
-        FA.Tags ->
-            "tags"
-
-        FA.Tasks ->
-            "tasks"
-
-        FA.Taxi ->
-            "taxi"
-
-        FA.Terminal ->
-            "terminal"
-
-        FA.TextHeight ->
-            "text-height"
-
-        FA.TextWidth ->
-            "text-width"
-
-        FA.Th ->
-            "th"
-
-        FA.ThLarge ->
-            "th-large"
-
-        FA.ThList ->
-            "th-list"
-
-        FA.ThermometerEmpty ->
-            "thermometer-empty"
-
-        FA.ThermometerFull ->
-            "thermometer-full"
-
-        FA.ThermometerHalf ->
-            "thermometer-half"
-
-        FA.ThermometerQuarter ->
-            "thermometer-quarter"
-
-        FA.ThermometerThreeQuarters ->
-            "thermometer-three-quarters"
-
-        FA.ThumbsDown ->
-            "thumbs-down"
-
-        FA.ThumbsUp ->
-            "thumbs-up"
-
-        FA.Thumbtack ->
-            "thumbtack"
-
-        FA.Ticket ->
-            "ticket"
-
-        FA.TicketAlt ->
-            "ticket-alt"
-
-        FA.Times ->
-            "times"
-
-        FA.TimesCircle ->
-            "times-circle"
-
-        FA.TimesHexagon ->
-            "times-hexagon"
-
-        FA.TimesOctagon ->
-            "times-octagon"
-
-        FA.TimesSquare ->
-            "times-square"
-
-        FA.Tint ->
-            "tint"
-
-        FA.ToggleOff ->
-            "toggle-off"
-
-        FA.ToggleOn ->
-            "toggle-on"
-
-        FA.Trademark ->
-            "trademark"
-
-        FA.Train ->
-            "train"
-
-        FA.Transgender ->
-            "transgender"
-
-        FA.TransgenderAlt ->
-            "transgender-alt"
-
-        FA.Trash ->
-            "trash"
-
-        FA.TrashAlt ->
-            "trash-alt"
-
-        FA.Tree ->
-            "tree"
-
-        FA.TreeAlt ->
-            "tree-alt"
-
-        FA.Triangle ->
-            "triangle"
-
-        FA.Trophy ->
-            "trophy"
-
-        FA.TrophyAlt ->
-            "trophy-alt"
-
-        FA.Truck ->
-            "truck"
-
-        FA.TTY ->
-            "tty"
-
-        FA.TV ->
-            "tv"
-
-        FA.TVRetro ->
-            "tv-retro"
-
-        FA.Umbrella ->
-            "umbrella"
-
-        FA.Underline ->
-            "underline"
-
-        FA.Undo ->
-            "undo"
-
-        FA.UndoAlt ->
-            "undo-alt"
-
-        FA.UniversalAccess ->
-            "universal-access"
-
-        FA.University ->
-            "university"
-
-        FA.Unlink ->
-            "unlink"
-
-        FA.Unlock ->
-            "unlock"
-
-        FA.UnlockAlt ->
-            "unlock-alt"
-
-        FA.Upload ->
-            "upload"
-
-        FA.UsdCircle ->
-            "usd-circle"
-
-        FA.UsdSquare ->
-            "usd-square"
-
-        FA.User ->
-            "user"
-
-        FA.UserAlt ->
-            "user-alt"
-
-        FA.UserCircle ->
-            "user-circle"
-
-        FA.UserMd ->
-            "user-md"
-
-        FA.UserPlus ->
-            "user-plus"
-
-        FA.UserSecret ->
-            "user-secret"
-
-        FA.UserTimes ->
-            "user-times"
-
-        FA.Users ->
-            "users"
-
-        FA.UtensilFork ->
-            "utensil-fork"
-
-        FA.UtensilKnife ->
-            "utensil-knife"
-
-        FA.UtensilSpoon ->
-            "utensil-spoon"
-
-        FA.Utensils ->
-            "utensils"
-
-        FA.UtensilsAlt ->
-            "utensils-alt"
-
-        FA.Venus ->
-            "venus"
-
-        FA.VenusDouble ->
-            "venus-double"
-
-        FA.VenusMars ->
-            "venus-mars"
-
-        FA.Video ->
-            "video"
-
-        FA.VolumeDown ->
-            "volume-down"
-
-        FA.VolumeMute ->
-            "volume-mute"
-
-        FA.VolumeOff ->
-            "volume-off"
-
-        FA.VolumeUp ->
-            "volume-up"
-
-        FA.Watch ->
-            "watch"
-
-        FA.Wheelchair ->
-            "wheelchair"
-
-        FA.Wifi ->
-            "wifi"
-
-        FA.Window ->
-            "window"
-
-        FA.WindowAlt ->
-            "window-alt"
-
-        FA.WindowClose ->
-            "window-close"
-
-        FA.WindowMaximize ->
-            "window-maximize"
-
-        FA.WindowMinimize ->
-            "window-minimize"
-
-        FA.WindowRestore ->
-            "window-restore"
-
-        FA.WonSign ->
-            "won-sign"
-
-        FA.Wrench ->
-            "wrench"
-
-        FA.YenSign ->
-            "yen-sign"
-
-
-logoName : FA.Logo -> String
-logoName logo =
-    case logo of
-        FA.FiveHundredPx ->
-            "500px"
-
-        FA.AccessibleIcon ->
-            "accessible-icon"
-
-        FA.Accusoft ->
-            "accusoft"
-
-        FA.Adn ->
-            "adn"
-
-        FA.Adversal ->
-            "adversal"
-
-        FA.AffiliateTheme ->
-            "affiliatetheme"
-
-        FA.Algolia ->
-            "algolia"
-
-        FA.Amazon ->
-            "amazon"
-
-        FA.AmazonPay ->
-            "amazon-pay"
-
-        FA.Amilia ->
-            "amilia"
-
-        FA.Android ->
-            "android"
-
-        FA.AngelList ->
-            "angellist"
-
-        FA.AngryCreative ->
-            "angrycreative"
-
-        FA.Angular ->
-            "angular"
-
-        FA.AppStore ->
-            "app-store"
-
-        FA.AppStoreIos ->
-            "app-store-ios"
-
-        FA.Apper ->
-            "apper"
-
-        FA.Apple ->
-            "apple"
-
-        FA.ApplePay ->
-            "apple-pay"
-
-        FA.Asymmetrik ->
-            "asymmetrik"
-
-        FA.Audible ->
-            "audible"
-
-        FA.Autoprefixer ->
-            "autoprefixer"
-
-        FA.Avianex ->
-            "avianex"
-
-        FA.Aviato ->
-            "aviato"
-
-        FA.Aws ->
-            "aws"
-
-        FA.Bandcamp ->
-            "bandcamp"
-
-        FA.Behance ->
-            "behance"
-
-        FA.BehanceSquare ->
-            "behance-square"
-
-        FA.BIMobject ->
-            "bimobject"
-
-        FA.Bitbucket ->
-            "bitbucket"
-
-        FA.Bitcoin ->
-            "bitcoin"
-
-        FA.Bity ->
-            "bity"
-
-        FA.BlackTie ->
-            "black-tie"
-
-        FA.Blackberry ->
-            "blackberry"
-
-        FA.Blogger ->
-            "blogger"
-
-        FA.BloggerB ->
-            "blogger-b"
-
-        FA.Bluetooth ->
-            "bluetooth"
-
-        FA.BluetoothB ->
-            "bluetooth-b"
-
-        FA.Btc ->
-            "btc"
-
-        FA.BuromobelExperte ->
-            "buromobelexperte"
-
-        FA.BuySellAds ->
-            "buysellads"
-
-        FA.CCAmazonPay ->
-            "cc-amazon-pay"
-
-        FA.CCAmex ->
-            "cc-amex"
-
-        FA.CCApplePay ->
-            "cc-apple-pay"
-
-        FA.CCDinersClub ->
-            "cc-diners-club"
-
-        FA.CCDiscover ->
-            "cc-discover"
-
-        FA.CCJcb ->
-            "cc-jcb"
-
-        FA.CCMastercard ->
-            "cc-mastercard"
-
-        FA.CCPayPal ->
-            "cc-paypal"
-
-        FA.CCStripe ->
-            "cc-stripe"
-
-        FA.CCVisa ->
-            "cc-visa"
-
-        FA.Centercode ->
-            "centercode"
-
-        FA.Chrome ->
-            "chrome"
-
-        FA.CloudScale ->
-            "cloudscale"
-
-        FA.Cloudsmith ->
-            "cloudsmith"
-
-        FA.Cloudversify ->
-            "cloudversify"
-
-        FA.CodePen ->
-            "codepen"
-
-        FA.CodiePie ->
-            "codiepie"
-
-        FA.ConnectDevelop ->
-            "connectdevelop"
-
-        FA.Contao ->
-            "contao"
-
-        FA.Cpanel ->
-            "cpanel"
-
-        FA.CreativeCommons ->
-            "creative-commons"
-
-        FA.CSS3 ->
-            "css3"
-
-        FA.CSS3Alt ->
-            "css3-alt"
-
-        FA.Cuttlefish ->
-            "cuttlefish"
-
-        FA.DAndD ->
-            "d-and-d"
-
-        FA.Dashcube ->
-            "dashcube"
-
-        FA.Delicious ->
-            "delicious"
-
-        FA.DeployDog ->
-            "deploydog"
-
-        FA.Deskpro ->
-            "deskpro"
-
-        FA.DeviantArt ->
-            "deviantart"
-
-        FA.Digg ->
-            "digg"
-
-        FA.DigitalOcean ->
-            "digital-ocean"
-
-        FA.Discord ->
-            "discord"
-
-        FA.Discourse ->
-            "discourse"
-
-        FA.DocHub ->
-            "dochub"
-
-        FA.Docker ->
-            "docker"
-
-        FA.Draft2Digital ->
-            "draft2digital"
-
-        FA.Dribbble ->
-            "dribbble"
-
-        FA.DribbbleSquare ->
-            "dribbble-square"
-
-        FA.Dropbox ->
-            "dropbox"
-
-        FA.Drupal ->
-            "drupal"
-
-        FA.Dyalog ->
-            "dyalog"
-
-        FA.EarlyBirds ->
-            "earlybirds"
-
-        FA.Edge ->
-            "edge"
-
-        FA.Elementor ->
-            "elementor"
-
-        FA.Ember ->
-            "ember"
-
-        FA.Empire ->
-            "empire"
-
-        FA.Envira ->
-            "envira"
-
-        FA.Erlang ->
-            "erlang"
-
-        FA.Ethereum ->
-            "ethereum"
-
-        FA.Etsy ->
-            "etsy"
-
-        FA.ExpeditedSSL ->
-            "expeditedssl"
-
-        FA.Facebook ->
-            "facebook"
-
-        FA.FacebookF ->
-            "facebook-f"
-
-        FA.FacebookMessenger ->
-            "facebook-messenger"
-
-        FA.FacebookSquare ->
-            "facebook-square"
-
-        FA.Firefox ->
-            "firefox"
-
-        FA.FirstOrder ->
-            "first-order"
-
-        FA.FirstDraft ->
-            "firstdraft"
-
-        FA.Flickr ->
-            "flickr"
-
-        FA.Fly ->
-            "fly"
-
-        FA.FontAwesome ->
-            "font-awesome"
-
-        FA.FontAwesomeAlt ->
-            "font-awesome-alt"
-
-        FA.FontAwesomeFlag ->
-            "font-awesome-flag"
-
-        FA.FontIcons ->
-            "fonticons"
-
-        FA.FontIconsFi ->
-            "fonticons-fi"
-
-        FA.FortAwesome ->
-            "fort-awesome"
-
-        FA.FortAwesomeAlt ->
-            "fort-awesome-alt"
-
-        FA.Forumbee ->
-            "forumbee"
-
-        FA.Foursquare ->
-            "foursquare"
-
-        FA.FreeCodeCamp ->
-            "free-code-camp"
-
-        FA.FreeBSD ->
-            "freebsd"
-
-        FA.GetPocket ->
-            "get-pocket"
-
-        FA.GG ->
-            "gg"
-
-        FA.GGCircle ->
-            "gg-circle"
-
-        FA.Git ->
-            "git"
-
-        FA.GitSquare ->
-            "git-square"
-
-        FA.GitHub ->
-            "github"
-
-        FA.GitHubAlt ->
-            "github-alt"
-
-        FA.GitHubSquare ->
-            "github-square"
-
-        FA.GitKraken ->
-            "gitkraken"
-
-        FA.GitLab ->
-            "gitlab"
-
-        FA.Gitter ->
-            "gitter"
-
-        FA.Glide ->
-            "glide"
-
-        FA.GlideG ->
-            "glide-g"
-
-        FA.Gofore ->
-            "gofore"
-
-        FA.Goodreads ->
-            "goodreads"
-
-        FA.GoodreadsG ->
-            "goodreads-g"
-
-        FA.Google ->
-            "google"
-
-        FA.GoogleDrive ->
-            "google-drive"
-
-        FA.GooglePlay ->
-            "google-play"
-
-        FA.GooglePlus ->
-            "google-plus"
-
-        FA.GooglePlusG ->
-            "google-plus-g"
-
-        FA.GooglePlusSquare ->
-            "google-plus-square"
-
-        FA.GoogleWallet ->
-            "google-wallet"
-
-        FA.Gratipay ->
-            "gratipay"
-
-        FA.Grav ->
-            "grav"
-
-        FA.Gripfire ->
-            "gripfire"
-
-        FA.Grunt ->
-            "grunt"
-
-        FA.Gulp ->
-            "gulp"
-
-        FA.HackerNews ->
-            "hacker-news"
-
-        FA.HackerNewsSquare ->
-            "hacker-news-square"
-
-        FA.HireAHelper ->
-            "hire-a-helper"
-
-        FA.Hooli ->
-            "hooli"
-
-        FA.Hotjar ->
-            "hotjar"
-
-        FA.Houzz ->
-            "houzz"
-
-        FA.Html5 ->
-            "html5"
-
-        FA.HubSpot ->
-            "hubspot"
-
-        FA.Imdb ->
-            "imdb"
-
-        FA.Instagram ->
-            "instagram"
-
-        FA.InternetExplorer ->
-            "internet-explorer"
-
-        FA.IoxHost ->
-            "ioxhost"
-
-        FA.Itunes ->
-            "itunes"
-
-        FA.ItunesNote ->
-            "itunes-note"
-
-        FA.Jenkins ->
-            "jenkins"
-
-        FA.Joget ->
-            "joget"
-
-        FA.Joomla ->
-            "joomla"
-
-        FA.Js ->
-            "js"
-
-        FA.JsSquare ->
-            "js-square"
-
-        FA.JSFiddle ->
-            "jsfiddle"
-
-        FA.KeyCDN ->
-            "keycdn"
-
-        FA.Kickstarter ->
-            "kickstarter"
-
-        FA.KickstarterK ->
-            "kickstarter-k"
-
-        FA.Korvue ->
-            "korvue"
-
-        FA.Laravel ->
-            "laravel"
-
-        FA.Lastfm ->
-            "lastfm"
-
-        FA.LastfmSquare ->
-            "lastfm-square"
-
-        FA.Leanpub ->
-            "leanpub"
-
-        FA.Less ->
-            "less"
-
-        FA.Line ->
-            "line"
-
-        FA.LinkedIn ->
-            "linkedin"
-
-        FA.LinkedInInverted ->
-            "linkedin-in"
-
-        FA.Linode ->
-            "linode"
-
-        FA.Linux ->
-            "linux"
-
-        FA.Lyft ->
-            "lyft"
-
-        FA.Magento ->
-            "magento"
-
-        FA.Maxcdn ->
-            "maxcdn"
-
-        FA.MedApps ->
-            "medapps"
-
-        FA.Medium ->
-            "medium"
-
-        FA.MediumM ->
-            "medium-m"
-
-        FA.Medrt ->
-            "medrt"
-
-        FA.Meetup ->
-            "meetup"
-
-        FA.Microsoft ->
-            "microsoft"
-
-        FA.Mix ->
-            "mix"
-
-        FA.Mixcloud ->
-            "mixcloud"
-
-        FA.Mizuni ->
-            "mizuni"
-
-        FA.MODX ->
-            "modx"
-
-        FA.Monero ->
-            "monero"
-
-        FA.Napster ->
-            "napster"
-
-        FA.NintendoSwitch ->
-            "nintendo-switch"
-
-        FA.Node ->
-            "node"
-
-        FA.Nodejs ->
-            "node-js"
-
-        FA.Npm ->
-            "npm"
-
-        FA.NS8 ->
-            "ns8"
-
-        FA.Nutritionix ->
-            "nutritionix"
-
-        FA.Odnoklassniki ->
-            "odnoklassniki"
-
-        FA.OdnoklassnikiSquare ->
-            "odnoklassniki-square"
-
-        FA.OpenCart ->
-            "opencart"
-
-        FA.OpenID ->
-            "openid"
-
-        FA.Opera ->
-            "opera"
-
-        FA.OptinMonster ->
-            "optin-monster"
-
-        FA.OpenSourceInitiative ->
-            "osi"
-
-        FA.Page4 ->
-            "page4"
-
-        FA.PageLines ->
-            "pagelines"
-
-        FA.PalFed ->
-            "palfed"
-
-        FA.Patreon ->
-            "patreon"
-
-        FA.PayPal ->
-            "paypal"
-
-        FA.Periscope ->
-            "periscope"
-
-        FA.Phabricator ->
-            "phabricator"
-
-        FA.PhoenixFramework ->
-            "phoenix-framework"
-
-        FA.PiedPiper ->
-            "pied-piper"
-
-        FA.PiedPiperAlt ->
-            "pied-piper-alt"
-
-        FA.PiedPiperPp ->
-            "pied-piper-pp"
-
-        FA.Pinterest ->
-            "pinterest"
-
-        FA.PinterestP ->
-            "pinterest-p"
-
-        FA.PinterestSquare ->
-            "pinterest-square"
-
-        FA.Playstation ->
-            "playstation"
-
-        FA.ProductHunt ->
-            "product-hunt"
-
-        FA.Pushed ->
-            "pushed"
-
-        FA.Python ->
-            "python"
-
-        FA.QQ ->
-            "qq"
-
-        FA.Quora ->
-            "quora"
-
-        FA.Ravelry ->
-            "ravelry"
-
-        FA.React ->
-            "react"
-
-        FA.Rebel ->
-            "rebel"
-
-        FA.RedRiver ->
-            "red-river"
-
-        FA.Reddit ->
-            "reddit"
-
-        FA.RedditAlien ->
-            "reddit-alien"
-
-        FA.RedditSquare ->
-            "reddit-square"
-
-        FA.Rendact ->
-            "rendact"
-
-        FA.Renren ->
-            "renren"
-
-        FA.Replyd ->
-            "replyd"
-
-        FA.Resolving ->
-            "resolving"
-
-        FA.RocketChat ->
-            "rocketchat"
-
-        FA.RockRMS ->
-            "rockrms"
-
-        FA.Safari ->
-            "safari"
-
-        FA.Sass ->
-            "sass"
-
-        FA.Schlix ->
-            "schlix"
-
-        FA.Scribd ->
-            "scribd"
-
-        FA.Searchengin ->
-            "searchengin"
-
-        FA.SellCast ->
-            "sellcast"
-
-        FA.Sellsy ->
-            "sellsy"
-
-        FA.ServiceStack ->
-            "servicestack"
-
-        FA.ShirtsInBulk ->
-            "shirtsinbulk"
-
-        FA.SimplyBuilt ->
-            "simplybuilt"
-
-        FA.Sistrix ->
-            "sistrix"
-
-        FA.SkyAtlas ->
-            "skyatlas"
-
-        FA.Skype ->
-            "skype"
-
-        FA.Slack ->
-            "slack"
-
-        FA.SlackHash ->
-            "slack-hash"
-
-        FA.Slideshare ->
-            "slideshare"
-
-        FA.Snapchat ->
-            "snapchat"
-
-        FA.SnapchatGhost ->
-            "snapchat-ghost"
-
-        FA.SnapchatSquare ->
-            "snapchat-square"
-
-        FA.SoundCloud ->
-            "soundcloud"
-
-        FA.Speakap ->
-            "speakap"
-
-        FA.Spotify ->
-            "spotify"
-
-        FA.StackExchange ->
-            "stack-exchange"
-
-        FA.StackOverflow ->
-            "stack-overflow"
-
-        FA.StayLinked ->
-            "staylinked"
-
-        FA.Steam ->
-            "steam"
-
-        FA.SteamSquare ->
-            "steam-square"
-
-        FA.SteamSymbol ->
-            "steam-symbol"
-
-        FA.StickerMule ->
-            "sticker-mule"
-
-        FA.Strava ->
-            "strava"
-
-        FA.Stripe ->
-            "stripe"
-
-        FA.StripeS ->
-            "stripe-s"
-
-        FA.StudioVinari ->
-            "studiovinari"
-
-        FA.StumbleUpon ->
-            "stumbleupon"
-
-        FA.StumbleUponCircle ->
-            "stumbleupon-circle"
-
-        FA.Superpowers ->
-            "superpowers"
-
-        FA.Supple ->
-            "supple"
-
-        FA.Telegram ->
-            "telegram"
-
-        FA.TelegramPlane ->
-            "telegram-plane"
-
-        FA.TencentWeibo ->
-            "tencent-weibo"
-
-        FA.ThemeIsle ->
-            "themeisle"
-
-        FA.Trello ->
-            "trello"
-
-        FA.TripAdvisor ->
-            "tripadvisor"
-
-        FA.Tumblr ->
-            "tumblr"
-
-        FA.TumblrSquare ->
-            "tumblr-square"
-
-        FA.Twitch ->
-            "twitch"
-
-        FA.Twitter ->
-            "twitter"
-
-        FA.TwitterSquare ->
-            "twitter-square"
-
-        FA.Typo3 ->
-            "typo3"
-
-        FA.Uber ->
-            "uber"
-
-        FA.UIkit ->
-            "uikit"
-
-        FA.Uniregistry ->
-            "uniregistry"
-
-        FA.Untappd ->
-            "untappd"
-
-        FA.USB ->
-            "usb"
-
-        FA.UsSunnah ->
-            "ussunnah"
-
-        FA.Vaadin ->
-            "vaadin"
-
-        FA.Viacoin ->
-            "viacoin"
-
-        FA.Viadeo ->
-            "viadeo"
-
-        FA.ViadeoSquare ->
-            "viadeo-square"
-
-        FA.Viber ->
-            "viber"
-
-        FA.Vimeo ->
-            "vimeo"
-
-        FA.VimeoSquare ->
-            "vimeo-square"
-
-        FA.VimeoV ->
-            "vimeo-v"
-
-        FA.Vine ->
-            "vine"
-
-        FA.VK ->
-            "vk"
-
-        FA.Vnv ->
-            "vnv"
-
-        FA.Vuejs ->
-            "vuejs"
-
-        FA.Weibo ->
-            "weibo"
-
-        FA.Weixin ->
-            "weixin"
-
-        FA.WhatsApp ->
-            "whatsapp"
-
-        FA.WhatsAppSquare ->
-            "whatsapp-square"
-
-        FA.WHMCS ->
-            "whmcs"
-
-        FA.Wikipedia ->
-            "wikipedia-w"
-
-        FA.Windows ->
-            "windows"
-
-        FA.WordPress ->
-            "wordpress"
-
-        FA.WordPressSimple ->
-            "wordpress-simple"
-
-        FA.WPBeginner ->
-            "wpbeginner"
-
-        FA.WPExplorer ->
-            "wpexplorer"
-
-        FA.WPForms ->
-            "wpforms"
-
-        FA.Xbox ->
-            "xbox"
-
-        FA.XING ->
-            "xing"
-
-        FA.XINGSquare ->
-            "xing-square"
-
-        FA.YCombinator ->
-            "y-combinator"
-
-        FA.Yahoo ->
-            "yahoo"
-
-        FA.Yandex ->
-            "yandex"
-
-        FA.YandexInternational ->
-            "yandex-international"
-
-        FA.Yelp ->
-            "yelp"
-
-        FA.Yoast ->
-            "yoast"
-
-        FA.YouTube ->
-            "youtube"
-
-        FA.YouTubeSquare ->
-            "youtube-square"
+        Icon.Logo str ->
+            "fa-" ++ str
