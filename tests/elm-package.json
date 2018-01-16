@@ -7,7 +7,7 @@
         "..\\src",
         "."
     ],
-    "exposed-modules": [],
+    "exposed-modules": ["FontAwesome"],
     "dependencies": {
         "eeue56/elm-html-test": "5.1.2 <= v < 6.0.0",
         "elm-community/elm-test": "4.0.0 <= v < 5.0.0",

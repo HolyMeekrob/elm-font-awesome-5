@@ -1963,7 +1963,8 @@ useCss =
 {-| Create an icon with the default style (Solid for icons),
 default tag (&lt;i&gt;), and no additional options or attributes.
 
-    icon File == <i class="fas fa-file"></i>
+    icon file
+    -- <i class="fas fa-file"></i>
 
 -}
 icon : Icon -> Html msg
@@ -1973,9 +1974,14 @@ icon icon =
 
 {-| Create an icon with the given options and attributes.
 
-    iconWithOptions Spinner Solid [ Animation Spin ] [] == <i class="fas fa-spinner fa-spin"></i>
-    iconWithOptions Question Light [ HasBorder (Pull Right) ] [ Html.title "Question"] == <i class="fal fa-question fa-border fa-pull-right" title="Question"></i>
-    iconWithOptions Info Regular [ HasFixedWidth (Size Large) (HtmlTag Span) ] [] == <span class="far fa-info fa-fw fa-lg"></span>
+    iconWithOptions spinner Solid [ Animation Spin ] []
+    -- <i class="fas fa-spinner fa-spin"></i>
+
+    iconWithOptions question Light [ HasBorder, Pull Right ] [ Html.Attributes.title "Question"]
+    -- <i class="fal fa-question fa-border fa-pull-right" title="Question"></i>
+
+    iconWithOptions info Regular [ HasFixedWidth, Size Large, HtmlTag Span ] []
+    -- <span class="far fa-info fa-fw fa-lg"></span>
 
 -}
 iconWithOptions : Icon -> Style -> List Option -> List (Attribute msg) -> Html msg
