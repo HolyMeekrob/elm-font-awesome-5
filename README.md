@@ -12,17 +12,38 @@ inputs result in a compile-time error.
 ### Basic use case
 ```elm
 import FontAwesome as Icon exposing (icon)
+import Html exposing (div)
 
-icon Icon.copy
+view : Html msg
+view =
+    div
+        []
+        [ icon Icon.copy ]
+
+-- This would spit out the following HTML
+-- <div>
+--     <i class="fas fa-copy"></i>
+-- </div>
 ```
 
 ### With options
 ```elm
 import FontAwesome as Icon exposing (iconWithOptions)
+import Html exposing (div)
 import Html.Attributes exposing (title)
 
-iconWithOptions Icon.spinner Icon.Light [ Icon.Spin, Icon.Size Icon.Large] [ title "Page is loading" ]
+view : Html msg
+view =
+    div
+        []
+        [ iconWithOptions
+            Icon.spinner
+            Icon.Light
+            [ Icon.Spin, Icon.Size Icon.Largej]
+            [ title "Page is loading" ]
 
--- This resulting Html msg would translate to the following HTML:
--- <i class="fal fa-spinner fa-spin fa-lg" title="Page is loading"></i>
+-- This would spit out the following HTML
+-- <div>
+--     <i class="fal fa-spinner fa-spin fa-lg" title="Page is loading"></i>
+-- </div>
 ```
