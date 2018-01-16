@@ -39,7 +39,7 @@ view =
         [ iconWithOptions
             Icon.spinner
             Icon.Light
-            [ Icon.Spin, Icon.Size Icon.Largej]
+            [ Icon.Spin, Icon.Size Icon.Large ]
             [ title "Page is loading" ]
 
 -- This would spit out the following HTML
