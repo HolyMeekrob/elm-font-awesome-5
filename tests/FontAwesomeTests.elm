@@ -15,7 +15,7 @@ suite : Test
 suite =
     describe "FontAwesome module"
         [ describe "useSvg" testUseSvg
-        , describe "useCSS" testUseCSS
+        , describe "useCss" testUseCSS
         , describe "icon" testIcon
         , describe "iconWithOptions" testIconWithOptions
         ]
@@ -45,7 +45,7 @@ testUseCSS : List Test
 testUseCSS =
     [ test "returns the correct link element" <|
         \_ ->
-            FA.useCSS
+            FA.useCss
                 |> Query.fromHtml
                 |> Expect.all
                     [ Query.has [ Selector.tag "link" ]
@@ -564,7 +564,7 @@ iconFuzzer =
         , Fuzz.constant FA.avianex
         , Fuzz.constant FA.aviato
         , Fuzz.constant FA.aws
-        , Fuzz.constant FA.bIMobject
+        , Fuzz.constant FA.bimObject
         , Fuzz.constant FA.backward
         , Fuzz.constant FA.badge
         , Fuzz.constant FA.badgeCheck
@@ -616,18 +616,18 @@ iconFuzzer =
         , Fuzz.constant FA.buromobelExperte
         , Fuzz.constant FA.bus
         , Fuzz.constant FA.buySellAds
-        , Fuzz.constant FA.cCAmazonPay
-        , Fuzz.constant FA.cCAmex
-        , Fuzz.constant FA.cCApplePay
-        , Fuzz.constant FA.cCDinersClub
-        , Fuzz.constant FA.cCDiscover
-        , Fuzz.constant FA.cCJcb
-        , Fuzz.constant FA.cCMastercard
-        , Fuzz.constant FA.cCPayPal
-        , Fuzz.constant FA.cCStripe
-        , Fuzz.constant FA.cCVisa
-        , Fuzz.constant FA.cSS3
-        , Fuzz.constant FA.cSS3Alt
+        , Fuzz.constant FA.ccAmazonPay
+        , Fuzz.constant FA.ccAmex
+        , Fuzz.constant FA.ccApplePay
+        , Fuzz.constant FA.ccDinersClub
+        , Fuzz.constant FA.ccDiscover
+        , Fuzz.constant FA.ccJcb
+        , Fuzz.constant FA.ccMastercard
+        , Fuzz.constant FA.ccPayPal
+        , Fuzz.constant FA.ccStripe
+        , Fuzz.constant FA.ccVisa
+        , Fuzz.constant FA.css3
+        , Fuzz.constant FA.css3Alt
         , Fuzz.constant FA.calculator
         , Fuzz.constant FA.calendar
         , Fuzz.constant FA.calendarAlt
