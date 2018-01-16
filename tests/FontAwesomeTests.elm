@@ -1494,8 +1494,7 @@ sizeFuzzer =
 
         fuzzer =
             Fuzz.oneOf
-                [ Fuzz.constant FA.Normal
-                , Fuzz.constant FA.ExtraSmall
+                [ Fuzz.constant FA.ExtraSmall
                 , Fuzz.constant FA.Small
                 , Fuzz.constant FA.Large
                 , multFuzzer

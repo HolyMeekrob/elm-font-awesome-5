@@ -2197,9 +2197,6 @@ pullClass p =
 sizeClass : Size -> String
 sizeClass size =
     case size of
-        Normal ->
-            ""
-
         ExtraSmall ->
             "fa-xs"
 
@@ -2381,24 +2378,17 @@ type Style
     | Light
 
 
-{-| Font Awesome's size options. Valid values for the Mult options are
-integers 2 - 10 inclusive.
-
-<b>Default: Normal</b>
-
+{-| Font Awesome's alternative size options. Valid values for the Mult options
+are integers 2 - 10 inclusive.
 -}
 type Size
-    = Normal
-    | ExtraSmall
+    = ExtraSmall
     | Small
     | Large
     | Mult Int
 
 
 {-| Options for pulling a logo or icon to the left or right.
-
-<b>Default: none</b>
-
 -}
 type Pull
     = Left
@@ -2406,9 +2396,6 @@ type Pull
 
 
 {-| Font Awesome's built-in animations.
-
-<b>Default: none</b>
-
 -}
 type Animation
     = Spin
