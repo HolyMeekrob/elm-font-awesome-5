@@ -14,14 +14,14 @@ inputs result in a compile-time error.
 ## Examples
 ### Basic use case
 ```elm
-import FontAwesome as Icon exposing (icon)
+import FontAwesome exposing (icon, copy)
 import Html exposing (div)
 
 view : Html msg
 view =
     div
         []
-        [ icon Icon.copy ]
+        [ icon copy ]
 
 -- This would spit out the following HTML
 -- <div>
@@ -31,7 +31,7 @@ view =
 
 ### With options
 ```elm
-import FontAwesome as Icon exposing (iconWithOptions)
+import FontAwesome exposing (iconWithOptions, spinner, Large, Light, Spin, Size)
 import Html exposing (div)
 import Html.Attributes exposing (title)
 
@@ -40,9 +40,9 @@ view =
     div
         []
         [ iconWithOptions
-            Icon.spinner
-            Icon.Light
-            [ Icon.Spin, Icon.Size Icon.Large ]
+            spinner
+            Light
+            [ Spin, Size Large ]
             [ title "Page is loading" ]
 
 -- This would spit out the following HTML
