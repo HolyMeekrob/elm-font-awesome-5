@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "summary": "helpful summary of your project, less than 80 characters",
-    "repository": "https://github.com/user/project.git",
+    "summary": "A strongly typed Elm package for working with Font Awesome",
+    "repository": "https://github.com/HolyMeekrob/elm-font-awesome.git",
     "license": "BSD3",
     "source-directories": [
         "src"
