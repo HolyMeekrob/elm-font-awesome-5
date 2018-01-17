@@ -1,6 +1,8 @@
 # Elm Font Awesome
 A strongly typed Elm package for using Font Awesome 5 icons
-in your views. All Font Awesome 5 icons are included. Previous
+in your views.
+
+All Font Awesome 5 icons are included. Previous
 versions of Font Awesome are not supported.
 
 ## Motivation
