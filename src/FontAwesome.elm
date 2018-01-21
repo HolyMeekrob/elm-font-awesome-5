@@ -1927,6 +1927,7 @@ module FontAwesome
 -}
 
 import FontAwesome.Icon as Icon exposing (Icon)
+import FontAwesome.Utils exposing (dedup, onlyOne)
 import Html exposing (Attribute, Html)
 import Html.Attributes
 
@@ -2118,25 +2119,6 @@ isWidth option =
             False
 
 
-onlyOne : (a -> Bool) -> a -> ( Bool, List a ) -> ( Bool, List a )
-onlyOne f curr ( found, list ) =
-    case ( f curr, found ) of
-        ( True, False ) ->
-            ( True, curr :: list )
-
-        ( True, True ) ->
-            ( found, list )
-
-        ( False, _ ) ->
-            ( found, curr :: list )
-
-
-dedup : (a -> Bool) -> List a -> List a
-dedup f list =
-    List.foldr (onlyOne f) ( False, [] ) list
-        |> Tuple.second
-
-
 filterAttrs : List Option -> List Option
 filterAttrs options =
     options
@@ -2267,8 +2249,8 @@ classes icon style options =
         |> Html.Attributes.classList
 
 
-transformText : Transform -> String
-transformText transform =
+transformVal : Transform -> String
+transformVal transform =
     case transform of
         Grow n ->
             "grow-" ++ toString n
@@ -2303,12 +2285,12 @@ transform opt opts =
     case opt of
         Transform transforms ->
             let
-                str =
+                val =
                     transforms
-                        |> List.map transformText
+                        |> List.map transformVal
                         |> String.join " "
             in
-                Html.Attributes.attribute "data-fa-transform" str :: opts
+                Html.Attributes.attribute "data-fa-transform" val :: opts
 
         _ ->
             opts
