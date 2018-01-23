@@ -6,10 +6,10 @@ All Font Awesome 5 icons are included. Previous
 versions of Font Awesome are not supported.
 
 ## Motivation
-Unlike other Font Awesome packages for Elm, everything in this
-package is strongly typed. That means that it is impossible to
-write an invalid Font Awesome element. Any missing or improper
-inputs result in a compile-time error.
+Unlike other Font Awesome packages for Elm, this package exposes
+all of Font Awesome's features, allowing full customization of icons.
+It also prevents the possibility of writing an invalid Font Awesome element.
+Any missing or improper inputs result in a compile-time error.
 
 ## Examples
 ### Basic use case
