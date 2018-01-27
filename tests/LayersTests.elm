@@ -10,7 +10,7 @@ import Fuzzers
         , styleFuzzer
         , transformFuzzer
         )
-import TestUtils exposing (last, transform, transformAttr)
+import TestCommon exposing (last, iconOptionsTests, transform, transformAttr)
 import Expect
 import Fuzz
 import Html
@@ -37,7 +37,7 @@ testLayers =
                 |> Query.fromHtml
                 |> Expect.all
                     [ testOuterElement
-                    , testWidth options
+                    , testLayerWidth options
                     , testText options
                     , testBadge options
                     , testIcons icons
@@ -50,11 +50,11 @@ testOuterElement =
     Query.has [ Selector.tag "span", Selector.class "fa-layers" ]
 
 
-testWidth :
+testLayerWidth :
     List (Layers.OptionLayer msg)
     -> Query.Single msg
     -> Expect.Expectation
-testWidth options =
+testLayerWidth options =
     if (List.member Layers.LayerHasFixedWidth options) then
         Query.has [ Selector.class "fa-fw" ]
     else
@@ -132,13 +132,34 @@ testIcons icons =
             \_ -> Expect.pass
 
         _ ->
-            Expect.all (List.map testIcon icons)
+            let
+                indexedIcons =
+                    List.indexedMap (,) icons
+            in
+                Expect.all (List.map testIconAt indexedIcons)
+
+
+testIconAt :
+    ( Int, Layers.IconLayer msg )
+    -> Query.Single msg
+    -> Expect.Expectation
+testIconAt ( idx, layer ) parent =
+    parent
+        |> Query.children []
+        |> Query.index idx
+        |> testIcon layer
 
 
 testIcon : Layers.IconLayer msg -> Query.Single msg -> Expect.Expectation
 testIcon (Layers.IconLayer icon style options attributes) =
-    -- TODO: How to test this?
-    \_ -> Expect.pass
+    let
+        optionsTests =
+            iconOptionsTests icon style options
+
+        attributesTest =
+            testAttributes attributes
+    in
+        Expect.all (attributesTest :: optionsTests)
 
 
 isText : Layers.OptionLayer msg -> Bool
