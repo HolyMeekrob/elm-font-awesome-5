@@ -1,4 +1,10 @@
-module FontAwesome.Layers exposing (IconLayer(..), OptionLayer(..), layers)
+module FontAwesome.Layers
+    exposing
+        ( BadgePosition(..)
+        , IconLayer(..)
+        , OptionLayer(..)
+        , layers
+        )
 
 {-| This module enables the layers feature of Font Awesome. Layers allows you
 to stack any number of Font Awesome icons and elements, as well as overlay text
@@ -14,7 +20,7 @@ Note that this feature requires using SVG Font Awesome elements.
 
 # Layers
 
-@docs IconLayer, OptionLayer
+@docs IconLayer, OptionLayer, BadgePosition
 
 -}
 
@@ -28,7 +34,7 @@ import FontAwesome
 import FontAwesome.Icon exposing (Icon)
 import FontAwesome.Utils exposing (dedup, onlyOne)
 import Html exposing (Attribute, Html, span)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, classList)
 
 
 {-| Create an element made up of Font AWesome layers.
@@ -135,11 +141,14 @@ transformAttr transforms =
 badge : OptionLayer msg -> List (Html msg) -> List (Html msg)
 badge layerOption layerOptions =
     case layerOption of
-        Badge str attributes ->
+        Badge str pos attributes ->
             let
                 elem =
                     span
-                        (class "fa-layers-counter"
+                        (classList
+                            [ ( "fa-layers-counter", True )
+                            , ( positionClass pos, True )
+                            ]
                             :: attributes
                         )
                         [ Html.text str ]
@@ -155,6 +164,22 @@ badgeElem options =
     List.foldr badge [] options
 
 
+positionClass : BadgePosition -> String
+positionClass position =
+    case position of
+        BottomLeft ->
+            "fa-layers-bottom-left"
+
+        BottomRight ->
+            "fa-layers-bottom-right"
+
+        TopLeft ->
+            "fa-layers-top-left"
+
+        TopRight ->
+            "fa-layers-top-right"
+
+
 isText : OptionLayer msg -> Bool
 isText option =
     case option of
@@ -168,7 +193,7 @@ isText option =
 isBadge : OptionLayer msg -> Bool
 isBadge option =
     case option of
-        Badge _ _ ->
+        Badge _ _ _ ->
             True
 
         _ ->
@@ -194,4 +219,11 @@ This is often used to display a counter.
 type OptionLayer msg
     = LayerHasFixedWidth
     | TextLayer String (List Transform) (List (Attribute msg))
-    | Badge String (List (Attribute msg))
+    | Badge String BadgePosition (List (Attribute msg))
+
+
+type BadgePosition
+    = BottomLeft
+    | BottomRight
+    | TopLeft
+    | TopRight

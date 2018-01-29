@@ -96,11 +96,12 @@ testBadge options =
             last isBadge options
     in
         case opt of
-            Just (Layers.Badge str attributes) ->
+            Just (Layers.Badge str pos attributes) ->
                 Query.find [ Selector.tag "span", Selector.class "fa-layers-counter" ]
                     |> \_ ->
                         Expect.all
                             [ testTextIsPresent str
+                            , testBadgePosition pos
                             , testAttributes attributes
                             ]
 
@@ -111,6 +112,26 @@ testBadge options =
 testTextIsPresent : String -> Query.Single msg -> Expect.Expectation
 testTextIsPresent str =
     Query.has [ Selector.text str ]
+
+
+testBadgePosition : Layers.BadgePosition -> Query.Single msg -> Expect.Expectation
+testBadgePosition position =
+    let
+        className =
+            case position of
+                Layers.BottomLeft ->
+                    "fa-layers-bottom-left"
+
+                Layers.BottomRight ->
+                    "fa-layers-bottom-right"
+
+                Layers.TopLeft ->
+                    "fa-layers-top-left"
+
+                Layers.TopRight ->
+                    "fa-layers-top-right"
+    in
+        Query.has [ Selector.class className ]
 
 
 testTransforms : List FA.Transform -> Query.Single msg -> Expect.Expectation
@@ -175,7 +196,7 @@ isText option =
 isBadge : Layers.OptionLayer msg -> Bool
 isBadge option =
     case option of
-        Layers.Badge _ _ ->
+        Layers.Badge _ _ _ ->
             True
 
         _ ->
@@ -195,9 +216,19 @@ textLayerFuzzer =
         attributesFuzzer
 
 
+badgePositionFuzzer : Fuzz.Fuzzer Layers.BadgePosition
+badgePositionFuzzer =
+    Fuzz.oneOf
+        [ Fuzz.constant Layers.BottomLeft
+        , Fuzz.constant Layers.BottomRight
+        , Fuzz.constant Layers.TopLeft
+        , Fuzz.constant Layers.TopRight
+        ]
+
+
 badgeFuzzer : Fuzz.Fuzzer (Layers.OptionLayer msg)
 badgeFuzzer =
-    Fuzz.map2 Layers.Badge Fuzz.string attributesFuzzer
+    Fuzz.map3 Layers.Badge Fuzz.string badgePositionFuzzer attributesFuzzer
 
 
 optionLayerFuzzer : Fuzz.Fuzzer (Layers.OptionLayer msg)
