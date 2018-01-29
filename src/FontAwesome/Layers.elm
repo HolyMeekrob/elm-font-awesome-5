@@ -9,7 +9,12 @@ Note that this feature requires using SVG Font Awesome elements.
 
 # Elements
 
-@docs layers, IconLayer, OptionLayer
+@docs layers
+
+
+# Layers
+
+@docs IconLayer, OptionLayer
 
 -}
 
@@ -26,6 +31,8 @@ import Html exposing (Attribute, Html, span)
 import Html.Attributes exposing (class)
 
 
+{-| Create an element made up of Font AWesome layers.
+-}
 layers : List (IconLayer msg) -> List (OptionLayer msg) -> Html msg
 layers icons options =
     span
@@ -168,10 +175,22 @@ isBadge option =
             False
 
 
+{-| A layer consisting of any Font Awesome icon or logo.
+-}
 type IconLayer msg
     = IconLayer Icon Style (List Option) (List (Attribute msg))
 
 
+{-| Other options for a set of layers.
+
+Including the LayerHasFixedWidth option will align all layers and is generally recommended.
+
+Including the TextLayer option will place the given text on top of your layer.
+
+Including the Badge option adds a badge with the given text to the top right of your element.
+This is often used to display a counter.
+
+-}
 type OptionLayer msg
     = LayerHasFixedWidth
     | TextLayer String (List Transform) (List (Attribute msg))
