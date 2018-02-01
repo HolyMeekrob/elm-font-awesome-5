@@ -12,7 +12,6 @@ import Fuzz
         , map
         , map2
         , oneOf
-        , string
         )
 import Html exposing (Attribute)
 import Html.Attributes
@@ -53,12 +52,14 @@ transformOptionFuzzer =
 
 attributesFuzzer : Fuzz.Fuzzer (List (Attribute msg))
 attributesFuzzer =
+    -- Fuzzing attributes caused massive slowdown in test running, so the
+    -- implementation has been modified to use constants
     let
         attributeFuzzer =
             Fuzz.oneOf
-                [ map Html.Attributes.class string
-                , map Html.Attributes.title string
-                , map2 Html.Attributes.attribute string string
+                [ Fuzz.constant (Html.Attributes.class "test-class")
+                , Fuzz.constant (Html.Attributes.title "test title")
+                , Fuzz.constant (Html.Attributes.attribute "data-test-attr" "attr val")
                 ]
     in
         Fuzz.list attributeFuzzer

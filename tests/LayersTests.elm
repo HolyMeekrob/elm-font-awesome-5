@@ -51,7 +51,7 @@ testOuterElement =
 
 
 testLayerWidth :
-    List (Layers.OptionLayer msg)
+    List (Layers.LayerOption msg)
     -> Query.Single msg
     -> Expect.Expectation
 testLayerWidth options =
@@ -64,7 +64,7 @@ testLayerWidth options =
 
 
 testText :
-    List (Layers.OptionLayer msg)
+    List (Layers.LayerOption msg)
     -> Query.Single msg
     -> Expect.Expectation
 testText options =
@@ -87,7 +87,7 @@ testText options =
 
 
 testBadge :
-    List (Layers.OptionLayer msg)
+    List (Layers.LayerOption msg)
     -> Query.Single msg
     -> Expect.Expectation
 testBadge options =
@@ -183,7 +183,7 @@ testIcon (Layers.IconLayer icon style options attributes) =
         Expect.all (attributesTest :: optionsTests)
 
 
-isText : Layers.OptionLayer msg -> Bool
+isText : Layers.LayerOption msg -> Bool
 isText option =
     case option of
         Layers.TextLayer _ _ _ ->
@@ -193,7 +193,7 @@ isText option =
             False
 
 
-isBadge : Layers.OptionLayer msg -> Bool
+isBadge : Layers.LayerOption msg -> Bool
 isBadge option =
     case option of
         Layers.Badge _ _ _ ->
@@ -207,7 +207,7 @@ isBadge option =
 -- Fuzzers
 
 
-textLayerFuzzer : Fuzz.Fuzzer (Layers.OptionLayer msg)
+textLayerFuzzer : Fuzz.Fuzzer (Layers.LayerOption msg)
 textLayerFuzzer =
     Fuzz.map3
         Layers.TextLayer
@@ -226,12 +226,12 @@ badgePositionFuzzer =
         ]
 
 
-badgeFuzzer : Fuzz.Fuzzer (Layers.OptionLayer msg)
+badgeFuzzer : Fuzz.Fuzzer (Layers.LayerOption msg)
 badgeFuzzer =
     Fuzz.map3 Layers.Badge Fuzz.string badgePositionFuzzer attributesFuzzer
 
 
-optionLayerFuzzer : Fuzz.Fuzzer (Layers.OptionLayer msg)
+optionLayerFuzzer : Fuzz.Fuzzer (Layers.LayerOption msg)
 optionLayerFuzzer =
     Fuzz.oneOf
         [ Fuzz.constant Layers.LayerHasFixedWidth
@@ -240,7 +240,7 @@ optionLayerFuzzer =
         ]
 
 
-optionLayersFuzzer : Fuzz.Fuzzer (List (Layers.OptionLayer msg))
+optionLayersFuzzer : Fuzz.Fuzzer (List (Layers.LayerOption msg))
 optionLayersFuzzer =
     Fuzz.list optionLayerFuzzer
 

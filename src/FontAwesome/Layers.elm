@@ -2,7 +2,7 @@ module FontAwesome.Layers
     exposing
         ( BadgePosition(..)
         , IconLayer(..)
-        , OptionLayer(..)
+        , LayerOption(..)
         , layers
         )
 
@@ -20,7 +20,7 @@ Note that this feature requires using SVG Font Awesome elements.
 
 # Layers
 
-@docs IconLayer, OptionLayer, BadgePosition
+@docs IconLayer, LayerOption, BadgePosition
 
 -}
 
@@ -37,9 +37,9 @@ import Html exposing (Attribute, Html, span)
 import Html.Attributes exposing (class, classList)
 
 
-{-| Create an element made up of Font AWesome layers.
+{-| Create an element made up of Font Awesome layers.
 -}
-layers : List (IconLayer msg) -> List (OptionLayer msg) -> Html msg
+layers : List (IconLayer msg) -> List (LayerOption msg) -> Html msg
 layers icons options =
     span
         [ classes options ]
@@ -51,7 +51,7 @@ icon (IconLayer icon style options attributes) =
     iconWithOptions icon style options attributes
 
 
-classes : List (OptionLayer msg) -> Attribute msg
+classes : List (LayerOption msg) -> Attribute msg
 classes options =
     if (List.member LayerHasFixedWidth options) then
         class "fa-layers fa-fw"
@@ -59,7 +59,7 @@ classes options =
         class "fa-layers"
 
 
-optionLayers : List (OptionLayer msg) -> List (Html msg)
+optionLayers : List (LayerOption msg) -> List (Html msg)
 optionLayers options =
     options
         |> dedup isText
@@ -67,17 +67,17 @@ optionLayers options =
         |> optionElems
 
 
-optionElems : List (OptionLayer msg) -> List (Html msg)
+optionElems : List (LayerOption msg) -> List (Html msg)
 optionElems options =
     textElem options ++ badgeElem options
 
 
-textElem : List (OptionLayer msg) -> List (Html msg)
+textElem : List (LayerOption msg) -> List (Html msg)
 textElem options =
     List.foldr text [] options
 
 
-text : OptionLayer msg -> List (Html msg) -> List (Html msg)
+text : LayerOption msg -> List (Html msg) -> List (Html msg)
 text layerOption layerOptions =
     case layerOption of
         TextLayer txt transforms attributes ->
@@ -138,7 +138,7 @@ transformAttr transforms =
         Html.Attributes.attribute "data-fa-transform" val
 
 
-badge : OptionLayer msg -> List (Html msg) -> List (Html msg)
+badge : LayerOption msg -> List (Html msg) -> List (Html msg)
 badge layerOption layerOptions =
     case layerOption of
         Badge str pos attributes ->
@@ -159,7 +159,7 @@ badge layerOption layerOptions =
             layerOptions
 
 
-badgeElem : List (OptionLayer msg) -> List (Html msg)
+badgeElem : List (LayerOption msg) -> List (Html msg)
 badgeElem options =
     List.foldr badge [] options
 
@@ -180,7 +180,7 @@ positionClass position =
             "fa-layers-top-right"
 
 
-isText : OptionLayer msg -> Bool
+isText : LayerOption msg -> Bool
 isText option =
     case option of
         TextLayer _ _ _ ->
@@ -190,7 +190,7 @@ isText option =
             False
 
 
-isBadge : OptionLayer msg -> Bool
+isBadge : LayerOption msg -> Bool
 isBadge option =
     case option of
         Badge _ _ _ ->
@@ -216,12 +216,14 @@ Including the Badge option adds a badge with the given text to the top right of 
 This is often used to display a counter.
 
 -}
-type OptionLayer msg
+type LayerOption msg
     = LayerHasFixedWidth
     | TextLayer String (List Transform) (List (Attribute msg))
     | Badge String BadgePosition (List (Attribute msg))
 
 
+{-| Positioning for a badge layer option.
+-}
 type BadgePosition
     = BottomLeft
     | BottomRight
