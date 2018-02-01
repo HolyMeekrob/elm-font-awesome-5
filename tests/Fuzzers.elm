@@ -1098,8 +1098,8 @@ iconFuzzer =
         -- , constant FA.wordPress
         -- , constant FA.wordPressSimple
         -- , constant FA.wrench
-        -- , constant FA.xING
-        -- , constant FA.xINGSquare
+        -- , constant FA.xing
+        -- , constant FA.xingSquare
         -- , constant FA.xbox
         -- , constant FA.yCombinator
         -- , constant FA.yahoo

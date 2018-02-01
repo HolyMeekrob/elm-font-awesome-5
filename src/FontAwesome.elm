@@ -944,8 +944,8 @@ module FontAwesome
         , wordPress
         , wordPressSimple
         , wrench
-        , xING
-        , xINGSquare
+        , xing
+        , xingSquare
         , xbox
         , yCombinator
         , yahoo
@@ -1911,8 +1911,8 @@ module FontAwesome
 @docs wordPress
 @docs wordPressSimple
 @docs wrench
-@docs xING
-@docs xINGSquare
+@docs xing
+@docs xingSquare
 @docs xbox
 @docs yCombinator
 @docs yahoo
@@ -8957,15 +8957,15 @@ wrench =
 
 {-| XING - Logo
 -}
-xING : Icon
-xING =
+xing : Icon
+xing =
     Icon.Logo "xing"
 
 
 {-| XINGSquare - Logo
 -}
-xINGSquare : Icon
-xINGSquare =
+xingSquare : Icon
+xingSquare =
     Icon.Logo "xing-square"
 
 

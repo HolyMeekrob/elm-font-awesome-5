@@ -13,12 +13,12 @@ or counter badges.
 Note that this feature requires using SVG Font Awesome elements.
 
 
-# Elements
+# Entry point
 
 @docs layers
 
 
-# Layers
+# Options and inner layers
 
 @docs IconLayer, LayerOption, BadgePosition
 
@@ -37,7 +37,7 @@ import Html exposing (Attribute, Html, span)
 import Html.Attributes exposing (class, classList)
 
 
-{-| Create an element made up of Font Awesome layers.
+{-| Create a stack of layers. This is the only way to create a layer of Font Awesome elements.
 -}
 layers : List (IconLayer msg) -> List (LayerOption msg) -> Html msg
 layers icons options =
