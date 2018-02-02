@@ -254,7 +254,6 @@ iconFuzzer =
         , constant FA.avianex
         , constant FA.aviato
         , constant FA.aws
-        , constant FA.bimObject
         , constant FA.backward
         , constant FA.badge
         , constant FA.badgeCheck
@@ -263,6 +262,10 @@ iconFuzzer =
         , constant FA.bandcamp
         , constant FA.barcode
         , constant FA.bars
+        , constant FA.baseball
+        , constant FA.baseballBall
+        , constant FA.basketballBall
+        , constant FA.basketballHoop
         , constant FA.bath
         , constant FA.batteryBolt
         , constant FA.batteryEmpty
@@ -278,6 +281,7 @@ iconFuzzer =
         , constant FA.bell
         , constant FA.bellSlash
         , constant FA.bicycle
+        , constant FA.bimObject
         , constant FA.binoculars
         , constant FA.birthdayCake
         , constant FA.bitbucket
@@ -295,6 +299,9 @@ iconFuzzer =
         , constant FA.bomb
         , constant FA.book
         , constant FA.bookmark
+        , constant FA.bowlingBall
+        , constant FA.bowlingPins
+        , constant FA.boxingGlove
         , constant FA.braille
         , constant FA.briefcase
         , constant FA.browser
@@ -306,18 +313,6 @@ iconFuzzer =
         , constant FA.buromobelExperte
         , constant FA.bus
         , constant FA.buySellAds
-        , constant FA.ccAmazonPay
-        , constant FA.ccAmex
-        , constant FA.ccApplePay
-        , constant FA.ccDinersClub
-        , constant FA.ccDiscover
-        , constant FA.ccJcb
-        , constant FA.ccMastercard
-        , constant FA.ccPayPal
-        , constant FA.ccStripe
-        , constant FA.ccVisa
-        , constant FA.css3
-        , constant FA.css3Alt
         , constant FA.calculator
         , constant FA.calendar
         , constant FA.calendarAlt
@@ -345,6 +340,16 @@ iconFuzzer =
         , constant FA.caretUp
         , constant FA.cartArrowDown
         , constant FA.cartPlus
+        , constant FA.ccAmazonPay
+        , constant FA.ccAmex
+        , constant FA.ccApplePay
+        , constant FA.ccDinersClub
+        , constant FA.ccDiscover
+        , constant FA.ccJcb
+        , constant FA.ccMastercard
+        , constant FA.ccPayPal
+        , constant FA.ccStripe
+        , constant FA.ccVisa
         , constant FA.centercode
         , constant FA.certificate
         , constant FA.chartArea
@@ -354,6 +359,22 @@ iconFuzzer =
         , constant FA.check
         , constant FA.checkCircle
         , constant FA.checkSquare
+        , constant FA.chess
+        , constant FA.chessBishop
+        , constant FA.chessBishopAlt
+        , constant FA.chessBoard
+        , constant FA.chessClock
+        , constant FA.chessClockAlt
+        , constant FA.chessKing
+        , constant FA.chessKingAlt
+        , constant FA.chessKnight
+        , constant FA.chessKnightAlt
+        , constant FA.chessPawn
+        , constant FA.chessPawnAlt
+        , constant FA.chessQueen
+        , constant FA.chessQueenAlt
+        , constant FA.chessRook
+        , constant FA.chessRookAlt
         , constant FA.chevronCircleDown
         , constant FA.chevronCircleLeft
         , constant FA.chevronCircleRight
@@ -381,9 +402,9 @@ iconFuzzer =
         , constant FA.cloud
         , constant FA.cloudDownload
         , constant FA.cloudDownloadAlt
-        , constant FA.cloudScale
         , constant FA.cloudUpload
         , constant FA.cloudUploadAlt
+        , constant FA.cloudScale
         , constant FA.cloudsmith
         , constant FA.cloudversify
         , constant FA.club
@@ -413,10 +434,14 @@ iconFuzzer =
         , constant FA.creditCard
         , constant FA.creditCardBlank
         , constant FA.creditCardFront
+        , constant FA.cricket
         , constant FA.crop
         , constant FA.crosshairs
+        , constant FA.css3
+        , constant FA.css3Alt
         , constant FA.cube
         , constant FA.cubes
+        , constant FA.curling
         , constant FA.cut
         , constant FA.cuttlefish
 
@@ -449,6 +474,7 @@ iconFuzzer =
         -- , constant FA.dribbbleSquare
         -- , constant FA.dropbox
         -- , constant FA.drupal
+        -- , constant FA.dumbbell
         -- , constant FA.dyalog
         -- , constant FA.earlyBirds
         -- , constant FA.edge
@@ -497,6 +523,7 @@ iconFuzzer =
         -- , constant FA.fastForward
         -- , constant FA.fax
         -- , constant FA.female
+        -- , constant FA.fieldHockey
         -- , constant FA.fighterJet
         -- , constant FA.file
         -- , constant FA.fileAlt
@@ -511,7 +538,7 @@ iconFuzzer =
         -- , constant FA.fileMinus
         -- , constant FA.filePdf
         -- , constant FA.filePlus
-        -- , constant FA.filePowerpoint
+        -- , constant FA.filePowerPoint
         -- , constant FA.fileTimes
         -- , constant FA.fileVideo
         -- , constant FA.fileWord
@@ -528,6 +555,7 @@ iconFuzzer =
         -- , constant FA.flagCheckered
         -- , constant FA.flask
         -- , constant FA.flickr
+        -- , constant FA.flipboard
         -- , constant FA.fly
         -- , constant FA.folder
         -- , constant FA.folderOpen
@@ -537,6 +565,8 @@ iconFuzzer =
         -- , constant FA.fontAwesomeFlag
         -- , constant FA.fontIcons
         -- , constant FA.fontIconsFi
+        -- , constant FA.footballBall
+        -- , constant FA.footballHelmet
         -- , constant FA.fortAwesome
         -- , constant FA.fortAwesomeAlt
         -- , constant FA.forumbee
@@ -546,27 +576,29 @@ iconFuzzer =
         -- , constant FA.freeCodeCamp
         -- , constant FA.frown
         -- , constant FA.futbol
-        -- , constant FA.gG
-        -- , constant FA.gGCircle
         -- , constant FA.gamepad
         -- , constant FA.gavel
         -- , constant FA.gem
         -- , constant FA.genderless
         -- , constant FA.getPocket
+        -- , constant FA.gg
+        -- , constant FA.ggCircle
         -- , constant FA.gift
         -- , constant FA.git
+        -- , constant FA.gitSquare
         -- , constant FA.gitHub
         -- , constant FA.gitHubAlt
         -- , constant FA.gitHubSquare
         -- , constant FA.gitKraken
         -- , constant FA.gitLab
-        -- , constant FA.gitSquare
         -- , constant FA.gitter
         -- , constant FA.glassMartini
         -- , constant FA.glide
         -- , constant FA.glideG
         -- , constant FA.globe
         -- , constant FA.gofore
+        -- , constant FA.golfBall
+        -- , constant FA.golfClub
         -- , constant FA.goodreads
         -- , constant FA.goodreadsG
         -- , constant FA.google
@@ -582,10 +614,10 @@ iconFuzzer =
         -- , constant FA.gripfire
         -- , constant FA.grunt
         -- , constant FA.gulp
+        -- , constant FA.hSquare
         -- , constant FA.h1
         -- , constant FA.h2
         -- , constant FA.h3
-        -- , constant FA.hSquare
         -- , constant FA.hackerNews
         -- , constant FA.hackerNewsSquare
         -- , constant FA.handLizard
@@ -607,8 +639,11 @@ iconFuzzer =
         -- , constant FA.heart
         -- , constant FA.heartbeat
         -- , constant FA.hexagon
+        -- , constant FA.hips
         -- , constant FA.hireAHelper
         -- , constant FA.history
+        -- , constant FA.hockeyPuck
+        -- , constant FA.hockeySticks
         -- , constant FA.home
         -- , constant FA.hooli
         -- , constant FA.hospital
@@ -639,18 +674,18 @@ iconFuzzer =
         -- , constant FA.internetExplorer
         -- , constant FA.ioxHost
         -- , constant FA.italic
-        -- , constant FA.itunes
-        -- , constant FA.itunesNote
-        -- , constant FA.jSFiddle
+        -- , constant FA.iTunes
+        -- , constant FA.iTunesNote
         -- , constant FA.jackOLantern
         -- , constant FA.jenkins
         -- , constant FA.joget
         -- , constant FA.joomla
         -- , constant FA.js
         -- , constant FA.jsSquare
+        -- , constant FA.jsFiddle
         -- , constant FA.key
-        -- , constant FA.keyCDN
         -- , constant FA.keyboard
+        -- , constant FA.keyCDN
         -- , constant FA.kickstarter
         -- , constant FA.kickstarterK
         -- , constant FA.korvue
@@ -694,8 +729,8 @@ iconFuzzer =
         -- , constant FA.longArrowRight
         -- , constant FA.longArrowUp
         -- , constant FA.lowVision
+        -- , constant FA.luchador
         -- , constant FA.lyft
-        -- , constant FA.mODX
         -- , constant FA.magento
         -- , constant FA.magic
         -- , constant FA.magnet
@@ -710,12 +745,12 @@ iconFuzzer =
         -- , constant FA.marsStroke
         -- , constant FA.marsStrokeHorizontal
         -- , constant FA.marsStrokeVertical
-        -- , constant FA.maxcdn
+        -- , constant FA.maxCDN
         -- , constant FA.medApps
         -- , constant FA.medium
         -- , constant FA.mediumM
         -- , constant FA.medkit
-        -- , constant FA.medrt
+        -- , constant FA.medRT
         -- , constant FA.meetup
         -- , constant FA.meh
         -- , constant FA.mercury
@@ -736,6 +771,7 @@ iconFuzzer =
         -- , constant FA.mobileAlt
         -- , constant FA.mobileAndroid
         -- , constant FA.mobileAndroidAlt
+        -- , constant FA.modX
         -- , constant FA.monero
         -- , constant FA.moneyBill
         -- , constant FA.moneyBillAlt
@@ -743,7 +779,6 @@ iconFuzzer =
         -- , constant FA.motorcycle
         -- , constant FA.mousePointer
         -- , constant FA.music
-        -- , constant FA.nS8
         -- , constant FA.napster
         -- , constant FA.neuter
         -- , constant FA.newspaper
@@ -751,6 +786,7 @@ iconFuzzer =
         -- , constant FA.node
         -- , constant FA.nodejs
         -- , constant FA.npm
+        -- , constant FA.ns8
         -- , constant FA.nutritionix
         -- , constant FA.objectGroup
         -- , constant FA.objectUngroup
@@ -759,9 +795,9 @@ iconFuzzer =
         -- , constant FA.odnoklassnikiSquare
         -- , constant FA.openCart
         -- , constant FA.openID
-        -- , constant FA.openSourceInitiative
         -- , constant FA.opera
         -- , constant FA.optinMonster
+        -- , constant FA.openSourceInitiative
         -- , constant FA.outdent
         -- , constant FA.page4
         -- , constant FA.pageLines
@@ -781,6 +817,7 @@ iconFuzzer =
         -- , constant FA.penSquare
         -- , constant FA.pencil
         -- , constant FA.pencilAlt
+        -- , constant FA.pennant
         -- , constant FA.percent
         -- , constant FA.periscope
         -- , constant FA.phabricator
@@ -789,9 +826,10 @@ iconFuzzer =
         -- , constant FA.phoneSlash
         -- , constant FA.phoneSquare
         -- , constant FA.phoneVolume
+        -- , constant FA.php
         -- , constant FA.piedPiper
         -- , constant FA.piedPiperAlt
-        -- , constant FA.piedPiperPp
+        -- , constant FA.piedPiperPP
         -- , constant FA.pinterest
         -- , constant FA.pinterestP
         -- , constant FA.pinterestSquare
@@ -816,16 +854,17 @@ iconFuzzer =
         -- , constant FA.pushed
         -- , constant FA.puzzlePiece
         -- , constant FA.python
-        -- , constant FA.qQ
-        -- , constant FA.qrcode
+        -- , constant FA.qq
+        -- , constant FA.qrCode
         -- , constant FA.question
         -- , constant FA.questionCircle
         -- , constant FA.questionSquare
+        -- , constant FA.quidditch
+        -- , constant FA.quinScape
         -- , constant FA.quora
         -- , constant FA.quoteLeft
         -- , constant FA.quoteRight
-        -- , constant FA.rSS
-        -- , constant FA.rSSSquare
+        -- , constant FA.racquet
         -- , constant FA.random
         -- , constant FA.ravelry
         -- , constant FA.react
@@ -844,9 +883,9 @@ iconFuzzer =
         -- , constant FA.rendact
         -- , constant FA.renren
         -- , constant FA.repeat
+        -- , constant FA.repeatAlt
         -- , constant FA.repeat1
         -- , constant FA.repeat1Alt
-        -- , constant FA.repeatAlt
         -- , constant FA.reply
         -- , constant FA.replyAll
         -- , constant FA.replyd
@@ -854,9 +893,11 @@ iconFuzzer =
         -- , constant FA.retweet
         -- , constant FA.retweetAlt
         -- , constant FA.road
-        -- , constant FA.rockRMS
         -- , constant FA.rocket
         -- , constant FA.rocketChat
+        -- , constant FA.rockRMS
+        -- , constant FA.rss
+        -- , constant FA.rssSquare
         -- , constant FA.rubleSign
         -- , constant FA.rupeeSign
         -- , constant FA.safari
@@ -888,6 +929,7 @@ iconFuzzer =
         -- , constant FA.shoppingBasket
         -- , constant FA.shoppingCart
         -- , constant FA.shower
+        -- , constant FA.shuttlecock
         -- , constant FA.signIn
         -- , constant FA.signInAlt
         -- , constant FA.signLanguage
@@ -903,8 +945,8 @@ iconFuzzer =
         -- , constant FA.slackHash
         -- , constant FA.slidersHorizontal
         -- , constant FA.slidersHorizontalSquare
-        -- , constant FA.slidersV
-        -- , constant FA.slidersVSquare
+        -- , constant FA.slidersVertical
+        -- , constant FA.slidersVerticalSquare
         -- , constant FA.slideshare
         -- , constant FA.smile
         -- , constant FA.snapchat
@@ -928,6 +970,7 @@ iconFuzzer =
         -- , constant FA.spinnerThird
         -- , constant FA.spotify
         -- , constant FA.square
+        -- , constant FA.squareFull
         -- , constant FA.stackExchange
         -- , constant FA.stackOverflow
         -- , constant FA.star
@@ -962,10 +1005,8 @@ iconFuzzer =
         -- , constant FA.supple
         -- , constant FA.sync
         -- , constant FA.syncAlt
-        -- , constant FA.tTY
-        -- , constant FA.tV
-        -- , constant FA.tVRetro
         -- , constant FA.table
+        -- , constant FA.tableTennis
         -- , constant FA.tablet
         -- , constant FA.tabletAlt
         -- , constant FA.tabletAndroid
@@ -979,6 +1020,7 @@ iconFuzzer =
         -- , constant FA.telegram
         -- , constant FA.telegramPlane
         -- , constant FA.tencentWeibo
+        -- , constant FA.tennisBall
         -- , constant FA.terminal
         -- , constant FA.textHeight
         -- , constant FA.textWidth
@@ -1018,15 +1060,17 @@ iconFuzzer =
         -- , constant FA.trophy
         -- , constant FA.trophyAlt
         -- , constant FA.truck
+        -- , constant FA.tty
         -- , constant FA.tumblr
         -- , constant FA.tumblrSquare
+        -- , constant FA.tv
+        -- , constant FA.tvRetro
         -- , constant FA.twitch
         -- , constant FA.twitter
         -- , constant FA.twitterSquare
         -- , constant FA.typo3
-        -- , constant FA.uIkit
-        -- , constant FA.uSB
         -- , constant FA.uber
+        -- , constant FA.uiKit
         -- , constant FA.umbrella
         -- , constant FA.underline
         -- , constant FA.undo
@@ -1039,23 +1083,23 @@ iconFuzzer =
         -- , constant FA.unlockAlt
         -- , constant FA.untappd
         -- , constant FA.upload
-        -- , constant FA.usSunnah
+        -- , constant FA.usb
         -- , constant FA.usdCircle
         -- , constant FA.usdSquare
         -- , constant FA.user
         -- , constant FA.userAlt
         -- , constant FA.userCircle
-        -- , constant FA.userMd
+        -- , constant FA.userMD
         -- , constant FA.userPlus
         -- , constant FA.userSecret
         -- , constant FA.userTimes
         -- , constant FA.users
+        -- , constant FA.usSunnah
         -- , constant FA.utensilFork
         -- , constant FA.utensilKnife
         -- , constant FA.utensilSpoon
         -- , constant FA.utensils
         -- , constant FA.utensilsAlt
-        -- , constant FA.vK
         -- , constant FA.vaadin
         -- , constant FA.venus
         -- , constant FA.venusDouble
@@ -1069,22 +1113,22 @@ iconFuzzer =
         -- , constant FA.vimeoSquare
         -- , constant FA.vimeoV
         -- , constant FA.vine
+        -- , constant FA.vk
         -- , constant FA.vnv
+        -- , constant FA.volleyball
         -- , constant FA.volumeDown
         -- , constant FA.volumeMute
         -- , constant FA.volumeOff
         -- , constant FA.volumeUp
         -- , constant FA.vuejs
-        -- , constant FA.wHMCS
-        -- , constant FA.wPBeginner
-        -- , constant FA.wPExplorer
-        -- , constant FA.wPForms
         -- , constant FA.watch
         -- , constant FA.weibo
         -- , constant FA.weixin
         -- , constant FA.whatsApp
         -- , constant FA.whatsAppSquare
         -- , constant FA.wheelchair
+        -- , constant FA.whistle
+        -- , constant FA.whmcs
         -- , constant FA.wifi
         -- , constant FA.wikipedia
         -- , constant FA.window
@@ -1097,10 +1141,13 @@ iconFuzzer =
         -- , constant FA.wonSign
         -- , constant FA.wordPress
         -- , constant FA.wordPressSimple
+        -- , constant FA.wpBeginner
+        -- , constant FA.wpExplorer
+        -- , constant FA.wpForms
         -- , constant FA.wrench
+        -- , constant FA.xbox
         -- , constant FA.xing
         -- , constant FA.xingSquare
-        -- , constant FA.xbox
         -- , constant FA.yCombinator
         -- , constant FA.yahoo
         -- , constant FA.yandex

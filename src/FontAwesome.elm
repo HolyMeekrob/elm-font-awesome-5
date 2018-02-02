@@ -105,7 +105,6 @@ module FontAwesome
         , avianex
         , aviato
         , aws
-        , bimObject
         , backward
         , badge
         , badgeCheck
@@ -114,6 +113,10 @@ module FontAwesome
         , bandcamp
         , barcode
         , bars
+        , baseball
+        , baseballBall
+        , basketballBall
+        , basketballHoop
         , bath
         , batteryBolt
         , batteryEmpty
@@ -129,6 +132,7 @@ module FontAwesome
         , bell
         , bellSlash
         , bicycle
+        , bimObject
         , binoculars
         , birthdayCake
         , bitbucket
@@ -146,6 +150,9 @@ module FontAwesome
         , bomb
         , book
         , bookmark
+        , bowlingBall
+        , bowlingPins
+        , boxingGlove
         , braille
         , briefcase
         , browser
@@ -157,18 +164,6 @@ module FontAwesome
         , buromobelExperte
         , bus
         , buySellAds
-        , ccAmazonPay
-        , ccAmex
-        , ccApplePay
-        , ccDinersClub
-        , ccDiscover
-        , ccJcb
-        , ccMastercard
-        , ccPayPal
-        , ccStripe
-        , ccVisa
-        , css3
-        , css3Alt
         , calculator
         , calendar
         , calendarAlt
@@ -196,6 +191,16 @@ module FontAwesome
         , caretUp
         , cartArrowDown
         , cartPlus
+        , ccAmazonPay
+        , ccAmex
+        , ccApplePay
+        , ccDinersClub
+        , ccDiscover
+        , ccJcb
+        , ccMastercard
+        , ccPayPal
+        , ccStripe
+        , ccVisa
         , centercode
         , certificate
         , chartArea
@@ -205,6 +210,22 @@ module FontAwesome
         , check
         , checkCircle
         , checkSquare
+        , chess
+        , chessBishop
+        , chessBishopAlt
+        , chessBoard
+        , chessClock
+        , chessClockAlt
+        , chessKing
+        , chessKingAlt
+        , chessKnight
+        , chessKnightAlt
+        , chessPawn
+        , chessPawnAlt
+        , chessQueen
+        , chessQueenAlt
+        , chessRook
+        , chessRookAlt
         , chevronCircleDown
         , chevronCircleLeft
         , chevronCircleRight
@@ -232,9 +253,9 @@ module FontAwesome
         , cloud
         , cloudDownload
         , cloudDownloadAlt
-        , cloudScale
         , cloudUpload
         , cloudUploadAlt
+        , cloudScale
         , cloudsmith
         , cloudversify
         , club
@@ -264,10 +285,14 @@ module FontAwesome
         , creditCard
         , creditCardBlank
         , creditCardFront
+        , cricket
         , crop
         , crosshairs
+        , css3
+        , css3Alt
         , cube
         , cubes
+        , curling
         , cut
         , cuttlefish
         , dAndD
@@ -295,6 +320,7 @@ module FontAwesome
         , dribbbleSquare
         , dropbox
         , drupal
+        , dumbbell
         , dyalog
         , earlyBirds
         , edge
@@ -343,6 +369,7 @@ module FontAwesome
         , fastForward
         , fax
         , female
+        , fieldHockey
         , fighterJet
         , file
         , fileAlt
@@ -374,6 +401,7 @@ module FontAwesome
         , flagCheckered
         , flask
         , flickr
+        , flipboard
         , fly
         , folder
         , folderOpen
@@ -383,6 +411,8 @@ module FontAwesome
         , fontAwesomeFlag
         , fontIcons
         , fontIconsFi
+        , footballBall
+        , footballHelmet
         , fortAwesome
         , fortAwesomeAlt
         , forumbee
@@ -392,27 +422,29 @@ module FontAwesome
         , freeCodeCamp
         , frown
         , futbol
-        , gg
-        , ggCircle
         , gamepad
         , gavel
         , gem
         , genderless
         , getPocket
+        , gg
+        , ggCircle
         , gift
         , git
+        , gitSquare
         , gitHub
         , gitHubAlt
         , gitHubSquare
         , gitKraken
         , gitLab
-        , gitSquare
         , gitter
         , glassMartini
         , glide
         , glideG
         , globe
         , gofore
+        , golfBall
+        , golfClub
         , goodreads
         , goodreadsG
         , google
@@ -428,10 +460,10 @@ module FontAwesome
         , gripfire
         , grunt
         , gulp
+        , hSquare
         , h1
         , h2
         , h3
-        , hSquare
         , hackerNews
         , hackerNewsSquare
         , handLizard
@@ -453,8 +485,11 @@ module FontAwesome
         , heart
         , heartbeat
         , hexagon
+        , hips
         , hireAHelper
         , history
+        , hockeyPuck
+        , hockeySticks
         , home
         , hooli
         , hospital
@@ -487,16 +522,16 @@ module FontAwesome
         , italic
         , iTunes
         , iTunesNote
-        , jSFiddle
         , jackOLantern
         , jenkins
         , joget
         , joomla
         , js
         , jsSquare
+        , jsFiddle
         , key
-        , keyCDN
         , keyboard
+        , keyCDN
         , kickstarter
         , kickstarterK
         , korvue
@@ -540,8 +575,8 @@ module FontAwesome
         , longArrowRight
         , longArrowUp
         , lowVision
+        , luchador
         , lyft
-        , modX
         , magento
         , magic
         , magnet
@@ -582,6 +617,7 @@ module FontAwesome
         , mobileAlt
         , mobileAndroid
         , mobileAndroidAlt
+        , modX
         , monero
         , moneyBill
         , moneyBillAlt
@@ -589,7 +625,6 @@ module FontAwesome
         , motorcycle
         , mousePointer
         , music
-        , ns8
         , napster
         , neuter
         , newspaper
@@ -597,6 +632,7 @@ module FontAwesome
         , node
         , nodejs
         , npm
+        , ns8
         , nutritionix
         , objectGroup
         , objectUngroup
@@ -605,9 +641,9 @@ module FontAwesome
         , odnoklassnikiSquare
         , openCart
         , openID
-        , openSourceInitiative
         , opera
         , optinMonster
+        , openSourceInitiative
         , outdent
         , page4
         , pageLines
@@ -627,6 +663,7 @@ module FontAwesome
         , penSquare
         , pencil
         , pencilAlt
+        , pennant
         , percent
         , periscope
         , phabricator
@@ -635,9 +672,10 @@ module FontAwesome
         , phoneSlash
         , phoneSquare
         , phoneVolume
+        , php
         , piedPiper
         , piedPiperAlt
-        , piedPiperPp
+        , piedPiperPP
         , pinterest
         , pinterestP
         , pinterestSquare
@@ -667,11 +705,12 @@ module FontAwesome
         , question
         , questionCircle
         , questionSquare
+        , quidditch
+        , quinScape
         , quora
         , quoteLeft
         , quoteRight
-        , rss
-        , rssSquare
+        , racquet
         , random
         , ravelry
         , react
@@ -690,9 +729,9 @@ module FontAwesome
         , rendact
         , renren
         , repeat
+        , repeatAlt
         , repeat1
         , repeat1Alt
-        , repeatAlt
         , reply
         , replyAll
         , replyd
@@ -700,9 +739,11 @@ module FontAwesome
         , retweet
         , retweetAlt
         , road
-        , rockRMS
         , rocket
         , rocketChat
+        , rockRMS
+        , rss
+        , rssSquare
         , rubleSign
         , rupeeSign
         , safari
@@ -734,6 +775,7 @@ module FontAwesome
         , shoppingBasket
         , shoppingCart
         , shower
+        , shuttlecock
         , signIn
         , signInAlt
         , signLanguage
@@ -774,6 +816,7 @@ module FontAwesome
         , spinnerThird
         , spotify
         , square
+        , squareFull
         , stackExchange
         , stackOverflow
         , star
@@ -808,10 +851,8 @@ module FontAwesome
         , supple
         , sync
         , syncAlt
-        , tTY
-        , tV
-        , tVRetro
         , table
+        , tableTennis
         , tablet
         , tabletAlt
         , tabletAndroid
@@ -825,6 +866,7 @@ module FontAwesome
         , telegram
         , telegramPlane
         , tencentWeibo
+        , tennisBall
         , terminal
         , textHeight
         , textWidth
@@ -864,15 +906,17 @@ module FontAwesome
         , trophy
         , trophyAlt
         , truck
+        , tty
         , tumblr
         , tumblrSquare
+        , tv
+        , tvRetro
         , twitch
         , twitter
         , twitterSquare
         , typo3
-        , uIkit
-        , uSB
         , uber
+        , uiKit
         , umbrella
         , underline
         , undo
@@ -885,23 +929,23 @@ module FontAwesome
         , unlockAlt
         , untappd
         , upload
-        , usSunnah
+        , usb
         , usdCircle
         , usdSquare
         , user
         , userAlt
         , userCircle
-        , userMd
+        , userMD
         , userPlus
         , userSecret
         , userTimes
         , users
+        , usSunnah
         , utensilFork
         , utensilKnife
         , utensilSpoon
         , utensils
         , utensilsAlt
-        , vK
         , vaadin
         , venus
         , venusDouble
@@ -915,22 +959,22 @@ module FontAwesome
         , vimeoSquare
         , vimeoV
         , vine
+        , vk
         , vnv
+        , volleyball
         , volumeDown
         , volumeMute
         , volumeOff
         , volumeUp
         , vuejs
-        , wHMCS
-        , wPBeginner
-        , wPExplorer
-        , wPForms
         , watch
         , weibo
         , weixin
         , whatsApp
         , whatsAppSquare
         , wheelchair
+        , whistle
+        , whmcs
         , wifi
         , wikipedia
         , window
@@ -943,10 +987,13 @@ module FontAwesome
         , wonSign
         , wordPress
         , wordPressSimple
+        , wpBeginner
+        , wpExplorer
+        , wpForms
         , wrench
+        , xbox
         , xing
         , xingSquare
-        , xbox
         , yCombinator
         , yahoo
         , yandex
@@ -1072,7 +1119,6 @@ module FontAwesome
 @docs avianex
 @docs aviato
 @docs aws
-@docs bimObject
 @docs backward
 @docs badge
 @docs badgeCheck
@@ -1081,6 +1127,10 @@ module FontAwesome
 @docs bandcamp
 @docs barcode
 @docs bars
+@docs baseball
+@docs baseballBall
+@docs basketballBall
+@docs basketballHoop
 @docs bath
 @docs batteryBolt
 @docs batteryEmpty
@@ -1096,6 +1146,7 @@ module FontAwesome
 @docs bell
 @docs bellSlash
 @docs bicycle
+@docs bimObject
 @docs binoculars
 @docs birthdayCake
 @docs bitbucket
@@ -1113,6 +1164,9 @@ module FontAwesome
 @docs bomb
 @docs book
 @docs bookmark
+@docs bowlingBall
+@docs bowlingPins
+@docs boxingGlove
 @docs braille
 @docs briefcase
 @docs browser
@@ -1124,18 +1178,6 @@ module FontAwesome
 @docs buromobelExperte
 @docs bus
 @docs buySellAds
-@docs ccAmazonPay
-@docs ccAmex
-@docs ccApplePay
-@docs ccDinersClub
-@docs ccDiscover
-@docs ccJcb
-@docs ccMastercard
-@docs ccPayPal
-@docs ccStripe
-@docs ccVisa
-@docs css3
-@docs css3Alt
 @docs calculator
 @docs calendar
 @docs calendarAlt
@@ -1163,6 +1205,16 @@ module FontAwesome
 @docs caretUp
 @docs cartArrowDown
 @docs cartPlus
+@docs ccAmazonPay
+@docs ccAmex
+@docs ccApplePay
+@docs ccDinersClub
+@docs ccDiscover
+@docs ccJcb
+@docs ccMastercard
+@docs ccPayPal
+@docs ccStripe
+@docs ccVisa
 @docs centercode
 @docs certificate
 @docs chartArea
@@ -1172,6 +1224,22 @@ module FontAwesome
 @docs check
 @docs checkCircle
 @docs checkSquare
+@docs chess
+@docs chessBishop
+@docs chessBishopAlt
+@docs chessBoard
+@docs chessClock
+@docs chessClockAlt
+@docs chessKing
+@docs chessKingAlt
+@docs chessKnight
+@docs chessKnightAlt
+@docs chessPawn
+@docs chessPawnAlt
+@docs chessQueen
+@docs chessQueenAlt
+@docs chessRook
+@docs chessRookAlt
 @docs chevronCircleDown
 @docs chevronCircleLeft
 @docs chevronCircleRight
@@ -1199,9 +1267,9 @@ module FontAwesome
 @docs cloud
 @docs cloudDownload
 @docs cloudDownloadAlt
-@docs cloudScale
 @docs cloudUpload
 @docs cloudUploadAlt
+@docs cloudScale
 @docs cloudsmith
 @docs cloudversify
 @docs club
@@ -1231,10 +1299,14 @@ module FontAwesome
 @docs creditCard
 @docs creditCardBlank
 @docs creditCardFront
+@docs cricket
 @docs crop
 @docs crosshairs
+@docs css3
+@docs css3Alt
 @docs cube
 @docs cubes
+@docs curling
 @docs cut
 @docs cuttlefish
 @docs dAndD
@@ -1262,6 +1334,7 @@ module FontAwesome
 @docs dribbbleSquare
 @docs dropbox
 @docs drupal
+@docs dumbbell
 @docs dyalog
 @docs earlyBirds
 @docs edge
@@ -1310,6 +1383,7 @@ module FontAwesome
 @docs fastForward
 @docs fax
 @docs female
+@docs fieldHockey
 @docs fighterJet
 @docs file
 @docs fileAlt
@@ -1341,6 +1415,7 @@ module FontAwesome
 @docs flagCheckered
 @docs flask
 @docs flickr
+@docs flipboard
 @docs fly
 @docs folder
 @docs folderOpen
@@ -1350,6 +1425,8 @@ module FontAwesome
 @docs fontAwesomeFlag
 @docs fontIcons
 @docs fontIconsFi
+@docs footballBall
+@docs footballHelmet
 @docs fortAwesome
 @docs fortAwesomeAlt
 @docs forumbee
@@ -1359,27 +1436,29 @@ module FontAwesome
 @docs freeCodeCamp
 @docs frown
 @docs futbol
-@docs gg
-@docs ggCircle
 @docs gamepad
 @docs gavel
 @docs gem
 @docs genderless
 @docs getPocket
+@docs gg
+@docs ggCircle
 @docs gift
 @docs git
+@docs gitSquare
 @docs gitHub
 @docs gitHubAlt
 @docs gitHubSquare
 @docs gitKraken
 @docs gitLab
-@docs gitSquare
 @docs gitter
 @docs glassMartini
 @docs glide
 @docs glideG
 @docs globe
 @docs gofore
+@docs golfBall
+@docs golfClub
 @docs goodreads
 @docs goodreadsG
 @docs google
@@ -1395,10 +1474,10 @@ module FontAwesome
 @docs gripfire
 @docs grunt
 @docs gulp
+@docs hSquare
 @docs h1
 @docs h2
 @docs h3
-@docs hSquare
 @docs hackerNews
 @docs hackerNewsSquare
 @docs handLizard
@@ -1420,8 +1499,11 @@ module FontAwesome
 @docs heart
 @docs heartbeat
 @docs hexagon
+@docs hips
 @docs hireAHelper
 @docs history
+@docs hockeyPuck
+@docs hockeySticks
 @docs home
 @docs hooli
 @docs hospital
@@ -1454,16 +1536,16 @@ module FontAwesome
 @docs italic
 @docs iTunes
 @docs iTunesNote
-@docs jSFiddle
 @docs jackOLantern
 @docs jenkins
 @docs joget
 @docs joomla
 @docs js
 @docs jsSquare
+@docs jsFiddle
 @docs key
-@docs keyCDN
 @docs keyboard
+@docs keyCDN
 @docs kickstarter
 @docs kickstarterK
 @docs korvue
@@ -1507,8 +1589,8 @@ module FontAwesome
 @docs longArrowRight
 @docs longArrowUp
 @docs lowVision
+@docs luchador
 @docs lyft
-@docs modX
 @docs magento
 @docs magic
 @docs magnet
@@ -1549,6 +1631,7 @@ module FontAwesome
 @docs mobileAlt
 @docs mobileAndroid
 @docs mobileAndroidAlt
+@docs modX
 @docs monero
 @docs moneyBill
 @docs moneyBillAlt
@@ -1556,7 +1639,6 @@ module FontAwesome
 @docs motorcycle
 @docs mousePointer
 @docs music
-@docs ns8
 @docs napster
 @docs neuter
 @docs newspaper
@@ -1564,6 +1646,7 @@ module FontAwesome
 @docs node
 @docs nodejs
 @docs npm
+@docs ns8
 @docs nutritionix
 @docs objectGroup
 @docs objectUngroup
@@ -1572,9 +1655,9 @@ module FontAwesome
 @docs odnoklassnikiSquare
 @docs openCart
 @docs openID
-@docs openSourceInitiative
 @docs opera
 @docs optinMonster
+@docs openSourceInitiative
 @docs outdent
 @docs page4
 @docs pageLines
@@ -1594,6 +1677,7 @@ module FontAwesome
 @docs penSquare
 @docs pencil
 @docs pencilAlt
+@docs pennant
 @docs percent
 @docs periscope
 @docs phabricator
@@ -1602,9 +1686,10 @@ module FontAwesome
 @docs phoneSlash
 @docs phoneSquare
 @docs phoneVolume
+@docs php
 @docs piedPiper
 @docs piedPiperAlt
-@docs piedPiperPp
+@docs piedPiperPP
 @docs pinterest
 @docs pinterestP
 @docs pinterestSquare
@@ -1634,11 +1719,12 @@ module FontAwesome
 @docs question
 @docs questionCircle
 @docs questionSquare
+@docs quidditch
+@docs quinScape
 @docs quora
 @docs quoteLeft
 @docs quoteRight
-@docs rss
-@docs rssSquare
+@docs racquet
 @docs random
 @docs ravelry
 @docs react
@@ -1657,9 +1743,9 @@ module FontAwesome
 @docs rendact
 @docs renren
 @docs repeat
+@docs repeatAlt
 @docs repeat1
 @docs repeat1Alt
-@docs repeatAlt
 @docs reply
 @docs replyAll
 @docs replyd
@@ -1667,9 +1753,11 @@ module FontAwesome
 @docs retweet
 @docs retweetAlt
 @docs road
-@docs rockRMS
 @docs rocket
 @docs rocketChat
+@docs rockRMS
+@docs rss
+@docs rssSquare
 @docs rubleSign
 @docs rupeeSign
 @docs safari
@@ -1701,6 +1789,7 @@ module FontAwesome
 @docs shoppingBasket
 @docs shoppingCart
 @docs shower
+@docs shuttlecock
 @docs signIn
 @docs signInAlt
 @docs signLanguage
@@ -1741,6 +1830,7 @@ module FontAwesome
 @docs spinnerThird
 @docs spotify
 @docs square
+@docs squareFull
 @docs stackExchange
 @docs stackOverflow
 @docs star
@@ -1775,10 +1865,8 @@ module FontAwesome
 @docs supple
 @docs sync
 @docs syncAlt
-@docs tTY
-@docs tV
-@docs tVRetro
 @docs table
+@docs tableTennis
 @docs tablet
 @docs tabletAlt
 @docs tabletAndroid
@@ -1792,6 +1880,7 @@ module FontAwesome
 @docs telegram
 @docs telegramPlane
 @docs tencentWeibo
+@docs tennisBall
 @docs terminal
 @docs textHeight
 @docs textWidth
@@ -1831,15 +1920,17 @@ module FontAwesome
 @docs trophy
 @docs trophyAlt
 @docs truck
+@docs tty
 @docs tumblr
 @docs tumblrSquare
+@docs tv
+@docs tvRetro
 @docs twitch
 @docs twitter
 @docs twitterSquare
 @docs typo3
-@docs uIkit
-@docs uSB
 @docs uber
+@docs uiKit
 @docs umbrella
 @docs underline
 @docs undo
@@ -1852,23 +1943,23 @@ module FontAwesome
 @docs unlockAlt
 @docs untappd
 @docs upload
-@docs usSunnah
+@docs usb
 @docs usdCircle
 @docs usdSquare
 @docs user
 @docs userAlt
 @docs userCircle
-@docs userMd
+@docs userMD
 @docs userPlus
 @docs userSecret
 @docs userTimes
 @docs users
+@docs usSunnah
 @docs utensilFork
 @docs utensilKnife
 @docs utensilSpoon
 @docs utensils
 @docs utensilsAlt
-@docs vK
 @docs vaadin
 @docs venus
 @docs venusDouble
@@ -1882,22 +1973,22 @@ module FontAwesome
 @docs vimeoSquare
 @docs vimeoV
 @docs vine
+@docs vk
 @docs vnv
+@docs volleyball
 @docs volumeDown
 @docs volumeMute
 @docs volumeOff
 @docs volumeUp
 @docs vuejs
-@docs wHMCS
-@docs wPBeginner
-@docs wPExplorer
-@docs wPForms
 @docs watch
 @docs weibo
 @docs weixin
 @docs whatsApp
 @docs whatsAppSquare
 @docs wheelchair
+@docs whistle
+@docs whmcs
 @docs wifi
 @docs wikipedia
 @docs window
@@ -1910,10 +2001,13 @@ module FontAwesome
 @docs wonSign
 @docs wordPress
 @docs wordPressSimple
+@docs wpBeginner
+@docs wpExplorer
+@docs wpForms
 @docs wrench
+@docs xbox
 @docs xing
 @docs xingSquare
-@docs xbox
 @docs yCombinator
 @docs yahoo
 @docs yandex
@@ -2459,14 +2553,14 @@ adjust =
     Icon.Icon "adjust"
 
 
-{-| ADN - Logo
+{-| Adn = - Logo
 -}
 adn : Icon
 adn =
     Icon.Logo "adn"
 
 
-{-| Adversal - Logo
+{-| Adversal = - Logo
 -}
 adversal : Icon
 adversal =
@@ -2690,140 +2784,140 @@ archive =
     Icon.Icon "archive"
 
 
-{-| Arrow Alt Circle Down - Icon
+{-| Arrow Alternate Circle Down - Icon
 -}
 arrowAltCircleDown : Icon
 arrowAltCircleDown =
     Icon.Icon "arrow-alt-circle-down"
 
 
-{-| Arrow Alt Circle Left - Icon
+{-| Arrow Alternate Circle Left - Icon
 -}
 arrowAltCircleLeft : Icon
 arrowAltCircleLeft =
     Icon.Icon "arrow-alt-circle-left"
 
 
-{-| Arrow Alt Circle Right - Icon
+{-| Arrow Alternate Circle Right - Icon
 -}
 arrowAltCircleRight : Icon
 arrowAltCircleRight =
     Icon.Icon "arrow-alt-circle-right"
 
 
-{-| Arrow Alt Circle Up - Icon
+{-| Arrow Alternate Circle Up - Icon
 -}
 arrowAltCircleUp : Icon
 arrowAltCircleUp =
     Icon.Icon "arrow-alt-circle-up"
 
 
-{-| Arrow Alt Down - Icon
+{-| Arrow Alternate Down - Icon
 -}
 arrowAltDown : Icon
 arrowAltDown =
     Icon.Icon "arrow-alt-down"
 
 
-{-| Arrow Alt From Bottom - Icon
+{-| Arrow Alternate From Bottom - Icon
 -}
 arrowAltFromBottom : Icon
 arrowAltFromBottom =
     Icon.Icon "arrow-alt-from-bottom"
 
 
-{-| Arrow Alt From Left - Icon
+{-| Arrow Alternate From Left - Icon
 -}
 arrowAltFromLeft : Icon
 arrowAltFromLeft =
     Icon.Icon "arrow-alt-from-left"
 
 
-{-| Arrow Alt From Right - Icon
+{-| Arrow Alternate From Right - Icon
 -}
 arrowAltFromRight : Icon
 arrowAltFromRight =
     Icon.Icon "arrow-alt-from-right"
 
 
-{-| Arrow Alt From Top - Icon
+{-| Arrow Alternate From Top - Icon
 -}
 arrowAltFromTop : Icon
 arrowAltFromTop =
     Icon.Icon "arrow-alt-from-top"
 
 
-{-| Arrow Alt Left - Icon
+{-| Arrow Alternate Left - Icon
 -}
 arrowAltLeft : Icon
 arrowAltLeft =
     Icon.Icon "arrow-alt-left"
 
 
-{-| Arrow Alt Right - Icon
+{-| Arrow Alternate Right - Icon
 -}
 arrowAltRight : Icon
 arrowAltRight =
     Icon.Icon "arrow-alt-right"
 
 
-{-| Arrow Alt Square Down - Icon
+{-| Arrow Alternate Square Down - Icon
 -}
 arrowAltSquareDown : Icon
 arrowAltSquareDown =
     Icon.Icon "arrow-alt-square-down"
 
 
-{-| Arrow Alt Square Left - Icon
+{-| Arrow Alternate Square Left - Icon
 -}
 arrowAltSquareLeft : Icon
 arrowAltSquareLeft =
     Icon.Icon "arrow-alt-square-left"
 
 
-{-| Arrow Alt Square Right - Icon
+{-| Arrow Alternate Square Right - Icon
 -}
 arrowAltSquareRight : Icon
 arrowAltSquareRight =
     Icon.Icon "arrow-alt-square-right"
 
 
-{-| Arrow Alt Square Up - Icon
+{-| Arrow Alternate Square Up - Icon
 -}
 arrowAltSquareUp : Icon
 arrowAltSquareUp =
     Icon.Icon "arrow-alt-square-up"
 
 
-{-| Arrow Alt To Bottom - Icon
+{-| Arrow Alternate To Bottom - Icon
 -}
 arrowAltToBottom : Icon
 arrowAltToBottom =
     Icon.Icon "arrow-alt-to-bottom"
 
 
-{-| Arrow Alt To Left - Icon
+{-| Arrow Alternate To Left - Icon
 -}
 arrowAltToLeft : Icon
 arrowAltToLeft =
     Icon.Icon "arrow-alt-to-left"
 
 
-{-| Arrow Alt To Right - Icon
+{-| Arrow Alternate To Right - Icon
 -}
 arrowAltToRight : Icon
 arrowAltToRight =
     Icon.Icon "arrow-alt-to-right"
 
 
-{-| Arrow Alt To Top - Icon
+{-| Arrow Alternate To Top - Icon
 -}
 arrowAltToTop : Icon
 arrowAltToTop =
     Icon.Icon "arrow-alt-to-top"
 
 
-{-| Arrow Alt Up - Icon
+{-| Arrow Alternate Up - Icon
 -}
 arrowAltUp : Icon
 arrowAltUp =
@@ -2977,21 +3071,21 @@ arrows =
     Icon.Icon "arrows"
 
 
-{-| Arrows Alt - Icon
+{-| Arrows Alternate - Icon
 -}
 arrowsAlt : Icon
 arrowsAlt =
     Icon.Icon "arrows-alt"
 
 
-{-| Arrows Alt Horizontal - Icon
+{-| Arrows Alternate Horizontal - Icon
 -}
 arrowsAltHorizontal : Icon
 arrowsAltHorizontal =
     Icon.Icon "arrows-alt-h"
 
 
-{-| Arrows Alt Vertical - Icon
+{-| Arrows Alternate Vertical - Icon
 -}
 arrowsAltVertical : Icon
 arrowsAltVertical =
@@ -3082,13 +3176,6 @@ aws =
     Icon.Logo "aws"
 
 
-{-| BIMobject - Logo
--}
-bimObject : Icon
-bimObject =
-    Icon.Logo "bimobject"
-
-
 {-| Backward - Icon
 -}
 backward : Icon
@@ -3143,6 +3230,34 @@ barcode =
 bars : Icon
 bars =
     Icon.Icon "bars"
+
+
+{-| Baseball - Icon
+-}
+baseball : Icon
+baseball =
+    Icon.Icon "baseball"
+
+
+{-| Baseball Ball - Icon
+-}
+baseballBall : Icon
+baseballBall =
+    Icon.Icon "baseball-ball"
+
+
+{-| Basketball Ball - Icon
+-}
+basketballBall : Icon
+basketballBall =
+    Icon.Icon "basketball-ball"
+
+
+{-| Basketball Hoop - Icon
+-}
+basketballHoop : Icon
+basketballHoop =
+    Icon.Icon "basketball-hoop"
 
 
 {-| Bath - Icon
@@ -3248,6 +3363,13 @@ bellSlash =
 bicycle : Icon
 bicycle =
     Icon.Icon "bicycle"
+
+
+{-| BIMobject - Logo
+-}
+bimObject : Icon
+bimObject =
+    Icon.Logo "bimobject"
 
 
 {-| Binoculars - Icon
@@ -3369,6 +3491,27 @@ bookmark =
     Icon.Icon "bookmark"
 
 
+{-| Bowling Ball - Icon
+-}
+bowlingBall : Icon
+bowlingBall =
+    Icon.Icon "bowling-ball"
+
+
+{-| Bowling Pins - Icon
+-}
+bowlingPins : Icon
+bowlingPins =
+    Icon.Icon "bowling-pins"
+
+
+{-| Boxing Glove - Icon
+-}
+boxingGlove : Icon
+boxingGlove =
+    Icon.Icon "boxing-glove"
+
+
 {-| Braille - Icon
 -}
 braille : Icon
@@ -3446,90 +3589,6 @@ buySellAds =
     Icon.Logo "buysellads"
 
 
-{-| CC Amazon Pay - Logo
--}
-ccAmazonPay : Icon
-ccAmazonPay =
-    Icon.Logo "cc-amazon-pay"
-
-
-{-| CC Amex - Logo
--}
-ccAmex : Icon
-ccAmex =
-    Icon.Logo "cc-amex"
-
-
-{-| CC Apple Pay - Logo
--}
-ccApplePay : Icon
-ccApplePay =
-    Icon.Logo "cc-apple-pay"
-
-
-{-| CC Diners Club - Logo
--}
-ccDinersClub : Icon
-ccDinersClub =
-    Icon.Logo "cc-diners-club"
-
-
-{-| CC Discover - Logo
--}
-ccDiscover : Icon
-ccDiscover =
-    Icon.Logo "cc-discover"
-
-
-{-| CC JCB - Logo
--}
-ccJcb : Icon
-ccJcb =
-    Icon.Logo "cc-jcb"
-
-
-{-| CC Mastercard - Logo
--}
-ccMastercard : Icon
-ccMastercard =
-    Icon.Logo "cc-mastercard"
-
-
-{-| CC PayPal - Logo
--}
-ccPayPal : Icon
-ccPayPal =
-    Icon.Logo "cc-paypal"
-
-
-{-| CC Stripe - Logo
--}
-ccStripe : Icon
-ccStripe =
-    Icon.Logo "cc-stripe"
-
-
-{-| CC Visa - Logo
--}
-ccVisa : Icon
-ccVisa =
-    Icon.Logo "cc-visa"
-
-
-{-| CSS3 - Logo
--}
-css3 : Icon
-css3 =
-    Icon.Logo "css3"
-
-
-{-| CSS3 Alt - Logo
--}
-css3Alt : Icon
-css3Alt =
-    Icon.Logo "css3-alt"
-
-
 {-| Calculator - Icon
 -}
 calculator : Icon
@@ -3544,7 +3603,7 @@ calendar =
     Icon.Icon "calendar"
 
 
-{-| Calendar Alt - Icon
+{-| Calendar Alternate - Icon
 -}
 calendarAlt : Icon
 calendarAlt =
@@ -3600,7 +3659,7 @@ camera =
     Icon.Icon "camera"
 
 
-{-| Camera Alt - Icon
+{-| Camera Alternate - Icon
 -}
 cameraAlt : Icon
 cameraAlt =
@@ -3719,6 +3778,76 @@ cartPlus =
     Icon.Icon "cart-plus"
 
 
+{-| CC Amazon Pay - Logo
+-}
+ccAmazonPay : Icon
+ccAmazonPay =
+    Icon.Logo "cc-amazon-pay"
+
+
+{-| CC Amex - Logo
+-}
+ccAmex : Icon
+ccAmex =
+    Icon.Logo "cc-amex"
+
+
+{-| CC Apple Pay - Logo
+-}
+ccApplePay : Icon
+ccApplePay =
+    Icon.Logo "cc-apple-pay"
+
+
+{-| CC Diners Club - Logo
+-}
+ccDinersClub : Icon
+ccDinersClub =
+    Icon.Logo "cc-diners-club"
+
+
+{-| CC Discover - Logo
+-}
+ccDiscover : Icon
+ccDiscover =
+    Icon.Logo "cc-discover"
+
+
+{-| CC Jcb - Logo
+-}
+ccJcb : Icon
+ccJcb =
+    Icon.Logo "cc-jcb"
+
+
+{-| CC Mastercard - Logo
+-}
+ccMastercard : Icon
+ccMastercard =
+    Icon.Logo "cc-mastercard"
+
+
+{-| CC PayPal - Logo
+-}
+ccPayPal : Icon
+ccPayPal =
+    Icon.Logo "cc-paypal"
+
+
+{-| CC Stripe - Logo
+-}
+ccStripe : Icon
+ccStripe =
+    Icon.Logo "cc-stripe"
+
+
+{-| CC Visa - Logo
+-}
+ccVisa : Icon
+ccVisa =
+    Icon.Logo "cc-visa"
+
+
 {-| Centercode - Logo
 -}
 centercode : Icon
@@ -3780,6 +3909,118 @@ checkCircle =
 checkSquare : Icon
 checkSquare =
     Icon.Icon "check-square"
+
+
+{-| Chess - Icon
+-}
+chess : Icon
+chess =
+    Icon.Icon "chess"
+
+
+{-| Chess Bishop - Icon
+-}
+chessBishop : Icon
+chessBishop =
+    Icon.Icon "chess-bishop"
+
+
+{-| Chess Bishop Alternate - Icon
+-}
+chessBishopAlt : Icon
+chessBishopAlt =
+    Icon.Icon "chess-bishop-alt"
+
+
+{-| Chess Board - Icon
+-}
+chessBoard : Icon
+chessBoard =
+    Icon.Icon "chess-board"
+
+
+{-| Chess Clock - Icon
+-}
+chessClock : Icon
+chessClock =
+    Icon.Icon "chess-clock"
+
+
+{-| Chess Clock Alternate - Icon
+-}
+chessClockAlt : Icon
+chessClockAlt =
+    Icon.Icon "chess-clock-alt"
+
+
+{-| Chess King - Icon
+-}
+chessKing : Icon
+chessKing =
+    Icon.Icon "chess-king"
+
+
+{-| Chess King Alternate - Icon
+-}
+chessKingAlt : Icon
+chessKingAlt =
+    Icon.Icon "chess-king-alt"
+
+
+{-| Chess Knight - Icon
+-}
+chessKnight : Icon
+chessKnight =
+    Icon.Icon "chess-knight"
+
+
+{-| Chess Knight Alternate - Icon
+-}
+chessKnightAlt : Icon
+chessKnightAlt =
+    Icon.Icon "chess-knight-alt"
+
+
+{-| Chess Pawn - Icon
+-}
+chessPawn : Icon
+chessPawn =
+    Icon.Icon "chess-pawn"
+
+
+{-| Chess Pawn Alternate - Icon
+-}
+chessPawnAlt : Icon
+chessPawnAlt =
+    Icon.Icon "chess-pawn-alt"
+
+
+{-| Chess Queen - Icon
+-}
+chessQueen : Icon
+chessQueen =
+    Icon.Icon "chess-queen"
+
+
+{-| Chess Queen Alternate - Icon
+-}
+chessQueenAlt : Icon
+chessQueenAlt =
+    Icon.Icon "chess-queen-alt"
+
+
+{-| Chess Rook - Icon
+-}
+chessRook : Icon
+chessRook =
+    Icon.Icon "chess-rook"
+
+
+{-| Chess Rook Alternate - Icon
+-}
+chessRookAlt : Icon
+chessRookAlt =
+    Icon.Icon "chess-rook-alt"
 
 
 {-| Chevron Circle Down - Icon
@@ -3964,18 +4205,11 @@ cloudDownload =
     Icon.Icon "cloud-download"
 
 
-{-| Cloud Download Alt - Icon
+{-| Cloud Download Alternate - Icon
 -}
 cloudDownloadAlt : Icon
 cloudDownloadAlt =
     Icon.Icon "cloud-download-alt"
-
-
-{-| CloudScale - Logo
--}
-cloudScale : Icon
-cloudScale =
-    Icon.Logo "cloudscale"
 
 
 {-| Cloud Upload - Icon
@@ -3985,11 +4219,18 @@ cloudUpload =
     Icon.Icon "cloud-upload"
 
 
-{-| Cloud Upload Alt - Icon
+{-| Cloud Upload Alternate - Icon
 -}
 cloudUploadAlt : Icon
 cloudUploadAlt =
     Icon.Icon "cloud-upload-alt"
+
+
+{-| CloudScale - Logo
+-}
+cloudScale : Icon
+cloudScale =
+    Icon.Logo "cloudscale"
 
 
 {-| Cloudsmith - Logo
@@ -4048,7 +4289,7 @@ codePen =
     Icon.Logo "codepen"
 
 
-{-| CodiePie - Logo
+{-| Codiepie - Logo
 -}
 codiePie : Icon
 codiePie =
@@ -4090,7 +4331,7 @@ comment =
     Icon.Icon "comment"
 
 
-{-| Comment Alt - Icon
+{-| Comment Alternate - Icon
 -}
 commentAlt : Icon
 commentAlt =
@@ -4118,7 +4359,7 @@ compress =
     Icon.Icon "compress"
 
 
-{-| Compress Alt - Icon
+{-| Compress Alternate - Icon
 -}
 compressAlt : Icon
 compressAlt =
@@ -4195,6 +4436,13 @@ creditCardFront =
     Icon.Icon "credit-card-front"
 
 
+{-| Cricket - Icon
+-}
+cricket : Icon
+cricket =
+    Icon.Icon "cricket"
+
+
 {-| Crop - Icon
 -}
 crop : Icon
@@ -4209,6 +4457,20 @@ crosshairs =
     Icon.Icon "crosshairs"
 
 
+{-| CSS3 - Logo
+-}
+css3 : Icon
+css3 =
+    Icon.Logo "css3"
+
+
+{-| Css3Alternate - Logo
+-}
+css3Alt : Icon
+css3Alt =
+    Icon.Logo "css3-alt"
+
+
 {-| Cube - Icon
 -}
 cube : Icon
@@ -4221,6 +4483,13 @@ cube =
 cubes : Icon
 cubes =
     Icon.Icon "cubes"
+
+
+{-| Curling - Icon
+-}
+curling : Icon
+curling =
+    Icon.Icon "curling"
 
 
 {-| Cut - Icon
@@ -4293,7 +4562,7 @@ desktop =
     Icon.Icon "desktop"
 
 
-{-| Desktop Alt - Icon
+{-| Desktop Alternate - Icon
 -}
 desktopAlt : Icon
 desktopAlt =
@@ -4377,7 +4646,7 @@ download =
     Icon.Icon "download"
 
 
-{-| Draft2Digital - Logo
+{-| Draft2digital - Logo
 -}
 draft2Digital : Icon
 draft2Digital =
@@ -4410,6 +4679,13 @@ dropbox =
 drupal : Icon
 drupal =
     Icon.Logo "drupal"
+
+
+{-| Dumbbell - Icon
+-}
+dumbbell : Icon
+dumbbell =
+    Icon.Icon "dumbbell"
 
 
 {-| Dyalog - Logo
@@ -4461,7 +4737,7 @@ ellipsisHorizontal =
     Icon.Icon "ellipsis-h"
 
 
-{-| Ellipsis Horizontal Alt - Icon
+{-| Ellipsis Horizontal Alternate - Icon
 -}
 ellipsisHorizontalAlt : Icon
 ellipsisHorizontalAlt =
@@ -4475,7 +4751,7 @@ ellipsisVertical =
     Icon.Icon "ellipsis-v"
 
 
-{-| Ellipsis Vertical Alt - Icon
+{-| Ellipsis Vertical Alternate - Icon
 -}
 ellipsisVerticalAlt : Icon
 ellipsisVerticalAlt =
@@ -4566,7 +4842,7 @@ exchange =
     Icon.Icon "exchange"
 
 
-{-| Exchange Alt - Icon
+{-| Exchange Alternate - Icon
 -}
 exchangeAlt : Icon
 exchangeAlt =
@@ -4608,7 +4884,7 @@ expand =
     Icon.Icon "expand"
 
 
-{-| Expand Alt - Icon
+{-| Expand Alternate - Icon
 -}
 expandAlt : Icon
 expandAlt =
@@ -4622,7 +4898,7 @@ expandArrows =
     Icon.Icon "expand-arrows"
 
 
-{-| Expand Arrows Alt - Icon
+{-| Expand Arrows Alternate - Icon
 -}
 expandArrowsAlt : Icon
 expandArrowsAlt =
@@ -4650,7 +4926,7 @@ externalLink =
     Icon.Icon "external-link"
 
 
-{-| External Link Alt - Icon
+{-| External Link Alternate - Icon
 -}
 externalLinkAlt : Icon
 externalLinkAlt =
@@ -4664,7 +4940,7 @@ externalLinkSquare =
     Icon.Icon "external-link-square"
 
 
-{-| External Link Square Alt - Icon
+{-| External Link Square Alternate - Icon
 -}
 externalLinkSquareAlt : Icon
 externalLinkSquareAlt =
@@ -4748,6 +5024,13 @@ female =
     Icon.Icon "female"
 
 
+{-| Field Hockey - Icon
+-}
+fieldHockey : Icon
+fieldHockey =
+    Icon.Icon "field-hockey"
+
+
 {-| Fighter Jet - Icon
 -}
 fighterJet : Icon
@@ -4762,7 +5045,7 @@ file =
     Icon.Icon "file"
 
 
-{-| File Alt - Icon
+{-| File Alternate - Icon
 -}
 fileAlt : Icon
 fileAlt =
@@ -4881,7 +5164,7 @@ film =
     Icon.Icon "film"
 
 
-{-| Film Alt - Icon
+{-| Film Alternate - Icon
 -}
 filmAlt : Icon
 filmAlt =
@@ -4965,6 +5248,13 @@ flickr =
     Icon.Logo "flickr"
 
 
+{-| Flipboard - Logo
+-}
+flipboard : Icon
+flipboard =
+    Icon.Logo "flipboard"
+
+
 {-| Fly - Logo
 -}
 fly : Icon
@@ -5000,7 +5290,7 @@ fontAwesome =
     Icon.Logo "font-awesome"
 
 
-{-| Font Awesome Alt - Logo
+{-| Font Awesome Alternate - Logo
 -}
 fontAwesomeAlt : Icon
 fontAwesomeAlt =
@@ -5028,6 +5318,20 @@ fontIconsFi =
     Icon.Logo "fonticons-fi"
 
 
+{-| Football Ball - Icon
+-}
+footballBall : Icon
+footballBall =
+    Icon.Icon "football-ball"
+
+
+{-| Football Helmet - Icon
+-}
+footballHelmet : Icon
+footballHelmet =
+    Icon.Icon "football-helmet"
+
+
 {-| Fort Awesome - Logo
 -}
 fortAwesome : Icon
@@ -5035,7 +5339,7 @@ fortAwesome =
     Icon.Logo "fort-awesome"
 
 
-{-| Fort Awesome Alt - Logo
+{-| Fort Awesome Alternate - Logo
 -}
 fortAwesomeAlt : Icon
 fortAwesomeAlt =
@@ -5091,20 +5395,6 @@ futbol =
     Icon.Icon "futbol"
 
 
-{-| GG - Logo
--}
-gg : Icon
-gg =
-    Icon.Logo "gg"
-
-
-{-| GG Circle - Logo
--}
-ggCircle : Icon
-ggCircle =
-    Icon.Logo "gg-circle"
-
-
 {-| Gamepad - Icon
 -}
 gamepad : Icon
@@ -5140,6 +5430,20 @@ getPocket =
     Icon.Logo "get-pocket"
 
 
+{-| GG - Logo
+-}
+gg : Icon
+gg =
+    Icon.Logo "gg"
+
+
+{-| Gg Circle - Logo
+-}
+ggCircle : Icon
+ggCircle =
+    Icon.Logo "gg-circle"
+
+
 {-| Gift - Icon
 -}
 gift : Icon
@@ -5154,6 +5458,13 @@ git =
     Icon.Logo "git"
 
 
+{-| Git Square - Logo
+-}
+gitSquare : Icon
+gitSquare =
+    Icon.Logo "git-square"
+
+
 {-| GitHub - Logo
 -}
 gitHub : Icon
@@ -5161,7 +5472,7 @@ gitHub =
     Icon.Logo "github"
 
 
-{-| GitHub Alt - Logo
+{-| GitHub Alternate - Logo
 -}
 gitHubAlt : Icon
 gitHubAlt =
@@ -5187,13 +5498,6 @@ gitKraken =
 gitLab : Icon
 gitLab =
     Icon.Logo "gitlab"
-
-
-{-| Git Square - Logo
--}
-gitSquare : Icon
-gitSquare =
-    Icon.Logo "git-square"
 
 
 {-| Gitter - Logo
@@ -5236,6 +5540,20 @@ globe =
 gofore : Icon
 gofore =
     Icon.Logo "gofore"
+
+
+{-| Golf Ball - Icon
+-}
+golfBall : Icon
+golfBall =
+    Icon.Icon "golf-ball"
+
+
+{-| Golf Club - Icon
+-}
+golfClub : Icon
+golfClub =
+    Icon.Icon "golf-club"
 
 
 {-| Goodreads - Logo
@@ -5343,6 +5661,13 @@ gulp =
     Icon.Logo "gulp"
 
 
+{-| H Square - Icon
+-}
+hSquare : Icon
+hSquare =
+    Icon.Icon "h-square"
+
+
 {-| H1 - Icon
 -}
 h1 : Icon
@@ -5362,13 +5687,6 @@ h2 =
 h3 : Icon
 h3 =
     Icon.Icon "h3"
-
-
-{-| H Square - Icon
--}
-hSquare : Icon
-hSquare =
-    Icon.Icon "h-square"
 
 
 {-| Hacker News - Logo
@@ -5518,6 +5836,13 @@ hexagon =
     Icon.Icon "hexagon"
 
 
+{-| Hips - Logo
+-}
+hips : Icon
+hips =
+    Icon.Logo "hips"
+
+
 {-| HireAHelper - Logo
 -}
 hireAHelper : Icon
@@ -5530,6 +5855,20 @@ hireAHelper =
 history : Icon
 history =
     Icon.Icon "history"
+
+
+{-| Hockey Puck - Icon
+-}
+hockeyPuck : Icon
+hockeyPuck =
+    Icon.Icon "hockey-puck"
+
+
+{-| Hockey Sticks - Icon
+-}
+hockeySticks : Icon
+hockeySticks =
+    Icon.Icon "hockey-sticks"
 
 
 {-| Home - Icon
@@ -5616,14 +5955,14 @@ iCursor =
     Icon.Icon "i-cursor"
 
 
-{-| ID Badge - Icon
+{-| Id Badge - Icon
 -}
 idBadge : Icon
 idBadge =
     Icon.Icon "id-badge"
 
 
-{-| ID Card - Icon
+{-| Id Card - Icon
 -}
 idCard : Icon
 idCard =
@@ -5686,7 +6025,7 @@ industry =
     Icon.Icon "industry"
 
 
-{-| Industry Alt - Icon
+{-| Industry Alternate - Icon
 -}
 industryAlt : Icon
 industryAlt =
@@ -5756,14 +6095,7 @@ iTunesNote =
     Icon.Logo "itunes-note"
 
 
-{-| JSFiddle - Logo
--}
-jSFiddle : Icon
-jSFiddle =
-    Icon.Logo "jsfiddle"
-
-
-{-| Jack-o'-lantern - Icon
+{-| Jack o' Lantern - Icon
 -}
 jackOLantern : Icon
 jackOLantern =
@@ -5805,6 +6137,13 @@ jsSquare =
     Icon.Logo "js-square"
 
 
+{-| JSFiddle - Logo
+-}
+jsFiddle : Icon
+jsFiddle =
+    Icon.Logo "jsfiddle"
+
+
 {-| Key - Icon
 -}
 key : Icon
@@ -5812,18 +6151,18 @@ key =
     Icon.Icon "key"
 
 
-{-| Key CDN - Logo
--}
-keyCDN : Icon
-keyCDN =
-    Icon.Logo "keycdn"
-
-
 {-| Keyboard - Icon
 -}
 keyboard : Icon
 keyboard =
     Icon.Icon "keyboard"
+
+
+{-| Key CDN - Logo
+-}
+keyCDN : Icon
+keyCDN =
+    Icon.Logo "keycdn"
 
 
 {-| Kickstarter - Logo
@@ -5917,7 +6256,7 @@ levelDown =
     Icon.Icon "level-down"
 
 
-{-| Level Down Alt - Icon
+{-| Level Down Alternate - Icon
 -}
 levelDownAlt : Icon
 levelDownAlt =
@@ -5931,7 +6270,7 @@ levelUp =
     Icon.Icon "level-up"
 
 
-{-| Level Up Alt - Icon
+{-| Level Up Alternate - Icon
 -}
 levelUpAlt : Icon
 levelUpAlt =
@@ -5973,7 +6312,7 @@ linkedIn =
     Icon.Logo "linkedin"
 
 
-{-| Linked In Inverted - Logo
+{-| LinkedIn Inverted - Logo
 -}
 linkedInInverted : Icon
 linkedInInverted =
@@ -6008,7 +6347,7 @@ list =
     Icon.Icon "list"
 
 
-{-| List Alt - Icon
+{-| List Alternate - Icon
 -}
 listAlt : Icon
 listAlt =
@@ -6043,7 +6382,7 @@ lock =
     Icon.Icon "lock"
 
 
-{-| Lock Alt - Icon
+{-| Lock Alternate - Icon
 -}
 lockAlt : Icon
 lockAlt =
@@ -6057,35 +6396,35 @@ lockOpen =
     Icon.Icon "lock-open"
 
 
-{-| Lock Open Alt - Icon
+{-| Lock Open Alternate - Icon
 -}
 lockOpenAlt : Icon
 lockOpenAlt =
     Icon.Icon "lock-open-alt"
 
 
-{-| Long Arrow Alt Down - Icon
+{-| Long Arrow Alternate Down - Icon
 -}
 longArrowAltDown : Icon
 longArrowAltDown =
     Icon.Icon "long-arrow-alt-down"
 
 
-{-| Long Arrow Alt Left - Icon
+{-| Long Arrow Alternate Left - Icon
 -}
 longArrowAltLeft : Icon
 longArrowAltLeft =
     Icon.Icon "long-arrow-alt-left"
 
 
-{-| Long Arrow Alt Right - Icon
+{-| Long Arrow Alternate Right - Icon
 -}
 longArrowAltRight : Icon
 longArrowAltRight =
     Icon.Icon "long-arrow-alt-right"
 
 
-{-| Long Arrow Alt Up - Icon
+{-| Long Arrow Alternate Up - Icon
 -}
 longArrowAltUp : Icon
 longArrowAltUp =
@@ -6127,18 +6466,18 @@ lowVision =
     Icon.Icon "low-vision"
 
 
+{-| Luchador - Icon
+-}
+luchador : Icon
+luchador =
+    Icon.Icon "luchador"
+
+
 {-| Lyft - Logo
 -}
 lyft : Icon
 lyft =
     Icon.Logo "lyft"
-
-
-{-| MODX - Logo
--}
-modX : Icon
-modX =
-    Icon.Logo "modx"
 
 
 {-| Magento - Logo
@@ -6183,7 +6522,7 @@ mapMarker =
     Icon.Icon "map-marker"
 
 
-{-| Map Marker Alt - Icon
+{-| Map Marker Alternate - Icon
 -}
 mapMarkerAlt : Icon
 mapMarkerAlt =
@@ -6316,7 +6655,7 @@ microphone =
     Icon.Icon "microphone"
 
 
-{-| Microphone Alt - Icon
+{-| Microphone Alternate - Icon
 -}
 microphoneAlt : Icon
 microphoneAlt =
@@ -6400,7 +6739,7 @@ mobile =
     Icon.Icon "mobile"
 
 
-{-| Mobile Alt - Icon
+{-| Mobile Alternate - Icon
 -}
 mobileAlt : Icon
 mobileAlt =
@@ -6414,11 +6753,18 @@ mobileAndroid =
     Icon.Icon "mobile-android"
 
 
-{-| Mobile Android Alt - Icon
+{-| Mobile Android Alternate - Icon
 -}
 mobileAndroidAlt : Icon
 mobileAndroidAlt =
     Icon.Icon "mobile-android-alt"
+
+
+{-| MODX - Logo
+-}
+modX : Icon
+modX =
+    Icon.Logo "modx"
 
 
 {-| Monero - Logo
@@ -6435,7 +6781,7 @@ moneyBill =
     Icon.Icon "money-bill"
 
 
-{-| Money Bill Alt - Icon
+{-| Money Bill Alternate - Icon
 -}
 moneyBillAlt : Icon
 moneyBillAlt =
@@ -6468,13 +6814,6 @@ mousePointer =
 music : Icon
 music =
     Icon.Icon "music"
-
-
-{-| NS8 - Logo
--}
-ns8 : Icon
-ns8 =
-    Icon.Logo "ns8"
 
 
 {-| Napster - Logo
@@ -6524,6 +6863,13 @@ nodejs =
 npm : Icon
 npm =
     Icon.Logo "npm"
+
+
+{-| Ns8 - Logo
+-}
+ns8 : Icon
+ns8 =
+    Icon.Logo "ns8"
 
 
 {-| Nutritionix - Logo
@@ -6582,13 +6928,6 @@ openID =
     Icon.Logo "openid"
 
 
-{-| Open Source Initiative - Logo
--}
-openSourceInitiative : Icon
-openSourceInitiative =
-    Icon.Logo "osi"
-
-
 {-| Opera - Logo
 -}
 opera : Icon
@@ -6601,6 +6940,13 @@ opera =
 optinMonster : Icon
 optinMonster =
     Icon.Logo "optin-monster"
+
+
+{-| Open Source Initiative - Logo
+-}
+openSourceInitiative : Icon
+openSourceInitiative =
+    Icon.Logo "osi"
 
 
 {-| Outdent - Icon
@@ -6708,7 +7054,7 @@ pen =
     Icon.Icon "pen"
 
 
-{-| Pen Alt - Icon
+{-| Pen Alternate - Icon
 -}
 penAlt : Icon
 penAlt =
@@ -6729,11 +7075,18 @@ pencil =
     Icon.Icon "pencil"
 
 
-{-| Pencil Alt - Icon
+{-| Pencil Alternate - Icon
 -}
 pencilAlt : Icon
 pencilAlt =
     Icon.Icon "pencil-alt"
+
+
+{-| Pennant - Icon
+-}
+pennant : Icon
+pennant =
+    Icon.Icon "pennant"
 
 
 {-| Percent - Icon
@@ -6792,6 +7145,13 @@ phoneVolume =
     Icon.Icon "phone-volume"
 
 
+{-| PHP - Logo
+-}
+php : Icon
+php =
+    Icon.Logo "php"
+
+
 {-| Pied Piper - Logo
 -}
 piedPiper : Icon
@@ -6799,17 +7159,17 @@ piedPiper =
     Icon.Logo "pied-piper"
 
 
-{-| Pied Piper Alt - Logo
+{-| Pied Piper Alternate - Logo
 -}
 piedPiperAlt : Icon
 piedPiperAlt =
     Icon.Logo "pied-piper-alt"
 
 
-{-| Pied Piper Pp - Logo
+{-| Pied Piper PP - Logo
 -}
-piedPiperPp : Icon
-piedPiperPp =
+piedPiperPP : Icon
+piedPiperPP =
     Icon.Logo "pied-piper-pp"
 
 
@@ -6841,7 +7201,7 @@ plane =
     Icon.Icon "plane"
 
 
-{-| Plane Alt - Icon
+{-| Plane Alternate - Icon
 -}
 planeAlt : Icon
 planeAlt =
@@ -7016,6 +7376,20 @@ questionSquare =
     Icon.Icon "question-square"
 
 
+{-| Quidditch - Icon
+-}
+quidditch : Icon
+quidditch =
+    Icon.Icon "quidditch"
+
+
+{-| QuinScape - Logo
+-}
+quinScape : Icon
+quinScape =
+    Icon.Logo "quinscape"
+
+
 {-| Quora - Logo
 -}
 quora : Icon
@@ -7037,18 +7411,11 @@ quoteRight =
     Icon.Icon "quote-right"
 
 
-{-| RSS - Icon
+{-| Racquet - Icon
 -}
-rss : Icon
-rss =
-    Icon.Icon "rss"
-
-
-{-| RSS Square - Icon
--}
-rssSquare : Icon
-rssSquare =
-    Icon.Icon "rss-square"
+racquet : Icon
+racquet =
+    Icon.Icon "racquet"
 
 
 {-| Random - Icon
@@ -7142,7 +7509,7 @@ redo =
     Icon.Icon "redo"
 
 
-{-| Redo Alt - Icon
+{-| Redo Alternate - Icon
 -}
 redoAlt : Icon
 redoAlt =
@@ -7177,6 +7544,13 @@ repeat =
     Icon.Icon "repeat"
 
 
+{-| Repeat Alternate - Icon
+-}
+repeatAlt : Icon
+repeatAlt =
+    Icon.Icon "repeat-alt"
+
+
 {-| Repeat1 - Icon
 -}
 repeat1 : Icon
@@ -7184,18 +7558,11 @@ repeat1 =
     Icon.Icon "repeat-1"
 
 
-{-| Repeat1Alt - Icon
+{-| Repeat1 Alternate - Icon
 -}
 repeat1Alt : Icon
 repeat1Alt =
     Icon.Icon "repeat-1-alt"
-
-
-{-| Repeat Alt - Icon
--}
-repeatAlt : Icon
-repeatAlt =
-    Icon.Icon "repeat-alt"
 
 
 {-| Reply - Icon
@@ -7233,7 +7600,7 @@ retweet =
     Icon.Icon "retweet"
 
 
-{-| Retweet Alt - Icon
+{-| Retweet Alternate - Icon
 -}
 retweetAlt : Icon
 retweetAlt =
@@ -7245,13 +7612,6 @@ retweetAlt =
 road : Icon
 road =
     Icon.Icon "road"
-
-
-{-| Rock RMS - Logo
--}
-rockRMS : Icon
-rockRMS =
-    Icon.Logo "rockrms"
 
 
 {-| Rocket - Icon
@@ -7266,6 +7626,27 @@ rocket =
 rocketChat : Icon
 rocketChat =
     Icon.Logo "rocketchat"
+
+
+{-| Rock RMS - Logo
+-}
+rockRMS : Icon
+rockRMS =
+    Icon.Logo "rockrms"
+
+
+{-| RSS - Icon
+-}
+rss : Icon
+rss =
+    Icon.Icon "rss"
+
+
+{-| RSS Square - Icon
+-}
+rssSquare : Icon
+rssSquare =
+    Icon.Icon "rss-square"
 
 
 {-| Ruble Sign - Icon
@@ -7394,14 +7775,14 @@ shareAll =
     Icon.Icon "share-all"
 
 
-{-| Share Alt - Icon
+{-| Share Alternate - Icon
 -}
 shareAlt : Icon
 shareAlt =
     Icon.Icon "share-alt"
 
 
-{-| Share Alt Square - Icon
+{-| Share Alternate Square - Icon
 -}
 shareAltSquare : Icon
 shareAltSquare =
@@ -7429,7 +7810,7 @@ shield =
     Icon.Icon "shield"
 
 
-{-| Shield Alt - Icon
+{-| Shield Alternate - Icon
 -}
 shieldAlt : Icon
 shieldAlt =
@@ -7485,6 +7866,13 @@ shower =
     Icon.Icon "shower"
 
 
+{-| Shuttlecock - Icon
+-}
+shuttlecock : Icon
+shuttlecock =
+    Icon.Icon "shuttlecock"
+
+
 {-| Sign In - Icon
 -}
 signIn : Icon
@@ -7492,7 +7880,7 @@ signIn =
     Icon.Icon "sign-in"
 
 
-{-| Sign In Alt - Icon
+{-| Sign In Alternate - Icon
 -}
 signInAlt : Icon
 signInAlt =
@@ -7513,7 +7901,7 @@ signOut =
     Icon.Icon "sign-out"
 
 
-{-| Sign Out Alt - Icon
+{-| Sign Out Alternate - Icon
 -}
 signOutAlt : Icon
 signOutAlt =
@@ -7765,6 +8153,13 @@ square =
     Icon.Icon "square"
 
 
+{-| Square Full - Icon
+-}
+squareFull : Icon
+squareFull =
+    Icon.Icon "square-full"
+
+
 {-| Stack Exchange - Logo
 -}
 stackExchange : Icon
@@ -7996,32 +8391,11 @@ sync =
     Icon.Icon "sync"
 
 
-{-| Sync Alt - Icon
+{-| Sync Alternate - Icon
 -}
 syncAlt : Icon
 syncAlt =
     Icon.Icon "sync-alt"
-
-
-{-| TTY - Icon
--}
-tTY : Icon
-tTY =
-    Icon.Icon "tty"
-
-
-{-| TV - Icon
--}
-tV : Icon
-tV =
-    Icon.Icon "tv"
-
-
-{-| TVRetro - Icon
--}
-tVRetro : Icon
-tVRetro =
-    Icon.Icon "tv-retro"
 
 
 {-| Table - Icon
@@ -8031,6 +8405,13 @@ table =
     Icon.Icon "table"
 
 
+{-| Table Tennis - Icon
+-}
+tableTennis : Icon
+tableTennis =
+    Icon.Icon "table-tennis"
+
+
 {-| Tablet - Icon
 -}
 tablet : Icon
@@ -8038,7 +8419,7 @@ tablet =
     Icon.Icon "tablet"
 
 
-{-| Tablet Alt - Icon
+{-| Tablet Alternate - Icon
 -}
 tabletAlt : Icon
 tabletAlt =
@@ -8052,7 +8433,7 @@ tabletAndroid =
     Icon.Icon "tablet-android"
 
 
-{-| Tablet Android Alt - Icon
+{-| Tablet Android Alternate - Icon
 -}
 tabletAndroidAlt : Icon
 tabletAndroidAlt =
@@ -8066,7 +8447,7 @@ tachometer =
     Icon.Icon "tachometer"
 
 
-{-| Tachometer Alt - Icon
+{-| Tachometer Alternate - Icon
 -}
 tachometerAlt : Icon
 tachometerAlt =
@@ -8120,6 +8501,13 @@ telegramPlane =
 tencentWeibo : Icon
 tencentWeibo =
     Icon.Logo "tencent-weibo"
+
+
+{-| Tennis Ball - Icon
+-}
+tennisBall : Icon
+tennisBall =
+    Icon.Icon "tennis-ball"
 
 
 {-| Terminal - Icon
@@ -8234,7 +8622,7 @@ ticket =
     Icon.Icon "ticket"
 
 
-{-| Ticket Alt - Icon
+{-| Ticket Alternate - Icon
 -}
 ticketAlt : Icon
 ticketAlt =
@@ -8318,7 +8706,7 @@ transgender =
     Icon.Icon "transgender"
 
 
-{-| Transgender Alt - Icon
+{-| Transgender Alternate - Icon
 -}
 transgenderAlt : Icon
 transgenderAlt =
@@ -8332,7 +8720,7 @@ trash =
     Icon.Icon "trash"
 
 
-{-| Trash Alt - Icon
+{-| Trash Alternate - Icon
 -}
 trashAlt : Icon
 trashAlt =
@@ -8346,7 +8734,7 @@ tree =
     Icon.Icon "tree"
 
 
-{-| Tree Alt - Icon
+{-| Tree Alternate - Icon
 -}
 treeAlt : Icon
 treeAlt =
@@ -8381,7 +8769,7 @@ trophy =
     Icon.Icon "trophy"
 
 
-{-| Trophy Alt - Icon
+{-| Trophy Alternate - Icon
 -}
 trophyAlt : Icon
 trophyAlt =
@@ -8393,6 +8781,13 @@ trophyAlt =
 truck : Icon
 truck =
     Icon.Icon "truck"
+
+
+{-| TTY - Icon
+-}
+tty : Icon
+tty =
+    Icon.Icon "tty"
 
 
 {-| Tumblr - Logo
@@ -8407,6 +8802,20 @@ tumblr =
 tumblrSquare : Icon
 tumblrSquare =
     Icon.Logo "tumblr-square"
+
+
+{-| TV - Icon
+-}
+tv : Icon
+tv =
+    Icon.Icon "tv"
+
+
+{-| TV Retro - Icon
+-}
+tvRetro : Icon
+tvRetro =
+    Icon.Icon "tv-retro"
 
 
 {-| Twitch - Logo
@@ -8437,25 +8846,18 @@ typo3 =
     Icon.Logo "typo3"
 
 
-{-| UIkit - Logo
--}
-uIkit : Icon
-uIkit =
-    Icon.Logo "uikit"
-
-
-{-| USB - Logo
--}
-uSB : Icon
-uSB =
-    Icon.Logo "usb"
-
-
 {-| Uber - Logo
 -}
 uber : Icon
 uber =
     Icon.Logo "uber"
+
+
+{-| UIkit - Logo
+-}
+uiKit : Icon
+uiKit =
+    Icon.Logo "uikit"
 
 
 {-| Umbrella - Icon
@@ -8479,7 +8881,7 @@ undo =
     Icon.Icon "undo"
 
 
-{-| Undo Alt - Icon
+{-| Undo Alternate - Icon
 -}
 undoAlt : Icon
 undoAlt =
@@ -8521,7 +8923,7 @@ unlock =
     Icon.Icon "unlock"
 
 
-{-| Unlock Alt - Icon
+{-| Unlock Alternate - Icon
 -}
 unlockAlt : Icon
 unlockAlt =
@@ -8542,11 +8944,11 @@ upload =
     Icon.Icon "upload"
 
 
-{-| us-Sunnah - Logo
+{-| USB - Logo
 -}
-usSunnah : Icon
-usSunnah =
-    Icon.Logo "ussunnah"
+usb : Icon
+usb =
+    Icon.Logo "usb"
 
 
 {-| USD Circle - Icon
@@ -8570,7 +8972,7 @@ user =
     Icon.Icon "user"
 
 
-{-| User Alt - Icon
+{-| User Alternate - Icon
 -}
 userAlt : Icon
 userAlt =
@@ -8584,10 +8986,10 @@ userCircle =
     Icon.Icon "user-circle"
 
 
-{-| User Md - Icon
+{-| User MD - Icon
 -}
-userMd : Icon
-userMd =
+userMD : Icon
+userMD =
     Icon.Icon "user-md"
 
 
@@ -8619,6 +9021,13 @@ users =
     Icon.Icon "users"
 
 
+{-| us Sunnah - Logo
+-}
+usSunnah : Icon
+usSunnah =
+    Icon.Logo "ussunnah"
+
+
 {-| Utensil Fork - Icon
 -}
 utensilFork : Icon
@@ -8647,18 +9056,11 @@ utensils =
     Icon.Icon "utensils"
 
 
-{-| Utensils Alt - Icon
+{-| Utensils Alternate - Icon
 -}
 utensilsAlt : Icon
 utensilsAlt =
     Icon.Icon "utensils-alt"
-
-
-{-| VK - Logo
--}
-vK : Icon
-vK =
-    Icon.Logo "vk"
 
 
 {-| Vaadin - Logo
@@ -8752,11 +9154,25 @@ vine =
     Icon.Logo "vine"
 
 
+{-| VK - Logo
+-}
+vk : Icon
+vk =
+    Icon.Logo "vk"
+
+
 {-| Vnv - Logo
 -}
 vnv : Icon
 vnv =
     Icon.Logo "vnv"
+
+
+{-| Volleyball - Icon
+-}
+volleyball : Icon
+volleyball =
+    Icon.Icon "volleyball-ball"
 
 
 {-| Volume Down - Icon
@@ -8792,34 +9208,6 @@ volumeUp =
 vuejs : Icon
 vuejs =
     Icon.Logo "vuejs"
-
-
-{-| WHMCS - Logo
--}
-wHMCS : Icon
-wHMCS =
-    Icon.Logo "whmcs"
-
-
-{-| WPBeginner - Logo
--}
-wPBeginner : Icon
-wPBeginner =
-    Icon.Logo "wpbeginner"
-
-
-{-| WPExplorer - Logo
--}
-wPExplorer : Icon
-wPExplorer =
-    Icon.Logo "wpexplorer"
-
-
-{-| WPForms - Logo
--}
-wPForms : Icon
-wPForms =
-    Icon.Logo "wpforms"
 
 
 {-| Watch - Icon
@@ -8864,6 +9252,20 @@ wheelchair =
     Icon.Icon "wheelchair"
 
 
+{-| Whistle - Icon
+-}
+whistle : Icon
+whistle =
+    Icon.Icon "whistle"
+
+
+{-| WHMCS - Logo
+-}
+whmcs : Icon
+whmcs =
+    Icon.Logo "whmcs"
+
+
 {-| Wifi - Icon
 -}
 wifi : Icon
@@ -8885,7 +9287,7 @@ window =
     Icon.Icon "window"
 
 
-{-| Window Alt - Icon
+{-| Window Alternate - Icon
 -}
 windowAlt : Icon
 windowAlt =
@@ -8948,11 +9350,39 @@ wordPressSimple =
     Icon.Logo "wordpress-simple"
 
 
+{-| WPBeginner - Logo
+-}
+wpBeginner : Icon
+wpBeginner =
+    Icon.Logo "wpbeginner"
+
+
+{-| WPExplorer - Logo
+-}
+wpExplorer : Icon
+wpExplorer =
+    Icon.Logo "wpexplorer"
+
+
+{-| WPForms - Logo
+-}
+wpForms : Icon
+wpForms =
+    Icon.Logo "wpforms"
+
+
 {-| Wrench - Icon
 -}
 wrench : Icon
 wrench =
     Icon.Icon "wrench"
+
+
+{-| Xbox - Logo
+-}
+xbox : Icon
+xbox =
+    Icon.Logo "xbox"
 
 
 {-| XING - Logo
@@ -8962,18 +9392,11 @@ xing =
     Icon.Logo "xing"
 
 
-{-| XINGSquare - Logo
+{-| XING Square - Logo
 -}
 xingSquare : Icon
 xingSquare =
     Icon.Logo "xing-square"
-
-
-{-| Xbox - Logo
--}
-xbox : Icon
-xbox =
-    Icon.Logo "xbox"
 
 
 {-| YCombinator - Logo
