@@ -19,7 +19,6 @@ import TestCommon
         , transformAttr
         )
 import Expect
-import Fuzz
 import Html exposing (Attribute)
 import Html.Attributes
 import Test exposing (Test, describe, fuzz, fuzz2, fuzz3, test)
@@ -99,18 +98,14 @@ testIconWithOptions =
 
 testIconWithoutHtmlAttributes : List Test
 testIconWithoutHtmlAttributes =
-    [ Test.fuzzWith
-        { runs = 500 }
-        (Fuzz.tuple4
-            ( iconFuzzer
-            , styleFuzzer
-            , optionsFuzzer
-            , attributesFuzzer
-            )
-        )
+    [ Test.fuzz4
+        iconFuzzer
+        styleFuzzer
+        optionsFuzzer
+        attributesFuzzer
         "handles all options"
       <|
-        \( icon, style, options, htmlAttributes ) ->
+        \icon style options htmlAttributes ->
             FA.iconWithOptions icon style options htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all (iconOptionsTests icon style options)
