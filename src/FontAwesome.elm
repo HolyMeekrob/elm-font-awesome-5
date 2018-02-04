@@ -5,10 +5,12 @@ module FontAwesome
         , HtmlTag(..)
         , Pull(..)
         , Size(..)
-        , Style(..)
         , Transform(..)
         , icon
-        , iconWithOptions
+        , brandIcon
+        , lightIcon
+        , regularIcon
+        , solidIcon
         , useCss
         , useSvg
         , accessibleIcon
@@ -1015,12 +1017,12 @@ module FontAwesome
 
 # Elements
 
-@docs icon, iconWithOptions
+@docs icon, brandIcon, lightIcon, regularIcon, solidIcon
 
 
 # Options
 
-@docs Option, Animation, HtmlTag, Pull, Size, Style, Transform
+@docs Option, Animation, HtmlTag, Pull, Size, Transform
 
 
 # Icons
@@ -2020,7 +2022,7 @@ module FontAwesome
 
 -}
 
-import FontAwesome.Icon as Icon exposing (Icon)
+import FontAwesome.Types as Types exposing (Icon, Logo, Style)
 import FontAwesome.Utils exposing (dedup, onlyOne)
 import Html exposing (Attribute, Html)
 import Html.Attributes
@@ -2064,22 +2066,78 @@ default tag (&lt;i&gt;), and no additional options or attributes.
 -}
 icon : Icon -> Html msg
 icon icon =
-    iconWithOptions icon Solid [] []
+    solidIcon icon [] []
 
 
-{-| Create an icon with the given options and attributes.
+{-| Create a solid-styled icon with the given options and attributes.
 
-    iconWithOptions spinner Solid [ Animation Spin ] []
+    solidIcon spinner [ Animation Spin ] []
     -- <i class="fas fa-spinner fa-spin"></i>
 
-    iconWithOptions question Light [ HasBorder, Pull Right ] [ Html.Attributes.title "Question"]
-    -- <i class="fal fa-question fa-border fa-pull-right" title="Question"></i>
+    solidIcon question [ HasBorder, Pull Right ] [ Html.Attributes.title "Question"]
+    -- <i class="fas fa-question fa-border fa-pull-right" title="Question"></i>
 
-    iconWithOptions info Regular [ HasFixedWidth, Size Large, HtmlTag Span ] []
+    solidIcon info [ HasFixedWidth, Size Large, HtmlTag Span ] []
+    -- <span class="fas fa-info fa-fw fa-lg"></span>
+
+-}
+solidIcon : Icon -> List Option -> List (Attribute msg) -> Html msg
+solidIcon icon options htmlAttributes =
+    iconWithOptions (iconClass icon) Types.Solid options htmlAttributes
+
+
+{-| Create a regular-styled icon with the given options and attributes.
+
+    regularIcon spinner [ Animation Spin ] []
+    -- <i class="far fa-spinner fa-spin"></i>
+
+    regularIcon question [ HasBorder, Pull Right ] [ Html.Attributes.title "Question"]
+    -- <i class="far fa-question fa-border fa-pull-right" title="Question"></i>
+
+    regularIcon info [ HasFixedWidth, Size Large, HtmlTag Span ] []
     -- <span class="far fa-info fa-fw fa-lg"></span>
 
 -}
-iconWithOptions : Icon -> Style -> List Option -> List (Attribute msg) -> Html msg
+regularIcon : Icon -> List Option -> List (Attribute msg) -> Html msg
+regularIcon icon options htmlAttributes =
+    iconWithOptions (iconClass icon) Types.Regular options htmlAttributes
+
+
+{-| Create a light-styled icon with the given options and attributes.
+
+    lightIcon spinner [ Animation Spin ] []
+    -- <i class="fas fa-spinner fa-spin"></i>
+
+    lightIcon question [ HasBorder, Pull Right ] [ Html.Attributes.title "Question"]
+    -- <i class="fas fa-question fa-border fa-pull-right" title="Question"></i>
+
+    lightIcon info [ HasFixedWidth, Size Large, HtmlTag Span ] []
+    -- <span class="fas fa-info fa-fw fa-lg"></span>
+
+-}
+lightIcon : Icon -> List Option -> List (Attribute msg) -> Html msg
+lightIcon icon options htmlAttributes =
+    iconWithOptions (iconClass icon) Types.Light options htmlAttributes
+
+
+{-| Create a logo with the given options and attributes.
+
+    brandIcon spinner [ Animation Spin ] []
+    -- <i class="fas fa-spinner fa-spin"></i>
+
+    brandIcon question [ HasBorder, Pull Right ] [ Html.Attributes.title "Question"]
+    -- <i class="fas fa-question fa-border fa-pull-right" title="Question"></i>
+
+    brandIcon info [ HasFixedWidth, Size Large, HtmlTag Span ] []
+    -- <span class="fas fa-info fa-fw fa-lg"></span>
+
+-}
+brandIcon : Logo -> List Option -> List (Attribute msg) -> Html msg
+brandIcon logo options htmlAttributes =
+    iconWithOptions (logoClass logo) Types.Brand options htmlAttributes
+
+
+iconWithOptions : String -> Style -> List Option -> List (Attribute msg) -> Html msg
 iconWithOptions icon style options htmlAttributes =
     let
         opts =
@@ -2166,7 +2224,16 @@ isInvertColor option =
 isMask : Option -> Bool
 isMask option =
     case option of
-        Mask _ _ ->
+        SolidMask _ ->
+            True
+
+        RegularMask _ ->
+            True
+
+        LightMask _ ->
+            True
+
+        BrandMask _ ->
             True
 
         _ ->
@@ -2228,17 +2295,13 @@ filterAttrs options =
 
 
 iconClass : Icon -> String
-iconClass icon =
-    let
-        root =
-            case icon of
-                Icon.Icon name ->
-                    name
+iconClass (Types.Icon root) =
+    "fa-" ++ root
 
-                Icon.Logo name ->
-                    name
-    in
-        "fa-" ++ root
+
+logoClass : Logo -> String
+logoClass (Types.Logo root) =
+    "fa-" ++ root
 
 
 animationClass : Animation -> String
@@ -2292,22 +2355,20 @@ sizeClass size =
             "fa-" ++ toString n ++ "x"
 
 
-styleClass : Icon -> Style -> String
-styleClass icon style =
-    case icon of
-        Icon.Logo _ ->
+styleClass : Style -> String
+styleClass style =
+    case style of
+        Types.Solid ->
+            "fas"
+
+        Types.Regular ->
+            "far"
+
+        Types.Light ->
+            "fal"
+
+        Types.Brand ->
             "fab"
-
-        Icon.Icon _ ->
-            case style of
-                Solid ->
-                    "fas"
-
-                Regular ->
-                    "far"
-
-                Light ->
-                    "fal"
 
 
 className : Option -> ( String, Bool )
@@ -2335,10 +2396,10 @@ className opt =
             ( "", False )
 
 
-classes : Icon -> Style -> List Option -> Attribute msg
+classes : String -> Style -> List Option -> Attribute msg
 classes icon style options =
-    ( styleClass icon style, True )
-        :: ( iconClass icon, True )
+    ( styleClass style, True )
+        :: ( icon, True )
         :: List.map className options
         |> Html.Attributes.classList
 
@@ -2395,17 +2456,32 @@ transformAttr options =
     List.foldr transform [] options
 
 
-mask : Option -> List (Attribute msg) -> List (Attribute msg)
-mask opt opts =
+maskClass : Option -> Maybe String
+maskClass opt =
     case opt of
-        Mask icon style ->
-            let
-                val =
-                    styleClass icon style ++ " " ++ iconClass icon
-            in
-                Html.Attributes.attribute "data-fa-mask" val :: opts
+        SolidMask icon ->
+            Just (styleClass Types.Solid ++ " " ++ iconClass icon)
+
+        RegularMask icon ->
+            Just (styleClass Types.Regular ++ " " ++ iconClass icon)
+
+        LightMask icon ->
+            Just (styleClass Types.Light ++ " " ++ iconClass icon)
+
+        BrandMask icon ->
+            Just (styleClass Types.Brand ++ " " ++ logoClass icon)
 
         _ ->
+            Nothing
+
+
+mask : Option -> List (Attribute msg) -> List (Attribute msg)
+mask opt opts =
+    case maskClass opt of
+        Just classes ->
+            Html.Attributes.attribute "data-fa-mask" classes :: opts
+
+        Nothing ->
             opts
 
 
@@ -2439,25 +2515,13 @@ type Option
     | HasFixedWidth
     | HtmlTag HtmlTag
     | InvertColor
-    | Mask Icon Style
+    | SolidMask Icon
+    | RegularMask Icon
+    | LightMask Icon
+    | BrandMask Logo
     | Pull Pull
     | Size Size
     | Transform (List Transform)
-
-
-{-| Every icon has one variation per style. Some of the Solid, most of the
-Regular, and all of the Light variations require Font Awesome Pro, so if you
-are using the free version then please refer to Font Awesome's icon library
-to determine which styles are available to you.
-
-Note that brand logos are only available in a single style, and so they will
-ignore whatever style is given.
-
--}
-type Style
-    = Solid
-    | Regular
-    | Light
 
 
 {-| Font Awesome's alternative size options. Valid values for the Mult options
@@ -2520,6943 +2584,6943 @@ type Transform
 
 {-| Accessible Icon - Logo
 -}
-accessibleIcon : Icon
+accessibleIcon : Logo
 accessibleIcon =
-    Icon.Logo "accessible-icon"
+    Types.Logo "accessible-icon"
 
 
 {-| Accusoft - Logo
 -}
-accusoft : Icon
+accusoft : Logo
 accusoft =
-    Icon.Logo "accusoft"
+    Types.Logo "accusoft"
 
 
 {-| Address Book - Icon
 -}
 addressBook : Icon
 addressBook =
-    Icon.Icon "address-book"
+    Types.Icon "address-book"
 
 
 {-| Address Card - Icon
 -}
 addressCard : Icon
 addressCard =
-    Icon.Icon "address-card"
+    Types.Icon "address-card"
 
 
 {-| Adjust - Icon
 -}
 adjust : Icon
 adjust =
-    Icon.Icon "adjust"
+    Types.Icon "adjust"
 
 
 {-| Adn = - Logo
 -}
-adn : Icon
+adn : Logo
 adn =
-    Icon.Logo "adn"
+    Types.Logo "adn"
 
 
 {-| Adversal = - Logo
 -}
-adversal : Icon
+adversal : Logo
 adversal =
-    Icon.Logo "adversal"
+    Types.Logo "adversal"
 
 
 {-| Affiliate Theme - Logo
 -}
-affiliateTheme : Icon
+affiliateTheme : Logo
 affiliateTheme =
-    Icon.Logo "affiliatetheme"
+    Types.Logo "affiliatetheme"
 
 
 {-| Alarm Clock - Icon
 -}
 alarmClock : Icon
 alarmClock =
-    Icon.Icon "alarm-clock"
+    Types.Icon "alarm-clock"
 
 
 {-| Algolia - Logo
 -}
-algolia : Icon
+algolia : Logo
 algolia =
-    Icon.Logo "algolia"
+    Types.Logo "algolia"
 
 
 {-| Align Center - Icon
 -}
 alignCenter : Icon
 alignCenter =
-    Icon.Icon "align-center"
+    Types.Icon "align-center"
 
 
 {-| Align Justify - Icon
 -}
 alignJustify : Icon
 alignJustify =
-    Icon.Icon "align-justify"
+    Types.Icon "align-justify"
 
 
 {-| Align Left - Icon
 -}
 alignLeft : Icon
 alignLeft =
-    Icon.Icon "align-left"
+    Types.Icon "align-left"
 
 
 {-| Align Right - Icon
 -}
 alignRight : Icon
 alignRight =
-    Icon.Icon "align-right"
+    Types.Icon "align-right"
 
 
 {-| Amazon - Logo
 -}
-amazon : Icon
+amazon : Logo
 amazon =
-    Icon.Logo "amazon"
+    Types.Logo "amazon"
 
 
 {-| Amazon Pay - Logo
 -}
-amazonPay : Icon
+amazonPay : Logo
 amazonPay =
-    Icon.Logo "amazon-pay"
+    Types.Logo "amazon-pay"
 
 
 {-| Ambulance - Icon
 -}
 ambulance : Icon
 ambulance =
-    Icon.Icon "ambulance"
+    Types.Icon "ambulance"
 
 
 {-| American Sign Language Interpreting - Icon
 -}
 americanSignLanguageInterpreting : Icon
 americanSignLanguageInterpreting =
-    Icon.Icon "american-sign-language-interpreting"
+    Types.Icon "american-sign-language-interpreting"
 
 
 {-| Amilia - Logo
 -}
-amilia : Icon
+amilia : Logo
 amilia =
-    Icon.Logo "amilia"
+    Types.Logo "amilia"
 
 
 {-| Anchor - Icon
 -}
 anchor : Icon
 anchor =
-    Icon.Icon "anchor"
+    Types.Icon "anchor"
 
 
 {-| Android - Logo
 -}
-android : Icon
+android : Logo
 android =
-    Icon.Logo "android"
+    Types.Logo "android"
 
 
 {-| Angel List - Logo
 -}
-angelList : Icon
+angelList : Logo
 angelList =
-    Icon.Logo "angellist"
+    Types.Logo "angellist"
 
 
 {-| Angle Double Down - Icon
 -}
 angleDoubleDown : Icon
 angleDoubleDown =
-    Icon.Icon "angle-double-down"
+    Types.Icon "angle-double-down"
 
 
 {-| Angle Double Left - Icon
 -}
 angleDoubleLeft : Icon
 angleDoubleLeft =
-    Icon.Icon "angle-double-left"
+    Types.Icon "angle-double-left"
 
 
 {-| Angle Double Right - Icon
 -}
 angleDoubleRight : Icon
 angleDoubleRight =
-    Icon.Icon "angle-double-right"
+    Types.Icon "angle-double-right"
 
 
 {-| Angle Double Up - Icon
 -}
 angleDoubleUp : Icon
 angleDoubleUp =
-    Icon.Icon "angle-double-up"
+    Types.Icon "angle-double-up"
 
 
 {-| Angle Down - Icon
 -}
 angleDown : Icon
 angleDown =
-    Icon.Icon "angle-down"
+    Types.Icon "angle-down"
 
 
 {-| Angle Left - Icon
 -}
 angleLeft : Icon
 angleLeft =
-    Icon.Icon "angle-left"
+    Types.Icon "angle-left"
 
 
 {-| Angle Right - Icon
 -}
 angleRight : Icon
 angleRight =
-    Icon.Icon "angle-right"
+    Types.Icon "angle-right"
 
 
 {-| Angle Up - Icon
 -}
 angleUp : Icon
 angleUp =
-    Icon.Icon "angle-up"
+    Types.Icon "angle-up"
 
 
 {-| Angry Creative - Logo
 -}
-angryCreative : Icon
+angryCreative : Logo
 angryCreative =
-    Icon.Logo "angrycreative"
+    Types.Logo "angrycreative"
 
 
 {-| Angular - Logo
 -}
-angular : Icon
+angular : Logo
 angular =
-    Icon.Logo "angular"
+    Types.Logo "angular"
 
 
 {-| App Store - Logo
 -}
-appStore : Icon
+appStore : Logo
 appStore =
-    Icon.Logo "app-store"
+    Types.Logo "app-store"
 
 
 {-| App Store iOS - Logo
 -}
-appStoreIos : Icon
+appStoreIos : Logo
 appStoreIos =
-    Icon.Logo "app-store-ios"
+    Types.Logo "app-store-ios"
 
 
 {-| Apper - Logo
 -}
-apper : Icon
+apper : Logo
 apper =
-    Icon.Logo "apper"
+    Types.Logo "apper"
 
 
 {-| Apple - Logo
 -}
-apple : Icon
+apple : Logo
 apple =
-    Icon.Logo "apple"
+    Types.Logo "apple"
 
 
 {-| Apple Pay - Logo
 -}
-applePay : Icon
+applePay : Logo
 applePay =
-    Icon.Logo "apple-pay"
+    Types.Logo "apple-pay"
 
 
 {-| Archive - Icon
 -}
 archive : Icon
 archive =
-    Icon.Icon "archive"
+    Types.Icon "archive"
 
 
 {-| Arrow Alternate Circle Down - Icon
 -}
 arrowAltCircleDown : Icon
 arrowAltCircleDown =
-    Icon.Icon "arrow-alt-circle-down"
+    Types.Icon "arrow-alt-circle-down"
 
 
 {-| Arrow Alternate Circle Left - Icon
 -}
 arrowAltCircleLeft : Icon
 arrowAltCircleLeft =
-    Icon.Icon "arrow-alt-circle-left"
+    Types.Icon "arrow-alt-circle-left"
 
 
 {-| Arrow Alternate Circle Right - Icon
 -}
 arrowAltCircleRight : Icon
 arrowAltCircleRight =
-    Icon.Icon "arrow-alt-circle-right"
+    Types.Icon "arrow-alt-circle-right"
 
 
 {-| Arrow Alternate Circle Up - Icon
 -}
 arrowAltCircleUp : Icon
 arrowAltCircleUp =
-    Icon.Icon "arrow-alt-circle-up"
+    Types.Icon "arrow-alt-circle-up"
 
 
 {-| Arrow Alternate Down - Icon
 -}
 arrowAltDown : Icon
 arrowAltDown =
-    Icon.Icon "arrow-alt-down"
+    Types.Icon "arrow-alt-down"
 
 
 {-| Arrow Alternate From Bottom - Icon
 -}
 arrowAltFromBottom : Icon
 arrowAltFromBottom =
-    Icon.Icon "arrow-alt-from-bottom"
+    Types.Icon "arrow-alt-from-bottom"
 
 
 {-| Arrow Alternate From Left - Icon
 -}
 arrowAltFromLeft : Icon
 arrowAltFromLeft =
-    Icon.Icon "arrow-alt-from-left"
+    Types.Icon "arrow-alt-from-left"
 
 
 {-| Arrow Alternate From Right - Icon
 -}
 arrowAltFromRight : Icon
 arrowAltFromRight =
-    Icon.Icon "arrow-alt-from-right"
+    Types.Icon "arrow-alt-from-right"
 
 
 {-| Arrow Alternate From Top - Icon
 -}
 arrowAltFromTop : Icon
 arrowAltFromTop =
-    Icon.Icon "arrow-alt-from-top"
+    Types.Icon "arrow-alt-from-top"
 
 
 {-| Arrow Alternate Left - Icon
 -}
 arrowAltLeft : Icon
 arrowAltLeft =
-    Icon.Icon "arrow-alt-left"
+    Types.Icon "arrow-alt-left"
 
 
 {-| Arrow Alternate Right - Icon
 -}
 arrowAltRight : Icon
 arrowAltRight =
-    Icon.Icon "arrow-alt-right"
+    Types.Icon "arrow-alt-right"
 
 
 {-| Arrow Alternate Square Down - Icon
 -}
 arrowAltSquareDown : Icon
 arrowAltSquareDown =
-    Icon.Icon "arrow-alt-square-down"
+    Types.Icon "arrow-alt-square-down"
 
 
 {-| Arrow Alternate Square Left - Icon
 -}
 arrowAltSquareLeft : Icon
 arrowAltSquareLeft =
-    Icon.Icon "arrow-alt-square-left"
+    Types.Icon "arrow-alt-square-left"
 
 
 {-| Arrow Alternate Square Right - Icon
 -}
 arrowAltSquareRight : Icon
 arrowAltSquareRight =
-    Icon.Icon "arrow-alt-square-right"
+    Types.Icon "arrow-alt-square-right"
 
 
 {-| Arrow Alternate Square Up - Icon
 -}
 arrowAltSquareUp : Icon
 arrowAltSquareUp =
-    Icon.Icon "arrow-alt-square-up"
+    Types.Icon "arrow-alt-square-up"
 
 
 {-| Arrow Alternate To Bottom - Icon
 -}
 arrowAltToBottom : Icon
 arrowAltToBottom =
-    Icon.Icon "arrow-alt-to-bottom"
+    Types.Icon "arrow-alt-to-bottom"
 
 
 {-| Arrow Alternate To Left - Icon
 -}
 arrowAltToLeft : Icon
 arrowAltToLeft =
-    Icon.Icon "arrow-alt-to-left"
+    Types.Icon "arrow-alt-to-left"
 
 
 {-| Arrow Alternate To Right - Icon
 -}
 arrowAltToRight : Icon
 arrowAltToRight =
-    Icon.Icon "arrow-alt-to-right"
+    Types.Icon "arrow-alt-to-right"
 
 
 {-| Arrow Alternate To Top - Icon
 -}
 arrowAltToTop : Icon
 arrowAltToTop =
-    Icon.Icon "arrow-alt-to-top"
+    Types.Icon "arrow-alt-to-top"
 
 
 {-| Arrow Alternate Up - Icon
 -}
 arrowAltUp : Icon
 arrowAltUp =
-    Icon.Icon "arrow-alt-up"
+    Types.Icon "arrow-alt-up"
 
 
 {-| Arrow Circle Down - Icon
 -}
 arrowCircleDown : Icon
 arrowCircleDown =
-    Icon.Icon "arrow-circle-down"
+    Types.Icon "arrow-circle-down"
 
 
 {-| Arrow Circle Left - Icon
 -}
 arrowCircleLeft : Icon
 arrowCircleLeft =
-    Icon.Icon "arrow-circle-left"
+    Types.Icon "arrow-circle-left"
 
 
 {-| Arrow Circle Right - Icon
 -}
 arrowCircleRight : Icon
 arrowCircleRight =
-    Icon.Icon "arrow-circle-right"
+    Types.Icon "arrow-circle-right"
 
 
 {-| Arrow Circle Up - Icon
 -}
 arrowCircleUp : Icon
 arrowCircleUp =
-    Icon.Icon "arrow-circle-up"
+    Types.Icon "arrow-circle-up"
 
 
 {-| Arrow Down - Icon
 -}
 arrowDown : Icon
 arrowDown =
-    Icon.Icon "arrow-down"
+    Types.Icon "arrow-down"
 
 
 {-| Arrow From Bottom - Icon
 -}
 arrowFromBottom : Icon
 arrowFromBottom =
-    Icon.Icon "arrow-from-bottom"
+    Types.Icon "arrow-from-bottom"
 
 
 {-| Arrow From Left - Icon
 -}
 arrowFromLeft : Icon
 arrowFromLeft =
-    Icon.Icon "arrow-from-left"
+    Types.Icon "arrow-from-left"
 
 
 {-| Arrow From Right - Icon
 -}
 arrowFromRight : Icon
 arrowFromRight =
-    Icon.Icon "arrow-from-right"
+    Types.Icon "arrow-from-right"
 
 
 {-| Arrow From Top - Icon
 -}
 arrowFromTop : Icon
 arrowFromTop =
-    Icon.Icon "arrow-from-top"
+    Types.Icon "arrow-from-top"
 
 
 {-| Arrow Left - Icon
 -}
 arrowLeft : Icon
 arrowLeft =
-    Icon.Icon "arrow-left"
+    Types.Icon "arrow-left"
 
 
 {-| Arrow Right - Icon
 -}
 arrowRight : Icon
 arrowRight =
-    Icon.Icon "arrow-right"
+    Types.Icon "arrow-right"
 
 
 {-| Arrow Square Down - Icon
 -}
 arrowSquareDown : Icon
 arrowSquareDown =
-    Icon.Icon "arrow-square-down"
+    Types.Icon "arrow-square-down"
 
 
 {-| Arrow Square Left - Icon
 -}
 arrowSquareLeft : Icon
 arrowSquareLeft =
-    Icon.Icon "arrow-square-left"
+    Types.Icon "arrow-square-left"
 
 
 {-| Arrow Square Right - Icon
 -}
 arrowSquareRight : Icon
 arrowSquareRight =
-    Icon.Icon "arrow-square-right"
+    Types.Icon "arrow-square-right"
 
 
 {-| Arrow Square Up - Icon
 -}
 arrowSquareUp : Icon
 arrowSquareUp =
-    Icon.Icon "arrow-square-up"
+    Types.Icon "arrow-square-up"
 
 
 {-| Arrow To Bottom - Icon
 -}
 arrowToBottom : Icon
 arrowToBottom =
-    Icon.Icon "arrow-to-bottom"
+    Types.Icon "arrow-to-bottom"
 
 
 {-| Arrow To Left - Icon
 -}
 arrowToLeft : Icon
 arrowToLeft =
-    Icon.Icon "arrow-to-left"
+    Types.Icon "arrow-to-left"
 
 
 {-| Arrow To Right - Icon
 -}
 arrowToRight : Icon
 arrowToRight =
-    Icon.Icon "arrow-to-right"
+    Types.Icon "arrow-to-right"
 
 
 {-| Arrow To Top - Icon
 -}
 arrowToTop : Icon
 arrowToTop =
-    Icon.Icon "arrow-to-top"
+    Types.Icon "arrow-to-top"
 
 
 {-| Arrow Up - Icon
 -}
 arrowUp : Icon
 arrowUp =
-    Icon.Icon "arrow-up"
+    Types.Icon "arrow-up"
 
 
 {-| Arrows - Icon
 -}
 arrows : Icon
 arrows =
-    Icon.Icon "arrows"
+    Types.Icon "arrows"
 
 
 {-| Arrows Alternate - Icon
 -}
 arrowsAlt : Icon
 arrowsAlt =
-    Icon.Icon "arrows-alt"
+    Types.Icon "arrows-alt"
 
 
 {-| Arrows Alternate Horizontal - Icon
 -}
 arrowsAltHorizontal : Icon
 arrowsAltHorizontal =
-    Icon.Icon "arrows-alt-h"
+    Types.Icon "arrows-alt-h"
 
 
 {-| Arrows Alternate Vertical - Icon
 -}
 arrowsAltVertical : Icon
 arrowsAltVertical =
-    Icon.Icon "arrows-alt-v"
+    Types.Icon "arrows-alt-v"
 
 
 {-| Arrows Horizontal - Icon
 -}
 arrowsHorizontal : Icon
 arrowsHorizontal =
-    Icon.Icon "arrows-h"
+    Types.Icon "arrows-h"
 
 
 {-| Arrows Vertical - Icon
 -}
 arrowsVertical : Icon
 arrowsVertical =
-    Icon.Icon "arrows-v"
+    Types.Icon "arrows-v"
 
 
 {-| Assistive Listening Systems - Icon
 -}
 assistiveListeningSystems : Icon
 assistiveListeningSystems =
-    Icon.Icon "assistive-listening-systems"
+    Types.Icon "assistive-listening-systems"
 
 
 {-| Asterisk - Icon
 -}
 asterisk : Icon
 asterisk =
-    Icon.Icon "asterisk"
+    Types.Icon "asterisk"
 
 
 {-| Asymmetrik - Logo
 -}
-asymmetrik : Icon
+asymmetrik : Logo
 asymmetrik =
-    Icon.Logo "asymmetrik"
+    Types.Logo "asymmetrik"
 
 
 {-| At - Icon
 -}
 at : Icon
 at =
-    Icon.Icon "at"
+    Types.Icon "at"
 
 
 {-| Audible - Logo
 -}
-audible : Icon
+audible : Logo
 audible =
-    Icon.Logo "audible"
+    Types.Logo "audible"
 
 
 {-| Audio Description - Icon
 -}
 audioDescription : Icon
 audioDescription =
-    Icon.Icon "audio-description"
+    Types.Icon "audio-description"
 
 
 {-| Autoprefixer - Logo
 -}
-autoprefixer : Icon
+autoprefixer : Logo
 autoprefixer =
-    Icon.Logo "autoprefixer"
+    Types.Logo "autoprefixer"
 
 
 {-| Avianex - Logo
 -}
-avianex : Icon
+avianex : Logo
 avianex =
-    Icon.Logo "avianex"
+    Types.Logo "avianex"
 
 
 {-| Aviato - Logo
 -}
-aviato : Icon
+aviato : Logo
 aviato =
-    Icon.Logo "aviato"
+    Types.Logo "aviato"
 
 
 {-| AWS - Logo
 -}
-aws : Icon
+aws : Logo
 aws =
-    Icon.Logo "aws"
+    Types.Logo "aws"
 
 
 {-| Backward - Icon
 -}
 backward : Icon
 backward =
-    Icon.Icon "backward"
+    Types.Icon "backward"
 
 
 {-| Badge - Icon
 -}
 badge : Icon
 badge =
-    Icon.Icon "badge"
+    Types.Icon "badge"
 
 
 {-| Badge Check - Icon
 -}
 badgeCheck : Icon
 badgeCheck =
-    Icon.Icon "badge-check"
+    Types.Icon "badge-check"
 
 
 {-| Balance Scale - Icon
 -}
 balanceScale : Icon
 balanceScale =
-    Icon.Icon "balance-scale"
+    Types.Icon "balance-scale"
 
 
 {-| Ban - Icon
 -}
 ban : Icon
 ban =
-    Icon.Icon "ban"
+    Types.Icon "ban"
 
 
 {-| Bandcamp - Logo
 -}
-bandcamp : Icon
+bandcamp : Logo
 bandcamp =
-    Icon.Logo "bandcamp"
+    Types.Logo "bandcamp"
 
 
 {-| Barcode - Icon
 -}
 barcode : Icon
 barcode =
-    Icon.Icon "barcode"
+    Types.Icon "barcode"
 
 
 {-| Bars - Icon
 -}
 bars : Icon
 bars =
-    Icon.Icon "bars"
+    Types.Icon "bars"
 
 
 {-| Baseball - Icon
 -}
 baseball : Icon
 baseball =
-    Icon.Icon "baseball"
+    Types.Icon "baseball"
 
 
 {-| Baseball Ball - Icon
 -}
 baseballBall : Icon
 baseballBall =
-    Icon.Icon "baseball-ball"
+    Types.Icon "baseball-ball"
 
 
 {-| Basketball Ball - Icon
 -}
 basketballBall : Icon
 basketballBall =
-    Icon.Icon "basketball-ball"
+    Types.Icon "basketball-ball"
 
 
 {-| Basketball Hoop - Icon
 -}
 basketballHoop : Icon
 basketballHoop =
-    Icon.Icon "basketball-hoop"
+    Types.Icon "basketball-hoop"
 
 
 {-| Bath - Icon
 -}
 bath : Icon
 bath =
-    Icon.Icon "bath"
+    Types.Icon "bath"
 
 
 {-| Battery Bolt - Icon
 -}
 batteryBolt : Icon
 batteryBolt =
-    Icon.Icon "battery-bolt"
+    Types.Icon "battery-bolt"
 
 
 {-| Battery Empty - Icon
 -}
 batteryEmpty : Icon
 batteryEmpty =
-    Icon.Icon "battery-empty"
+    Types.Icon "battery-empty"
 
 
 {-| Battery Full - Icon
 -}
 batteryFull : Icon
 batteryFull =
-    Icon.Icon "battery-full"
+    Types.Icon "battery-full"
 
 
 {-| Battery Half - Icon
 -}
 batteryHalf : Icon
 batteryHalf =
-    Icon.Icon "battery-half"
+    Types.Icon "battery-half"
 
 
 {-| Battery Quarter - Icon
 -}
 batteryQuarter : Icon
 batteryQuarter =
-    Icon.Icon "battery-quarter"
+    Types.Icon "battery-quarter"
 
 
 {-| Battery Slash - Icon
 -}
 batterySlash : Icon
 batterySlash =
-    Icon.Icon "battery-slash"
+    Types.Icon "battery-slash"
 
 
 {-| Battery Three Quarters - Icon
 -}
 batteryThreeQuarters : Icon
 batteryThreeQuarters =
-    Icon.Icon "battery-three-quarters"
+    Types.Icon "battery-three-quarters"
 
 
 {-| Bed - Icon
 -}
 bed : Icon
 bed =
-    Icon.Icon "bed"
+    Types.Icon "bed"
 
 
 {-| Beer - Icon
 -}
 beer : Icon
 beer =
-    Icon.Icon "beer"
+    Types.Icon "beer"
 
 
 {-| Behance - Logo
 -}
-behance : Icon
+behance : Logo
 behance =
-    Icon.Logo "behance"
+    Types.Logo "behance"
 
 
 {-| Behance Square - Logo
 -}
-behanceSquare : Icon
+behanceSquare : Logo
 behanceSquare =
-    Icon.Logo "behance-square"
+    Types.Logo "behance-square"
 
 
 {-| Bell - Icon
 -}
 bell : Icon
 bell =
-    Icon.Icon "bell"
+    Types.Icon "bell"
 
 
 {-| Bell Slash - Icon
 -}
 bellSlash : Icon
 bellSlash =
-    Icon.Icon "bell-slash"
+    Types.Icon "bell-slash"
 
 
 {-| Bicycle - Icon
 -}
 bicycle : Icon
 bicycle =
-    Icon.Icon "bicycle"
+    Types.Icon "bicycle"
 
 
 {-| BIMobject - Logo
 -}
-bimObject : Icon
+bimObject : Logo
 bimObject =
-    Icon.Logo "bimobject"
+    Types.Logo "bimobject"
 
 
 {-| Binoculars - Icon
 -}
 binoculars : Icon
 binoculars =
-    Icon.Icon "binoculars"
+    Types.Icon "binoculars"
 
 
 {-| Birthday Cake - Icon
 -}
 birthdayCake : Icon
 birthdayCake =
-    Icon.Icon "birthday-cake"
+    Types.Icon "birthday-cake"
 
 
 {-| Bitbucket - Logo
 -}
-bitbucket : Icon
+bitbucket : Logo
 bitbucket =
-    Icon.Logo "bitbucket"
+    Types.Logo "bitbucket"
 
 
 {-| Bitcoin - Logo
 -}
-bitcoin : Icon
+bitcoin : Logo
 bitcoin =
-    Icon.Logo "bitcoin"
+    Types.Logo "bitcoin"
 
 
 {-| Bity - Logo
 -}
-bity : Icon
+bity : Logo
 bity =
-    Icon.Logo "bity"
+    Types.Logo "bity"
 
 
 {-| Black Tie - Logo
 -}
-blackTie : Icon
+blackTie : Logo
 blackTie =
-    Icon.Logo "black-tie"
+    Types.Logo "black-tie"
 
 
 {-| Blackberry - Logo
 -}
-blackberry : Icon
+blackberry : Logo
 blackberry =
-    Icon.Logo "blackberry"
+    Types.Logo "blackberry"
 
 
 {-| Blind - Icon
 -}
 blind : Icon
 blind =
-    Icon.Icon "blind"
+    Types.Icon "blind"
 
 
 {-| Blogger - Logo
 -}
-blogger : Icon
+blogger : Logo
 blogger =
-    Icon.Logo "blogger"
+    Types.Logo "blogger"
 
 
 {-| Blogger B - Logo
 -}
-bloggerB : Icon
+bloggerB : Logo
 bloggerB =
-    Icon.Logo "blogger-b"
+    Types.Logo "blogger-b"
 
 
 {-| Bluetooth - Logo
 -}
-bluetooth : Icon
+bluetooth : Logo
 bluetooth =
-    Icon.Logo "bluetooth"
+    Types.Logo "bluetooth"
 
 
 {-| Bluetooth B - Logo
 -}
-bluetoothB : Icon
+bluetoothB : Logo
 bluetoothB =
-    Icon.Logo "bluetooth-b"
+    Types.Logo "bluetooth-b"
 
 
 {-| Bold - Icon
 -}
 bold : Icon
 bold =
-    Icon.Icon "bold"
+    Types.Icon "bold"
 
 
 {-| Bolt - Icon
 -}
 bolt : Icon
 bolt =
-    Icon.Icon "bolt"
+    Types.Icon "bolt"
 
 
 {-| Bomb - Icon
 -}
 bomb : Icon
 bomb =
-    Icon.Icon "bomb"
+    Types.Icon "bomb"
 
 
 {-| Book - Icon
 -}
 book : Icon
 book =
-    Icon.Icon "book"
+    Types.Icon "book"
 
 
 {-| Bookmark - Icon
 -}
 bookmark : Icon
 bookmark =
-    Icon.Icon "bookmark"
+    Types.Icon "bookmark"
 
 
 {-| Bowling Ball - Icon
 -}
 bowlingBall : Icon
 bowlingBall =
-    Icon.Icon "bowling-ball"
+    Types.Icon "bowling-ball"
 
 
 {-| Bowling Pins - Icon
 -}
 bowlingPins : Icon
 bowlingPins =
-    Icon.Icon "bowling-pins"
+    Types.Icon "bowling-pins"
 
 
 {-| Boxing Glove - Icon
 -}
 boxingGlove : Icon
 boxingGlove =
-    Icon.Icon "boxing-glove"
+    Types.Icon "boxing-glove"
 
 
 {-| Braille - Icon
 -}
 braille : Icon
 braille =
-    Icon.Icon "braille"
+    Types.Icon "braille"
 
 
 {-| Briefcase - Icon
 -}
 briefcase : Icon
 briefcase =
-    Icon.Icon "briefcase"
+    Types.Icon "briefcase"
 
 
 {-| Browser - Icon
 -}
 browser : Icon
 browser =
-    Icon.Icon "browser"
+    Types.Icon "browser"
 
 
 {-| BTC - Logo
 -}
-btc : Icon
+btc : Logo
 btc =
-    Icon.Logo "btc"
+    Types.Logo "btc"
 
 
 {-| Bug - Icon
 -}
 bug : Icon
 bug =
-    Icon.Icon "bug"
+    Types.Icon "bug"
 
 
 {-| Building - Icon
 -}
 building : Icon
 building =
-    Icon.Icon "building"
+    Types.Icon "building"
 
 
 {-| Bullhorn - Icon
 -}
 bullhorn : Icon
 bullhorn =
-    Icon.Icon "bullhorn"
+    Types.Icon "bullhorn"
 
 
 {-| Bullseye - Icon
 -}
 bullseye : Icon
 bullseye =
-    Icon.Icon "bullseye"
+    Types.Icon "bullseye"
 
 
 {-| Buromobel Experte - Logo
 -}
-buromobelExperte : Icon
+buromobelExperte : Logo
 buromobelExperte =
-    Icon.Logo "buromobelexperte"
+    Types.Logo "buromobelexperte"
 
 
 {-| Bus - Icon
 -}
 bus : Icon
 bus =
-    Icon.Icon "bus"
+    Types.Icon "bus"
 
 
 {-| BuySellAds - Logo
 -}
-buySellAds : Icon
+buySellAds : Logo
 buySellAds =
-    Icon.Logo "buysellads"
+    Types.Logo "buysellads"
 
 
 {-| Calculator - Icon
 -}
 calculator : Icon
 calculator =
-    Icon.Icon "calculator"
+    Types.Icon "calculator"
 
 
 {-| Calendar - Icon
 -}
 calendar : Icon
 calendar =
-    Icon.Icon "calendar"
+    Types.Icon "calendar"
 
 
 {-| Calendar Alternate - Icon
 -}
 calendarAlt : Icon
 calendarAlt =
-    Icon.Icon "calendar-alt"
+    Types.Icon "calendar-alt"
 
 
 {-| Calendar Check - Icon
 -}
 calendarCheck : Icon
 calendarCheck =
-    Icon.Icon "calendar-check"
+    Types.Icon "calendar-check"
 
 
 {-| Calendar Edit - Icon
 -}
 calendarEdit : Icon
 calendarEdit =
-    Icon.Icon "calendar-edit"
+    Types.Icon "calendar-edit"
 
 
 {-| Calendar Exclamation - Icon
 -}
 calendarExclamation : Icon
 calendarExclamation =
-    Icon.Icon "calendar-exclamation"
+    Types.Icon "calendar-exclamation"
 
 
 {-| Calendar Minus - Icon
 -}
 calendarMinus : Icon
 calendarMinus =
-    Icon.Icon "calendar-minus"
+    Types.Icon "calendar-minus"
 
 
 {-| Calendar Plus - Icon
 -}
 calendarPlus : Icon
 calendarPlus =
-    Icon.Icon "calendar-plus"
+    Types.Icon "calendar-plus"
 
 
 {-| Calendar Times - Icon
 -}
 calendarTimes : Icon
 calendarTimes =
-    Icon.Icon "calendar-times"
+    Types.Icon "calendar-times"
 
 
 {-| Camera - Icon
 -}
 camera : Icon
 camera =
-    Icon.Icon "camera"
+    Types.Icon "camera"
 
 
 {-| Camera Alternate - Icon
 -}
 cameraAlt : Icon
 cameraAlt =
-    Icon.Icon "camera-alt"
+    Types.Icon "camera-alt"
 
 
 {-| Camera Retro - Icon
 -}
 cameraRetro : Icon
 cameraRetro =
-    Icon.Icon "camera-retro"
+    Types.Icon "camera-retro"
 
 
 {-| Car - Icon
 -}
 car : Icon
 car =
-    Icon.Icon "car"
+    Types.Icon "car"
 
 
 {-| Caret Circle Down - Icon
 -}
 caretCircleDown : Icon
 caretCircleDown =
-    Icon.Icon "caret-circle-down"
+    Types.Icon "caret-circle-down"
 
 
 {-| Caret Circle Left - Icon
 -}
 caretCircleLeft : Icon
 caretCircleLeft =
-    Icon.Icon "caret-circle-left"
+    Types.Icon "caret-circle-left"
 
 
 {-| Caret Circle Right - Icon
 -}
 caretCircleRight : Icon
 caretCircleRight =
-    Icon.Icon "caret-circle-right"
+    Types.Icon "caret-circle-right"
 
 
 {-| Caret Circle Up - Icon
 -}
 caretCircleUp : Icon
 caretCircleUp =
-    Icon.Icon "caret-circle-up"
+    Types.Icon "caret-circle-up"
 
 
 {-| Caret Down - Icon
 -}
 caretDown : Icon
 caretDown =
-    Icon.Icon "caret-down"
+    Types.Icon "caret-down"
 
 
 {-| Caret Left - Icon
 -}
 caretLeft : Icon
 caretLeft =
-    Icon.Icon "caret-left"
+    Types.Icon "caret-left"
 
 
 {-| Caret Right - Icon
 -}
 caretRight : Icon
 caretRight =
-    Icon.Icon "caret-right"
+    Types.Icon "caret-right"
 
 
 {-| Caret Square Down - Icon
 -}
 caretSquareDown : Icon
 caretSquareDown =
-    Icon.Icon "caret-square-down"
+    Types.Icon "caret-square-down"
 
 
 {-| Caret Square Left - Icon
 -}
 caretSquareLeft : Icon
 caretSquareLeft =
-    Icon.Icon "caret-square-left"
+    Types.Icon "caret-square-left"
 
 
 {-| Caret Square Right - Icon
 -}
 caretSquareRight : Icon
 caretSquareRight =
-    Icon.Icon "caret-square-right"
+    Types.Icon "caret-square-right"
 
 
 {-| Caret Square Up - Icon
 -}
 caretSquareUp : Icon
 caretSquareUp =
-    Icon.Icon "caret-square-up"
+    Types.Icon "caret-square-up"
 
 
 {-| Caret Up - Icon
 -}
 caretUp : Icon
 caretUp =
-    Icon.Icon "caret-up"
+    Types.Icon "caret-up"
 
 
 {-| Cart Arrow Down - Icon
 -}
 cartArrowDown : Icon
 cartArrowDown =
-    Icon.Icon "cart-arrow-down"
+    Types.Icon "cart-arrow-down"
 
 
 {-| Cart Plus - Icon
 -}
 cartPlus : Icon
 cartPlus =
-    Icon.Icon "cart-plus"
+    Types.Icon "cart-plus"
 
 
 {-| CC Amazon Pay - Logo
 -}
-ccAmazonPay : Icon
+ccAmazonPay : Logo
 ccAmazonPay =
-    Icon.Logo "cc-amazon-pay"
+    Types.Logo "cc-amazon-pay"
 
 
 {-| CC Amex - Logo
 -}
-ccAmex : Icon
+ccAmex : Logo
 ccAmex =
-    Icon.Logo "cc-amex"
+    Types.Logo "cc-amex"
 
 
 {-| CC Apple Pay - Logo
 -}
-ccApplePay : Icon
+ccApplePay : Logo
 ccApplePay =
-    Icon.Logo "cc-apple-pay"
+    Types.Logo "cc-apple-pay"
 
 
 {-| CC Diners Club - Logo
 -}
-ccDinersClub : Icon
+ccDinersClub : Logo
 ccDinersClub =
-    Icon.Logo "cc-diners-club"
+    Types.Logo "cc-diners-club"
 
 
 {-| CC Discover - Logo
 -}
-ccDiscover : Icon
+ccDiscover : Logo
 ccDiscover =
-    Icon.Logo "cc-discover"
+    Types.Logo "cc-discover"
 
 
 {-| CC Jcb - Logo
 -}
-ccJcb : Icon
+ccJcb : Logo
 ccJcb =
-    Icon.Logo "cc-jcb"
+    Types.Logo "cc-jcb"
 
 
 {-| CC Mastercard - Logo
 -}
-ccMastercard : Icon
+ccMastercard : Logo
 ccMastercard =
-    Icon.Logo "cc-mastercard"
+    Types.Logo "cc-mastercard"
 
 
 {-| CC PayPal - Logo
 -}
-ccPayPal : Icon
+ccPayPal : Logo
 ccPayPal =
-    Icon.Logo "cc-paypal"
+    Types.Logo "cc-paypal"
 
 
 {-| CC Stripe - Logo
 -}
-ccStripe : Icon
+ccStripe : Logo
 ccStripe =
-    Icon.Logo "cc-stripe"
+    Types.Logo "cc-stripe"
 
 
 {-| CC Visa - Logo
 -}
-ccVisa : Icon
+ccVisa : Logo
 ccVisa =
-    Icon.Logo "cc-visa"
+    Types.Logo "cc-visa"
 
 
 {-| Centercode - Logo
 -}
-centercode : Icon
+centercode : Logo
 centercode =
-    Icon.Logo "centercode"
+    Types.Logo "centercode"
 
 
 {-| Certificate - Icon
 -}
 certificate : Icon
 certificate =
-    Icon.Icon "certificate"
+    Types.Icon "certificate"
 
 
 {-| Chart Area - Icon
 -}
 chartArea : Icon
 chartArea =
-    Icon.Icon "chart-area"
+    Types.Icon "chart-area"
 
 
 {-| Chart Bar - Icon
 -}
 chartBar : Icon
 chartBar =
-    Icon.Icon "chart-bar"
+    Types.Icon "chart-bar"
 
 
 {-| Chart Line - Icon
 -}
 chartLine : Icon
 chartLine =
-    Icon.Icon "chart-line"
+    Types.Icon "chart-line"
 
 
 {-| Chart Pie - Icon
 -}
 chartPie : Icon
 chartPie =
-    Icon.Icon "chart-pie"
+    Types.Icon "chart-pie"
 
 
 {-| Check - Icon
 -}
 check : Icon
 check =
-    Icon.Icon "check"
+    Types.Icon "check"
 
 
 {-| Check Circle - Icon
 -}
 checkCircle : Icon
 checkCircle =
-    Icon.Icon "check-circle"
+    Types.Icon "check-circle"
 
 
 {-| Check Square - Icon
 -}
 checkSquare : Icon
 checkSquare =
-    Icon.Icon "check-square"
+    Types.Icon "check-square"
 
 
 {-| Chess - Icon
 -}
 chess : Icon
 chess =
-    Icon.Icon "chess"
+    Types.Icon "chess"
 
 
 {-| Chess Bishop - Icon
 -}
 chessBishop : Icon
 chessBishop =
-    Icon.Icon "chess-bishop"
+    Types.Icon "chess-bishop"
 
 
 {-| Chess Bishop Alternate - Icon
 -}
 chessBishopAlt : Icon
 chessBishopAlt =
-    Icon.Icon "chess-bishop-alt"
+    Types.Icon "chess-bishop-alt"
 
 
 {-| Chess Board - Icon
 -}
 chessBoard : Icon
 chessBoard =
-    Icon.Icon "chess-board"
+    Types.Icon "chess-board"
 
 
 {-| Chess Clock - Icon
 -}
 chessClock : Icon
 chessClock =
-    Icon.Icon "chess-clock"
+    Types.Icon "chess-clock"
 
 
 {-| Chess Clock Alternate - Icon
 -}
 chessClockAlt : Icon
 chessClockAlt =
-    Icon.Icon "chess-clock-alt"
+    Types.Icon "chess-clock-alt"
 
 
 {-| Chess King - Icon
 -}
 chessKing : Icon
 chessKing =
-    Icon.Icon "chess-king"
+    Types.Icon "chess-king"
 
 
 {-| Chess King Alternate - Icon
 -}
 chessKingAlt : Icon
 chessKingAlt =
-    Icon.Icon "chess-king-alt"
+    Types.Icon "chess-king-alt"
 
 
 {-| Chess Knight - Icon
 -}
 chessKnight : Icon
 chessKnight =
-    Icon.Icon "chess-knight"
+    Types.Icon "chess-knight"
 
 
 {-| Chess Knight Alternate - Icon
 -}
 chessKnightAlt : Icon
 chessKnightAlt =
-    Icon.Icon "chess-knight-alt"
+    Types.Icon "chess-knight-alt"
 
 
 {-| Chess Pawn - Icon
 -}
 chessPawn : Icon
 chessPawn =
-    Icon.Icon "chess-pawn"
+    Types.Icon "chess-pawn"
 
 
 {-| Chess Pawn Alternate - Icon
 -}
 chessPawnAlt : Icon
 chessPawnAlt =
-    Icon.Icon "chess-pawn-alt"
+    Types.Icon "chess-pawn-alt"
 
 
 {-| Chess Queen - Icon
 -}
 chessQueen : Icon
 chessQueen =
-    Icon.Icon "chess-queen"
+    Types.Icon "chess-queen"
 
 
 {-| Chess Queen Alternate - Icon
 -}
 chessQueenAlt : Icon
 chessQueenAlt =
-    Icon.Icon "chess-queen-alt"
+    Types.Icon "chess-queen-alt"
 
 
 {-| Chess Rook - Icon
 -}
 chessRook : Icon
 chessRook =
-    Icon.Icon "chess-rook"
+    Types.Icon "chess-rook"
 
 
 {-| Chess Rook Alternate - Icon
 -}
 chessRookAlt : Icon
 chessRookAlt =
-    Icon.Icon "chess-rook-alt"
+    Types.Icon "chess-rook-alt"
 
 
 {-| Chevron Circle Down - Icon
 -}
 chevronCircleDown : Icon
 chevronCircleDown =
-    Icon.Icon "chevron-circle-down"
+    Types.Icon "chevron-circle-down"
 
 
 {-| Chevron Circle Left - Icon
 -}
 chevronCircleLeft : Icon
 chevronCircleLeft =
-    Icon.Icon "chevron-circle-left"
+    Types.Icon "chevron-circle-left"
 
 
 {-| Chevron Circle Right - Icon
 -}
 chevronCircleRight : Icon
 chevronCircleRight =
-    Icon.Icon "chevron-circle-right"
+    Types.Icon "chevron-circle-right"
 
 
 {-| Chevron Circle Up - Icon
 -}
 chevronCircleUp : Icon
 chevronCircleUp =
-    Icon.Icon "chevron-circle-up"
+    Types.Icon "chevron-circle-up"
 
 
 {-| Chevron Double Down - Icon
 -}
 chevronDoubleDown : Icon
 chevronDoubleDown =
-    Icon.Icon "chevron-double-down"
+    Types.Icon "chevron-double-down"
 
 
 {-| Chevron Double Left - Icon
 -}
 chevronDoubleLeft : Icon
 chevronDoubleLeft =
-    Icon.Icon "chevron-double-left"
+    Types.Icon "chevron-double-left"
 
 
 {-| Chevron Double Right - Icon
 -}
 chevronDoubleRight : Icon
 chevronDoubleRight =
-    Icon.Icon "chevron-double-right"
+    Types.Icon "chevron-double-right"
 
 
 {-| Chevron Double Up - Icon
 -}
 chevronDoubleUp : Icon
 chevronDoubleUp =
-    Icon.Icon "chevron-double-up"
+    Types.Icon "chevron-double-up"
 
 
 {-| Chevron Down - Icon
 -}
 chevronDown : Icon
 chevronDown =
-    Icon.Icon "chevron-down"
+    Types.Icon "chevron-down"
 
 
 {-| Chevron Left - Icon
 -}
 chevronLeft : Icon
 chevronLeft =
-    Icon.Icon "chevron-left"
+    Types.Icon "chevron-left"
 
 
 {-| Chevron Right - Icon
 -}
 chevronRight : Icon
 chevronRight =
-    Icon.Icon "chevron-right"
+    Types.Icon "chevron-right"
 
 
 {-| Chevron Square Down - Icon
 -}
 chevronSquareDown : Icon
 chevronSquareDown =
-    Icon.Icon "chevron-square-down"
+    Types.Icon "chevron-square-down"
 
 
 {-| Chevron Square Left - Icon
 -}
 chevronSquareLeft : Icon
 chevronSquareLeft =
-    Icon.Icon "chevron-square-left"
+    Types.Icon "chevron-square-left"
 
 
 {-| Chevron Square Right - Icon
 -}
 chevronSquareRight : Icon
 chevronSquareRight =
-    Icon.Icon "chevron-square-right"
+    Types.Icon "chevron-square-right"
 
 
 {-| Chevron Square Up - Icon
 -}
 chevronSquareUp : Icon
 chevronSquareUp =
-    Icon.Icon "chevron-square-up"
+    Types.Icon "chevron-square-up"
 
 
 {-| Chevron Up - Icon
 -}
 chevronUp : Icon
 chevronUp =
-    Icon.Icon "chevron-up"
+    Types.Icon "chevron-up"
 
 
 {-| Child - Icon
 -}
 child : Icon
 child =
-    Icon.Icon "child"
+    Types.Icon "child"
 
 
 {-| Chrome - Logo
 -}
-chrome : Icon
+chrome : Logo
 chrome =
-    Icon.Logo "chrome"
+    Types.Logo "chrome"
 
 
 {-| Circle - Icon
 -}
 circle : Icon
 circle =
-    Icon.Icon "circle"
+    Types.Icon "circle"
 
 
 {-| Circle Notch - Icon
 -}
 circleNotch : Icon
 circleNotch =
-    Icon.Icon "circle-notch"
+    Types.Icon "circle-notch"
 
 
 {-| Clipboard - Icon
 -}
 clipboard : Icon
 clipboard =
-    Icon.Icon "clipboard"
+    Types.Icon "clipboard"
 
 
 {-| Clock - Icon
 -}
 clock : Icon
 clock =
-    Icon.Icon "clock"
+    Types.Icon "clock"
 
 
 {-| Clone - Icon
 -}
 clone : Icon
 clone =
-    Icon.Icon "clone"
+    Types.Icon "clone"
 
 
 {-| Closed Captioning - Icon
 -}
 closedCaptioning : Icon
 closedCaptioning =
-    Icon.Icon "closed-captioning"
+    Types.Icon "closed-captioning"
 
 
 {-| Cloud - Icon
 -}
 cloud : Icon
 cloud =
-    Icon.Icon "cloud"
+    Types.Icon "cloud"
 
 
 {-| Cloud Download - Icon
 -}
 cloudDownload : Icon
 cloudDownload =
-    Icon.Icon "cloud-download"
+    Types.Icon "cloud-download"
 
 
 {-| Cloud Download Alternate - Icon
 -}
 cloudDownloadAlt : Icon
 cloudDownloadAlt =
-    Icon.Icon "cloud-download-alt"
+    Types.Icon "cloud-download-alt"
 
 
 {-| Cloud Upload - Icon
 -}
 cloudUpload : Icon
 cloudUpload =
-    Icon.Icon "cloud-upload"
+    Types.Icon "cloud-upload"
 
 
 {-| Cloud Upload Alternate - Icon
 -}
 cloudUploadAlt : Icon
 cloudUploadAlt =
-    Icon.Icon "cloud-upload-alt"
+    Types.Icon "cloud-upload-alt"
 
 
 {-| CloudScale - Logo
 -}
-cloudScale : Icon
+cloudScale : Logo
 cloudScale =
-    Icon.Logo "cloudscale"
+    Types.Logo "cloudscale"
 
 
 {-| Cloudsmith - Logo
 -}
-cloudsmith : Icon
+cloudsmith : Logo
 cloudsmith =
-    Icon.Logo "cloudsmith"
+    Types.Logo "cloudsmith"
 
 
 {-| Cloudversify - Logo
 -}
-cloudversify : Icon
+cloudversify : Logo
 cloudversify =
-    Icon.Logo "cloudversify"
+    Types.Logo "cloudversify"
 
 
 {-| Club - Icon
 -}
 club : Icon
 club =
-    Icon.Icon "club"
+    Types.Icon "club"
 
 
 {-| Code - Icon
 -}
 code : Icon
 code =
-    Icon.Icon "code"
+    Types.Icon "code"
 
 
 {-| Code Branch - Icon
 -}
 codeBranch : Icon
 codeBranch =
-    Icon.Icon "code-branch"
+    Types.Icon "code-branch"
 
 
 {-| Code Commit - Icon
 -}
 codeCommit : Icon
 codeCommit =
-    Icon.Icon "code-commit"
+    Types.Icon "code-commit"
 
 
 {-| Code Merge - Icon
 -}
 codeMerge : Icon
 codeMerge =
-    Icon.Icon "code-merge"
+    Types.Icon "code-merge"
 
 
 {-| CodePen - Logo
 -}
-codePen : Icon
+codePen : Logo
 codePen =
-    Icon.Logo "codepen"
+    Types.Logo "codepen"
 
 
 {-| Codiepie - Logo
 -}
-codiePie : Icon
+codiePie : Logo
 codiePie =
-    Icon.Logo "codiepie"
+    Types.Logo "codiepie"
 
 
 {-| Coffee - Icon
 -}
 coffee : Icon
 coffee =
-    Icon.Icon "coffee"
+    Types.Icon "coffee"
 
 
 {-| Cog - Icon
 -}
 cog : Icon
 cog =
-    Icon.Icon "cog"
+    Types.Icon "cog"
 
 
 {-| Cogs - Icon
 -}
 cogs : Icon
 cogs =
-    Icon.Icon "cogs"
+    Types.Icon "cogs"
 
 
 {-| Columns - Icon
 -}
 columns : Icon
 columns =
-    Icon.Icon "columns"
+    Types.Icon "columns"
 
 
 {-| Comment - Icon
 -}
 comment : Icon
 comment =
-    Icon.Icon "comment"
+    Types.Icon "comment"
 
 
 {-| Comment Alternate - Icon
 -}
 commentAlt : Icon
 commentAlt =
-    Icon.Icon "comment-alt"
+    Types.Icon "comment-alt"
 
 
 {-| Comments - Icon
 -}
 comments : Icon
 comments =
-    Icon.Icon "comments"
+    Types.Icon "comments"
 
 
 {-| Compass - Icon
 -}
 compass : Icon
 compass =
-    Icon.Icon "compass"
+    Types.Icon "compass"
 
 
 {-| Compress - Icon
 -}
 compress : Icon
 compress =
-    Icon.Icon "compress"
+    Types.Icon "compress"
 
 
 {-| Compress Alternate - Icon
 -}
 compressAlt : Icon
 compressAlt =
-    Icon.Icon "compress-alt"
+    Types.Icon "compress-alt"
 
 
 {-| Compress Wide - Icon
 -}
 compressWide : Icon
 compressWide =
-    Icon.Icon "compress-wide"
+    Types.Icon "compress-wide"
 
 
 {-| Connect Develop - Logo
 -}
-connectDevelop : Icon
+connectDevelop : Logo
 connectDevelop =
-    Icon.Logo "connectdevelop"
+    Types.Logo "connectdevelop"
 
 
 {-| Contao - Logo
 -}
-contao : Icon
+contao : Logo
 contao =
-    Icon.Logo "contao"
+    Types.Logo "contao"
 
 
 {-| Copy - Icon
 -}
 copy : Icon
 copy =
-    Icon.Icon "copy"
+    Types.Icon "copy"
 
 
 {-| Copyright - Icon
 -}
 copyright : Icon
 copyright =
-    Icon.Icon "copyright"
+    Types.Icon "copyright"
 
 
 {-| cPanel - Logo
 -}
-cpanel : Icon
+cpanel : Logo
 cpanel =
-    Icon.Logo "cpanel"
+    Types.Logo "cpanel"
 
 
 {-| Creative Commons - Logo
 -}
-creativeCommons : Icon
+creativeCommons : Logo
 creativeCommons =
-    Icon.Logo "creative-commons"
+    Types.Logo "creative-commons"
 
 
 {-| Credit Card - Icon
 -}
 creditCard : Icon
 creditCard =
-    Icon.Icon "credit-card"
+    Types.Icon "credit-card"
 
 
 {-| Credit Card Blank - Icon
 -}
 creditCardBlank : Icon
 creditCardBlank =
-    Icon.Icon "credit-card-blank"
+    Types.Icon "credit-card-blank"
 
 
 {-| Credit Card Front - Icon
 -}
 creditCardFront : Icon
 creditCardFront =
-    Icon.Icon "credit-card-front"
+    Types.Icon "credit-card-front"
 
 
 {-| Cricket - Icon
 -}
 cricket : Icon
 cricket =
-    Icon.Icon "cricket"
+    Types.Icon "cricket"
 
 
 {-| Crop - Icon
 -}
 crop : Icon
 crop =
-    Icon.Icon "crop"
+    Types.Icon "crop"
 
 
 {-| Crosshairs - Icon
 -}
 crosshairs : Icon
 crosshairs =
-    Icon.Icon "crosshairs"
+    Types.Icon "crosshairs"
 
 
 {-| CSS3 - Logo
 -}
-css3 : Icon
+css3 : Logo
 css3 =
-    Icon.Logo "css3"
+    Types.Logo "css3"
 
 
 {-| Css3Alternate - Logo
 -}
-css3Alt : Icon
+css3Alt : Logo
 css3Alt =
-    Icon.Logo "css3-alt"
+    Types.Logo "css3-alt"
 
 
 {-| Cube - Icon
 -}
 cube : Icon
 cube =
-    Icon.Icon "cube"
+    Types.Icon "cube"
 
 
 {-| Cubes - Icon
 -}
 cubes : Icon
 cubes =
-    Icon.Icon "cubes"
+    Types.Icon "cubes"
 
 
 {-| Curling - Icon
 -}
 curling : Icon
 curling =
-    Icon.Icon "curling"
+    Types.Icon "curling"
 
 
 {-| Cut - Icon
 -}
 cut : Icon
 cut =
-    Icon.Icon "cut"
+    Types.Icon "cut"
 
 
 {-| Cuttlefish - Logo
 -}
-cuttlefish : Icon
+cuttlefish : Logo
 cuttlefish =
-    Icon.Logo "cuttlefish"
+    Types.Logo "cuttlefish"
 
 
 {-| Dungeons & Dragons - Logo
 -}
-dAndD : Icon
+dAndD : Logo
 dAndD =
-    Icon.Logo "d-and-d"
+    Types.Logo "d-and-d"
 
 
 {-| Dashcube - Logo
 -}
-dashcube : Icon
+dashcube : Logo
 dashcube =
-    Icon.Logo "dashcube"
+    Types.Logo "dashcube"
 
 
 {-| Database - Icon
 -}
 database : Icon
 database =
-    Icon.Icon "database"
+    Types.Icon "database"
 
 
 {-| Deaf - Icon
 -}
 deaf : Icon
 deaf =
-    Icon.Icon "deaf"
+    Types.Icon "deaf"
 
 
 {-| Delicious - Logo
 -}
-delicious : Icon
+delicious : Logo
 delicious =
-    Icon.Logo "delicious"
+    Types.Logo "delicious"
 
 
 {-| Deploy Dog - Logo
 -}
-deployDog : Icon
+deployDog : Logo
 deployDog =
-    Icon.Logo "deploydog"
+    Types.Logo "deploydog"
 
 
 {-| Deskpro - Logo
 -}
-deskpro : Icon
+deskpro : Logo
 deskpro =
-    Icon.Logo "deskpro"
+    Types.Logo "deskpro"
 
 
 {-| Desktop - Icon
 -}
 desktop : Icon
 desktop =
-    Icon.Icon "desktop"
+    Types.Icon "desktop"
 
 
 {-| Desktop Alternate - Icon
 -}
 desktopAlt : Icon
 desktopAlt =
-    Icon.Icon "desktop-alt"
+    Types.Icon "desktop-alt"
 
 
 {-| Deviant Art - Logo
 -}
-deviantArt : Icon
+deviantArt : Logo
 deviantArt =
-    Icon.Logo "deviantart"
+    Types.Logo "deviantart"
 
 
 {-| Diamond - Icon
 -}
 diamond : Icon
 diamond =
-    Icon.Icon "diamond"
+    Types.Icon "diamond"
 
 
 {-| Digg - Logo
 -}
-digg : Icon
+digg : Logo
 digg =
-    Icon.Logo "digg"
+    Types.Logo "digg"
 
 
 {-| Digital Ocean - Logo
 -}
-digitalOcean : Icon
+digitalOcean : Logo
 digitalOcean =
-    Icon.Logo "digital-ocean"
+    Types.Logo "digital-ocean"
 
 
 {-| Discord - Logo
 -}
-discord : Icon
+discord : Logo
 discord =
-    Icon.Logo "discord"
+    Types.Logo "discord"
 
 
 {-| Discourse - Logo
 -}
-discourse : Icon
+discourse : Logo
 discourse =
-    Icon.Logo "discourse"
+    Types.Logo "discourse"
 
 
 {-| DocHub - Logo
 -}
-docHub : Icon
+docHub : Logo
 docHub =
-    Icon.Logo "dochub"
+    Types.Logo "dochub"
 
 
 {-| Docker - Logo
 -}
-docker : Icon
+docker : Logo
 docker =
-    Icon.Logo "docker"
+    Types.Logo "docker"
 
 
 {-| Dollar Sign - Icon
 -}
 dollarSign : Icon
 dollarSign =
-    Icon.Icon "dollar-sign"
+    Types.Icon "dollar-sign"
 
 
 {-| Dot Circle - Icon
 -}
 dotCircle : Icon
 dotCircle =
-    Icon.Icon "dot-circle"
+    Types.Icon "dot-circle"
 
 
 {-| Download - Icon
 -}
 download : Icon
 download =
-    Icon.Icon "download"
+    Types.Icon "download"
 
 
 {-| Draft2digital - Logo
 -}
-draft2Digital : Icon
+draft2Digital : Logo
 draft2Digital =
-    Icon.Logo "draft2digital"
+    Types.Logo "draft2digital"
 
 
 {-| Dribbble - Logo
 -}
-dribbble : Icon
+dribbble : Logo
 dribbble =
-    Icon.Logo "dribbble"
+    Types.Logo "dribbble"
 
 
 {-| Dribbble Square - Logo
 -}
-dribbbleSquare : Icon
+dribbbleSquare : Logo
 dribbbleSquare =
-    Icon.Logo "dribbble-square"
+    Types.Logo "dribbble-square"
 
 
 {-| Dropbox - Logo
 -}
-dropbox : Icon
+dropbox : Logo
 dropbox =
-    Icon.Logo "dropbox"
+    Types.Logo "dropbox"
 
 
 {-| Drupal - Logo
 -}
-drupal : Icon
+drupal : Logo
 drupal =
-    Icon.Logo "drupal"
+    Types.Logo "drupal"
 
 
 {-| Dumbbell - Icon
 -}
 dumbbell : Icon
 dumbbell =
-    Icon.Icon "dumbbell"
+    Types.Icon "dumbbell"
 
 
 {-| Dyalog - Logo
 -}
-dyalog : Icon
+dyalog : Logo
 dyalog =
-    Icon.Logo "dyalog"
+    Types.Logo "dyalog"
 
 
 {-| Early Birds - Logo
 -}
-earlyBirds : Icon
+earlyBirds : Logo
 earlyBirds =
-    Icon.Logo "earlybirds"
+    Types.Logo "earlybirds"
 
 
 {-| Edge - Logo
 -}
-edge : Icon
+edge : Logo
 edge =
-    Icon.Logo "edge"
+    Types.Logo "edge"
 
 
 {-| Edit - Icon
 -}
 edit : Icon
 edit =
-    Icon.Icon "edit"
+    Types.Icon "edit"
 
 
 {-| Eject - Icon
 -}
 eject : Icon
 eject =
-    Icon.Icon "eject"
+    Types.Icon "eject"
 
 
 {-| Elementor - Logo
 -}
-elementor : Icon
+elementor : Logo
 elementor =
-    Icon.Logo "elementor"
+    Types.Logo "elementor"
 
 
 {-| Ellipsis Horizontal - Icon
 -}
 ellipsisHorizontal : Icon
 ellipsisHorizontal =
-    Icon.Icon "ellipsis-h"
+    Types.Icon "ellipsis-h"
 
 
 {-| Ellipsis Horizontal Alternate - Icon
 -}
 ellipsisHorizontalAlt : Icon
 ellipsisHorizontalAlt =
-    Icon.Icon "ellipsis-h-alt"
+    Types.Icon "ellipsis-h-alt"
 
 
 {-| Ellipsis Vertical - Icon
 -}
 ellipsisVertical : Icon
 ellipsisVertical =
-    Icon.Icon "ellipsis-v"
+    Types.Icon "ellipsis-v"
 
 
 {-| Ellipsis Vertical Alternate - Icon
 -}
 ellipsisVerticalAlt : Icon
 ellipsisVerticalAlt =
-    Icon.Icon "ellipsis-v-alt"
+    Types.Icon "ellipsis-v-alt"
 
 
 {-| Ember - Logo
 -}
-ember : Icon
+ember : Logo
 ember =
-    Icon.Logo "ember"
+    Types.Logo "ember"
 
 
 {-| Empire - Logo
 -}
-empire : Icon
+empire : Logo
 empire =
-    Icon.Logo "empire"
+    Types.Logo "empire"
 
 
 {-| Envelope - Icon
 -}
 envelope : Icon
 envelope =
-    Icon.Icon "envelope"
+    Types.Icon "envelope"
 
 
 {-| Envelope Open - Icon
 -}
 envelopeOpen : Icon
 envelopeOpen =
-    Icon.Icon "envelope-open"
+    Types.Icon "envelope-open"
 
 
 {-| Envelope Square - Icon
 -}
 envelopeSquare : Icon
 envelopeSquare =
-    Icon.Icon "envelope-square"
+    Types.Icon "envelope-square"
 
 
 {-| Envira - Logo
 -}
-envira : Icon
+envira : Logo
 envira =
-    Icon.Logo "envira"
+    Types.Logo "envira"
 
 
 {-| Eraser - Icon
 -}
 eraser : Icon
 eraser =
-    Icon.Icon "eraser"
+    Types.Icon "eraser"
 
 
 {-| Erlang - Logo
 -}
-erlang : Icon
+erlang : Logo
 erlang =
-    Icon.Logo "erlang"
+    Types.Logo "erlang"
 
 
 {-| Ethereum - Logo
 -}
-ethereum : Icon
+ethereum : Logo
 ethereum =
-    Icon.Logo "ethereum"
+    Types.Logo "ethereum"
 
 
 {-| Etsy - Logo
 -}
-etsy : Icon
+etsy : Logo
 etsy =
-    Icon.Logo "etsy"
+    Types.Logo "etsy"
 
 
 {-| Euro Sign - Icon
 -}
 euroSign : Icon
 euroSign =
-    Icon.Icon "euro-sign"
+    Types.Icon "euro-sign"
 
 
 {-| Exchange - Icon
 -}
 exchange : Icon
 exchange =
-    Icon.Icon "exchange"
+    Types.Icon "exchange"
 
 
 {-| Exchange Alternate - Icon
 -}
 exchangeAlt : Icon
 exchangeAlt =
-    Icon.Icon "exchange-alt"
+    Types.Icon "exchange-alt"
 
 
 {-| Exclamation - Icon
 -}
 exclamation : Icon
 exclamation =
-    Icon.Icon "exclamation"
+    Types.Icon "exclamation"
 
 
 {-| Exclamation Circle - Icon
 -}
 exclamationCircle : Icon
 exclamationCircle =
-    Icon.Icon "exclamation-circle"
+    Types.Icon "exclamation-circle"
 
 
 {-| Exclamation Square - Icon
 -}
 exclamationSquare : Icon
 exclamationSquare =
-    Icon.Icon "exclamation-square"
+    Types.Icon "exclamation-square"
 
 
 {-| Exclamation Triangle - Icon
 -}
 exclamationTriangle : Icon
 exclamationTriangle =
-    Icon.Icon "exclamation-triangle"
+    Types.Icon "exclamation-triangle"
 
 
 {-| Expand - Icon
 -}
 expand : Icon
 expand =
-    Icon.Icon "expand"
+    Types.Icon "expand"
 
 
 {-| Expand Alternate - Icon
 -}
 expandAlt : Icon
 expandAlt =
-    Icon.Icon "expand-alt"
+    Types.Icon "expand-alt"
 
 
 {-| Expand Arrows - Icon
 -}
 expandArrows : Icon
 expandArrows =
-    Icon.Icon "expand-arrows"
+    Types.Icon "expand-arrows"
 
 
 {-| Expand Arrows Alternate - Icon
 -}
 expandArrowsAlt : Icon
 expandArrowsAlt =
-    Icon.Icon "expand-arrows-alt"
+    Types.Icon "expand-arrows-alt"
 
 
 {-| Expand Wide - Icon
 -}
 expandWide : Icon
 expandWide =
-    Icon.Icon "expand-wide"
+    Types.Icon "expand-wide"
 
 
 {-| Expedited SSL - Logo
 -}
-expeditedSSL : Icon
+expeditedSSL : Logo
 expeditedSSL =
-    Icon.Logo "expeditedssl"
+    Types.Logo "expeditedssl"
 
 
 {-| External Link - Icon
 -}
 externalLink : Icon
 externalLink =
-    Icon.Icon "external-link"
+    Types.Icon "external-link"
 
 
 {-| External Link Alternate - Icon
 -}
 externalLinkAlt : Icon
 externalLinkAlt =
-    Icon.Icon "external-link-alt"
+    Types.Icon "external-link-alt"
 
 
 {-| External Link Square - Icon
 -}
 externalLinkSquare : Icon
 externalLinkSquare =
-    Icon.Icon "external-link-square"
+    Types.Icon "external-link-square"
 
 
 {-| External Link Square Alternate - Icon
 -}
 externalLinkSquareAlt : Icon
 externalLinkSquareAlt =
-    Icon.Icon "external-link-square-alt"
+    Types.Icon "external-link-square-alt"
 
 
 {-| Eye - Icon
 -}
 eye : Icon
 eye =
-    Icon.Icon "eye"
+    Types.Icon "eye"
 
 
 {-| Eye Dropper - Icon
 -}
 eyeDropper : Icon
 eyeDropper =
-    Icon.Icon "eye-dropper"
+    Types.Icon "eye-dropper"
 
 
 {-| Eye Slash - Icon
 -}
 eyeSlash : Icon
 eyeSlash =
-    Icon.Icon "eye-slash"
+    Types.Icon "eye-slash"
 
 
 {-| Facebook - Logo
 -}
-facebook : Icon
+facebook : Logo
 facebook =
-    Icon.Logo "facebook"
+    Types.Logo "facebook"
 
 
 {-| Facebook F - Logo
 -}
-facebookF : Icon
+facebookF : Logo
 facebookF =
-    Icon.Logo "facebook-f"
+    Types.Logo "facebook-f"
 
 
 {-| Facebook Messenger - Logo
 -}
-facebookMessenger : Icon
+facebookMessenger : Logo
 facebookMessenger =
-    Icon.Logo "facebook-messenger"
+    Types.Logo "facebook-messenger"
 
 
 {-| Facebook Square - Logo
 -}
-facebookSquare : Icon
+facebookSquare : Logo
 facebookSquare =
-    Icon.Logo "facebook-square"
+    Types.Logo "facebook-square"
 
 
 {-| Fast Backward - Icon
 -}
 fastBackward : Icon
 fastBackward =
-    Icon.Icon "fast-backward"
+    Types.Icon "fast-backward"
 
 
 {-| Fast Forward - Icon
 -}
 fastForward : Icon
 fastForward =
-    Icon.Icon "fast-forward"
+    Types.Icon "fast-forward"
 
 
 {-| Fax - Icon
 -}
 fax : Icon
 fax =
-    Icon.Icon "fax"
+    Types.Icon "fax"
 
 
 {-| Female - Icon
 -}
 female : Icon
 female =
-    Icon.Icon "female"
+    Types.Icon "female"
 
 
 {-| Field Hockey - Icon
 -}
 fieldHockey : Icon
 fieldHockey =
-    Icon.Icon "field-hockey"
+    Types.Icon "field-hockey"
 
 
 {-| Fighter Jet - Icon
 -}
 fighterJet : Icon
 fighterJet =
-    Icon.Icon "fighter-jet"
+    Types.Icon "fighter-jet"
 
 
 {-| File - Icon
 -}
 file : Icon
 file =
-    Icon.Icon "file"
+    Types.Icon "file"
 
 
 {-| File Alternate - Icon
 -}
 fileAlt : Icon
 fileAlt =
-    Icon.Icon "file-alt"
+    Types.Icon "file-alt"
 
 
 {-| File Archive - Icon
 -}
 fileArchive : Icon
 fileArchive =
-    Icon.Icon "file-archive"
+    Types.Icon "file-archive"
 
 
 {-| File Audio - Icon
 -}
 fileAudio : Icon
 fileAudio =
-    Icon.Icon "file-audio"
+    Types.Icon "file-audio"
 
 
 {-| File Check - Icon
 -}
 fileCheck : Icon
 fileCheck =
-    Icon.Icon "file-check"
+    Types.Icon "file-check"
 
 
 {-| File Code - Icon
 -}
 fileCode : Icon
 fileCode =
-    Icon.Icon "file-code"
+    Types.Icon "file-code"
 
 
 {-| File Edit - Icon
 -}
 fileEdit : Icon
 fileEdit =
-    Icon.Icon "file-edit"
+    Types.Icon "file-edit"
 
 
 {-| File Excel - Icon
 -}
 fileExcel : Icon
 fileExcel =
-    Icon.Icon "file-excel"
+    Types.Icon "file-excel"
 
 
 {-| File Exclamation - Icon
 -}
 fileExclamation : Icon
 fileExclamation =
-    Icon.Icon "file-exclamation"
+    Types.Icon "file-exclamation"
 
 
 {-| File Image - Icon
 -}
 fileImage : Icon
 fileImage =
-    Icon.Icon "file-image"
+    Types.Icon "file-image"
 
 
 {-| File Minus - Icon
 -}
 fileMinus : Icon
 fileMinus =
-    Icon.Icon "file-minus"
+    Types.Icon "file-minus"
 
 
 {-| File Pdf - Icon
 -}
 filePdf : Icon
 filePdf =
-    Icon.Icon "file-pdf"
+    Types.Icon "file-pdf"
 
 
 {-| File Plus - Icon
 -}
 filePlus : Icon
 filePlus =
-    Icon.Icon "file-plus"
+    Types.Icon "file-plus"
 
 
 {-| File PowerPoint - Icon
 -}
 filePowerPoint : Icon
 filePowerPoint =
-    Icon.Icon "file-powerpoint"
+    Types.Icon "file-powerpoint"
 
 
 {-| File Times - Icon
 -}
 fileTimes : Icon
 fileTimes =
-    Icon.Icon "file-times"
+    Types.Icon "file-times"
 
 
 {-| File Video - Icon
 -}
 fileVideo : Icon
 fileVideo =
-    Icon.Icon "file-video"
+    Types.Icon "file-video"
 
 
 {-| File Word - Icon
 -}
 fileWord : Icon
 fileWord =
-    Icon.Icon "file-word"
+    Types.Icon "file-word"
 
 
 {-| Film - Icon
 -}
 film : Icon
 film =
-    Icon.Icon "film"
+    Types.Icon "film"
 
 
 {-| Film Alternate - Icon
 -}
 filmAlt : Icon
 filmAlt =
-    Icon.Icon "film-alt"
+    Types.Icon "film-alt"
 
 
 {-| Filter - Icon
 -}
 filter : Icon
 filter =
-    Icon.Icon "filter"
+    Types.Icon "filter"
 
 
 {-| Fire - Icon
 -}
 fire : Icon
 fire =
-    Icon.Icon "fire"
+    Types.Icon "fire"
 
 
 {-| Fire Extinguisher - Icon
 -}
 fireExtinguisher : Icon
 fireExtinguisher =
-    Icon.Icon "fire-extinguisher"
+    Types.Icon "fire-extinguisher"
 
 
 {-| Firefox - Logo
 -}
-firefox : Icon
+firefox : Logo
 firefox =
-    Icon.Logo "firefox"
+    Types.Logo "firefox"
 
 
 {-| First Draft - Logo
 -}
-firstDraft : Icon
+firstDraft : Logo
 firstDraft =
-    Icon.Logo "firstdraft"
+    Types.Logo "firstdraft"
 
 
 {-| First Order - Logo
 -}
-firstOrder : Icon
+firstOrder : Logo
 firstOrder =
-    Icon.Logo "first-order"
+    Types.Logo "first-order"
 
 
 {-| 500px - Logo
 -}
-fiveHundredPx : Icon
+fiveHundredPx : Logo
 fiveHundredPx =
-    Icon.Logo "500px"
+    Types.Logo "500px"
 
 
 {-| Flag - Icon
 -}
 flag : Icon
 flag =
-    Icon.Icon "flag"
+    Types.Icon "flag"
 
 
 {-| Flag Checkered - Icon
 -}
 flagCheckered : Icon
 flagCheckered =
-    Icon.Icon "flag-checkered"
+    Types.Icon "flag-checkered"
 
 
 {-| Flask - Icon
 -}
 flask : Icon
 flask =
-    Icon.Icon "flask"
+    Types.Icon "flask"
 
 
 {-| Flickr - Logo
 -}
-flickr : Icon
+flickr : Logo
 flickr =
-    Icon.Logo "flickr"
+    Types.Logo "flickr"
 
 
 {-| Flipboard - Logo
 -}
-flipboard : Icon
+flipboard : Logo
 flipboard =
-    Icon.Logo "flipboard"
+    Types.Logo "flipboard"
 
 
 {-| Fly - Logo
 -}
-fly : Icon
+fly : Logo
 fly =
-    Icon.Logo "fly"
+    Types.Logo "fly"
 
 
 {-| Folder - Icon
 -}
 folder : Icon
 folder =
-    Icon.Icon "folder"
+    Types.Icon "folder"
 
 
 {-| Folder Open - Icon
 -}
 folderOpen : Icon
 folderOpen =
-    Icon.Icon "folder-open"
+    Types.Icon "folder-open"
 
 
 {-| Font - Icon
 -}
 font : Icon
 font =
-    Icon.Icon "font"
+    Types.Icon "font"
 
 
 {-| Font Awesome - Logo
 -}
-fontAwesome : Icon
+fontAwesome : Logo
 fontAwesome =
-    Icon.Logo "font-awesome"
+    Types.Logo "font-awesome"
 
 
 {-| Font Awesome Alternate - Logo
 -}
-fontAwesomeAlt : Icon
+fontAwesomeAlt : Logo
 fontAwesomeAlt =
-    Icon.Logo "font-awesome-alt"
+    Types.Logo "font-awesome-alt"
 
 
 {-| Font Awesome Flag - Logo
 -}
-fontAwesomeFlag : Icon
+fontAwesomeFlag : Logo
 fontAwesomeFlag =
-    Icon.Logo "font-awesome-flag"
+    Types.Logo "font-awesome-flag"
 
 
 {-| Font Icons - Logo
 -}
-fontIcons : Icon
+fontIcons : Logo
 fontIcons =
-    Icon.Logo "fonticons"
+    Types.Logo "fonticons"
 
 
 {-| Font Icons Fi - Logo
 -}
-fontIconsFi : Icon
+fontIconsFi : Logo
 fontIconsFi =
-    Icon.Logo "fonticons-fi"
+    Types.Logo "fonticons-fi"
 
 
 {-| Football Ball - Icon
 -}
 footballBall : Icon
 footballBall =
-    Icon.Icon "football-ball"
+    Types.Icon "football-ball"
 
 
 {-| Football Helmet - Icon
 -}
 footballHelmet : Icon
 footballHelmet =
-    Icon.Icon "football-helmet"
+    Types.Icon "football-helmet"
 
 
 {-| Fort Awesome - Logo
 -}
-fortAwesome : Icon
+fortAwesome : Logo
 fortAwesome =
-    Icon.Logo "fort-awesome"
+    Types.Logo "fort-awesome"
 
 
 {-| Fort Awesome Alternate - Logo
 -}
-fortAwesomeAlt : Icon
+fortAwesomeAlt : Logo
 fortAwesomeAlt =
-    Icon.Logo "fort-awesome-alt"
+    Types.Logo "fort-awesome-alt"
 
 
 {-| Forumbee - Logo
 -}
-forumbee : Icon
+forumbee : Logo
 forumbee =
-    Icon.Logo "forumbee"
+    Types.Logo "forumbee"
 
 
 {-| Forward - Icon
 -}
 forward : Icon
 forward =
-    Icon.Icon "forward"
+    Types.Icon "forward"
 
 
 {-| Foursquare - Logo
 -}
-foursquare : Icon
+foursquare : Logo
 foursquare =
-    Icon.Logo "foursquare"
+    Types.Logo "foursquare"
 
 
 {-| Free BSD - Logo
 -}
-freeBSD : Icon
+freeBSD : Logo
 freeBSD =
-    Icon.Logo "freebsd"
+    Types.Logo "freebsd"
 
 
 {-| Free Code Camp - Logo
 -}
-freeCodeCamp : Icon
+freeCodeCamp : Logo
 freeCodeCamp =
-    Icon.Logo "free-code-camp"
+    Types.Logo "free-code-camp"
 
 
 {-| Frown - Icon
 -}
 frown : Icon
 frown =
-    Icon.Icon "frown"
+    Types.Icon "frown"
 
 
 {-| Futbol - Icon
 -}
 futbol : Icon
 futbol =
-    Icon.Icon "futbol"
+    Types.Icon "futbol"
 
 
 {-| Gamepad - Icon
 -}
 gamepad : Icon
 gamepad =
-    Icon.Icon "gamepad"
+    Types.Icon "gamepad"
 
 
 {-| Gavel - Icon
 -}
 gavel : Icon
 gavel =
-    Icon.Icon "gavel"
+    Types.Icon "gavel"
 
 
 {-| Gem - Icon
 -}
 gem : Icon
 gem =
-    Icon.Icon "gem"
+    Types.Icon "gem"
 
 
 {-| Genderless - Icon
 -}
 genderless : Icon
 genderless =
-    Icon.Icon "genderless"
+    Types.Icon "genderless"
 
 
 {-| Get Pocket - Logo
 -}
-getPocket : Icon
+getPocket : Logo
 getPocket =
-    Icon.Logo "get-pocket"
+    Types.Logo "get-pocket"
 
 
 {-| GG - Logo
 -}
-gg : Icon
+gg : Logo
 gg =
-    Icon.Logo "gg"
+    Types.Logo "gg"
 
 
 {-| Gg Circle - Logo
 -}
-ggCircle : Icon
+ggCircle : Logo
 ggCircle =
-    Icon.Logo "gg-circle"
+    Types.Logo "gg-circle"
 
 
 {-| Gift - Icon
 -}
 gift : Icon
 gift =
-    Icon.Icon "gift"
+    Types.Icon "gift"
 
 
 {-| Git - Logo
 -}
-git : Icon
+git : Logo
 git =
-    Icon.Logo "git"
+    Types.Logo "git"
 
 
 {-| Git Square - Logo
 -}
-gitSquare : Icon
+gitSquare : Logo
 gitSquare =
-    Icon.Logo "git-square"
+    Types.Logo "git-square"
 
 
 {-| GitHub - Logo
 -}
-gitHub : Icon
+gitHub : Logo
 gitHub =
-    Icon.Logo "github"
+    Types.Logo "github"
 
 
 {-| GitHub Alternate - Logo
 -}
-gitHubAlt : Icon
+gitHubAlt : Logo
 gitHubAlt =
-    Icon.Logo "github-alt"
+    Types.Logo "github-alt"
 
 
 {-| GitHub Square - Logo
 -}
-gitHubSquare : Icon
+gitHubSquare : Logo
 gitHubSquare =
-    Icon.Logo "github-square"
+    Types.Logo "github-square"
 
 
 {-| GitKraken - Logo
 -}
-gitKraken : Icon
+gitKraken : Logo
 gitKraken =
-    Icon.Logo "gitkraken"
+    Types.Logo "gitkraken"
 
 
 {-| GitLab - Logo
 -}
-gitLab : Icon
+gitLab : Logo
 gitLab =
-    Icon.Logo "gitlab"
+    Types.Logo "gitlab"
 
 
 {-| Gitter - Logo
 -}
-gitter : Icon
+gitter : Logo
 gitter =
-    Icon.Logo "gitter"
+    Types.Logo "gitter"
 
 
 {-| Glass Martini - Icon
 -}
 glassMartini : Icon
 glassMartini =
-    Icon.Icon "glass-martini"
+    Types.Icon "glass-martini"
 
 
 {-| Glide - Logo
 -}
-glide : Icon
+glide : Logo
 glide =
-    Icon.Logo "glide"
+    Types.Logo "glide"
 
 
 {-| Glide G - Logo
 -}
-glideG : Icon
+glideG : Logo
 glideG =
-    Icon.Logo "glide-g"
+    Types.Logo "glide-g"
 
 
 {-| Globe - Icon
 -}
 globe : Icon
 globe =
-    Icon.Icon "globe"
+    Types.Icon "globe"
 
 
 {-| Gofore - Logo
 -}
-gofore : Icon
+gofore : Logo
 gofore =
-    Icon.Logo "gofore"
+    Types.Logo "gofore"
 
 
 {-| Golf Ball - Icon
 -}
 golfBall : Icon
 golfBall =
-    Icon.Icon "golf-ball"
+    Types.Icon "golf-ball"
 
 
 {-| Golf Club - Icon
 -}
 golfClub : Icon
 golfClub =
-    Icon.Icon "golf-club"
+    Types.Icon "golf-club"
 
 
 {-| Goodreads - Logo
 -}
-goodreads : Icon
+goodreads : Logo
 goodreads =
-    Icon.Logo "goodreads"
+    Types.Logo "goodreads"
 
 
 {-| Goodreads G - Logo
 -}
-goodreadsG : Icon
+goodreadsG : Logo
 goodreadsG =
-    Icon.Logo "goodreads-g"
+    Types.Logo "goodreads-g"
 
 
 {-| Google - Logo
 -}
-google : Icon
+google : Logo
 google =
-    Icon.Logo "google"
+    Types.Logo "google"
 
 
 {-| Google Drive - Logo
 -}
-googleDrive : Icon
+googleDrive : Logo
 googleDrive =
-    Icon.Logo "google-drive"
+    Types.Logo "google-drive"
 
 
 {-| Google Play - Logo
 -}
-googlePlay : Icon
+googlePlay : Logo
 googlePlay =
-    Icon.Logo "google-play"
+    Types.Logo "google-play"
 
 
 {-| Google Plus - Logo
 -}
-googlePlus : Icon
+googlePlus : Logo
 googlePlus =
-    Icon.Logo "google-plus"
+    Types.Logo "google-plus"
 
 
 {-| Google Plus G - Logo
 -}
-googlePlusG : Icon
+googlePlusG : Logo
 googlePlusG =
-    Icon.Logo "google-plus-g"
+    Types.Logo "google-plus-g"
 
 
 {-| Google Plus Square - Logo
 -}
-googlePlusSquare : Icon
+googlePlusSquare : Logo
 googlePlusSquare =
-    Icon.Logo "google-plus-square"
+    Types.Logo "google-plus-square"
 
 
 {-| Google Wallet - Logo
 -}
-googleWallet : Icon
+googleWallet : Logo
 googleWallet =
-    Icon.Logo "google-wallet"
+    Types.Logo "google-wallet"
 
 
 {-| Graduation Cap - Icon
 -}
 graduationCap : Icon
 graduationCap =
-    Icon.Icon "graduation-cap"
+    Types.Icon "graduation-cap"
 
 
 {-| Gratipay - Logo
 -}
-gratipay : Icon
+gratipay : Logo
 gratipay =
-    Icon.Logo "gratipay"
+    Types.Logo "gratipay"
 
 
 {-| Grav - Logo
 -}
-grav : Icon
+grav : Logo
 grav =
-    Icon.Logo "grav"
+    Types.Logo "grav"
 
 
 {-| Gripfire - Logo
 -}
-gripfire : Icon
+gripfire : Logo
 gripfire =
-    Icon.Logo "gripfire"
+    Types.Logo "gripfire"
 
 
 {-| Grunt - Logo
 -}
-grunt : Icon
+grunt : Logo
 grunt =
-    Icon.Logo "grunt"
+    Types.Logo "grunt"
 
 
 {-| Gulp - Logo
 -}
-gulp : Icon
+gulp : Logo
 gulp =
-    Icon.Logo "gulp"
+    Types.Logo "gulp"
 
 
 {-| H Square - Icon
 -}
 hSquare : Icon
 hSquare =
-    Icon.Icon "h-square"
+    Types.Icon "h-square"
 
 
 {-| H1 - Icon
 -}
 h1 : Icon
 h1 =
-    Icon.Icon "h1"
+    Types.Icon "h1"
 
 
 {-| H2 - Icon
 -}
 h2 : Icon
 h2 =
-    Icon.Icon "h2"
+    Types.Icon "h2"
 
 
 {-| H3 - Icon
 -}
 h3 : Icon
 h3 =
-    Icon.Icon "h3"
+    Types.Icon "h3"
 
 
 {-| Hacker News - Logo
 -}
-hackerNews : Icon
+hackerNews : Logo
 hackerNews =
-    Icon.Logo "hacker-news"
+    Types.Logo "hacker-news"
 
 
 {-| Hacker News Square - Logo
 -}
-hackerNewsSquare : Icon
+hackerNewsSquare : Logo
 hackerNewsSquare =
-    Icon.Logo "hacker-news-square"
+    Types.Logo "hacker-news-square"
 
 
 {-| Hand Lizard - Icon
 -}
 handLizard : Icon
 handLizard =
-    Icon.Icon "hand-lizard"
+    Types.Icon "hand-lizard"
 
 
 {-| Hand Paper - Icon
 -}
 handPaper : Icon
 handPaper =
-    Icon.Icon "hand-paper"
+    Types.Icon "hand-paper"
 
 
 {-| Hand Peace - Icon
 -}
 handPeace : Icon
 handPeace =
-    Icon.Icon "hand-peace"
+    Types.Icon "hand-peace"
 
 
 {-| Hand Point Down - Icon
 -}
 handPointDown : Icon
 handPointDown =
-    Icon.Icon "hand-point-down"
+    Types.Icon "hand-point-down"
 
 
 {-| Hand Point Left - Icon
 -}
 handPointLeft : Icon
 handPointLeft =
-    Icon.Icon "hand-point-left"
+    Types.Icon "hand-point-left"
 
 
 {-| Hand Point Right - Icon
 -}
 handPointRight : Icon
 handPointRight =
-    Icon.Icon "hand-point-right"
+    Types.Icon "hand-point-right"
 
 
 {-| Hand Point Up - Icon
 -}
 handPointUp : Icon
 handPointUp =
-    Icon.Icon "hand-point-up"
+    Types.Icon "hand-point-up"
 
 
 {-| Hand Pointer - Icon
 -}
 handPointer : Icon
 handPointer =
-    Icon.Icon "hand-pointer"
+    Types.Icon "hand-pointer"
 
 
 {-| Hand Rock - Icon
 -}
 handRock : Icon
 handRock =
-    Icon.Icon "hand-rock"
+    Types.Icon "hand-rock"
 
 
 {-| Hand Scissors - Icon
 -}
 handScissors : Icon
 handScissors =
-    Icon.Icon "hand-scissors"
+    Types.Icon "hand-scissors"
 
 
 {-| Hand Spock - Icon
 -}
 handSpock : Icon
 handSpock =
-    Icon.Icon "hand-spock"
+    Types.Icon "hand-spock"
 
 
 {-| Handshake - Icon
 -}
 handshake : Icon
 handshake =
-    Icon.Icon "handshake"
+    Types.Icon "handshake"
 
 
 {-| Hashtag - Icon
 -}
 hashtag : Icon
 hashtag =
-    Icon.Icon "hashtag"
+    Types.Icon "hashtag"
 
 
 {-| HDD - Icon
 -}
 hdd : Icon
 hdd =
-    Icon.Icon "hdd"
+    Types.Icon "hdd"
 
 
 {-| Heading - Icon
 -}
 heading : Icon
 heading =
-    Icon.Icon "heading"
+    Types.Icon "heading"
 
 
 {-| Headphones - Icon
 -}
 headphones : Icon
 headphones =
-    Icon.Icon "headphones"
+    Types.Icon "headphones"
 
 
 {-| Heart - Icon
 -}
 heart : Icon
 heart =
-    Icon.Icon "heart"
+    Types.Icon "heart"
 
 
 {-| Heartbeat - Icon
 -}
 heartbeat : Icon
 heartbeat =
-    Icon.Icon "heartbeat"
+    Types.Icon "heartbeat"
 
 
 {-| Hexagon - Icon
 -}
 hexagon : Icon
 hexagon =
-    Icon.Icon "hexagon"
+    Types.Icon "hexagon"
 
 
 {-| Hips - Logo
 -}
-hips : Icon
+hips : Logo
 hips =
-    Icon.Logo "hips"
+    Types.Logo "hips"
 
 
 {-| HireAHelper - Logo
 -}
-hireAHelper : Icon
+hireAHelper : Logo
 hireAHelper =
-    Icon.Logo "hire-a-helper"
+    Types.Logo "hire-a-helper"
 
 
 {-| History - Icon
 -}
 history : Icon
 history =
-    Icon.Icon "history"
+    Types.Icon "history"
 
 
 {-| Hockey Puck - Icon
 -}
 hockeyPuck : Icon
 hockeyPuck =
-    Icon.Icon "hockey-puck"
+    Types.Icon "hockey-puck"
 
 
 {-| Hockey Sticks - Icon
 -}
 hockeySticks : Icon
 hockeySticks =
-    Icon.Icon "hockey-sticks"
+    Types.Icon "hockey-sticks"
 
 
 {-| Home - Icon
 -}
 home : Icon
 home =
-    Icon.Icon "home"
+    Types.Icon "home"
 
 
 {-| Hooli - Logo
 -}
-hooli : Icon
+hooli : Logo
 hooli =
-    Icon.Logo "hooli"
+    Types.Logo "hooli"
 
 
 {-| Hospital - Icon
 -}
 hospital : Icon
 hospital =
-    Icon.Icon "hospital"
+    Types.Icon "hospital"
 
 
 {-| Hotjar - Logo
 -}
-hotjar : Icon
+hotjar : Logo
 hotjar =
-    Icon.Logo "hotjar"
+    Types.Logo "hotjar"
 
 
 {-| Hourglass - Icon
 -}
 hourglass : Icon
 hourglass =
-    Icon.Icon "hourglass"
+    Types.Icon "hourglass"
 
 
 {-| Hourglass End - Icon
 -}
 hourglassEnd : Icon
 hourglassEnd =
-    Icon.Icon "hourglass-end"
+    Types.Icon "hourglass-end"
 
 
 {-| Hourglass Half - Icon
 -}
 hourglassHalf : Icon
 hourglassHalf =
-    Icon.Icon "hourglass-half"
+    Types.Icon "hourglass-half"
 
 
 {-| Hourglass Start - Icon
 -}
 hourglassStart : Icon
 hourglassStart =
-    Icon.Icon "hourglass-start"
+    Types.Icon "hourglass-start"
 
 
 {-| Houzz - Logo
 -}
-houzz : Icon
+houzz : Logo
 houzz =
-    Icon.Logo "houzz"
+    Types.Logo "houzz"
 
 
 {-| Html5 - Logo
 -}
-html5 : Icon
+html5 : Logo
 html5 =
-    Icon.Logo "html5"
+    Types.Logo "html5"
 
 
 {-| HubSpot - Logo
 -}
-hubSpot : Icon
+hubSpot : Logo
 hubSpot =
-    Icon.Logo "hubspot"
+    Types.Logo "hubspot"
 
 
 {-| I Cursor - Icon
 -}
 iCursor : Icon
 iCursor =
-    Icon.Icon "i-cursor"
+    Types.Icon "i-cursor"
 
 
 {-| Id Badge - Icon
 -}
 idBadge : Icon
 idBadge =
-    Icon.Icon "id-badge"
+    Types.Icon "id-badge"
 
 
 {-| Id Card - Icon
 -}
 idCard : Icon
 idCard =
-    Icon.Icon "id-card"
+    Types.Icon "id-card"
 
 
 {-| Image - Icon
 -}
 image : Icon
 image =
-    Icon.Icon "image"
+    Types.Icon "image"
 
 
 {-| Images - Icon
 -}
 images : Icon
 images =
-    Icon.Icon "images"
+    Types.Icon "images"
 
 
 {-| IMDb - Logo
 -}
-imdb : Icon
+imdb : Logo
 imdb =
-    Icon.Logo "imdb"
+    Types.Logo "imdb"
 
 
 {-| Inbox - Icon
 -}
 inbox : Icon
 inbox =
-    Icon.Icon "inbox"
+    Types.Icon "inbox"
 
 
 {-| Inbox In - Icon
 -}
 inboxIn : Icon
 inboxIn =
-    Icon.Icon "inbox-in"
+    Types.Icon "inbox-in"
 
 
 {-| Inbox Out - Icon
 -}
 inboxOut : Icon
 inboxOut =
-    Icon.Icon "inbox-out"
+    Types.Icon "inbox-out"
 
 
 {-| Indent - Icon
 -}
 indent : Icon
 indent =
-    Icon.Icon "indent"
+    Types.Icon "indent"
 
 
 {-| Industry - Icon
 -}
 industry : Icon
 industry =
-    Icon.Icon "industry"
+    Types.Icon "industry"
 
 
 {-| Industry Alternate - Icon
 -}
 industryAlt : Icon
 industryAlt =
-    Icon.Icon "industry-alt"
+    Types.Icon "industry-alt"
 
 
 {-| Info - Icon
 -}
 info : Icon
 info =
-    Icon.Icon "info"
+    Types.Icon "info"
 
 
 {-| Info Circle - Icon
 -}
 infoCircle : Icon
 infoCircle =
-    Icon.Icon "info-circle"
+    Types.Icon "info-circle"
 
 
 {-| Info Square - Icon
 -}
 infoSquare : Icon
 infoSquare =
-    Icon.Icon "info-square"
+    Types.Icon "info-square"
 
 
 {-| Instagram - Logo
 -}
-instagram : Icon
+instagram : Logo
 instagram =
-    Icon.Logo "instagram"
+    Types.Logo "instagram"
 
 
 {-| Internet Explorer - Logo
 -}
-internetExplorer : Icon
+internetExplorer : Logo
 internetExplorer =
-    Icon.Logo "internet-explorer"
+    Types.Logo "internet-explorer"
 
 
 {-| IoxHost - Logo
 -}
-ioxHost : Icon
+ioxHost : Logo
 ioxHost =
-    Icon.Logo "ioxhost"
+    Types.Logo "ioxhost"
 
 
 {-| Italic - Icon
 -}
 italic : Icon
 italic =
-    Icon.Icon "italic"
+    Types.Icon "italic"
 
 
 {-| iTunes - Logo
 -}
-iTunes : Icon
+iTunes : Logo
 iTunes =
-    Icon.Logo "itunes"
+    Types.Logo "itunes"
 
 
 {-| iTunes Note - Logo
 -}
-iTunesNote : Icon
+iTunesNote : Logo
 iTunesNote =
-    Icon.Logo "itunes-note"
+    Types.Logo "itunes-note"
 
 
 {-| Jack o' Lantern - Icon
 -}
 jackOLantern : Icon
 jackOLantern =
-    Icon.Icon "jack-o-lantern"
+    Types.Icon "jack-o-lantern"
 
 
 {-| Jenkins - Logo
 -}
-jenkins : Icon
+jenkins : Logo
 jenkins =
-    Icon.Logo "jenkins"
+    Types.Logo "jenkins"
 
 
 {-| Joget - Logo
 -}
-joget : Icon
+joget : Logo
 joget =
-    Icon.Logo "joget"
+    Types.Logo "joget"
 
 
 {-| Joomla - Logo
 -}
-joomla : Icon
+joomla : Logo
 joomla =
-    Icon.Logo "joomla"
+    Types.Logo "joomla"
 
 
 {-| JavaScript - Logo
 -}
-js : Icon
+js : Logo
 js =
-    Icon.Logo "js"
+    Types.Logo "js"
 
 
 {-| JavaScript Square - Logo
 -}
-jsSquare : Icon
+jsSquare : Logo
 jsSquare =
-    Icon.Logo "js-square"
+    Types.Logo "js-square"
 
 
 {-| JSFiddle - Logo
 -}
-jsFiddle : Icon
+jsFiddle : Logo
 jsFiddle =
-    Icon.Logo "jsfiddle"
+    Types.Logo "jsfiddle"
 
 
 {-| Key - Icon
 -}
 key : Icon
 key =
-    Icon.Icon "key"
+    Types.Icon "key"
 
 
 {-| Keyboard - Icon
 -}
 keyboard : Icon
 keyboard =
-    Icon.Icon "keyboard"
+    Types.Icon "keyboard"
 
 
 {-| Key CDN - Logo
 -}
-keyCDN : Icon
+keyCDN : Logo
 keyCDN =
-    Icon.Logo "keycdn"
+    Types.Logo "keycdn"
 
 
 {-| Kickstarter - Logo
 -}
-kickstarter : Icon
+kickstarter : Logo
 kickstarter =
-    Icon.Logo "kickstarter"
+    Types.Logo "kickstarter"
 
 
 {-| Kickstarter K - Logo
 -}
-kickstarterK : Icon
+kickstarterK : Logo
 kickstarterK =
-    Icon.Logo "kickstarter-k"
+    Types.Logo "kickstarter-k"
 
 
 {-| KORVUE - Logo
 -}
-korvue : Icon
+korvue : Logo
 korvue =
-    Icon.Logo "korvue"
+    Types.Logo "korvue"
 
 
 {-| Language - Icon
 -}
 language : Icon
 language =
-    Icon.Icon "language"
+    Types.Icon "language"
 
 
 {-| Laptop - Icon
 -}
 laptop : Icon
 laptop =
-    Icon.Icon "laptop"
+    Types.Icon "laptop"
 
 
 {-| Laravel - Logo
 -}
-laravel : Icon
+laravel : Logo
 laravel =
-    Icon.Logo "laravel"
+    Types.Logo "laravel"
 
 
 {-| Last.fm - Logo
 -}
-lastfm : Icon
+lastfm : Logo
 lastfm =
-    Icon.Logo "lastfm"
+    Types.Logo "lastfm"
 
 
 {-| Last.fm Square - Logo
 -}
-lastfmSquare : Icon
+lastfmSquare : Logo
 lastfmSquare =
-    Icon.Logo "lastfm-square"
+    Types.Logo "lastfm-square"
 
 
 {-| Leaf - Icon
 -}
 leaf : Icon
 leaf =
-    Icon.Icon "leaf"
+    Types.Icon "leaf"
 
 
 {-| Leanpub - Logo
 -}
-leanpub : Icon
+leanpub : Logo
 leanpub =
-    Icon.Logo "leanpub"
+    Types.Logo "leanpub"
 
 
 {-| Lemon - Icon
 -}
 lemon : Icon
 lemon =
-    Icon.Icon "lemon"
+    Types.Icon "lemon"
 
 
 {-| Less - Logo
 -}
-less : Icon
+less : Logo
 less =
-    Icon.Logo "less"
+    Types.Logo "less"
 
 
 {-| Level Down - Icon
 -}
 levelDown : Icon
 levelDown =
-    Icon.Icon "level-down"
+    Types.Icon "level-down"
 
 
 {-| Level Down Alternate - Icon
 -}
 levelDownAlt : Icon
 levelDownAlt =
-    Icon.Icon "level-down-alt"
+    Types.Icon "level-down-alt"
 
 
 {-| Level Up - Icon
 -}
 levelUp : Icon
 levelUp =
-    Icon.Icon "level-up"
+    Types.Icon "level-up"
 
 
 {-| Level Up Alternate - Icon
 -}
 levelUpAlt : Icon
 levelUpAlt =
-    Icon.Icon "level-up-alt"
+    Types.Icon "level-up-alt"
 
 
 {-| Life Ring - Icon
 -}
 lifeRing : Icon
 lifeRing =
-    Icon.Icon "life-ring"
+    Types.Icon "life-ring"
 
 
 {-| Lightbulb - Icon
 -}
 lightbulb : Icon
 lightbulb =
-    Icon.Icon "lightbulb"
+    Types.Icon "lightbulb"
 
 
 {-| Line - Logo
 -}
-line : Icon
+line : Logo
 line =
-    Icon.Logo "line"
+    Types.Logo "line"
 
 
 {-| Link - Icon
 -}
 link : Icon
 link =
-    Icon.Icon "link"
+    Types.Icon "link"
 
 
 {-| LinkedIn - Logo
 -}
-linkedIn : Icon
+linkedIn : Logo
 linkedIn =
-    Icon.Logo "linkedin"
+    Types.Logo "linkedin"
 
 
 {-| LinkedIn Inverted - Logo
 -}
-linkedInInverted : Icon
+linkedInInverted : Logo
 linkedInInverted =
-    Icon.Logo "linkedin-in"
+    Types.Logo "linkedin-in"
 
 
 {-| Linode - Logo
 -}
-linode : Icon
+linode : Logo
 linode =
-    Icon.Logo "linode"
+    Types.Logo "linode"
 
 
 {-| Linux - Logo
 -}
-linux : Icon
+linux : Logo
 linux =
-    Icon.Logo "linux"
+    Types.Logo "linux"
 
 
 {-| Lira Sign - Icon
 -}
 liraSign : Icon
 liraSign =
-    Icon.Icon "lira-sign"
+    Types.Icon "lira-sign"
 
 
 {-| List - Icon
 -}
 list : Icon
 list =
-    Icon.Icon "list"
+    Types.Icon "list"
 
 
 {-| List Alternate - Icon
 -}
 listAlt : Icon
 listAlt =
-    Icon.Icon "list-alt"
+    Types.Icon "list-alt"
 
 
 {-| List Ol - Icon
 -}
 listOl : Icon
 listOl =
-    Icon.Icon "list-ol"
+    Types.Icon "list-ol"
 
 
 {-| List Ul - Icon
 -}
 listUl : Icon
 listUl =
-    Icon.Icon "list-ul"
+    Types.Icon "list-ul"
 
 
 {-| Location Arrow - Icon
 -}
 locationArrow : Icon
 locationArrow =
-    Icon.Icon "location-arrow"
+    Types.Icon "location-arrow"
 
 
 {-| Lock - Icon
 -}
 lock : Icon
 lock =
-    Icon.Icon "lock"
+    Types.Icon "lock"
 
 
 {-| Lock Alternate - Icon
 -}
 lockAlt : Icon
 lockAlt =
-    Icon.Icon "lock-alt"
+    Types.Icon "lock-alt"
 
 
 {-| Lock Open - Icon
 -}
 lockOpen : Icon
 lockOpen =
-    Icon.Icon "lock-open"
+    Types.Icon "lock-open"
 
 
 {-| Lock Open Alternate - Icon
 -}
 lockOpenAlt : Icon
 lockOpenAlt =
-    Icon.Icon "lock-open-alt"
+    Types.Icon "lock-open-alt"
 
 
 {-| Long Arrow Alternate Down - Icon
 -}
 longArrowAltDown : Icon
 longArrowAltDown =
-    Icon.Icon "long-arrow-alt-down"
+    Types.Icon "long-arrow-alt-down"
 
 
 {-| Long Arrow Alternate Left - Icon
 -}
 longArrowAltLeft : Icon
 longArrowAltLeft =
-    Icon.Icon "long-arrow-alt-left"
+    Types.Icon "long-arrow-alt-left"
 
 
 {-| Long Arrow Alternate Right - Icon
 -}
 longArrowAltRight : Icon
 longArrowAltRight =
-    Icon.Icon "long-arrow-alt-right"
+    Types.Icon "long-arrow-alt-right"
 
 
 {-| Long Arrow Alternate Up - Icon
 -}
 longArrowAltUp : Icon
 longArrowAltUp =
-    Icon.Icon "long-arrow-alt-up"
+    Types.Icon "long-arrow-alt-up"
 
 
 {-| Long Arrow Down - Icon
 -}
 longArrowDown : Icon
 longArrowDown =
-    Icon.Icon "long-arrow-down"
+    Types.Icon "long-arrow-down"
 
 
 {-| Long Arrow Left - Icon
 -}
 longArrowLeft : Icon
 longArrowLeft =
-    Icon.Icon "long-arrow-left"
+    Types.Icon "long-arrow-left"
 
 
 {-| Long Arrow Right - Icon
 -}
 longArrowRight : Icon
 longArrowRight =
-    Icon.Icon "long-arrow-right"
+    Types.Icon "long-arrow-right"
 
 
 {-| Long Arrow Up - Icon
 -}
 longArrowUp : Icon
 longArrowUp =
-    Icon.Icon "long-arrow-up"
+    Types.Icon "long-arrow-up"
 
 
 {-| Low Vision - Icon
 -}
 lowVision : Icon
 lowVision =
-    Icon.Icon "low-vision"
+    Types.Icon "low-vision"
 
 
 {-| Luchador - Icon
 -}
 luchador : Icon
 luchador =
-    Icon.Icon "luchador"
+    Types.Icon "luchador"
 
 
 {-| Lyft - Logo
 -}
-lyft : Icon
+lyft : Logo
 lyft =
-    Icon.Logo "lyft"
+    Types.Logo "lyft"
 
 
 {-| Magento - Logo
 -}
-magento : Icon
+magento : Logo
 magento =
-    Icon.Logo "magento"
+    Types.Logo "magento"
 
 
 {-| Magic - Icon
 -}
 magic : Icon
 magic =
-    Icon.Icon "magic"
+    Types.Icon "magic"
 
 
 {-| Magnet - Icon
 -}
 magnet : Icon
 magnet =
-    Icon.Icon "magnet"
+    Types.Icon "magnet"
 
 
 {-| Male - Icon
 -}
 male : Icon
 male =
-    Icon.Icon "male"
+    Types.Icon "male"
 
 
 {-| Map - Icon
 -}
 map : Icon
 map =
-    Icon.Icon "map"
+    Types.Icon "map"
 
 
 {-| Map Marker - Icon
 -}
 mapMarker : Icon
 mapMarker =
-    Icon.Icon "map-marker"
+    Types.Icon "map-marker"
 
 
 {-| Map Marker Alternate - Icon
 -}
 mapMarkerAlt : Icon
 mapMarkerAlt =
-    Icon.Icon "map-marker-alt"
+    Types.Icon "map-marker-alt"
 
 
 {-| Map Pin - Icon
 -}
 mapPin : Icon
 mapPin =
-    Icon.Icon "map-pin"
+    Types.Icon "map-pin"
 
 
 {-| Map Signs - Icon
 -}
 mapSigns : Icon
 mapSigns =
-    Icon.Icon "map-signs"
+    Types.Icon "map-signs"
 
 
 {-| Mars - Icon
 -}
 mars : Icon
 mars =
-    Icon.Icon "mars"
+    Types.Icon "mars"
 
 
 {-| Mars Double - Icon
 -}
 marsDouble : Icon
 marsDouble =
-    Icon.Icon "mars-double"
+    Types.Icon "mars-double"
 
 
 {-| Mars Stroke - Icon
 -}
 marsStroke : Icon
 marsStroke =
-    Icon.Icon "mars-stroke"
+    Types.Icon "mars-stroke"
 
 
 {-| Mars Stroke Horizontal - Icon
 -}
 marsStrokeHorizontal : Icon
 marsStrokeHorizontal =
-    Icon.Icon "mars-stroke-h"
+    Types.Icon "mars-stroke-h"
 
 
 {-| Mars Stroke Vertical - Icon
 -}
 marsStrokeVertical : Icon
 marsStrokeVertical =
-    Icon.Icon "mars-stroke-v"
+    Types.Icon "mars-stroke-v"
 
 
 {-| MaxCDN - Logo
 -}
-maxCDN : Icon
+maxCDN : Logo
 maxCDN =
-    Icon.Logo "maxcdn"
+    Types.Logo "maxcdn"
 
 
 {-| MedApps - Logo
 -}
-medApps : Icon
+medApps : Logo
 medApps =
-    Icon.Logo "medapps"
+    Types.Logo "medapps"
 
 
 {-| Medium - Logo
 -}
-medium : Icon
+medium : Logo
 medium =
-    Icon.Logo "medium"
+    Types.Logo "medium"
 
 
 {-| Medium M - Logo
 -}
-mediumM : Icon
+mediumM : Logo
 mediumM =
-    Icon.Logo "medium-m"
+    Types.Logo "medium-m"
 
 
 {-| Medkit - Icon
 -}
 medkit : Icon
 medkit =
-    Icon.Icon "medkit"
+    Types.Icon "medkit"
 
 
 {-| MedRT - Logo
 -}
-medRT : Icon
+medRT : Logo
 medRT =
-    Icon.Logo "medrt"
+    Types.Logo "medrt"
 
 
 {-| Meetup - Logo
 -}
-meetup : Icon
+meetup : Logo
 meetup =
-    Icon.Logo "meetup"
+    Types.Logo "meetup"
 
 
 {-| Meh - Icon
 -}
 meh : Icon
 meh =
-    Icon.Icon "meh"
+    Types.Icon "meh"
 
 
 {-| Mercury - Icon
 -}
 mercury : Icon
 mercury =
-    Icon.Icon "mercury"
+    Types.Icon "mercury"
 
 
 {-| Microchip - Icon
 -}
 microchip : Icon
 microchip =
-    Icon.Icon "microchip"
+    Types.Icon "microchip"
 
 
 {-| Microphone - Icon
 -}
 microphone : Icon
 microphone =
-    Icon.Icon "microphone"
+    Types.Icon "microphone"
 
 
 {-| Microphone Alternate - Icon
 -}
 microphoneAlt : Icon
 microphoneAlt =
-    Icon.Icon "microphone-alt"
+    Types.Icon "microphone-alt"
 
 
 {-| Microphone Slash - Icon
 -}
 microphoneSlash : Icon
 microphoneSlash =
-    Icon.Icon "microphone-slash"
+    Types.Icon "microphone-slash"
 
 
 {-| Microsoft - Logo
 -}
-microsoft : Icon
+microsoft : Logo
 microsoft =
-    Icon.Logo "microsoft"
+    Types.Logo "microsoft"
 
 
 {-| Minus - Icon
 -}
 minus : Icon
 minus =
-    Icon.Icon "minus"
+    Types.Icon "minus"
 
 
 {-| Minus Circle - Icon
 -}
 minusCircle : Icon
 minusCircle =
-    Icon.Icon "minus-circle"
+    Types.Icon "minus-circle"
 
 
 {-| Minus Hexagon - Icon
 -}
 minusHexagon : Icon
 minusHexagon =
-    Icon.Icon "minus-hexagon"
+    Types.Icon "minus-hexagon"
 
 
 {-| Minus Octagon - Icon
 -}
 minusOctagon : Icon
 minusOctagon =
-    Icon.Icon "minus-octagon"
+    Types.Icon "minus-octagon"
 
 
 {-| Minus Square - Icon
 -}
 minusSquare : Icon
 minusSquare =
-    Icon.Icon "minus-square"
+    Types.Icon "minus-square"
 
 
 {-| Mix - Logo
 -}
-mix : Icon
+mix : Logo
 mix =
-    Icon.Logo "mix"
+    Types.Logo "mix"
 
 
 {-| Mixcloud - Logo
 -}
-mixcloud : Icon
+mixcloud : Logo
 mixcloud =
-    Icon.Logo "mixcloud"
+    Types.Logo "mixcloud"
 
 
 {-| Mizuni - Logo
 -}
-mizuni : Icon
+mizuni : Logo
 mizuni =
-    Icon.Logo "mizuni"
+    Types.Logo "mizuni"
 
 
 {-| Mobile - Icon
 -}
 mobile : Icon
 mobile =
-    Icon.Icon "mobile"
+    Types.Icon "mobile"
 
 
 {-| Mobile Alternate - Icon
 -}
 mobileAlt : Icon
 mobileAlt =
-    Icon.Icon "mobile-alt"
+    Types.Icon "mobile-alt"
 
 
 {-| Mobile Android - Icon
 -}
 mobileAndroid : Icon
 mobileAndroid =
-    Icon.Icon "mobile-android"
+    Types.Icon "mobile-android"
 
 
 {-| Mobile Android Alternate - Icon
 -}
 mobileAndroidAlt : Icon
 mobileAndroidAlt =
-    Icon.Icon "mobile-android-alt"
+    Types.Icon "mobile-android-alt"
 
 
 {-| MODX - Logo
 -}
-modX : Icon
+modX : Logo
 modX =
-    Icon.Logo "modx"
+    Types.Logo "modx"
 
 
 {-| Monero - Logo
 -}
-monero : Icon
+monero : Logo
 monero =
-    Icon.Logo "monero"
+    Types.Logo "monero"
 
 
 {-| Money Bill - Icon
 -}
 moneyBill : Icon
 moneyBill =
-    Icon.Icon "money-bill"
+    Types.Icon "money-bill"
 
 
 {-| Money Bill Alternate - Icon
 -}
 moneyBillAlt : Icon
 moneyBillAlt =
-    Icon.Icon "money-bill-alt"
+    Types.Icon "money-bill-alt"
 
 
 {-| Moon - Icon
 -}
 moon : Icon
 moon =
-    Icon.Icon "moon"
+    Types.Icon "moon"
 
 
 {-| Motorcycle - Icon
 -}
 motorcycle : Icon
 motorcycle =
-    Icon.Icon "motorcycle"
+    Types.Icon "motorcycle"
 
 
 {-| Mouse Pointer - Icon
 -}
 mousePointer : Icon
 mousePointer =
-    Icon.Icon "mouse-pointer"
+    Types.Icon "mouse-pointer"
 
 
 {-| Music - Icon
 -}
 music : Icon
 music =
-    Icon.Icon "music"
+    Types.Icon "music"
 
 
 {-| Napster - Logo
 -}
-napster : Icon
+napster : Logo
 napster =
-    Icon.Logo "napster"
+    Types.Logo "napster"
 
 
 {-| Neuter - Icon
 -}
 neuter : Icon
 neuter =
-    Icon.Icon "neuter"
+    Types.Icon "neuter"
 
 
 {-| Newspaper - Icon
 -}
 newspaper : Icon
 newspaper =
-    Icon.Icon "newspaper"
+    Types.Icon "newspaper"
 
 
 {-| Nintendo Switch - Logo
 -}
-nintendoSwitch : Icon
+nintendoSwitch : Logo
 nintendoSwitch =
-    Icon.Logo "nintendo-switch"
+    Types.Logo "nintendo-switch"
 
 
 {-| Node - Logo
 -}
-node : Icon
+node : Logo
 node =
-    Icon.Logo "node"
+    Types.Logo "node"
 
 
 {-| Node.js - Logo
 -}
-nodejs : Icon
+nodejs : Logo
 nodejs =
-    Icon.Logo "node-js"
+    Types.Logo "node-js"
 
 
 {-| npm - Logo
 -}
-npm : Icon
+npm : Logo
 npm =
-    Icon.Logo "npm"
+    Types.Logo "npm"
 
 
 {-| Ns8 - Logo
 -}
-ns8 : Icon
+ns8 : Logo
 ns8 =
-    Icon.Logo "ns8"
+    Types.Logo "ns8"
 
 
 {-| Nutritionix - Logo
 -}
-nutritionix : Icon
+nutritionix : Logo
 nutritionix =
-    Icon.Logo "nutritionix"
+    Types.Logo "nutritionix"
 
 
 {-| Object Group - Icon
 -}
 objectGroup : Icon
 objectGroup =
-    Icon.Icon "object-group"
+    Types.Icon "object-group"
 
 
 {-| Object Ungroup - Icon
 -}
 objectUngroup : Icon
 objectUngroup =
-    Icon.Icon "object-ungroup"
+    Types.Icon "object-ungroup"
 
 
 {-| Octagon - Icon
 -}
 octagon : Icon
 octagon =
-    Icon.Icon "octagon"
+    Types.Icon "octagon"
 
 
 {-| Odnoklassniki - Logo
 -}
-odnoklassniki : Icon
+odnoklassniki : Logo
 odnoklassniki =
-    Icon.Logo "odnoklassniki"
+    Types.Logo "odnoklassniki"
 
 
 {-| Odnoklassniki Square - Logo
 -}
-odnoklassnikiSquare : Icon
+odnoklassnikiSquare : Logo
 odnoklassnikiSquare =
-    Icon.Logo "odnoklassniki-square"
+    Types.Logo "odnoklassniki-square"
 
 
 {-| Open Cart - Logo
 -}
-openCart : Icon
+openCart : Logo
 openCart =
-    Icon.Logo "opencart"
+    Types.Logo "opencart"
 
 
 {-| Open ID - Logo
 -}
-openID : Icon
+openID : Logo
 openID =
-    Icon.Logo "openid"
+    Types.Logo "openid"
 
 
 {-| Opera - Logo
 -}
-opera : Icon
+opera : Logo
 opera =
-    Icon.Logo "opera"
+    Types.Logo "opera"
 
 
 {-| Optin Monster - Logo
 -}
-optinMonster : Icon
+optinMonster : Logo
 optinMonster =
-    Icon.Logo "optin-monster"
+    Types.Logo "optin-monster"
 
 
 {-| Open Source Initiative - Logo
 -}
-openSourceInitiative : Icon
+openSourceInitiative : Logo
 openSourceInitiative =
-    Icon.Logo "osi"
+    Types.Logo "osi"
 
 
 {-| Outdent - Icon
 -}
 outdent : Icon
 outdent =
-    Icon.Icon "outdent"
+    Types.Icon "outdent"
 
 
 {-| page4 - Logo
 -}
-page4 : Icon
+page4 : Logo
 page4 =
-    Icon.Logo "page4"
+    Types.Logo "page4"
 
 
 {-| Page Lines - Logo
 -}
-pageLines : Icon
+pageLines : Logo
 pageLines =
-    Icon.Logo "pagelines"
+    Types.Logo "pagelines"
 
 
 {-| Paint Brush - Icon
 -}
 paintBrush : Icon
 paintBrush =
-    Icon.Icon "paint-brush"
+    Types.Icon "paint-brush"
 
 
 {-| PalFed - Logo
 -}
-palFed : Icon
+palFed : Logo
 palFed =
-    Icon.Logo "palfed"
+    Types.Logo "palfed"
 
 
 {-| Paper Plane - Icon
 -}
 paperPlane : Icon
 paperPlane =
-    Icon.Icon "paper-plane"
+    Types.Icon "paper-plane"
 
 
 {-| Paperclip - Icon
 -}
 paperclip : Icon
 paperclip =
-    Icon.Icon "paperclip"
+    Types.Icon "paperclip"
 
 
 {-| Paragraph - Icon
 -}
 paragraph : Icon
 paragraph =
-    Icon.Icon "paragraph"
+    Types.Icon "paragraph"
 
 
 {-| Paste - Icon
 -}
 paste : Icon
 paste =
-    Icon.Icon "paste"
+    Types.Icon "paste"
 
 
 {-| Patreon - Logo
 -}
-patreon : Icon
+patreon : Logo
 patreon =
-    Icon.Logo "patreon"
+    Types.Logo "patreon"
 
 
 {-| Pause - Icon
 -}
 pause : Icon
 pause =
-    Icon.Icon "pause"
+    Types.Icon "pause"
 
 
 {-| Pause Circle - Icon
 -}
 pauseCircle : Icon
 pauseCircle =
-    Icon.Icon "pause-circle"
+    Types.Icon "pause-circle"
 
 
 {-| Paw - Icon
 -}
 paw : Icon
 paw =
-    Icon.Icon "paw"
+    Types.Icon "paw"
 
 
 {-| PayPal - Logo
 -}
-payPal : Icon
+payPal : Logo
 payPal =
-    Icon.Logo "paypal"
+    Types.Logo "paypal"
 
 
 {-| Pen - Icon
 -}
 pen : Icon
 pen =
-    Icon.Icon "pen"
+    Types.Icon "pen"
 
 
 {-| Pen Alternate - Icon
 -}
 penAlt : Icon
 penAlt =
-    Icon.Icon "pen-alt"
+    Types.Icon "pen-alt"
 
 
 {-| Pen Square - Icon
 -}
 penSquare : Icon
 penSquare =
-    Icon.Icon "pen-square"
+    Types.Icon "pen-square"
 
 
 {-| Pencil - Icon
 -}
 pencil : Icon
 pencil =
-    Icon.Icon "pencil"
+    Types.Icon "pencil"
 
 
 {-| Pencil Alternate - Icon
 -}
 pencilAlt : Icon
 pencilAlt =
-    Icon.Icon "pencil-alt"
+    Types.Icon "pencil-alt"
 
 
 {-| Pennant - Icon
 -}
 pennant : Icon
 pennant =
-    Icon.Icon "pennant"
+    Types.Icon "pennant"
 
 
 {-| Percent - Icon
 -}
 percent : Icon
 percent =
-    Icon.Icon "percent"
+    Types.Icon "percent"
 
 
 {-| Periscope - Logo
 -}
-periscope : Icon
+periscope : Logo
 periscope =
-    Icon.Logo "periscope"
+    Types.Logo "periscope"
 
 
 {-| Phabricator - Logo
 -}
-phabricator : Icon
+phabricator : Logo
 phabricator =
-    Icon.Logo "phabricator"
+    Types.Logo "phabricator"
 
 
 {-| Phoenix Framework - Logo
 -}
-phoenixFramework : Icon
+phoenixFramework : Logo
 phoenixFramework =
-    Icon.Logo "phoenix-framework"
+    Types.Logo "phoenix-framework"
 
 
 {-| Phone - Icon
 -}
 phone : Icon
 phone =
-    Icon.Icon "phone"
+    Types.Icon "phone"
 
 
 {-| Phone Slash - Icon
 -}
 phoneSlash : Icon
 phoneSlash =
-    Icon.Icon "phone-slash"
+    Types.Icon "phone-slash"
 
 
 {-| Phone Square - Icon
 -}
 phoneSquare : Icon
 phoneSquare =
-    Icon.Icon "phone-square"
+    Types.Icon "phone-square"
 
 
 {-| Phone Volume - Icon
 -}
 phoneVolume : Icon
 phoneVolume =
-    Icon.Icon "phone-volume"
+    Types.Icon "phone-volume"
 
 
 {-| PHP - Logo
 -}
-php : Icon
+php : Logo
 php =
-    Icon.Logo "php"
+    Types.Logo "php"
 
 
 {-| Pied Piper - Logo
 -}
-piedPiper : Icon
+piedPiper : Logo
 piedPiper =
-    Icon.Logo "pied-piper"
+    Types.Logo "pied-piper"
 
 
 {-| Pied Piper Alternate - Logo
 -}
-piedPiperAlt : Icon
+piedPiperAlt : Logo
 piedPiperAlt =
-    Icon.Logo "pied-piper-alt"
+    Types.Logo "pied-piper-alt"
 
 
 {-| Pied Piper PP - Logo
 -}
-piedPiperPP : Icon
+piedPiperPP : Logo
 piedPiperPP =
-    Icon.Logo "pied-piper-pp"
+    Types.Logo "pied-piper-pp"
 
 
 {-| Pinterest - Logo
 -}
-pinterest : Icon
+pinterest : Logo
 pinterest =
-    Icon.Logo "pinterest"
+    Types.Logo "pinterest"
 
 
 {-| Pinterest P - Logo
 -}
-pinterestP : Icon
+pinterestP : Logo
 pinterestP =
-    Icon.Logo "pinterest-p"
+    Types.Logo "pinterest-p"
 
 
 {-| Pinterest Square - Logo
 -}
-pinterestSquare : Icon
+pinterestSquare : Logo
 pinterestSquare =
-    Icon.Logo "pinterest-square"
+    Types.Logo "pinterest-square"
 
 
 {-| Plane - Icon
 -}
 plane : Icon
 plane =
-    Icon.Icon "plane"
+    Types.Icon "plane"
 
 
 {-| Plane Alternate - Icon
 -}
 planeAlt : Icon
 planeAlt =
-    Icon.Icon "plane-alt"
+    Types.Icon "plane-alt"
 
 
 {-| Play - Icon
 -}
 play : Icon
 play =
-    Icon.Icon "play"
+    Types.Icon "play"
 
 
 {-| Play Circle - Icon
 -}
 playCircle : Icon
 playCircle =
-    Icon.Icon "play-circle"
+    Types.Icon "play-circle"
 
 
 {-| Playstation - Logo
 -}
-playstation : Icon
+playstation : Logo
 playstation =
-    Icon.Logo "playstation"
+    Types.Logo "playstation"
 
 
 {-| Plug - Icon
 -}
 plug : Icon
 plug =
-    Icon.Icon "plug"
+    Types.Icon "plug"
 
 
 {-| Plus - Icon
 -}
 plus : Icon
 plus =
-    Icon.Icon "plus"
+    Types.Icon "plus"
 
 
 {-| Plus Circle - Icon
 -}
 plusCircle : Icon
 plusCircle =
-    Icon.Icon "plus-circle"
+    Types.Icon "plus-circle"
 
 
 {-| Plus Hexagon - Icon
 -}
 plusHexagon : Icon
 plusHexagon =
-    Icon.Icon "plus-hexagon"
+    Types.Icon "plus-hexagon"
 
 
 {-| Plus Octagon - Icon
 -}
 plusOctagon : Icon
 plusOctagon =
-    Icon.Icon "plus-octagon"
+    Types.Icon "plus-octagon"
 
 
 {-| Plus Square - Icon
 -}
 plusSquare : Icon
 plusSquare =
-    Icon.Icon "plus-square"
+    Types.Icon "plus-square"
 
 
 {-| Podcast - Icon
 -}
 podcast : Icon
 podcast =
-    Icon.Icon "podcast"
+    Types.Icon "podcast"
 
 
 {-| Poo - Icon
 -}
 poo : Icon
 poo =
-    Icon.Icon "poo"
+    Types.Icon "poo"
 
 
 {-| Portrait - Icon
 -}
 portrait : Icon
 portrait =
-    Icon.Icon "portrait"
+    Types.Icon "portrait"
 
 
 {-| Pound Sign - Icon
 -}
 poundSign : Icon
 poundSign =
-    Icon.Icon "pound-sign"
+    Types.Icon "pound-sign"
 
 
 {-| Power Off - Icon
 -}
 powerOff : Icon
 powerOff =
-    Icon.Icon "power-off"
+    Types.Icon "power-off"
 
 
 {-| Print - Icon
 -}
 print : Icon
 print =
-    Icon.Icon "print"
+    Types.Icon "print"
 
 
 {-| Product Hunt - Logo
 -}
-productHunt : Icon
+productHunt : Logo
 productHunt =
-    Icon.Logo "product-hunt"
+    Types.Logo "product-hunt"
 
 
 {-| Pushed - Logo
 -}
-pushed : Icon
+pushed : Logo
 pushed =
-    Icon.Logo "pushed"
+    Types.Logo "pushed"
 
 
 {-| Puzzle Piece - Icon
 -}
 puzzlePiece : Icon
 puzzlePiece =
-    Icon.Icon "puzzle-piece"
+    Types.Icon "puzzle-piece"
 
 
 {-| Python - Logo
 -}
-python : Icon
+python : Logo
 python =
-    Icon.Logo "python"
+    Types.Logo "python"
 
 
 {-| QQ - Logo
 -}
-qq : Icon
+qq : Logo
 qq =
-    Icon.Logo "qq"
+    Types.Logo "qq"
 
 
 {-| QR Code - Icon
 -}
 qrCode : Icon
 qrCode =
-    Icon.Icon "qrcode"
+    Types.Icon "qrcode"
 
 
 {-| Question - Icon
 -}
 question : Icon
 question =
-    Icon.Icon "question"
+    Types.Icon "question"
 
 
 {-| Question Circle - Icon
 -}
 questionCircle : Icon
 questionCircle =
-    Icon.Icon "question-circle"
+    Types.Icon "question-circle"
 
 
 {-| Question Square - Icon
 -}
 questionSquare : Icon
 questionSquare =
-    Icon.Icon "question-square"
+    Types.Icon "question-square"
 
 
 {-| Quidditch - Icon
 -}
 quidditch : Icon
 quidditch =
-    Icon.Icon "quidditch"
+    Types.Icon "quidditch"
 
 
 {-| QuinScape - Logo
 -}
-quinScape : Icon
+quinScape : Logo
 quinScape =
-    Icon.Logo "quinscape"
+    Types.Logo "quinscape"
 
 
 {-| Quora - Logo
 -}
-quora : Icon
+quora : Logo
 quora =
-    Icon.Logo "quora"
+    Types.Logo "quora"
 
 
 {-| Quote Left - Icon
 -}
 quoteLeft : Icon
 quoteLeft =
-    Icon.Icon "quote-left"
+    Types.Icon "quote-left"
 
 
 {-| Quote Right - Icon
 -}
 quoteRight : Icon
 quoteRight =
-    Icon.Icon "quote-right"
+    Types.Icon "quote-right"
 
 
 {-| Racquet - Icon
 -}
 racquet : Icon
 racquet =
-    Icon.Icon "racquet"
+    Types.Icon "racquet"
 
 
 {-| Random - Icon
 -}
 random : Icon
 random =
-    Icon.Icon "random"
+    Types.Icon "random"
 
 
 {-| Ravelry - Logo
 -}
-ravelry : Icon
+ravelry : Logo
 ravelry =
-    Icon.Logo "ravelry"
+    Types.Logo "ravelry"
 
 
 {-| React - Logo
 -}
-react : Icon
+react : Logo
 react =
-    Icon.Logo "react"
+    Types.Logo "react"
 
 
 {-| Rebel - Logo
 -}
-rebel : Icon
+rebel : Logo
 rebel =
-    Icon.Logo "rebel"
+    Types.Logo "rebel"
 
 
 {-| Rectangle Landscape - Icon
 -}
 rectangleLandscape : Icon
 rectangleLandscape =
-    Icon.Icon "rectangle-landscape"
+    Types.Icon "rectangle-landscape"
 
 
 {-| Rectangle Portrait - Icon
 -}
 rectanglePortrait : Icon
 rectanglePortrait =
-    Icon.Icon "rectangle-portrait"
+    Types.Icon "rectangle-portrait"
 
 
 {-| Rectangle Wide - Icon
 -}
 rectangleWide : Icon
 rectangleWide =
-    Icon.Icon "rectangle-wide"
+    Types.Icon "rectangle-wide"
 
 
 {-| Recycle - Icon
 -}
 recycle : Icon
 recycle =
-    Icon.Icon "recycle"
+    Types.Icon "recycle"
 
 
 {-| Red River - Logo
 -}
-redRiver : Icon
+redRiver : Logo
 redRiver =
-    Icon.Logo "red-river"
+    Types.Logo "red-river"
 
 
 {-| Reddit - Logo
 -}
-reddit : Icon
+reddit : Logo
 reddit =
-    Icon.Logo "reddit"
+    Types.Logo "reddit"
 
 
 {-| Reddit Alien - Logo
 -}
-redditAlien : Icon
+redditAlien : Logo
 redditAlien =
-    Icon.Logo "reddit-alien"
+    Types.Logo "reddit-alien"
 
 
 {-| Reddit Square - Logo
 -}
-redditSquare : Icon
+redditSquare : Logo
 redditSquare =
-    Icon.Logo "reddit-square"
+    Types.Logo "reddit-square"
 
 
 {-| Redo - Icon
 -}
 redo : Icon
 redo =
-    Icon.Icon "redo"
+    Types.Icon "redo"
 
 
 {-| Redo Alternate - Icon
 -}
 redoAlt : Icon
 redoAlt =
-    Icon.Icon "redo-alt"
+    Types.Icon "redo-alt"
 
 
 {-| Registered - Icon
 -}
 registered : Icon
 registered =
-    Icon.Icon "registered"
+    Types.Icon "registered"
 
 
 {-| Rendact - Logo
 -}
-rendact : Icon
+rendact : Logo
 rendact =
-    Icon.Logo "rendact"
+    Types.Logo "rendact"
 
 
 {-| Renren - Logo
 -}
-renren : Icon
+renren : Logo
 renren =
-    Icon.Logo "renren"
+    Types.Logo "renren"
 
 
 {-| Repeat - Icon
 -}
 repeat : Icon
 repeat =
-    Icon.Icon "repeat"
+    Types.Icon "repeat"
 
 
 {-| Repeat Alternate - Icon
 -}
 repeatAlt : Icon
 repeatAlt =
-    Icon.Icon "repeat-alt"
+    Types.Icon "repeat-alt"
 
 
 {-| Repeat1 - Icon
 -}
 repeat1 : Icon
 repeat1 =
-    Icon.Icon "repeat-1"
+    Types.Icon "repeat-1"
 
 
 {-| Repeat1 Alternate - Icon
 -}
 repeat1Alt : Icon
 repeat1Alt =
-    Icon.Icon "repeat-1-alt"
+    Types.Icon "repeat-1-alt"
 
 
 {-| Reply - Icon
 -}
 reply : Icon
 reply =
-    Icon.Icon "reply"
+    Types.Icon "reply"
 
 
 {-| Reply All - Icon
 -}
 replyAll : Icon
 replyAll =
-    Icon.Icon "reply-all"
+    Types.Icon "reply-all"
 
 
 {-| Replyd - Logo
 -}
-replyd : Icon
+replyd : Logo
 replyd =
-    Icon.Logo "replyd"
+    Types.Logo "replyd"
 
 
 {-| Resolving - Logo
 -}
-resolving : Icon
+resolving : Logo
 resolving =
-    Icon.Logo "resolving"
+    Types.Logo "resolving"
 
 
 {-| Retweet - Icon
 -}
 retweet : Icon
 retweet =
-    Icon.Icon "retweet"
+    Types.Icon "retweet"
 
 
 {-| Retweet Alternate - Icon
 -}
 retweetAlt : Icon
 retweetAlt =
-    Icon.Icon "retweet-alt"
+    Types.Icon "retweet-alt"
 
 
 {-| Road - Icon
 -}
 road : Icon
 road =
-    Icon.Icon "road"
+    Types.Icon "road"
 
 
 {-| Rocket - Icon
 -}
 rocket : Icon
 rocket =
-    Icon.Icon "rocket"
+    Types.Icon "rocket"
 
 
-{-| Rocket Chat - Logo
+{-| RocketChat - Logo
 -}
-rocketChat : Icon
+rocketChat : Logo
 rocketChat =
-    Icon.Logo "rocketchat"
+    Types.Logo "rocketchat"
 
 
 {-| Rock RMS - Logo
 -}
-rockRMS : Icon
+rockRMS : Logo
 rockRMS =
-    Icon.Logo "rockrms"
+    Types.Logo "rockrms"
 
 
 {-| RSS - Icon
 -}
 rss : Icon
 rss =
-    Icon.Icon "rss"
+    Types.Icon "rss"
 
 
 {-| RSS Square - Icon
 -}
 rssSquare : Icon
 rssSquare =
-    Icon.Icon "rss-square"
+    Types.Icon "rss-square"
 
 
 {-| Ruble Sign - Icon
 -}
 rubleSign : Icon
 rubleSign =
-    Icon.Icon "ruble-sign"
+    Types.Icon "ruble-sign"
 
 
 {-| Rupee Sign - Icon
 -}
 rupeeSign : Icon
 rupeeSign =
-    Icon.Icon "rupee-sign"
+    Types.Icon "rupee-sign"
 
 
 {-| Safari - Logo
 -}
-safari : Icon
+safari : Logo
 safari =
-    Icon.Logo "safari"
+    Types.Logo "safari"
 
 
 {-| Sass - Logo
 -}
-sass : Icon
+sass : Logo
 sass =
-    Icon.Logo "sass"
+    Types.Logo "sass"
 
 
 {-| Save - Icon
 -}
 save : Icon
 save =
-    Icon.Icon "save"
+    Types.Icon "save"
 
 
 {-| Schlix - Logo
 -}
-schlix : Icon
+schlix : Logo
 schlix =
-    Icon.Logo "schlix"
+    Types.Logo "schlix"
 
 
 {-| Scribd - Logo
 -}
-scribd : Icon
+scribd : Logo
 scribd =
-    Icon.Logo "scribd"
+    Types.Logo "scribd"
 
 
 {-| Scrubber - Icon
 -}
 scrubber : Icon
 scrubber =
-    Icon.Icon "scrubber"
+    Types.Icon "scrubber"
 
 
 {-| Search - Icon
 -}
 search : Icon
 search =
-    Icon.Icon "search"
+    Types.Icon "search"
 
 
 {-| Search Minus - Icon
 -}
 searchMinus : Icon
 searchMinus =
-    Icon.Icon "search-minus"
+    Types.Icon "search-minus"
 
 
 {-| Search Plus - Icon
 -}
 searchPlus : Icon
 searchPlus =
-    Icon.Icon "search-plus"
+    Types.Icon "search-plus"
 
 
 {-| Searchengin - Logo
 -}
-searchengin : Icon
+searchengin : Logo
 searchengin =
-    Icon.Logo "searchengin"
+    Types.Logo "searchengin"
 
 
 {-| SellCast - Logo
 -}
-sellCast : Icon
+sellCast : Logo
 sellCast =
-    Icon.Logo "sellcast"
+    Types.Logo "sellcast"
 
 
 {-| Sellsy - Logo
 -}
-sellsy : Icon
+sellsy : Logo
 sellsy =
-    Icon.Logo "sellsy"
+    Types.Logo "sellsy"
 
 
 {-| Server - Icon
 -}
 server : Icon
 server =
-    Icon.Icon "server"
+    Types.Icon "server"
 
 
 {-| Service Stack - Logo
 -}
-serviceStack : Icon
+serviceStack : Logo
 serviceStack =
-    Icon.Logo "servicestack"
+    Types.Logo "servicestack"
 
 
 {-| Share - Icon
 -}
 share : Icon
 share =
-    Icon.Icon "share"
+    Types.Icon "share"
 
 
 {-| Share All - Icon
 -}
 shareAll : Icon
 shareAll =
-    Icon.Icon "share-all"
+    Types.Icon "share-all"
 
 
 {-| Share Alternate - Icon
 -}
 shareAlt : Icon
 shareAlt =
-    Icon.Icon "share-alt"
+    Types.Icon "share-alt"
 
 
 {-| Share Alternate Square - Icon
 -}
 shareAltSquare : Icon
 shareAltSquare =
-    Icon.Icon "share-alt-square"
+    Types.Icon "share-alt-square"
 
 
 {-| Share Square - Icon
 -}
 shareSquare : Icon
 shareSquare =
-    Icon.Icon "share-square"
+    Types.Icon "share-square"
 
 
 {-| Shekel Sign - Icon
 -}
 shekelSign : Icon
 shekelSign =
-    Icon.Icon "shekel-sign"
+    Types.Icon "shekel-sign"
 
 
 {-| Shield - Icon
 -}
 shield : Icon
 shield =
-    Icon.Icon "shield"
+    Types.Icon "shield"
 
 
 {-| Shield Alternate - Icon
 -}
 shieldAlt : Icon
 shieldAlt =
-    Icon.Icon "shield-alt"
+    Types.Icon "shield-alt"
 
 
 {-| Shield Check - Icon
 -}
 shieldCheck : Icon
 shieldCheck =
-    Icon.Icon "shield-check"
+    Types.Icon "shield-check"
 
 
 {-| Ship - Icon
 -}
 ship : Icon
 ship =
-    Icon.Icon "ship"
+    Types.Icon "ship"
 
 
 {-| Shirts In Bulk - Logo
 -}
-shirtsInBulk : Icon
+shirtsInBulk : Logo
 shirtsInBulk =
-    Icon.Logo "shirtsinbulk"
+    Types.Logo "shirtsinbulk"
 
 
 {-| Shopping Bag - Icon
 -}
 shoppingBag : Icon
 shoppingBag =
-    Icon.Icon "shopping-bag"
+    Types.Icon "shopping-bag"
 
 
 {-| Shopping Basket - Icon
 -}
 shoppingBasket : Icon
 shoppingBasket =
-    Icon.Icon "shopping-basket"
+    Types.Icon "shopping-basket"
 
 
 {-| Shopping Cart - Icon
 -}
 shoppingCart : Icon
 shoppingCart =
-    Icon.Icon "shopping-cart"
+    Types.Icon "shopping-cart"
 
 
 {-| Shower - Icon
 -}
 shower : Icon
 shower =
-    Icon.Icon "shower"
+    Types.Icon "shower"
 
 
 {-| Shuttlecock - Icon
 -}
 shuttlecock : Icon
 shuttlecock =
-    Icon.Icon "shuttlecock"
+    Types.Icon "shuttlecock"
 
 
 {-| Sign In - Icon
 -}
 signIn : Icon
 signIn =
-    Icon.Icon "sign-in"
+    Types.Icon "sign-in"
 
 
 {-| Sign In Alternate - Icon
 -}
 signInAlt : Icon
 signInAlt =
-    Icon.Icon "sign-in-alt"
+    Types.Icon "sign-in-alt"
 
 
 {-| Sign Language - Icon
 -}
 signLanguage : Icon
 signLanguage =
-    Icon.Icon "sign-language"
+    Types.Icon "sign-language"
 
 
 {-| Sign Out - Icon
 -}
 signOut : Icon
 signOut =
-    Icon.Icon "sign-out"
+    Types.Icon "sign-out"
 
 
 {-| Sign Out Alternate - Icon
 -}
 signOutAlt : Icon
 signOutAlt =
-    Icon.Icon "sign-out-alt"
+    Types.Icon "sign-out-alt"
 
 
 {-| Signal - Icon
 -}
 signal : Icon
 signal =
-    Icon.Icon "signal"
+    Types.Icon "signal"
 
 
 {-| Simply Built - Logo
 -}
-simplyBuilt : Icon
+simplyBuilt : Logo
 simplyBuilt =
-    Icon.Logo "simplybuilt"
+    Types.Logo "simplybuilt"
 
 
 {-| Sistrix - Logo
 -}
-sistrix : Icon
+sistrix : Logo
 sistrix =
-    Icon.Logo "sistrix"
+    Types.Logo "sistrix"
 
 
 {-| Sitemap - Icon
 -}
 sitemap : Icon
 sitemap =
-    Icon.Icon "sitemap"
+    Types.Icon "sitemap"
 
 
 {-| Sky Atlas - Logo
 -}
-skyAtlas : Icon
+skyAtlas : Logo
 skyAtlas =
-    Icon.Logo "skyatlas"
+    Types.Logo "skyatlas"
 
 
 {-| Skype - Logo
 -}
-skype : Icon
+skype : Logo
 skype =
-    Icon.Logo "skype"
+    Types.Logo "skype"
 
 
 {-| Slack - Logo
 -}
-slack : Icon
+slack : Logo
 slack =
-    Icon.Logo "slack"
+    Types.Logo "slack"
 
 
 {-| Slack Hash - Logo
 -}
-slackHash : Icon
+slackHash : Logo
 slackHash =
-    Icon.Logo "slack-hash"
+    Types.Logo "slack-hash"
 
 
 {-| Sliders Horizontal - Icon
 -}
 slidersHorizontal : Icon
 slidersHorizontal =
-    Icon.Icon "sliders-h"
+    Types.Icon "sliders-h"
 
 
 {-| Sliders Horizontal Square - Icon
 -}
 slidersHorizontalSquare : Icon
 slidersHorizontalSquare =
-    Icon.Icon "sliders-h-square"
+    Types.Icon "sliders-h-square"
 
 
 {-| Sliders Vertical - Icon
 -}
 slidersVertical : Icon
 slidersVertical =
-    Icon.Icon "sliders-v"
+    Types.Icon "sliders-v"
 
 
 {-| Sliders Vertical Square - Icon
 -}
 slidersVerticalSquare : Icon
 slidersVerticalSquare =
-    Icon.Icon "sliders-v-square"
+    Types.Icon "sliders-v-square"
 
 
 {-| Slideshare - Logo
 -}
-slideshare : Icon
+slideshare : Logo
 slideshare =
-    Icon.Logo "slideshare"
+    Types.Logo "slideshare"
 
 
 {-| Smile - Icon
 -}
 smile : Icon
 smile =
-    Icon.Icon "smile"
+    Types.Icon "smile"
 
 
 {-| Snapchat - Logo
 -}
-snapchat : Icon
+snapchat : Logo
 snapchat =
-    Icon.Logo "snapchat"
+    Types.Logo "snapchat"
 
 
 {-| Snapchat Ghost - Logo
 -}
-snapchatGhost : Icon
+snapchatGhost : Logo
 snapchatGhost =
-    Icon.Logo "snapchat-ghost"
+    Types.Logo "snapchat-ghost"
 
 
 {-| Snapchat Square - Logo
 -}
-snapchatSquare : Icon
+snapchatSquare : Logo
 snapchatSquare =
-    Icon.Logo "snapchat-square"
+    Types.Logo "snapchat-square"
 
 
 {-| Snowflake - Icon
 -}
 snowflake : Icon
 snowflake =
-    Icon.Icon "snowflake"
+    Types.Icon "snowflake"
 
 
 {-| Sort - Icon
 -}
 sort : Icon
 sort =
-    Icon.Icon "sort"
+    Types.Icon "sort"
 
 
 {-| Sort Alpha Down - Icon
 -}
 sortAlphaDown : Icon
 sortAlphaDown =
-    Icon.Icon "sort-alpha-down"
+    Types.Icon "sort-alpha-down"
 
 
 {-| Sort Alpha Up - Icon
 -}
 sortAlphaUp : Icon
 sortAlphaUp =
-    Icon.Icon "sort-alpha-up"
+    Types.Icon "sort-alpha-up"
 
 
 {-| Sort Amount Down - Icon
 -}
 sortAmountDown : Icon
 sortAmountDown =
-    Icon.Icon "sort-amount-down"
+    Types.Icon "sort-amount-down"
 
 
 {-| Sort Amount Up - Icon
 -}
 sortAmountUp : Icon
 sortAmountUp =
-    Icon.Icon "sort-amount-up"
+    Types.Icon "sort-amount-up"
 
 
 {-| Sort Down - Icon
 -}
 sortDown : Icon
 sortDown =
-    Icon.Icon "sort-down"
+    Types.Icon "sort-down"
 
 
 {-| Sort Numeric Down - Icon
 -}
 sortNumericDown : Icon
 sortNumericDown =
-    Icon.Icon "sort-numeric-down"
+    Types.Icon "sort-numeric-down"
 
 
 {-| Sort Numeric Up - Icon
 -}
 sortNumericUp : Icon
 sortNumericUp =
-    Icon.Icon "sort-numeric-up"
+    Types.Icon "sort-numeric-up"
 
 
 {-| Sort Up - Icon
 -}
 sortUp : Icon
 sortUp =
-    Icon.Icon "sort-up"
+    Types.Icon "sort-up"
 
 
 {-| Sound Cloud - Logo
 -}
-soundCloud : Icon
+soundCloud : Logo
 soundCloud =
-    Icon.Logo "soundcloud"
+    Types.Logo "soundcloud"
 
 
 {-| Space Shuttle - Icon
 -}
 spaceShuttle : Icon
 spaceShuttle =
-    Icon.Icon "space-shuttle"
+    Types.Icon "space-shuttle"
 
 
 {-| Spade - Icon
 -}
 spade : Icon
 spade =
-    Icon.Icon "spade"
+    Types.Icon "spade"
 
 
 {-| Speakap - Logo
 -}
-speakap : Icon
+speakap : Logo
 speakap =
-    Icon.Logo "speakap"
+    Types.Logo "speakap"
 
 
 {-| Spinner - Icon
 -}
 spinner : Icon
 spinner =
-    Icon.Icon "spinner"
+    Types.Icon "spinner"
 
 
 {-| Spinner Third - Icon
 -}
 spinnerThird : Icon
 spinnerThird =
-    Icon.Icon "spinner-third"
+    Types.Icon "spinner-third"
 
 
 {-| Spotify - Logo
 -}
-spotify : Icon
+spotify : Logo
 spotify =
-    Icon.Logo "spotify"
+    Types.Logo "spotify"
 
 
 {-| Square - Icon
 -}
 square : Icon
 square =
-    Icon.Icon "square"
+    Types.Icon "square"
 
 
 {-| Square Full - Icon
 -}
 squareFull : Icon
 squareFull =
-    Icon.Icon "square-full"
+    Types.Icon "square-full"
 
 
 {-| Stack Exchange - Logo
 -}
-stackExchange : Icon
+stackExchange : Logo
 stackExchange =
-    Icon.Logo "stack-exchange"
+    Types.Logo "stack-exchange"
 
 
 {-| Stack Overflow - Logo
 -}
-stackOverflow : Icon
+stackOverflow : Logo
 stackOverflow =
-    Icon.Logo "stack-overflow"
+    Types.Logo "stack-overflow"
 
 
 {-| Star - Icon
 -}
 star : Icon
 star =
-    Icon.Icon "star"
+    Types.Icon "star"
 
 
 {-| Star Exclamation - Icon
 -}
 starExclamation : Icon
 starExclamation =
-    Icon.Icon "star-exclamation"
+    Types.Icon "star-exclamation"
 
 
 {-| Star Half - Icon
 -}
 starHalf : Icon
 starHalf =
-    Icon.Icon "star-half"
+    Types.Icon "star-half"
 
 
 {-| StayLinked - Logo
 -}
-stayLinked : Icon
+stayLinked : Logo
 stayLinked =
-    Icon.Logo "staylinked"
+    Types.Logo "staylinked"
 
 
 {-| Steam - Logo
 -}
-steam : Icon
+steam : Logo
 steam =
-    Icon.Logo "steam"
+    Types.Logo "steam"
 
 
 {-| Steam Square - Logo
 -}
-steamSquare : Icon
+steamSquare : Logo
 steamSquare =
-    Icon.Logo "steam-square"
+    Types.Logo "steam-square"
 
 
 {-| Steam Symbol - Logo
 -}
-steamSymbol : Icon
+steamSymbol : Logo
 steamSymbol =
-    Icon.Logo "steam-symbol"
+    Types.Logo "steam-symbol"
 
 
 {-| Step Backward - Icon
 -}
 stepBackward : Icon
 stepBackward =
-    Icon.Icon "step-backward"
+    Types.Icon "step-backward"
 
 
 {-| Step Forward - Icon
 -}
 stepForward : Icon
 stepForward =
-    Icon.Icon "step-forward"
+    Types.Icon "step-forward"
 
 
 {-| Stethoscope - Icon
 -}
 stethoscope : Icon
 stethoscope =
-    Icon.Icon "stethoscope"
+    Types.Icon "stethoscope"
 
 
 {-| Sticker Mule - Logo
 -}
-stickerMule : Icon
+stickerMule : Logo
 stickerMule =
-    Icon.Logo "sticker-mule"
+    Types.Logo "sticker-mule"
 
 
 {-| Sticky Note - Icon
 -}
 stickyNote : Icon
 stickyNote =
-    Icon.Icon "sticky-note"
+    Types.Icon "sticky-note"
 
 
 {-| Stop - Icon
 -}
 stop : Icon
 stop =
-    Icon.Icon "stop"
+    Types.Icon "stop"
 
 
 {-| Stop Circle - Icon
 -}
 stopCircle : Icon
 stopCircle =
-    Icon.Icon "stop-circle"
+    Types.Icon "stop-circle"
 
 
 {-| Stopwatch - Icon
 -}
 stopwatch : Icon
 stopwatch =
-    Icon.Icon "stopwatch"
+    Types.Icon "stopwatch"
 
 
 {-| Strava - Logo
 -}
-strava : Icon
+strava : Logo
 strava =
-    Icon.Logo "strava"
+    Types.Logo "strava"
 
 
 {-| Street View - Icon
 -}
 streetView : Icon
 streetView =
-    Icon.Icon "street-view"
+    Types.Icon "street-view"
 
 
 {-| Strikethrough - Icon
 -}
 strikethrough : Icon
 strikethrough =
-    Icon.Icon "strikethrough"
+    Types.Icon "strikethrough"
 
 
 {-| Stripe - Logo
 -}
-stripe : Icon
+stripe : Logo
 stripe =
-    Icon.Logo "stripe"
+    Types.Logo "stripe"
 
 
 {-| Stripe S - Logo
 -}
-stripeS : Icon
+stripeS : Logo
 stripeS =
-    Icon.Logo "stripe-s"
+    Types.Logo "stripe-s"
 
 
 {-| Studio Vinari - Logo
 -}
-studioVinari : Icon
+studioVinari : Logo
 studioVinari =
-    Icon.Logo "studiovinari"
+    Types.Logo "studiovinari"
 
 
 {-| StumbleUpon - Logo
 -}
-stumbleUpon : Icon
+stumbleUpon : Logo
 stumbleUpon =
-    Icon.Logo "stumbleupon"
+    Types.Logo "stumbleupon"
 
 
 {-| StumbleUpon Circle - Logo
 -}
-stumbleUponCircle : Icon
+stumbleUponCircle : Logo
 stumbleUponCircle =
-    Icon.Logo "stumbleupon-circle"
+    Types.Logo "stumbleupon-circle"
 
 
 {-| Subscript - Icon
 -}
 subscript : Icon
 subscript =
-    Icon.Icon "subscript"
+    Types.Icon "subscript"
 
 
 {-| Subway - Icon
 -}
 subway : Icon
 subway =
-    Icon.Icon "subway"
+    Types.Icon "subway"
 
 
 {-| Suitcase - Icon
 -}
 suitcase : Icon
 suitcase =
-    Icon.Icon "suitcase"
+    Types.Icon "suitcase"
 
 
 {-| Sun - Icon
 -}
 sun : Icon
 sun =
-    Icon.Icon "sun"
+    Types.Icon "sun"
 
 
 {-| Superpowers - Logo
 -}
-superpowers : Icon
+superpowers : Logo
 superpowers =
-    Icon.Logo "superpowers"
+    Types.Logo "superpowers"
 
 
 {-| Superscript - Icon
 -}
 superscript : Icon
 superscript =
-    Icon.Icon "superscript"
+    Types.Icon "superscript"
 
 
 {-| Supple - Logo
 -}
-supple : Icon
+supple : Logo
 supple =
-    Icon.Logo "supple"
+    Types.Logo "supple"
 
 
 {-| Sync - Icon
 -}
 sync : Icon
 sync =
-    Icon.Icon "sync"
+    Types.Icon "sync"
 
 
 {-| Sync Alternate - Icon
 -}
 syncAlt : Icon
 syncAlt =
-    Icon.Icon "sync-alt"
+    Types.Icon "sync-alt"
 
 
 {-| Table - Icon
 -}
 table : Icon
 table =
-    Icon.Icon "table"
+    Types.Icon "table"
 
 
 {-| Table Tennis - Icon
 -}
 tableTennis : Icon
 tableTennis =
-    Icon.Icon "table-tennis"
+    Types.Icon "table-tennis"
 
 
 {-| Tablet - Icon
 -}
 tablet : Icon
 tablet =
-    Icon.Icon "tablet"
+    Types.Icon "tablet"
 
 
 {-| Tablet Alternate - Icon
 -}
 tabletAlt : Icon
 tabletAlt =
-    Icon.Icon "tablet-alt"
+    Types.Icon "tablet-alt"
 
 
 {-| Tablet Android - Icon
 -}
 tabletAndroid : Icon
 tabletAndroid =
-    Icon.Icon "tablet-android"
+    Types.Icon "tablet-android"
 
 
 {-| Tablet Android Alternate - Icon
 -}
 tabletAndroidAlt : Icon
 tabletAndroidAlt =
-    Icon.Icon "tablet-android-alt"
+    Types.Icon "tablet-android-alt"
 
 
 {-| Tachometer - Icon
 -}
 tachometer : Icon
 tachometer =
-    Icon.Icon "tachometer"
+    Types.Icon "tachometer"
 
 
 {-| Tachometer Alternate - Icon
 -}
 tachometerAlt : Icon
 tachometerAlt =
-    Icon.Icon "tachometer-alt"
+    Types.Icon "tachometer-alt"
 
 
 {-| Tag - Icon
 -}
 tag : Icon
 tag =
-    Icon.Icon "tag"
+    Types.Icon "tag"
 
 
 {-| Tags - Icon
 -}
 tags : Icon
 tags =
-    Icon.Icon "tags"
+    Types.Icon "tags"
 
 
 {-| Tasks - Icon
 -}
 tasks : Icon
 tasks =
-    Icon.Icon "tasks"
+    Types.Icon "tasks"
 
 
 {-| Taxi - Icon
 -}
 taxi : Icon
 taxi =
-    Icon.Icon "taxi"
+    Types.Icon "taxi"
 
 
 {-| Telegram - Logo
 -}
-telegram : Icon
+telegram : Logo
 telegram =
-    Icon.Logo "telegram"
+    Types.Logo "telegram"
 
 
 {-| Telegram Plane - Logo
 -}
-telegramPlane : Icon
+telegramPlane : Logo
 telegramPlane =
-    Icon.Logo "telegram-plane"
+    Types.Logo "telegram-plane"
 
 
 {-| Tencent Weibo - Logo
 -}
-tencentWeibo : Icon
+tencentWeibo : Logo
 tencentWeibo =
-    Icon.Logo "tencent-weibo"
+    Types.Logo "tencent-weibo"
 
 
 {-| Tennis Ball - Icon
 -}
 tennisBall : Icon
 tennisBall =
-    Icon.Icon "tennis-ball"
+    Types.Icon "tennis-ball"
 
 
 {-| Terminal - Icon
 -}
 terminal : Icon
 terminal =
-    Icon.Icon "terminal"
+    Types.Icon "terminal"
 
 
 {-| Text Height - Icon
 -}
 textHeight : Icon
 textHeight =
-    Icon.Icon "text-height"
+    Types.Icon "text-height"
 
 
 {-| Text Width - Icon
 -}
 textWidth : Icon
 textWidth =
-    Icon.Icon "text-width"
+    Types.Icon "text-width"
 
 
 {-| Th - Icon
 -}
 th : Icon
 th =
-    Icon.Icon "th"
+    Types.Icon "th"
 
 
 {-| Th Large - Icon
 -}
 thLarge : Icon
 thLarge =
-    Icon.Icon "th-large"
+    Types.Icon "th-large"
 
 
 {-| Th List - Icon
 -}
 thList : Icon
 thList =
-    Icon.Icon "th-list"
+    Types.Icon "th-list"
 
 
 {-| Theme Isle - Logo
 -}
-themeIsle : Icon
+themeIsle : Logo
 themeIsle =
-    Icon.Logo "themeisle"
+    Types.Logo "themeisle"
 
 
 {-| Thermometer Empty - Icon
 -}
 thermometerEmpty : Icon
 thermometerEmpty =
-    Icon.Icon "thermometer-empty"
+    Types.Icon "thermometer-empty"
 
 
 {-| Thermometer Full - Icon
 -}
 thermometerFull : Icon
 thermometerFull =
-    Icon.Icon "thermometer-full"
+    Types.Icon "thermometer-full"
 
 
 {-| Thermometer Half - Icon
 -}
 thermometerHalf : Icon
 thermometerHalf =
-    Icon.Icon "thermometer-half"
+    Types.Icon "thermometer-half"
 
 
 {-| Thermometer Quarter - Icon
 -}
 thermometerQuarter : Icon
 thermometerQuarter =
-    Icon.Icon "thermometer-quarter"
+    Types.Icon "thermometer-quarter"
 
 
 {-| Thermometer Three Quarters - Icon
 -}
 thermometerThreeQuarters : Icon
 thermometerThreeQuarters =
-    Icon.Icon "thermometer-three-quarters"
+    Types.Icon "thermometer-three-quarters"
 
 
 {-| Thumbs Down - Icon
 -}
 thumbsDown : Icon
 thumbsDown =
-    Icon.Icon "thumbs-down"
+    Types.Icon "thumbs-down"
 
 
 {-| Thumbs Up - Icon
 -}
 thumbsUp : Icon
 thumbsUp =
-    Icon.Icon "thumbs-up"
+    Types.Icon "thumbs-up"
 
 
 {-| Thumbtack - Icon
 -}
 thumbtack : Icon
 thumbtack =
-    Icon.Icon "thumbtack"
+    Types.Icon "thumbtack"
 
 
 {-| Ticket - Icon
 -}
 ticket : Icon
 ticket =
-    Icon.Icon "ticket"
+    Types.Icon "ticket"
 
 
 {-| Ticket Alternate - Icon
 -}
 ticketAlt : Icon
 ticketAlt =
-    Icon.Icon "ticket-alt"
+    Types.Icon "ticket-alt"
 
 
 {-| Times - Icon
 -}
 times : Icon
 times =
-    Icon.Icon "times"
+    Types.Icon "times"
 
 
 {-| Times Circle - Icon
 -}
 timesCircle : Icon
 timesCircle =
-    Icon.Icon "times-circle"
+    Types.Icon "times-circle"
 
 
 {-| Times Hexagon - Icon
 -}
 timesHexagon : Icon
 timesHexagon =
-    Icon.Icon "times-hexagon"
+    Types.Icon "times-hexagon"
 
 
 {-| Times Octagon - Icon
 -}
 timesOctagon : Icon
 timesOctagon =
-    Icon.Icon "times-octagon"
+    Types.Icon "times-octagon"
 
 
 {-| Times Square - Icon
 -}
 timesSquare : Icon
 timesSquare =
-    Icon.Icon "times-square"
+    Types.Icon "times-square"
 
 
 {-| Tint - Icon
 -}
 tint : Icon
 tint =
-    Icon.Icon "tint"
+    Types.Icon "tint"
 
 
 {-| Toggle Off - Icon
 -}
 toggleOff : Icon
 toggleOff =
-    Icon.Icon "toggle-off"
+    Types.Icon "toggle-off"
 
 
 {-| Toggle On - Icon
 -}
 toggleOn : Icon
 toggleOn =
-    Icon.Icon "toggle-on"
+    Types.Icon "toggle-on"
 
 
 {-| Trademark - Icon
 -}
 trademark : Icon
 trademark =
-    Icon.Icon "trademark"
+    Types.Icon "trademark"
 
 
 {-| Train - Icon
 -}
 train : Icon
 train =
-    Icon.Icon "train"
+    Types.Icon "train"
 
 
 {-| Transgender - Icon
 -}
 transgender : Icon
 transgender =
-    Icon.Icon "transgender"
+    Types.Icon "transgender"
 
 
 {-| Transgender Alternate - Icon
 -}
 transgenderAlt : Icon
 transgenderAlt =
-    Icon.Icon "transgender-alt"
+    Types.Icon "transgender-alt"
 
 
 {-| Trash - Icon
 -}
 trash : Icon
 trash =
-    Icon.Icon "trash"
+    Types.Icon "trash"
 
 
 {-| Trash Alternate - Icon
 -}
 trashAlt : Icon
 trashAlt =
-    Icon.Icon "trash-alt"
+    Types.Icon "trash-alt"
 
 
 {-| Tree - Icon
 -}
 tree : Icon
 tree =
-    Icon.Icon "tree"
+    Types.Icon "tree"
 
 
 {-| Tree Alternate - Icon
 -}
 treeAlt : Icon
 treeAlt =
-    Icon.Icon "tree-alt"
+    Types.Icon "tree-alt"
 
 
 {-| Trello - Logo
 -}
-trello : Icon
+trello : Logo
 trello =
-    Icon.Logo "trello"
+    Types.Logo "trello"
 
 
 {-| Triangle - Icon
 -}
 triangle : Icon
 triangle =
-    Icon.Icon "triangle"
+    Types.Icon "triangle"
 
 
 {-| Trip Advisor - Logo
 -}
-tripAdvisor : Icon
+tripAdvisor : Logo
 tripAdvisor =
-    Icon.Logo "tripadvisor"
+    Types.Logo "tripadvisor"
 
 
 {-| Trophy - Icon
 -}
 trophy : Icon
 trophy =
-    Icon.Icon "trophy"
+    Types.Icon "trophy"
 
 
 {-| Trophy Alternate - Icon
 -}
 trophyAlt : Icon
 trophyAlt =
-    Icon.Icon "trophy-alt"
+    Types.Icon "trophy-alt"
 
 
 {-| Truck - Icon
 -}
 truck : Icon
 truck =
-    Icon.Icon "truck"
+    Types.Icon "truck"
 
 
 {-| TTY - Icon
 -}
 tty : Icon
 tty =
-    Icon.Icon "tty"
+    Types.Icon "tty"
 
 
 {-| Tumblr - Logo
 -}
-tumblr : Icon
+tumblr : Logo
 tumblr =
-    Icon.Logo "tumblr"
+    Types.Logo "tumblr"
 
 
 {-| Tumblr Square - Logo
 -}
-tumblrSquare : Icon
+tumblrSquare : Logo
 tumblrSquare =
-    Icon.Logo "tumblr-square"
+    Types.Logo "tumblr-square"
 
 
 {-| TV - Icon
 -}
 tv : Icon
 tv =
-    Icon.Icon "tv"
+    Types.Icon "tv"
 
 
 {-| TV Retro - Icon
 -}
 tvRetro : Icon
 tvRetro =
-    Icon.Icon "tv-retro"
+    Types.Icon "tv-retro"
 
 
 {-| Twitch - Logo
 -}
-twitch : Icon
+twitch : Logo
 twitch =
-    Icon.Logo "twitch"
+    Types.Logo "twitch"
 
 
 {-| Twitter - Logo
 -}
-twitter : Icon
+twitter : Logo
 twitter =
-    Icon.Logo "twitter"
+    Types.Logo "twitter"
 
 
 {-| Twitter Square - Logo
 -}
-twitterSquare : Icon
+twitterSquare : Logo
 twitterSquare =
-    Icon.Logo "twitter-square"
+    Types.Logo "twitter-square"
 
 
 {-| Typo3 - Logo
 -}
-typo3 : Icon
+typo3 : Logo
 typo3 =
-    Icon.Logo "typo3"
+    Types.Logo "typo3"
 
 
 {-| Uber - Logo
 -}
-uber : Icon
+uber : Logo
 uber =
-    Icon.Logo "uber"
+    Types.Logo "uber"
 
 
 {-| UIkit - Logo
 -}
-uiKit : Icon
+uiKit : Logo
 uiKit =
-    Icon.Logo "uikit"
+    Types.Logo "uikit"
 
 
 {-| Umbrella - Icon
 -}
 umbrella : Icon
 umbrella =
-    Icon.Icon "umbrella"
+    Types.Icon "umbrella"
 
 
 {-| Underline - Icon
 -}
 underline : Icon
 underline =
-    Icon.Icon "underline"
+    Types.Icon "underline"
 
 
 {-| Undo - Icon
 -}
 undo : Icon
 undo =
-    Icon.Icon "undo"
+    Types.Icon "undo"
 
 
 {-| Undo Alternate - Icon
 -}
 undoAlt : Icon
 undoAlt =
-    Icon.Icon "undo-alt"
+    Types.Icon "undo-alt"
 
 
 {-| Uniregistry - Logo
 -}
-uniregistry : Icon
+uniregistry : Logo
 uniregistry =
-    Icon.Logo "uniregistry"
+    Types.Logo "uniregistry"
 
 
 {-| Universal Access - Icon
 -}
 universalAccess : Icon
 universalAccess =
-    Icon.Icon "universal-access"
+    Types.Icon "universal-access"
 
 
 {-| University - Icon
 -}
 university : Icon
 university =
-    Icon.Icon "university"
+    Types.Icon "university"
 
 
 {-| Unlink - Icon
 -}
 unlink : Icon
 unlink =
-    Icon.Icon "unlink"
+    Types.Icon "unlink"
 
 
 {-| Unlock - Icon
 -}
 unlock : Icon
 unlock =
-    Icon.Icon "unlock"
+    Types.Icon "unlock"
 
 
 {-| Unlock Alternate - Icon
 -}
 unlockAlt : Icon
 unlockAlt =
-    Icon.Icon "unlock-alt"
+    Types.Icon "unlock-alt"
 
 
 {-| Untappd - Logo
 -}
-untappd : Icon
+untappd : Logo
 untappd =
-    Icon.Logo "untappd"
+    Types.Logo "untappd"
 
 
 {-| Upload - Icon
 -}
 upload : Icon
 upload =
-    Icon.Icon "upload"
+    Types.Icon "upload"
 
 
 {-| USB - Logo
 -}
-usb : Icon
+usb : Logo
 usb =
-    Icon.Logo "usb"
+    Types.Logo "usb"
 
 
 {-| USD Circle - Icon
 -}
 usdCircle : Icon
 usdCircle =
-    Icon.Icon "usd-circle"
+    Types.Icon "usd-circle"
 
 
 {-| USD Square - Icon
 -}
 usdSquare : Icon
 usdSquare =
-    Icon.Icon "usd-square"
+    Types.Icon "usd-square"
 
 
 {-| User - Icon
 -}
 user : Icon
 user =
-    Icon.Icon "user"
+    Types.Icon "user"
 
 
 {-| User Alternate - Icon
 -}
 userAlt : Icon
 userAlt =
-    Icon.Icon "user-alt"
+    Types.Icon "user-alt"
 
 
 {-| User Circle - Icon
 -}
 userCircle : Icon
 userCircle =
-    Icon.Icon "user-circle"
+    Types.Icon "user-circle"
 
 
 {-| User MD - Icon
 -}
 userMD : Icon
 userMD =
-    Icon.Icon "user-md"
+    Types.Icon "user-md"
 
 
 {-| User Plus - Icon
 -}
 userPlus : Icon
 userPlus =
-    Icon.Icon "user-plus"
+    Types.Icon "user-plus"
 
 
 {-| User Secret - Icon
 -}
 userSecret : Icon
 userSecret =
-    Icon.Icon "user-secret"
+    Types.Icon "user-secret"
 
 
 {-| User Times - Icon
 -}
 userTimes : Icon
 userTimes =
-    Icon.Icon "user-times"
+    Types.Icon "user-times"
 
 
 {-| Users - Icon
 -}
 users : Icon
 users =
-    Icon.Icon "users"
+    Types.Icon "users"
 
 
 {-| us Sunnah - Logo
 -}
-usSunnah : Icon
+usSunnah : Logo
 usSunnah =
-    Icon.Logo "ussunnah"
+    Types.Logo "ussunnah"
 
 
 {-| Utensil Fork - Icon
 -}
 utensilFork : Icon
 utensilFork =
-    Icon.Icon "utensil-fork"
+    Types.Icon "utensil-fork"
 
 
 {-| Utensil Knife - Icon
 -}
 utensilKnife : Icon
 utensilKnife =
-    Icon.Icon "utensil-knife"
+    Types.Icon "utensil-knife"
 
 
 {-| Utensil Spoon - Icon
 -}
 utensilSpoon : Icon
 utensilSpoon =
-    Icon.Icon "utensil-spoon"
+    Types.Icon "utensil-spoon"
 
 
 {-| Utensils - Icon
 -}
 utensils : Icon
 utensils =
-    Icon.Icon "utensils"
+    Types.Icon "utensils"
 
 
 {-| Utensils Alternate - Icon
 -}
 utensilsAlt : Icon
 utensilsAlt =
-    Icon.Icon "utensils-alt"
+    Types.Icon "utensils-alt"
 
 
 {-| Vaadin - Logo
 -}
-vaadin : Icon
+vaadin : Logo
 vaadin =
-    Icon.Logo "vaadin"
+    Types.Logo "vaadin"
 
 
 {-| Venus - Icon
 -}
 venus : Icon
 venus =
-    Icon.Icon "venus"
+    Types.Icon "venus"
 
 
 {-| Venus Double - Icon
 -}
 venusDouble : Icon
 venusDouble =
-    Icon.Icon "venus-double"
+    Types.Icon "venus-double"
 
 
 {-| Venus Mars - Icon
 -}
 venusMars : Icon
 venusMars =
-    Icon.Icon "venus-mars"
+    Types.Icon "venus-mars"
 
 
 {-| Viacoin - Logo
 -}
-viacoin : Icon
+viacoin : Logo
 viacoin =
-    Icon.Logo "viacoin"
+    Types.Logo "viacoin"
 
 
 {-| Viadeo - Logo
 -}
-viadeo : Icon
+viadeo : Logo
 viadeo =
-    Icon.Logo "viadeo"
+    Types.Logo "viadeo"
 
 
 {-| Viadeo Square - Logo
 -}
-viadeoSquare : Icon
+viadeoSquare : Logo
 viadeoSquare =
-    Icon.Logo "viadeo-square"
+    Types.Logo "viadeo-square"
 
 
 {-| Viber - Logo
 -}
-viber : Icon
+viber : Logo
 viber =
-    Icon.Logo "viber"
+    Types.Logo "viber"
 
 
 {-| Video - Icon
 -}
 video : Icon
 video =
-    Icon.Icon "video"
+    Types.Icon "video"
 
 
 {-| Vimeo - Logo
 -}
-vimeo : Icon
+vimeo : Logo
 vimeo =
-    Icon.Logo "vimeo"
+    Types.Logo "vimeo"
 
 
 {-| Vimeo Square - Logo
 -}
-vimeoSquare : Icon
+vimeoSquare : Logo
 vimeoSquare =
-    Icon.Logo "vimeo-square"
+    Types.Logo "vimeo-square"
 
 
 {-| Vimeo V - Logo
 -}
-vimeoV : Icon
+vimeoV : Logo
 vimeoV =
-    Icon.Logo "vimeo-v"
+    Types.Logo "vimeo-v"
 
 
 {-| Vine - Logo
 -}
-vine : Icon
+vine : Logo
 vine =
-    Icon.Logo "vine"
+    Types.Logo "vine"
 
 
 {-| VK - Logo
 -}
-vk : Icon
+vk : Logo
 vk =
-    Icon.Logo "vk"
+    Types.Logo "vk"
 
 
 {-| Vnv - Logo
 -}
-vnv : Icon
+vnv : Logo
 vnv =
-    Icon.Logo "vnv"
+    Types.Logo "vnv"
 
 
 {-| Volleyball - Icon
 -}
 volleyball : Icon
 volleyball =
-    Icon.Icon "volleyball-ball"
+    Types.Icon "volleyball-ball"
 
 
 {-| Volume Down - Icon
 -}
 volumeDown : Icon
 volumeDown =
-    Icon.Icon "volume-down"
+    Types.Icon "volume-down"
 
 
 {-| Volume Mute - Icon
 -}
 volumeMute : Icon
 volumeMute =
-    Icon.Icon "volume-mute"
+    Types.Icon "volume-mute"
 
 
 {-| Volume Off - Icon
 -}
 volumeOff : Icon
 volumeOff =
-    Icon.Icon "volume-off"
+    Types.Icon "volume-off"
 
 
 {-| Volume Up - Icon
 -}
 volumeUp : Icon
 volumeUp =
-    Icon.Icon "volume-up"
+    Types.Icon "volume-up"
 
 
 {-| Vue.js - Logo
 -}
-vuejs : Icon
+vuejs : Logo
 vuejs =
-    Icon.Logo "vuejs"
+    Types.Logo "vuejs"
 
 
 {-| Watch - Icon
 -}
 watch : Icon
 watch =
-    Icon.Icon "watch"
+    Types.Icon "watch"
 
 
 {-| Weibo - Logo
 -}
-weibo : Icon
+weibo : Logo
 weibo =
-    Icon.Logo "weibo"
+    Types.Logo "weibo"
 
 
 {-| Weixin - Logo
 -}
-weixin : Icon
+weixin : Logo
 weixin =
-    Icon.Logo "weixin"
+    Types.Logo "weixin"
 
 
 {-| WhatsApp - Logo
 -}
-whatsApp : Icon
+whatsApp : Logo
 whatsApp =
-    Icon.Logo "whatsapp"
+    Types.Logo "whatsapp"
 
 
 {-| WhatsApp Square - Logo
 -}
-whatsAppSquare : Icon
+whatsAppSquare : Logo
 whatsAppSquare =
-    Icon.Logo "whatsapp-square"
+    Types.Logo "whatsapp-square"
 
 
 {-| Wheelchair - Icon
 -}
 wheelchair : Icon
 wheelchair =
-    Icon.Icon "wheelchair"
+    Types.Icon "wheelchair"
 
 
 {-| Whistle - Icon
 -}
 whistle : Icon
 whistle =
-    Icon.Icon "whistle"
+    Types.Icon "whistle"
 
 
 {-| WHMCS - Logo
 -}
-whmcs : Icon
+whmcs : Logo
 whmcs =
-    Icon.Logo "whmcs"
+    Types.Logo "whmcs"
 
 
 {-| Wifi - Icon
 -}
 wifi : Icon
 wifi =
-    Icon.Icon "wifi"
+    Types.Icon "wifi"
 
 
 {-| Wikipedia - Logo
 -}
-wikipedia : Icon
+wikipedia : Logo
 wikipedia =
-    Icon.Logo "wikipedia-w"
+    Types.Logo "wikipedia-w"
 
 
 {-| Window - Icon
 -}
 window : Icon
 window =
-    Icon.Icon "window"
+    Types.Icon "window"
 
 
 {-| Window Alternate - Icon
 -}
 windowAlt : Icon
 windowAlt =
-    Icon.Icon "window-alt"
+    Types.Icon "window-alt"
 
 
 {-| Window Close - Icon
 -}
 windowClose : Icon
 windowClose =
-    Icon.Icon "window-close"
+    Types.Icon "window-close"
 
 
 {-| Window Maximize - Icon
 -}
 windowMaximize : Icon
 windowMaximize =
-    Icon.Icon "window-maximize"
+    Types.Icon "window-maximize"
 
 
 {-| Window Minimize - Icon
 -}
 windowMinimize : Icon
 windowMinimize =
-    Icon.Icon "window-minimize"
+    Types.Icon "window-minimize"
 
 
 {-| Window Restore - Icon
 -}
 windowRestore : Icon
 windowRestore =
-    Icon.Icon "window-restore"
+    Types.Icon "window-restore"
 
 
 {-| Windows - Logo
 -}
-windows : Icon
+windows : Logo
 windows =
-    Icon.Logo "windows"
+    Types.Logo "windows"
 
 
 {-| Won Sign - Icon
 -}
 wonSign : Icon
 wonSign =
-    Icon.Icon "won-sign"
+    Types.Icon "won-sign"
 
 
 {-| WordPress - Logo
 -}
-wordPress : Icon
+wordPress : Logo
 wordPress =
-    Icon.Logo "wordpress"
+    Types.Logo "wordpress"
 
 
 {-| WordPress Simple - Logo
 -}
-wordPressSimple : Icon
+wordPressSimple : Logo
 wordPressSimple =
-    Icon.Logo "wordpress-simple"
+    Types.Logo "wordpress-simple"
 
 
 {-| WPBeginner - Logo
 -}
-wpBeginner : Icon
+wpBeginner : Logo
 wpBeginner =
-    Icon.Logo "wpbeginner"
+    Types.Logo "wpbeginner"
 
 
 {-| WPExplorer - Logo
 -}
-wpExplorer : Icon
+wpExplorer : Logo
 wpExplorer =
-    Icon.Logo "wpexplorer"
+    Types.Logo "wpexplorer"
 
 
 {-| WPForms - Logo
 -}
-wpForms : Icon
+wpForms : Logo
 wpForms =
-    Icon.Logo "wpforms"
+    Types.Logo "wpforms"
 
 
 {-| Wrench - Icon
 -}
 wrench : Icon
 wrench =
-    Icon.Icon "wrench"
+    Types.Icon "wrench"
 
 
 {-| Xbox - Logo
 -}
-xbox : Icon
+xbox : Logo
 xbox =
-    Icon.Logo "xbox"
+    Types.Logo "xbox"
 
 
 {-| XING - Logo
 -}
-xing : Icon
+xing : Logo
 xing =
-    Icon.Logo "xing"
+    Types.Logo "xing"
 
 
 {-| XING Square - Logo
 -}
-xingSquare : Icon
+xingSquare : Logo
 xingSquare =
-    Icon.Logo "xing-square"
+    Types.Logo "xing-square"
 
 
 {-| YCombinator - Logo
 -}
-yCombinator : Icon
+yCombinator : Logo
 yCombinator =
-    Icon.Logo "y-combinator"
+    Types.Logo "y-combinator"
 
 
 {-| Yahoo - Logo
 -}
-yahoo : Icon
+yahoo : Logo
 yahoo =
-    Icon.Logo "yahoo"
+    Types.Logo "yahoo"
 
 
 {-| Yandex - Logo
 -}
-yandex : Icon
+yandex : Logo
 yandex =
-    Icon.Logo "yandex"
+    Types.Logo "yandex"
 
 
 {-| Yandex International - Logo
 -}
-yandexInternational : Icon
+yandexInternational : Logo
 yandexInternational =
-    Icon.Logo "yandex-international"
+    Types.Logo "yandex-international"
 
 
 {-| Yelp - Logo
 -}
-yelp : Icon
+yelp : Logo
 yelp =
-    Icon.Logo "yelp"
+    Types.Logo "yelp"
 
 
 {-| Yen Sign - Icon
 -}
 yenSign : Icon
 yenSign =
-    Icon.Icon "yen-sign"
+    Types.Icon "yen-sign"
 
 
 {-| Yoast - Logo
 -}
-yoast : Icon
+yoast : Logo
 yoast =
-    Icon.Logo "yoast"
+    Types.Logo "yoast"
 
 
 {-| YouTube - Logo
 -}
-youTube : Icon
+youTube : Logo
 youTube =
-    Icon.Logo "youtube"
+    Types.Logo "youtube"
 
 
 {-| YouTube Square - Logo
 -}
-youTubeSquare : Icon
+youTubeSquare : Logo
 youTubeSquare =
-    Icon.Logo "youtube-square"
+    Types.Logo "youtube-square"

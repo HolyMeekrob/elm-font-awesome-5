@@ -1,15 +1,15 @@
 module TestCommon
     exposing
         ( last
-        , styleClass
         , iconOptionsTests
+        , logoOptionsTests
         , testStyle
         , transform
         , transformAttr
         )
 
 import FontAwesome as FA
-import FontAwesome.Icon as Icon exposing (Icon)
+import FontAwesome.Types as Types exposing (Icon, Logo, Style)
 import Expect
 import Html
 import Html.Attributes
@@ -67,12 +67,29 @@ transform transforms =
 
 iconOptionsTests :
     Icon
-    -> FA.Style
+    -> Style
     -> List FA.Option
     -> List (Query.Single msg -> Expect.Expectation)
 iconOptionsTests icon style options =
-    [ testIconClass icon
-    , testStyle icon style
+    testIconClass icon
+        :: baseOptionsTests style options
+
+
+logoOptionsTests :
+    Logo
+    -> List FA.Option
+    -> List (Query.Single msg -> Expect.Expectation)
+logoOptionsTests logo options =
+    testLogoClass logo
+        :: baseOptionsTests Types.Brand options
+
+
+baseOptionsTests :
+    Style
+    -> List FA.Option
+    -> List (Query.Single msg -> Expect.Expectation)
+baseOptionsTests style options =
+    [ testStyle style
     , testBorder options
     , testWidth options
     , testInvertColor options
@@ -86,36 +103,33 @@ iconOptionsTests icon style options =
 
 
 testIconClass : Icon -> Query.Single msg -> Expect.Expectation
-testIconClass icon =
-    case icon of
-        Icon.Icon name ->
-            Query.has [ Selector.class ("fa-" ++ name) ]
-
-        Icon.Logo name ->
-            Query.has [ Selector.class ("fa-" ++ name) ]
+testIconClass (Types.Icon name) =
+    Query.has [ Selector.class ("fa-" ++ name) ]
 
 
-styleClass : Icon -> FA.Style -> String
-styleClass icon style =
-    case icon of
-        Icon.Logo _ ->
-            "fab"
+testLogoClass : Logo -> Query.Single msg -> Expect.Expectation
+testLogoClass (Types.Logo name) =
+    Query.has [ Selector.class ("fa-" ++ name) ]
 
-        Icon.Icon _ ->
+
+testStyle : Style -> Query.Single msg -> Expect.Expectation
+testStyle style =
+    let
+        styleClass =
             case style of
-                FA.Solid ->
+                Types.Solid ->
                     "fas"
 
-                FA.Regular ->
+                Types.Regular ->
                     "far"
 
-                FA.Light ->
+                Types.Light ->
                     "fal"
 
-
-testStyle : Icon -> FA.Style -> Query.Single msg -> Expect.Expectation
-testStyle icon style =
-    Query.has [ Selector.class (styleClass icon style) ]
+                Types.Brand ->
+                    "fab"
+    in
+        Query.has [ Selector.class (styleClass) ]
 
 
 testBorder : List FA.Option -> Query.Single msg -> Expect.Expectation
@@ -273,11 +287,32 @@ testMask options =
             Html.Attributes.attribute "data-fa-mask"
     in
         case opt of
-            Just (FA.Mask icon style) ->
+            Just (FA.SolidMask icon) ->
                 Query.has
                     [ Selector.attribute <|
                         htmlAttribute
-                            (styleClass icon style ++ " " ++ iconClass icon)
+                            (styleClass Types.Solid ++ " " ++ iconClass icon)
+                    ]
+
+            Just (FA.RegularMask icon) ->
+                Query.has
+                    [ Selector.attribute <|
+                        htmlAttribute
+                            (styleClass Types.Regular ++ " " ++ iconClass icon)
+                    ]
+
+            Just (FA.LightMask icon) ->
+                Query.has
+                    [ Selector.attribute <|
+                        htmlAttribute
+                            (styleClass Types.Light ++ " " ++ iconClass icon)
+                    ]
+
+            Just (FA.BrandMask logo) ->
+                Query.has
+                    [ Selector.attribute <|
+                        htmlAttribute
+                            (styleClass Types.Brand ++ " " ++ logoClass logo)
                     ]
 
             -- TODO: How to ensure that an element does not have an attribute?
@@ -338,7 +373,16 @@ isTransform option =
 isMask : FA.Option -> Bool
 isMask option =
     case option of
-        FA.Mask _ _ ->
+        FA.SolidMask _ ->
+            True
+
+        FA.RegularMask _ ->
+            True
+
+        FA.LightMask _ ->
+            True
+
+        FA.BrandMask _ ->
             True
 
         _ ->
@@ -346,10 +390,26 @@ isMask option =
 
 
 iconClass : Icon -> String
-iconClass icon =
-    case icon of
-        Icon.Icon str ->
-            "fa-" ++ str
+iconClass (Types.Icon str) =
+    "fa-" ++ str
 
-        Icon.Logo str ->
-            "fa-" ++ str
+
+logoClass : Logo -> String
+logoClass (Types.Logo str) =
+    "fa-" ++ str
+
+
+styleClass : Style -> String
+styleClass style =
+    case style of
+        Types.Solid ->
+            "fas"
+
+        Types.Regular ->
+            "far"
+
+        Types.Light ->
+            "fal"
+
+        Types.Brand ->
+            "fab"

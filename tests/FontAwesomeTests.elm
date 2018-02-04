@@ -1,25 +1,26 @@
 module FontAwesomeTests exposing (..)
 
 import FontAwesome as FA
+import FontAwesome.Types as Types exposing (Icon, Logo, Style)
 import Fuzzers
     exposing
         ( attributesFuzzer
         , iconFuzzer
+        , logoFuzzer
         , optionsFuzzer
-        , styleFuzzer
         , transformOptionFuzzer
         )
 import TestCommon
     exposing
         ( last
-        , styleClass
         , iconOptionsTests
+        , logoOptionsTests
         , testStyle
         , transform
         , transformAttr
         )
 import Expect
-import Html exposing (Attribute)
+import Html exposing (Attribute, Html)
 import Html.Attributes
 import Test exposing (Test, describe, fuzz, fuzz2, fuzz3, test)
 import Test.Html.Query as Query
@@ -32,7 +33,10 @@ suite =
         [ describe "useSvg" testUseSvg
         , describe "useCss" testUseCSS
         , describe "icon" testIcon
-        , describe "iconWithOptions" testIconWithOptions
+        , describe "solidIcon" testSolidIcon
+        , describe "regularIcon" testRegularIcon
+        , describe "lightIcon" testLightIcon
+        , describe "brandIcon" testBrandIcon
         ]
 
 
@@ -84,45 +88,120 @@ testIcon =
                 |> Query.fromHtml
                 |> Expect.all
                     [ Query.has [ Selector.tag "i" ]
-                    , testStyle icon FA.Solid
+                    , testStyle Types.Solid
                     ]
     ]
 
 
-testIconWithOptions : List Test
-testIconWithOptions =
-    [ describe "without html attributes" testIconWithoutHtmlAttributes
-    , describe "with html attributes" testIconWithHtmlAttributes
+testSolidIcon : List Test
+testSolidIcon =
+    [ describe "without html attributes"
+        (testIconWithoutHtmlAttributes FA.solidIcon Types.Solid)
+    , describe "with html attributes"
+        (testIconWithHtmlAttributes FA.solidIcon Types.Solid)
     ]
 
 
-testIconWithoutHtmlAttributes : List Test
-testIconWithoutHtmlAttributes =
-    [ Test.fuzz4
+testRegularIcon : List Test
+testRegularIcon =
+    [ describe "without html attributes"
+        (testIconWithoutHtmlAttributes FA.regularIcon Types.Regular)
+    , describe "with html attributes"
+        (testIconWithHtmlAttributes FA.regularIcon Types.Regular)
+    ]
+
+
+testLightIcon : List Test
+testLightIcon =
+    [ describe "without html attributes"
+        (testIconWithoutHtmlAttributes FA.lightIcon Types.Light)
+    , describe "with html attributes"
+        (testIconWithHtmlAttributes FA.lightIcon Types.Light)
+    ]
+
+
+testBrandIcon : List Test
+testBrandIcon =
+    [ describe "without html attributes"
+        (testLogoWithoutHtmlAttributes FA.brandIcon)
+    , describe "with html attributes"
+        (testLogoWithHtmlAttributes FA.brandIcon)
+    ]
+
+
+testIconWithoutHtmlAttributes :
+    (Icon -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> Style
+    -> List Test
+testIconWithoutHtmlAttributes iconFunc style =
+    [ fuzz3
         iconFuzzer
-        styleFuzzer
         optionsFuzzer
         attributesFuzzer
         "handles all options"
       <|
-        \icon style options htmlAttributes ->
-            FA.iconWithOptions icon style options htmlAttributes
+        \icon options htmlAttributes ->
+            iconFunc icon options htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all (iconOptionsTests icon style options)
     ]
 
 
-testIconWithHtmlAttributes : List Test
-testIconWithHtmlAttributes =
-    [ testIconWithCustomClasses
-    , testIconWithStandardAttributes
-    , testIconWithCustomAttributes
+testLogoWithoutHtmlAttributes :
+    (Logo -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> List Test
+testLogoWithoutHtmlAttributes logoFunc =
+    [ fuzz3
+        logoFuzzer
+        optionsFuzzer
+        attributesFuzzer
+        "handles all options"
+      <|
+        \logo options htmlAttributes ->
+            logoFunc logo options htmlAttributes
+                |> Query.fromHtml
+                |> Expect.all (logoOptionsTests logo options)
     ]
 
 
-testIconWithCustomClasses : Test
-testIconWithCustomClasses =
-    testCustomClasses testIconHelper "custom classes for icon"
+testIconWithHtmlAttributes :
+    (Icon -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> Style
+    -> List Test
+testIconWithHtmlAttributes iconFunc style =
+    [ testIconWithCustomClasses iconFunc style
+    , testIconWithStandardAttributes iconFunc style
+    , testIconWithCustomAttributes iconFunc style
+    ]
+
+
+testLogoWithHtmlAttributes :
+    (Logo -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> List Test
+testLogoWithHtmlAttributes logoFunc =
+    [ testLogoWithCustomClasses logoFunc
+    , testLogoWithStandardAttributes logoFunc
+    , testLogoWithCustomAttributes logoFunc
+    ]
+
+
+testIconWithCustomClasses :
+    (Icon -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> Style
+    -> Test
+testIconWithCustomClasses iconFunc style =
+    testCustomClasses
+        (testIconHelper iconFunc style)
+        "custom classes for icon"
+
+
+testLogoWithCustomClasses :
+    (Logo -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> Test
+testLogoWithCustomClasses logoFunc =
+    testCustomClasses
+        (testLogoHelper logoFunc)
+        "custom classes for icon"
 
 
 testCustomClasses :
@@ -155,9 +234,23 @@ testCustomClasses helper desc =
             )
 
 
-testIconWithStandardAttributes : Test
-testIconWithStandardAttributes =
-    testStandardAttributes testIconHelper "standard attributes for icon"
+testIconWithStandardAttributes :
+    (Icon -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> Style
+    -> Test
+testIconWithStandardAttributes iconFunc style =
+    testStandardAttributes
+        (testIconHelper iconFunc style)
+        "standard attributes for icon"
+
+
+testLogoWithStandardAttributes :
+    (Logo -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> Test
+testLogoWithStandardAttributes logoFunc =
+    testStandardAttributes
+        (testLogoHelper logoFunc)
+        "standard attributes for icon"
 
 
 testStandardAttributes :
@@ -191,9 +284,23 @@ testStandardAttributes helper desc =
             )
 
 
-testIconWithCustomAttributes : Test
-testIconWithCustomAttributes =
-    testCustomAttributes testIconHelper "custom attributes for icon"
+testIconWithCustomAttributes :
+    (Icon -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> Style
+    -> Test
+testIconWithCustomAttributes iconFunc style =
+    testCustomAttributes
+        (testIconHelper iconFunc style)
+        "custom attributes for icon"
+
+
+testLogoWithCustomAttributes :
+    (Logo -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> Test
+testLogoWithCustomAttributes logoFunc =
+    testCustomAttributes
+        (testLogoHelper logoFunc)
+        "custom attributes for icon"
 
 
 testCustomAttributes :
@@ -239,19 +346,39 @@ testCustomAttributes helper desc =
 
 
 testIconHelper :
-    String
+    (Icon -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> Style
+    -> String
     -> List (Attribute msg)
     -> (Query.Single msg -> Expect.Expectation)
     -> Test
-testIconHelper desc htmlAttributes expectation =
-    Test.fuzz3 iconFuzzer styleFuzzer optionsFuzzer desc <|
-        \icon style options ->
-            FA.iconWithOptions icon
-                style
+testIconHelper iconFunc style desc htmlAttributes expectation =
+    fuzz2 iconFuzzer optionsFuzzer desc <|
+        \icon options ->
+            iconFunc icon
                 options
                 htmlAttributes
                 |> Query.fromHtml
                 |> Expect.all
                     ((iconOptionsTests icon style options)
+                        ++ [ expectation ]
+                    )
+
+
+testLogoHelper :
+    (Logo -> List FA.Option -> List (Attribute msg) -> Html msg)
+    -> String
+    -> List (Attribute msg)
+    -> (Query.Single msg -> Expect.Expectation)
+    -> Test
+testLogoHelper logoFunc desc htmlAttributes expectation =
+    fuzz2 logoFuzzer optionsFuzzer desc <|
+        \logo options ->
+            logoFunc logo
+                options
+                htmlAttributes
+                |> Query.fromHtml
+                |> Expect.all
+                    ((logoOptionsTests logo options)
                         ++ [ expectation ]
                     )

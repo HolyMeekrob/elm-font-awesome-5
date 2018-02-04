@@ -26,12 +26,14 @@ Note that this feature requires using SVG Font Awesome elements.
 
 import FontAwesome
     exposing
-        ( Style
-        , Option
+        ( Option
         , Transform
-        , iconWithOptions
+        , brandIcon
+        , lightIcon
+        , regularIcon
+        , solidIcon
         )
-import FontAwesome.Icon exposing (Icon)
+import FontAwesome.Types exposing (Icon, Logo)
 import FontAwesome.Utils exposing (dedup, onlyOne)
 import Html exposing (Attribute, Html, span)
 import Html.Attributes exposing (class, classList)
@@ -47,8 +49,19 @@ layers icons options =
 
 
 icon : IconLayer msg -> Html msg
-icon (IconLayer icon style options attributes) =
-    iconWithOptions icon style options attributes
+icon iconLayer =
+    case iconLayer of
+        SolidLayer icon options attributes ->
+            solidIcon icon options attributes
+
+        RegularLayer icon options attributes ->
+            regularIcon icon options attributes
+
+        LightLayer icon options attributes ->
+            lightIcon icon options attributes
+
+        BrandLayer icon options attributes ->
+            brandIcon icon options attributes
 
 
 classes : List (LayerOption msg) -> Attribute msg
@@ -203,7 +216,10 @@ isBadge option =
 {-| A layer consisting of any Font Awesome icon or logo.
 -}
 type IconLayer msg
-    = IconLayer Icon Style (List Option) (List (Attribute msg))
+    = SolidLayer Icon (List Option) (List (Attribute msg))
+    | RegularLayer Icon (List Option) (List (Attribute msg))
+    | LightLayer Icon (List Option) (List (Attribute msg))
+    | BrandLayer Logo (List Option) (List (Attribute msg))
 
 
 {-| Other options for a set of layers.

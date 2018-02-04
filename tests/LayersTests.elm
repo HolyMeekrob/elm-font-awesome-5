@@ -2,15 +2,23 @@ module LayersTests exposing (..)
 
 import FontAwesome as FA
 import FontAwesome.Layers as Layers
+import FontAwesome.Types as Types
 import Fuzzers
     exposing
         ( attributesFuzzer
         , iconFuzzer
+        , logoFuzzer
         , optionsFuzzer
-        , styleFuzzer
         , transformFuzzer
         )
-import TestCommon exposing (last, iconOptionsTests, transform, transformAttr)
+import TestCommon
+    exposing
+        ( iconOptionsTests
+        , logoOptionsTests
+        , last
+        , transform
+        , transformAttr
+        )
 import Expect
 import Fuzz
 import Html
@@ -172,13 +180,29 @@ testIconAt ( idx, layer ) parent =
 
 
 testIcon : Layers.IconLayer msg -> Query.Single msg -> Expect.Expectation
-testIcon (Layers.IconLayer icon style options attributes) =
+testIcon iconLayer =
     let
-        optionsTests =
-            iconOptionsTests icon style options
+        ( optionsTests, attributesTest ) =
+            case iconLayer of
+                Layers.SolidLayer icon options attributes ->
+                    ( iconOptionsTests icon Types.Solid options
+                    , testAttributes attributes
+                    )
 
-        attributesTest =
-            testAttributes attributes
+                Layers.RegularLayer icon options attributes ->
+                    ( iconOptionsTests icon Types.Regular options
+                    , testAttributes attributes
+                    )
+
+                Layers.LightLayer icon options attributes ->
+                    ( iconOptionsTests icon Types.Light options
+                    , testAttributes attributes
+                    )
+
+                Layers.BrandLayer logo options attributes ->
+                    ( logoOptionsTests logo options
+                    , testAttributes attributes
+                    )
     in
         Expect.all (attributesTest :: optionsTests)
 
@@ -245,14 +269,50 @@ optionLayersFuzzer =
     Fuzz.list optionLayerFuzzer
 
 
-iconLayerFuzzer : Fuzz.Fuzzer (Layers.IconLayer msg)
-iconLayerFuzzer =
-    Fuzz.map4
-        Layers.IconLayer
+solidLayerFuzzer : Fuzz.Fuzzer (Layers.IconLayer msg)
+solidLayerFuzzer =
+    Fuzz.map3
+        Layers.SolidLayer
         iconFuzzer
-        styleFuzzer
         optionsFuzzer
         attributesFuzzer
+
+
+regularLayerFuzzer : Fuzz.Fuzzer (Layers.IconLayer msg)
+regularLayerFuzzer =
+    Fuzz.map3
+        Layers.RegularLayer
+        iconFuzzer
+        optionsFuzzer
+        attributesFuzzer
+
+
+lightLayerFuzzer : Fuzz.Fuzzer (Layers.IconLayer msg)
+lightLayerFuzzer =
+    Fuzz.map3
+        Layers.LightLayer
+        iconFuzzer
+        optionsFuzzer
+        attributesFuzzer
+
+
+brandLayerFuzzer : Fuzz.Fuzzer (Layers.IconLayer msg)
+brandLayerFuzzer =
+    Fuzz.map3
+        Layers.BrandLayer
+        logoFuzzer
+        optionsFuzzer
+        attributesFuzzer
+
+
+iconLayerFuzzer : Fuzz.Fuzzer (Layers.IconLayer msg)
+iconLayerFuzzer =
+    Fuzz.oneOf
+        [ solidLayerFuzzer
+        , regularLayerFuzzer
+        , lightLayerFuzzer
+        , brandLayerFuzzer
+        ]
 
 
 iconLayersFuzzer : Fuzz.Fuzzer (List (Layers.IconLayer msg))
