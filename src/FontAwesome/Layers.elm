@@ -37,7 +37,7 @@ import Html exposing (Attribute, Html, span)
 import Html.Attributes exposing (class, classList)
 
 
-{-| Create a stack of layers. This is the only way to create a layer of Font Awesome elements.
+{-| Create a layered Font Awesome element.
 -}
 layers : List (IconLayer msg) -> List (LayerOption msg) -> Html msg
 layers icons options =
