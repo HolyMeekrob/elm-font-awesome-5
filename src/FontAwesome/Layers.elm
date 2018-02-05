@@ -18,7 +18,7 @@ Note that this feature requires using SVG Font Awesome elements.
 @docs layers
 
 
-# Options and inner layers
+# Options and layers
 
 @docs IconLayer, LayerOption, BadgePosition
 
@@ -38,6 +38,18 @@ import Html.Attributes exposing (class, classList)
 
 
 {-| Create a layered Font Awesome element.
+
+    layers
+        [ IconLayer envelope Solid [] [] ]
+        [ LayerHasFixedWidth
+        , Badge "821" TopLeft []
+        ]
+
+    -- <span class="fa-layers fa-fw">
+    --     <i class="fas fa-envelope"></i>
+    --     <span class="fa-layers-counter fa-layers-top-left">821</i>
+    -- </span>
+
 -}
 layers : List (IconLayer msg) -> List (LayerOption msg) -> Html msg
 layers icons options =
@@ -208,12 +220,13 @@ type IconLayer msg
 
 {-| Other options for a set of layers.
 
-Including the LayerHasFixedWidth option will align all layers and is generally recommended.
+Including the `LayerHasFixedWidth` option will align all layers.
 
-Including the TextLayer option will place the given text on top of your layer.
+Including the `TextLayer` option will place the given text on top
+of your layers element.
 
-Including the Badge option adds a badge with the given text to the top right of your element.
-This is often used to display a counter.
+Including the `Badge` option adds a badge with the given text on top
+of your element. This is often used to display a counter.
 
 -}
 type LayerOption msg
@@ -222,7 +235,7 @@ type LayerOption msg
     | Badge String BadgePosition (List (Attribute msg))
 
 
-{-| Positioning for a badge layer option.
+{-| Positioning for a `Badge` layer option.
 -}
 type BadgePosition
     = BottomLeft

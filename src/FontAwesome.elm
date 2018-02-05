@@ -2027,7 +2027,7 @@ import Html.Attributes
 
 
 {-| A convenience helper for including Font Awesome SVGs on your page using their CDN.
-Place this inside your &lt;head&gt; tag.
+Place this inside your `<head>` tag.
 -}
 useSvg : Html msg
 useSvg =
@@ -2039,7 +2039,7 @@ useSvg =
 
 
 {-| A convenience helper for including Font Awesome CSS on your page using their CDN.
-Place this inside your &lt;head&gt; tag.
+Place this inside your `<head>` tag.
 
 Note that some features will not work if you choose CSS rather than SVGs.
 Please refer to Font Awesome's documentation for details.
@@ -2055,11 +2055,14 @@ useCss =
         []
 
 
-{-| Create an icon with the default style (Solid for icons),
-default tag (&lt;i&gt;), and no additional options or attributes.
+{-| Create an icon with the default style (`Solid` for icons),
+default tag (`<i>`), and no additional options or attributes.
 
     icon file
     -- <i class="fas fa-file"></i>
+
+    icon pinterest
+    -- <i class="fab fa-pinterest"></i>
 
 -}
 icon : Icon -> Html msg
@@ -2077,6 +2080,9 @@ icon icon =
 
     iconWithOptions info Regular [ HasFixedWidth, Size Large, HtmlTag Span ] []
     -- <span class="far fa-info fa-fw fa-lg"></span>
+
+    iconWithOptions snapchat Solid [ Transform [ Grow 5 ] ]
+    -- <i class="fab fa-snapchat" data-fa-transform = "grow-5"></i>
 
 -}
 iconWithOptions : Icon -> Style -> List Option -> List (Attribute msg) -> Html msg
@@ -2419,16 +2425,27 @@ when generating an icon or logo. If any option is repeated, then only one
 will be selected. However, there is no guarantee as to which option will be
 selected, so please only use each option once per icon or logo.
 
-Including the HasBorder option will draw a border around the icon or logo.
+Including the `HasBorder` option will draw a border around the icon or logo.
 
-Including the HasFixedWidth option will set a fixed width on the icon or logo.
+    iconWithOptions quoteLeft Solid [ HasBorder ] []
+    -- <i class="fas fa-quote-left fa-border"></i>
+
+Including the `HasFixedWidth` option will set a fixed width on the icon or logo.
 All elements with this option will have the same width.
 
-Including the InvertColor option will invert the color of the icon or logo.
+    iconWithOptions diamond Regular [ HasFixedWidth ] []
+    -- <i class="far fa-diamond fa-fw"></i>
 
-The Mask option allows you to set an outer icon or logo which sits behind
+Including the `InvertColor` option will invert the color of the icon or logo.
+
+    iconWithOptions home Light [ InvertColor ] []
+    -- <i class="fal fa-home fa-inverse"></i>
+
+The `Mask` option allows you to set an outer icon or logo which sits behind
 the main Font Awesome element. It only works if you are using SVG elements.
-<br /><b>Default: no mask</b>
+
+    iconWithOptions pencil Regular [ Mask comment Solid ] []
+    -- <i class="far fa-pencil" data-fa-mask="fas fa-comment"></i>
 
 Documentation for the other options appears with their type definitions below.
 
@@ -2446,8 +2463,8 @@ type Option
 
 
 {-| Every icon has one variation per style. Some of the Solid, most of the
-Regular, and all of the Light variations require Font Awesome Pro, so if you
-are using the free version then please refer to Font Awesome's icon library
+`Regular`, and all of the `Light` variations require Font Awesome Pro, so if
+you are using the free version then please refer to Font Awesome's icon library
 to determine which styles are available to you.
 
 Note that brand logos are only available in a single style, and so they will
@@ -2460,8 +2477,15 @@ type Style
     | Light
 
 
-{-| Font Awesome's alternative size options. Valid values for the Mult options
-are integers 2 - 10 inclusive.
+{-| Font Awesome's alternative size options. Valid values for the `Mult`
+options are integers 2 - 10 inclusive.
+
+    iconWithOptions cog Solid [ Size ExtraSmall ] []
+    -- <i class="fas fa-cog fa-xs"></i>
+
+    iconWithOptions list Regular [ Size (Mult 4) ] []
+    -- <i class="far fa-list fa-4x"></i>
+
 -}
 type Size
     = ExtraSmall
@@ -2471,6 +2495,10 @@ type Size
 
 
 {-| Options for pulling a logo or icon to the left or right.
+
+    iconWithOptions fileImage Light [ Pull Left ] []
+    -- <i class="far fa-file-image fa-pull-left"></i>
+
 -}
 type Pull
     = Left
@@ -2478,15 +2506,20 @@ type Pull
 
 
 {-| Font Awesome's built-in animations.
+
+    iconWithOptions print Solid [ Animation Pulse ] []
+    -- <i class="fas fa-print fa-pulse"></i>
+
 -}
 type Animation
     = Spin
     | Pulse
 
 
-{-| Surrounding tag for icon and logo elements.
+{-| Surrounding tag for icon and logo elements. Defaults to `<i>` if not set.
 
-<b>Default: &lt;i&gt;</b>
+    iconWithOptions truck Regular [ HtmlTag Span ] []
+    -- <span class="far fa-truck"></span>
 
 -}
 type HtmlTag
@@ -2494,10 +2527,11 @@ type HtmlTag
     | Span
 
 
-{-| The Transform options accepts transformation instructions for the element.
+{-| The `Transform` option accepts transformation instructions for the element.
 See Font Awesome's documentation for supported instructions.
 
-<b>Default: no transformation</b>
+    iconWithOptions bicycle light [ Transform [ Shrink 3, ShiftUp 6, Rotate 45 ] ] []
+    -- <i class="fal fa-bicycle" data-fa-transform = "shrink-3 up-6 rotate-45"></i>
 
 -}
 type Transform
