@@ -1005,7 +1005,7 @@ module FontAwesome
         , youTubeSquare
         )
 
-{-| A type-checked interface for using the Font Awesome icon library.
+{-| A type-checked interface for using the Font Awesome 5 icon library.
 
 
 # CDN Helpers

@@ -1,13 +1,13 @@
 {
     "version": "1.0.0",
     "summary": "Test Suites",
-    "repository": "https://github.com/HolyMeekrob/elm-font-awesome.git",
+    "repository": "https://github.com/HolyMeekrob/elm-font-awesome-5.git",
     "license": "BSD3",
     "source-directories": [
         "..\\src",
         "."
     ],
-    "exposed-modules": ["FontAwesome"],
+    "exposed-modules": [],
     "dependencies": {
         "eeue56/elm-html-test": "5.1.2 <= v < 6.0.0",
         "elm-community/elm-test": "4.0.0 <= v < 5.0.0",

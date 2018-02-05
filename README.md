@@ -1,4 +1,4 @@
-# Elm Font Awesome
+# Elm Font Awesome 5
 A strongly typed Elm package for using Font Awesome 5 icons
 in your views.
 

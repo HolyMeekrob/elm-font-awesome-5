@@ -6,7 +6,7 @@ module FontAwesome.Layers
         , layers
         )
 
-{-| This module enables the layers feature of Font Awesome. Layers allows you
+{-| This module enables the layers feature of Font Awesome 5. Layers allows you
 to stack any number of Font Awesome icons and elements, as well as overlay text
 or counter badges.
 
