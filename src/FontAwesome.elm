@@ -25,6 +25,7 @@ module FontAwesome
         , alignJustify
         , alignLeft
         , alignRight
+        , allergies
         , amazon
         , amazonPay
         , ambulance
@@ -110,8 +111,12 @@ module FontAwesome
         , badgeCheck
         , balanceScale
         , ban
+        , bandAid
         , bandcamp
         , barcode
+        , barcodeAlt
+        , barcodeRead
+        , barcodeScan
         , bars
         , baseball
         , baseballBall
@@ -152,15 +157,20 @@ module FontAwesome
         , bookmark
         , bowlingBall
         , bowlingPins
+        , box
+        , boxCheck
+        , boxes
         , boxingGlove
         , braille
         , briefcase
+        , briefcaseMedical
         , browser
         , btc
         , bug
         , building
         , bullhorn
         , bullseye
+        , burn
         , buromobelExperte
         , bus
         , buySellAds
@@ -176,6 +186,7 @@ module FontAwesome
         , camera
         , cameraAlt
         , cameraRetro
+        , capsules
         , car
         , caretCircleDown
         , caretCircleLeft
@@ -247,6 +258,8 @@ module FontAwesome
         , circle
         , circleNotch
         , clipboard
+        , clipboardCheck
+        , clipboardList
         , clock
         , clone
         , closedCaptioning
@@ -278,6 +291,8 @@ module FontAwesome
         , compressWide
         , connectDevelop
         , contao
+        , conveyorBelt
+        , conveyorBeltAlt
         , copy
         , copyright
         , cpanel
@@ -305,14 +320,21 @@ module FontAwesome
         , desktop
         , desktopAlt
         , deviantArt
+        , diagnoses
         , diamond
         , digg
         , digitalOcean
         , discord
         , discourse
+        , dna
         , docHub
         , docker
         , dollarSign
+        , dolly
+        , dollyEmpty
+        , dollyFlatbed
+        , dollyFlatbedAlt
+        , dollyFlatbedEmpty
         , dotCircle
         , download
         , draft2Digital
@@ -381,6 +403,8 @@ module FontAwesome
         , fileExcel
         , fileExclamation
         , fileImage
+        , fileMedical
+        , fileMedicalAlt
         , fileMinus
         , filePdf
         , filePlus
@@ -394,6 +418,7 @@ module FontAwesome
         , fire
         , fireExtinguisher
         , firefox
+        , firstAid
         , firstDraft
         , firstOrder
         , fiveHundredPx
@@ -413,6 +438,7 @@ module FontAwesome
         , fontIconsFi
         , footballBall
         , footballHelmet
+        , forklift
         , fortAwesome
         , fortAwesomeAlt
         , forumbee
@@ -466,6 +492,7 @@ module FontAwesome
         , h3
         , hackerNews
         , hackerNewsSquare
+        , handHoldingBox
         , handLizard
         , handPaper
         , handPeace
@@ -474,6 +501,7 @@ module FontAwesome
         , handPointRight
         , handPointUp
         , handPointer
+        , handReceiving
         , handRock
         , handScissors
         , handSpock
@@ -493,6 +521,8 @@ module FontAwesome
         , home
         , hooli
         , hospital
+        , hospitalAlt
+        , hospitalSymbol
         , hotjar
         , hourglass
         , hourglassEnd
@@ -504,6 +534,7 @@ module FontAwesome
         , iCursor
         , idBadge
         , idCard
+        , idCardAlt
         , image
         , images
         , imdb
@@ -518,6 +549,7 @@ module FontAwesome
         , infoSquare
         , instagram
         , internetExplorer
+        , inventory
         , ioxHost
         , italic
         , iTunes
@@ -631,6 +663,7 @@ module FontAwesome
         , nintendoSwitch
         , node
         , nodejs
+        , notesMedical
         , npm
         , ns8
         , nutritionix
@@ -649,6 +682,8 @@ module FontAwesome
         , pageLines
         , paintBrush
         , palFed
+        , pallet
+        , palletAlt
         , paperPlane
         , paperclip
         , paragraph
@@ -676,6 +711,7 @@ module FontAwesome
         , piedPiper
         , piedPiperAlt
         , piedPiperPP
+        , pills
         , pinterest
         , pinterestP
         , pinterestSquare
@@ -695,7 +731,10 @@ module FontAwesome
         , portrait
         , poundSign
         , powerOff
+        , prescriptionBottle
+        , prescriptionBottleAlt
         , print
+        , procedures
         , productHunt
         , pushed
         , puzzlePiece
@@ -749,6 +788,9 @@ module FontAwesome
         , safari
         , sass
         , save
+        , scanner
+        , scannerKeyboard
+        , scannerTouchscreen
         , schlix
         , scribd
         , scrubber
@@ -770,6 +812,8 @@ module FontAwesome
         , shieldAlt
         , shieldCheck
         , ship
+        , shippingFast
+        , shippingTimed
         , shirtsInBulk
         , shoppingBag
         , shoppingBasket
@@ -795,6 +839,7 @@ module FontAwesome
         , slidersVerticalSquare
         , slideshare
         , smile
+        , smoking
         , snapchat
         , snapchatGhost
         , snapchatSquare
@@ -851,12 +896,15 @@ module FontAwesome
         , supple
         , sync
         , syncAlt
+        , syringe
         , table
         , tableTennis
         , tablet
         , tabletAlt
         , tabletAndroid
         , tabletAndroidAlt
+        , tabletRugged
+        , tablets
         , tachometer
         , tachometerAlt
         , tag
@@ -874,6 +922,7 @@ module FontAwesome
         , thLarge
         , thList
         , themeIsle
+        , thermometer
         , thermometerEmpty
         , thermometerFull
         , thermometerHalf
@@ -953,6 +1002,8 @@ module FontAwesome
         , viacoin
         , viadeo
         , viadeoSquare
+        , vial
+        , vials
         , viber
         , video
         , vimeo
@@ -967,7 +1018,10 @@ module FontAwesome
         , volumeOff
         , volumeUp
         , vuejs
+        , warehouse
+        , warehouseAlt
         , watch
+        , weight
         , weibo
         , weixin
         , whatsApp
@@ -994,6 +1048,7 @@ module FontAwesome
         , xbox
         , xing
         , xingSquare
+        , xray
         , yCombinator
         , yahoo
         , yandex
@@ -1039,6 +1094,7 @@ module FontAwesome
 @docs alignJustify
 @docs alignLeft
 @docs alignRight
+@docs allergies
 @docs amazon
 @docs amazonPay
 @docs ambulance
@@ -1124,8 +1180,12 @@ module FontAwesome
 @docs badgeCheck
 @docs balanceScale
 @docs ban
+@docs bandAid
 @docs bandcamp
 @docs barcode
+@docs barcodeAlt
+@docs barcodeRead
+@docs barcodeScan
 @docs bars
 @docs baseball
 @docs baseballBall
@@ -1166,15 +1226,20 @@ module FontAwesome
 @docs bookmark
 @docs bowlingBall
 @docs bowlingPins
+@docs box
+@docs boxCheck
+@docs boxes
 @docs boxingGlove
 @docs braille
 @docs briefcase
+@docs briefcaseMedical
 @docs browser
 @docs btc
 @docs bug
 @docs building
 @docs bullhorn
 @docs bullseye
+@docs burn
 @docs buromobelExperte
 @docs bus
 @docs buySellAds
@@ -1190,6 +1255,7 @@ module FontAwesome
 @docs camera
 @docs cameraAlt
 @docs cameraRetro
+@docs capsules
 @docs car
 @docs caretCircleDown
 @docs caretCircleLeft
@@ -1261,6 +1327,8 @@ module FontAwesome
 @docs circle
 @docs circleNotch
 @docs clipboard
+@docs clipboardCheck
+@docs clipboardList
 @docs clock
 @docs clone
 @docs closedCaptioning
@@ -1292,6 +1360,8 @@ module FontAwesome
 @docs compressWide
 @docs connectDevelop
 @docs contao
+@docs conveyorBelt
+@docs conveyorBeltAlt
 @docs copy
 @docs copyright
 @docs cpanel
@@ -1319,14 +1389,21 @@ module FontAwesome
 @docs desktop
 @docs desktopAlt
 @docs deviantArt
+@docs diagnoses
 @docs diamond
 @docs digg
 @docs digitalOcean
 @docs discord
 @docs discourse
+@docs dna
 @docs docHub
 @docs docker
 @docs dollarSign
+@docs dolly
+@docs dollyEmpty
+@docs dollyFlatbed
+@docs dollyFlatbedAlt
+@docs dollyFlatbedEmpty
 @docs dotCircle
 @docs download
 @docs draft2Digital
@@ -1395,6 +1472,8 @@ module FontAwesome
 @docs fileExcel
 @docs fileExclamation
 @docs fileImage
+@docs fileMedical
+@docs fileMedicalAlt
 @docs fileMinus
 @docs filePdf
 @docs filePlus
@@ -1408,6 +1487,7 @@ module FontAwesome
 @docs fire
 @docs fireExtinguisher
 @docs firefox
+@docs firstAid
 @docs firstDraft
 @docs firstOrder
 @docs fiveHundredPx
@@ -1427,6 +1507,7 @@ module FontAwesome
 @docs fontIconsFi
 @docs footballBall
 @docs footballHelmet
+@docs forklift
 @docs fortAwesome
 @docs fortAwesomeAlt
 @docs forumbee
@@ -1480,6 +1561,7 @@ module FontAwesome
 @docs h3
 @docs hackerNews
 @docs hackerNewsSquare
+@docs handHoldingBox
 @docs handLizard
 @docs handPaper
 @docs handPeace
@@ -1488,6 +1570,7 @@ module FontAwesome
 @docs handPointRight
 @docs handPointUp
 @docs handPointer
+@docs handReceiving
 @docs handRock
 @docs handScissors
 @docs handSpock
@@ -1507,6 +1590,8 @@ module FontAwesome
 @docs home
 @docs hooli
 @docs hospital
+@docs hospitalAlt
+@docs hospitalSymbol
 @docs hotjar
 @docs hourglass
 @docs hourglassEnd
@@ -1518,6 +1603,7 @@ module FontAwesome
 @docs iCursor
 @docs idBadge
 @docs idCard
+@docs idCardAlt
 @docs image
 @docs images
 @docs imdb
@@ -1532,6 +1618,7 @@ module FontAwesome
 @docs infoSquare
 @docs instagram
 @docs internetExplorer
+@docs inventory
 @docs ioxHost
 @docs italic
 @docs iTunes
@@ -1645,6 +1732,7 @@ module FontAwesome
 @docs nintendoSwitch
 @docs node
 @docs nodejs
+@docs notesMedical
 @docs npm
 @docs ns8
 @docs nutritionix
@@ -1663,6 +1751,8 @@ module FontAwesome
 @docs pageLines
 @docs paintBrush
 @docs palFed
+@docs pallet
+@docs palletAlt
 @docs paperPlane
 @docs paperclip
 @docs paragraph
@@ -1690,6 +1780,8 @@ module FontAwesome
 @docs piedPiper
 @docs piedPiperAlt
 @docs piedPiperPP
+@docs pills
+
 @docs pinterest
 @docs pinterestP
 @docs pinterestSquare
@@ -1709,7 +1801,10 @@ module FontAwesome
 @docs portrait
 @docs poundSign
 @docs powerOff
+@docs prescriptionBottle
+@docs prescriptionBottleAlt
 @docs print
+@docs procedures
 @docs productHunt
 @docs pushed
 @docs puzzlePiece
@@ -1763,6 +1858,9 @@ module FontAwesome
 @docs safari
 @docs sass
 @docs save
+@docs scanner
+@docs scannerKeyboard
+@docs scannerTouchscreen
 @docs schlix
 @docs scribd
 @docs scrubber
@@ -1784,6 +1882,8 @@ module FontAwesome
 @docs shieldAlt
 @docs shieldCheck
 @docs ship
+@docs shippingFast
+@docs shippingTimed
 @docs shirtsInBulk
 @docs shoppingBag
 @docs shoppingBasket
@@ -1809,6 +1909,7 @@ module FontAwesome
 @docs slidersVerticalSquare
 @docs slideshare
 @docs smile
+@docs smoking
 @docs snapchat
 @docs snapchatGhost
 @docs snapchatSquare
@@ -1865,12 +1966,15 @@ module FontAwesome
 @docs supple
 @docs sync
 @docs syncAlt
+@docs syringe
 @docs table
 @docs tableTennis
 @docs tablet
 @docs tabletAlt
 @docs tabletAndroid
 @docs tabletAndroidAlt
+@docs tabletRugged
+@docs tablets
 @docs tachometer
 @docs tachometerAlt
 @docs tag
@@ -1888,6 +1992,7 @@ module FontAwesome
 @docs thLarge
 @docs thList
 @docs themeIsle
+@docs thermometer
 @docs thermometerEmpty
 @docs thermometerFull
 @docs thermometerHalf
@@ -1967,6 +2072,8 @@ module FontAwesome
 @docs viacoin
 @docs viadeo
 @docs viadeoSquare
+@docs vial
+@docs vials
 @docs viber
 @docs video
 @docs vimeo
@@ -1981,7 +2088,10 @@ module FontAwesome
 @docs volumeOff
 @docs volumeUp
 @docs vuejs
+@docs warehouse
+@docs warehouseAlt
 @docs watch
+@docs weight
 @docs weibo
 @docs weixin
 @docs whatsApp
@@ -2008,6 +2118,7 @@ module FontAwesome
 @docs xbox
 @docs xing
 @docs xingSquare
+@docs xray
 @docs yCombinator
 @docs yahoo
 @docs yandex
@@ -2650,6 +2761,13 @@ alignRight =
     Icon.Icon "align-right"
 
 
+{-| Allergies - Icon
+-}
+allergies : Icon
+allergies =
+    Icon.Icon "allergies"
+
+
 {-| Amazon - Logo
 -}
 amazon : Icon
@@ -3245,6 +3363,13 @@ ban =
     Icon.Icon "ban"
 
 
+{-| Band-aid - Icon
+-}
+bandAid : Icon
+bandAid =
+    Icon.Icon "band-aid"
+
+
 {-| Bandcamp - Logo
 -}
 bandcamp : Icon
@@ -3257,6 +3382,27 @@ bandcamp =
 barcode : Icon
 barcode =
     Icon.Icon "barcode"
+
+
+{-| Barcode Alternate - Icon
+-}
+barcodeAlt : Icon
+barcodeAlt =
+    Icon.Icon "barcodeAlt"
+
+
+{-| Barcode Read - Icon
+-}
+barcodeRead : Icon
+barcodeRead =
+    Icon.Icon "barcode-read"
+
+
+{-| Barcode Scan - Icon
+-}
+barcodeScan : Icon
+barcodeScan =
+    Icon.Icon "barcode-scan"
 
 
 {-| Bars - Icon
@@ -3539,6 +3685,27 @@ bowlingPins =
     Icon.Icon "bowling-pins"
 
 
+{-| Box - Icon
+-}
+box : Icon
+box =
+    Icon.Icon "box"
+
+
+{-| Box Check - Icon
+-}
+boxCheck : Icon
+boxCheck =
+    Icon.Icon "box-check"
+
+
+{-| Boxes - Icon
+-}
+boxes : Icon
+boxes =
+    Icon.Icon "boxes"
+
+
 {-| Boxing Glove - Icon
 -}
 boxingGlove : Icon
@@ -3558,6 +3725,13 @@ braille =
 briefcase : Icon
 briefcase =
     Icon.Icon "briefcase"
+
+
+{-| Briefcase Medical - Icon
+-}
+briefcaseMedical : Icon
+briefcaseMedical =
+    Icon.Icon "briefcase-medical"
 
 
 {-| Browser - Icon
@@ -3600,6 +3774,13 @@ bullhorn =
 bullseye : Icon
 bullseye =
     Icon.Icon "bullseye"
+
+
+{-| Burn - Icon
+-}
+burn : Icon
+burn =
+    Icon.Icon "burn"
 
 
 {-| Buromobel Experte - Logo
@@ -3705,6 +3886,13 @@ cameraAlt =
 cameraRetro : Icon
 cameraRetro =
     Icon.Icon "camera-retro"
+
+
+{-| Capsules - Icon
+-}
+capsules : Icon
+capsules =
+    Icon.Icon "capsules"
 
 
 {-| Car - Icon
@@ -4204,6 +4392,20 @@ clipboard =
     Icon.Icon "clipboard"
 
 
+{-| Clipboard Check - Icon
+-}
+clipboardCheck : Icon
+clipboardCheck =
+    Icon.Icon "clipboard-check"
+
+
+{-| Clipboard List - Icon
+-}
+clipboardList : Icon
+clipboardList =
+    Icon.Icon "clipboard-list"
+
+
 {-| Clock - Icon
 -}
 clock : Icon
@@ -4421,6 +4623,20 @@ contao =
     Icon.Logo "contao"
 
 
+{-| Conveyor Belt - Icon
+-}
+conveyorBelt : Icon
+conveyorBelt =
+    Icon.Icon "conveyor-belt"
+
+
+{-| Conveyor Belt Alternate - Icon
+-}
+conveyorBeltAlt : Icon
+conveyorBeltAlt =
+    Icon.Icon "conveyor-belt-alt"
+
+
 {-| Copy - Icon
 -}
 copy : Icon
@@ -4610,6 +4826,13 @@ deviantArt =
     Icon.Logo "deviantart"
 
 
+{-| Diagnoses - Icon
+-}
+diagnoses : Icon
+diagnoses =
+    Icon.Icon "diagnoses"
+
+
 {-| Diamond - Icon
 -}
 diamond : Icon
@@ -4645,6 +4868,13 @@ discourse =
     Icon.Logo "discourse"
 
 
+{-| DNA - Icon
+-}
+dna : Icon
+dna =
+    Icon.Icon "dna"
+
+
 {-| DocHub - Logo
 -}
 docHub : Icon
@@ -4664,6 +4894,41 @@ docker =
 dollarSign : Icon
 dollarSign =
     Icon.Icon "dollar-sign"
+
+
+{-| Dolly - Icon
+-}
+dolly : Icon
+dolly =
+    Icon.Icon "dolly"
+
+
+{-| Dolly Empty - Icon
+-}
+dollyEmpty : Icon
+dollyEmpty =
+    Icon.Icon "dolly-empty"
+
+
+{-| Dolly Flatbed - Icon
+-}
+dollyFlatbed : Icon
+dollyFlatbed =
+    Icon.Icon "dolly-flatbed"
+
+
+{-| Dolly Flatbed Alternate - Icon
+-}
+dollyFlatbedAlt : Icon
+dollyFlatbedAlt =
+    Icon.Icon "dolly-flatbed-alt"
+
+
+{-| Dolly Flatbed Empty - Icon
+-}
+dollyFlatbedEmpty : Icon
+dollyFlatbedEmpty =
+    Icon.Icon "dolly-flatbed-empty"
 
 
 {-| Dot Circle - Icon
@@ -5142,6 +5407,20 @@ fileImage =
     Icon.Icon "file-image"
 
 
+{-| File Medical - Icon
+-}
+fileMedical : Icon
+fileMedical =
+    Icon.Icon "file-medical"
+
+
+{-| File Medical Alternate - Icon
+-}
+fileMedicalAlt : Icon
+fileMedicalAlt =
+    Icon.Icon "file-medical-alt"
+
+
 {-| File Minus - Icon
 -}
 fileMinus : Icon
@@ -5231,6 +5510,13 @@ fireExtinguisher =
 firefox : Icon
 firefox =
     Icon.Logo "firefox"
+
+
+{-| First Aid - Icon
+-}
+firstAid : Icon
+firstAid =
+    Icon.Icon "first-aid"
 
 
 {-| First Draft - Logo
@@ -5364,6 +5650,13 @@ footballBall =
 footballHelmet : Icon
 footballHelmet =
     Icon.Icon "football-helmet"
+
+
+{-| Forklift - Icon
+-}
+forklift : Icon
+forklift =
+    Icon.Icon "forklift"
 
 
 {-| Fort Awesome - Logo
@@ -5737,6 +6030,13 @@ hackerNewsSquare =
     Icon.Logo "hacker-news-square"
 
 
+{-| Hand Holding Box - Icon
+-}
+handHoldingBox : Icon
+handHoldingBox =
+    Icon.Icon "hand-holding-box"
+
+
 {-| Hand Lizard - Icon
 -}
 handLizard : Icon
@@ -5791,6 +6091,13 @@ handPointUp =
 handPointer : Icon
 handPointer =
     Icon.Icon "hand-pointer"
+
+
+{-| Hand Receiving - Icon
+-}
+handReceiving : Icon
+handReceiving =
+    Icon.Icon "hand-receiving"
 
 
 {-| Hand Rock - Icon
@@ -5926,6 +6233,20 @@ hospital =
     Icon.Icon "hospital"
 
 
+{-| Hospital Alternate - Icon
+-}
+hospitalAlt : Icon
+hospitalAlt =
+    Icon.Icon "hospital-alt"
+
+
+{-| Hospital Symbol - Icon
+-}
+hospitalSymbol : Icon
+hospitalSymbol =
+    Icon.Icon "hospital-symbol"
+
+
 {-| Hotjar - Logo
 -}
 hotjar : Icon
@@ -6001,6 +6322,13 @@ idBadge =
 idCard : Icon
 idCard =
     Icon.Icon "id-card"
+
+
+{-| Id Card Alternate - Icon
+-}
+idCardAlt : Icon
+idCardAlt =
+    Icon.Icon "id-card-alt"
 
 
 {-| Image - Icon
@@ -6099,6 +6427,13 @@ instagram =
 internetExplorer : Icon
 internetExplorer =
     Icon.Logo "internet-explorer"
+
+
+{-| Inventory - Icon
+-}
+inventory : Icon
+inventory =
+    Icon.Icon "inventory"
 
 
 {-| IoxHost - Logo
@@ -6892,6 +7227,13 @@ nodejs =
     Icon.Logo "node-js"
 
 
+{-| Notes Medical - Icon
+-}
+notesMedical : Icon
+notesMedical =
+    Icon.Icon "notes-medical"
+
+
 {-| npm - Logo
 -}
 npm : Icon
@@ -7016,6 +7358,20 @@ paintBrush =
 palFed : Icon
 palFed =
     Icon.Logo "palfed"
+
+
+{-| Pallet - Icon
+-}
+pallet : Icon
+pallet =
+    Icon.Icon "pallet"
+
+
+{-| Pallet Alternate - Icon
+-}
+palletAlt : Icon
+palletAlt =
+    Icon.Icon "pallet-alt"
 
 
 {-| Paper Plane - Icon
@@ -7207,6 +7563,13 @@ piedPiperPP =
     Icon.Logo "pied-piper-pp"
 
 
+{-| Pills - Icon
+-}
+pills : Icon
+pills =
+    Icon.Icon "pills"
+
+
 {-| Pinterest - Logo
 -}
 pinterest : Icon
@@ -7340,11 +7703,32 @@ powerOff =
     Icon.Icon "power-off"
 
 
+{-| Prescription Bottle - Icon
+-}
+prescriptionBottle : Icon
+prescriptionBottle =
+    Icon.Icon "prescription-bottle"
+
+
+{-| Prescription Bottle Alternate - Icon
+-}
+prescriptionBottleAlt : Icon
+prescriptionBottleAlt =
+    Icon.Icon "prescription-bottle-alt"
+
+
 {-| Print - Icon
 -}
 print : Icon
 print =
     Icon.Icon "print"
+
+
+{-| Procedures - Icon
+-}
+procedures : Icon
+procedures =
+    Icon.Icon "procedures"
 
 
 {-| Product Hunt - Logo
@@ -7718,6 +8102,27 @@ save =
     Icon.Icon "save"
 
 
+{-| Scanner - Icon
+-}
+scanner : Icon
+scanner =
+    Icon.Icon "scanner"
+
+
+{-| Scanner Keyboard - Icon
+-}
+scannerKeyboard : Icon
+scannerKeyboard =
+    Icon.Icon "scanner-keyboard"
+
+
+{-| Scanner Touchscreen - Icon
+-}
+scannerTouchscreen : Icon
+scannerTouchscreen =
+    Icon.Icon "scanner-touchscreen"
+
+
 {-| Schlix - Logo
 -}
 schlix : Icon
@@ -7863,6 +8268,20 @@ shieldCheck =
 ship : Icon
 ship =
     Icon.Icon "ship"
+
+
+{-| Shipping Fast - Icon
+-}
+shippingFast : Icon
+shippingFast =
+    Icon.Icon "shipping-fast"
+
+
+{-| Shipping Timed - Icon
+-}
+shippingTimed : Icon
+shippingTimed =
+    Icon.Icon "shipping-timed"
 
 
 {-| Shirts In Bulk - Logo
@@ -8038,6 +8457,13 @@ slideshare =
 smile : Icon
 smile =
     Icon.Icon "smile"
+
+
+{-| Smoking - Icon
+-}
+smoking : Icon
+smoking =
+    Icon.Icon "smoking"
 
 
 {-| Snapchat - Logo
@@ -8432,6 +8858,13 @@ syncAlt =
     Icon.Icon "sync-alt"
 
 
+{-| Syringe - Icon
+-}
+syringe : Icon
+syringe =
+    Icon.Icon "syringe"
+
+
 {-| Table - Icon
 -}
 table : Icon
@@ -8472,6 +8905,20 @@ tabletAndroid =
 tabletAndroidAlt : Icon
 tabletAndroidAlt =
     Icon.Icon "tablet-android-alt"
+
+
+{-| Tablet Rugged - Icon
+-}
+tabletRugged : Icon
+tabletRugged =
+    Icon.Icon "tablet-rugged"
+
+
+{-| Tablets - Icon
+-}
+tablets : Icon
+tablets =
+    Icon.Icon "tablets"
 
 
 {-| Tachometer - Icon
@@ -8591,6 +9038,13 @@ thList =
 themeIsle : Icon
 themeIsle =
     Icon.Logo "themeisle"
+
+
+{-| Thermometer - Icon
+-}
+thermometer : Icon
+thermometer =
+    Icon.Icon "thermometer"
 
 
 {-| Thermometer Empty - Icon
@@ -9146,6 +9600,20 @@ viadeoSquare =
     Icon.Logo "viadeo-square"
 
 
+{-| Vial - Icon
+-}
+vial : Icon
+vial =
+    Icon.Icon "vial"
+
+
+{-| Vials - Icon
+-}
+vials : Icon
+vials =
+    Icon.Icon "vials"
+
+
 {-| Viber - Logo
 -}
 viber : Icon
@@ -9244,11 +9712,32 @@ vuejs =
     Icon.Logo "vuejs"
 
 
+{-| Warehouse - Icon
+-}
+warehouse : Icon
+warehouse =
+    Icon.Icon "warehouse"
+
+
+{-| Warehouse Alternate - Icon
+-}
+warehouseAlt : Icon
+warehouseAlt =
+    Icon.Icon "warehouse-alt"
+
+
 {-| Watch - Icon
 -}
 watch : Icon
 watch =
     Icon.Icon "watch"
+
+
+{-| Weight - Icon
+-}
+weight : Icon
+weight =
+    Icon.Icon "weight"
 
 
 {-| Weibo - Logo
@@ -9431,6 +9920,13 @@ xing =
 xingSquare : Icon
 xingSquare =
     Icon.Logo "xing-square"
+
+
+{-| X-ray - Icon
+-}
+xray : Icon
+xray =
+    Icon.Icon "x-ray"
 
 
 {-| YCombinator - Logo
