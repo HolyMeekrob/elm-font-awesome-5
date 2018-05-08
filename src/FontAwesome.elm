@@ -1,6 +1,7 @@
 module FontAwesome
     exposing
         ( Animation(..)
+        , Icon
         , Option(..)
         , HtmlTag(..)
         , Pull(..)
@@ -1061,6 +1062,11 @@ module FontAwesome
         )
 
 {-| A type-checked interface for using the Font Awesome 5 icon library.
+
+
+# Base types
+
+@docs Icon
 
 
 # CDN Helpers
@@ -2131,10 +2137,16 @@ module FontAwesome
 
 -}
 
-import FontAwesome.Icon as Icon exposing (Icon)
+import FontAwesome.Icon as Icon
 import FontAwesome.Utils exposing (dedup, onlyOne)
 import Html exposing (Attribute, Html)
 import Html.Attributes
+
+
+{-| The type for all icons
+-}
+type alias Icon =
+    Icon.Icon
 
 
 {-| A convenience helper for including Font Awesome SVGs on your page using their CDN.
