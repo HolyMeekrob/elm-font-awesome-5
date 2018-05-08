@@ -1,5 +1,5 @@
 {
-    "version": "1.1.0",
+    "version": "2.0.0",
     "summary": "A strongly typed Elm package for working with Font Awesome 5",
     "repository": "https://github.com/HolyMeekrob/elm-font-awesome-5.git",
     "license": "BSD3",
