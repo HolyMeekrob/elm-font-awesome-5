@@ -2928,21 +2928,21 @@ type Transform
 -}
 fiveHundredPx : Icon
 fiveHundredPx =
-    Icon.Icon "500px"
+    Icon.Logo "500px"
 
 
 {-| Accessible Icon - Logo
 -}
 accessibleIcon : Icon
 accessibleIcon =
-    Icon.Icon "accessible-icon"
+    Icon.Logo "accessible-icon"
 
 
 {-| Accusoft - Logo
 -}
 accusoft : Icon
 accusoft =
-    Icon.Icon "accusoft"
+    Icon.Logo "accusoft"
 
 
 {-| Address Book - Icon
@@ -2970,21 +2970,21 @@ adjust =
 -}
 adn : Icon
 adn =
-    Icon.Icon "adn"
+    Icon.Logo "adn"
 
 
 {-| Adversal - Logo
 -}
 adversal : Icon
 adversal =
-    Icon.Icon "adversal"
+    Icon.Logo "adversal"
 
 
 {-| Affiliate Theme - Logo
 -}
 affiliateTheme : Icon
 affiliateTheme =
-    Icon.Icon "affiliatetheme"
+    Icon.Logo "affiliatetheme"
 
 
 {-| Alarm Clock - Icon
@@ -2998,7 +2998,7 @@ alarmClock =
 -}
 algolia : Icon
 algolia =
-    Icon.Icon "algolia"
+    Icon.Logo "algolia"
 
 
 {-| Align Center - Icon
@@ -3040,14 +3040,14 @@ allergies =
 -}
 amazon : Icon
 amazon =
-    Icon.Icon "amazon"
+    Icon.Logo "amazon"
 
 
 {-| Amazon Pay - Logo
 -}
 amazonPay : Icon
 amazonPay =
-    Icon.Icon "amazon-pay"
+    Icon.Logo "amazon-pay"
 
 
 {-| Ambulance - Icon
@@ -3068,7 +3068,7 @@ americanSignLanguageInterpreting =
 -}
 amilia : Icon
 amilia =
-    Icon.Icon "amilia"
+    Icon.Logo "amilia"
 
 
 {-| Anchor - Icon
@@ -3082,14 +3082,14 @@ anchor =
 -}
 android : Icon
 android =
-    Icon.Icon "android"
+    Icon.Logo "android"
 
 
 {-| Angel List - Logo
 -}
 angelList : Icon
 angelList =
-    Icon.Icon "angellist"
+    Icon.Logo "angellist"
 
 
 {-| Angle Double Down - Icon
@@ -3152,49 +3152,49 @@ angleUp =
 -}
 angryCreative : Icon
 angryCreative =
-    Icon.Icon "angrycreative"
+    Icon.Logo "angrycreative"
 
 
 {-| Angular - Logo
 -}
 angular : Icon
 angular =
-    Icon.Icon "angular"
+    Icon.Logo "angular"
 
 
 {-| App Store - Logo
 -}
 appStore : Icon
 appStore =
-    Icon.Icon "app-store"
+    Icon.Logo "app-store"
 
 
 {-| App Store iOS - Logo
 -}
 appStoreIos : Icon
 appStoreIos =
-    Icon.Icon "app-store-ios"
+    Icon.Logo "app-store-ios"
 
 
 {-| Apper - Logo
 -}
 apper : Icon
 apper =
-    Icon.Icon "apper"
+    Icon.Logo "apper"
 
 
 {-| Apple - Logo
 -}
 apple : Icon
 apple =
-    Icon.Icon "apple"
+    Icon.Logo "apple"
 
 
 {-| Apple Pay - Logo
 -}
 applePay : Icon
 applePay =
-    Icon.Icon "apple-pay"
+    Icon.Logo "apple-pay"
 
 
 {-| Archive - Icon
@@ -3544,7 +3544,7 @@ asterisk =
 -}
 asymmetrik : Icon
 asymmetrik =
-    Icon.Icon "asymmetrik"
+    Icon.Logo "asymmetrik"
 
 
 {-| At - Icon
@@ -3558,7 +3558,7 @@ at =
 -}
 audible : Icon
 audible =
-    Icon.Icon "audible"
+    Icon.Logo "audible"
 
 
 {-| Audio Description - Icon
@@ -3572,28 +3572,28 @@ audioDescription =
 -}
 autoprefixer : Icon
 autoprefixer =
-    Icon.Icon "autoprefixer"
+    Icon.Logo "autoprefixer"
 
 
 {-| Avianex - Logo
 -}
 avianex : Icon
 avianex =
-    Icon.Icon "avianex"
+    Icon.Logo "avianex"
 
 
 {-| Aviato - Logo
 -}
 aviato : Icon
 aviato =
-    Icon.Icon "aviato"
+    Icon.Logo "aviato"
 
 
 {-| AWS - Logo
 -}
 aws : Icon
 aws =
-    Icon.Icon "aws"
+    Icon.Logo "aws"
 
 
 {-| Backward - Icon
@@ -3642,7 +3642,7 @@ bandAid =
 -}
 bandcamp : Icon
 bandcamp =
-    Icon.Icon "bandcamp"
+    Icon.Logo "bandcamp"
 
 
 {-| Barcode - Icon
@@ -3782,14 +3782,14 @@ beer =
 -}
 behance : Icon
 behance =
-    Icon.Icon "behance"
+    Icon.Logo "behance"
 
 
 {-| Behance Square - Logo
 -}
 behanceSquare : Icon
 behanceSquare =
-    Icon.Icon "behance-square"
+    Icon.Logo "behance-square"
 
 
 {-| Bell - Icon
@@ -3817,7 +3817,7 @@ bicycle =
 -}
 bimObject : Icon
 bimObject =
-    Icon.Icon "bimobject"
+    Icon.Logo "bimobject"
 
 
 {-| Binoculars - Icon
@@ -3838,35 +3838,35 @@ birthdayCake =
 -}
 bitbucket : Icon
 bitbucket =
-    Icon.Icon "bitbucket"
+    Icon.Logo "bitbucket"
 
 
 {-| Bitcoin - Logo
 -}
 bitcoin : Icon
 bitcoin =
-    Icon.Icon "bitcoin"
+    Icon.Logo "bitcoin"
 
 
 {-| Bity - Logo
 -}
 bity : Icon
 bity =
-    Icon.Icon "bity"
+    Icon.Logo "bity"
 
 
 {-| Black Tie - Logo
 -}
 blackTie : Icon
 blackTie =
-    Icon.Icon "black-tie"
+    Icon.Logo "black-tie"
 
 
 {-| Blackberry - Logo
 -}
 blackberry : Icon
 blackberry =
-    Icon.Icon "blackberry"
+    Icon.Logo "blackberry"
 
 
 {-| Blanket - Icon
@@ -3887,28 +3887,28 @@ blind =
 -}
 blogger : Icon
 blogger =
-    Icon.Icon "blogger"
+    Icon.Logo "blogger"
 
 
 {-| Blogger B - Logo
 -}
 bloggerB : Icon
 bloggerB =
-    Icon.Icon "blogger-b"
+    Icon.Logo "blogger-b"
 
 
 {-| Bluetooth - Logo
 -}
 bluetooth : Icon
 bluetooth =
-    Icon.Icon "bluetooth"
+    Icon.Logo "bluetooth"
 
 
 {-| Bluetooth B - Logo
 -}
 bluetoothB : Icon
 bluetoothB =
-    Icon.Icon "bluetooth-b"
+    Icon.Logo "bluetooth-b"
 
 
 {-| Bold - Icon
@@ -4083,7 +4083,7 @@ browser =
 -}
 btc : Icon
 btc =
-    Icon.Icon "btc"
+    Icon.Logo "btc"
 
 
 {-| Bug - Icon
@@ -4125,7 +4125,7 @@ burn =
 -}
 buromobelExperte : Icon
 buromobelExperte =
-    Icon.Icon "buromobelexperte"
+    Icon.Logo "buromobelexperte"
 
 
 {-| Bus - Icon
@@ -4139,7 +4139,7 @@ bus =
 -}
 buySellAds : Icon
 buySellAds =
-    Icon.Icon "buysellads"
+    Icon.Logo "buysellads"
 
 
 {-| Calculator - Icon
@@ -4342,77 +4342,77 @@ cartPlus =
 -}
 ccAmazonPay : Icon
 ccAmazonPay =
-    Icon.Icon "cc-amazon-pay"
+    Icon.Logo "cc-amazon-pay"
 
 
 {-| CC Amex - Logo
 -}
 ccAmex : Icon
 ccAmex =
-    Icon.Icon "cc-amex"
+    Icon.Logo "cc-amex"
 
 
 {-| CC Apple Pay - Logo
 -}
 ccApplePay : Icon
 ccApplePay =
-    Icon.Icon "cc-apple-pay"
+    Icon.Logo "cc-apple-pay"
 
 
 {-| CC Diners Club - Logo
 -}
 ccDinersClub : Icon
 ccDinersClub =
-    Icon.Icon "cc-diners-club"
+    Icon.Logo "cc-diners-club"
 
 
 {-| CC Discover - Logo
 -}
 ccDiscover : Icon
 ccDiscover =
-    Icon.Icon "cc-discover"
+    Icon.Logo "cc-discover"
 
 
 {-| CC Jcb - Logo
 -}
 ccJcb : Icon
 ccJcb =
-    Icon.Icon "cc-jcb"
+    Icon.Logo "cc-jcb"
 
 
 {-| CC Mastercard - Logo
 -}
 ccMastercard : Icon
 ccMastercard =
-    Icon.Icon "cc-mastercard"
+    Icon.Logo "cc-mastercard"
 
 
 {-| CC PayPal - Logo
 -}
 ccPayPal : Icon
 ccPayPal =
-    Icon.Icon "cc-paypal"
+    Icon.Logo "cc-paypal"
 
 
 {-| CC Stripe - Logo
 -}
 ccStripe : Icon
 ccStripe =
-    Icon.Icon "cc-stripe"
+    Icon.Logo "cc-stripe"
 
 
 {-| CC Visa - Logo
 -}
 ccVisa : Icon
 ccVisa =
-    Icon.Icon "cc-visa"
+    Icon.Logo "cc-visa"
 
 
 {-| Centercode - Logo
 -}
 centercode : Icon
 centercode =
-    Icon.Icon "centercode"
+    Icon.Logo "centercode"
 
 
 {-| Certificate - Icon
@@ -4706,7 +4706,7 @@ child =
 -}
 chrome : Icon
 chrome =
-    Icon.Icon "chrome"
+    Icon.Logo "chrome"
 
 
 {-| Circle - Icon
@@ -4804,21 +4804,21 @@ cloudUploadAlt =
 -}
 cloudScale : Icon
 cloudScale =
-    Icon.Icon "cloudscale"
+    Icon.Logo "cloudscale"
 
 
 {-| Cloudsmith - Logo
 -}
 cloudsmith : Icon
 cloudsmith =
-    Icon.Icon "cloudsmith"
+    Icon.Logo "cloudsmith"
 
 
 {-| Cloudversify - Logo
 -}
 cloudversify : Icon
 cloudversify =
-    Icon.Icon "cloudversify"
+    Icon.Logo "cloudversify"
 
 
 {-| Club - Icon
@@ -4860,14 +4860,14 @@ codeMerge =
 -}
 codePen : Icon
 codePen =
-    Icon.Icon "codepen"
+    Icon.Logo "codepen"
 
 
 {-| Codiepie - Logo
 -}
 codiePie : Icon
 codiePie =
-    Icon.Icon "codiepie"
+    Icon.Logo "codiepie"
 
 
 {-| Coffee - Icon
@@ -5098,7 +5098,7 @@ compressWide =
 -}
 connectDevelop : Icon
 connectDevelop =
-    Icon.Icon "connectdevelop"
+    Icon.Logo "connectdevelop"
 
 
 {-| Container Storage - Icon
@@ -5112,7 +5112,7 @@ containerStorage =
 -}
 contao : Icon
 contao =
-    Icon.Icon "contao"
+    Icon.Logo "contao"
 
 
 {-| Conveyor Belt - Icon
@@ -5154,105 +5154,105 @@ couch =
 -}
 cpanel : Icon
 cpanel =
-    Icon.Icon "cpanel"
+    Icon.Logo "cpanel"
 
 
 {-| Creative Commons - Logo
 -}
 creativeCommons : Icon
 creativeCommons =
-    Icon.Icon "creative-commons"
+    Icon.Logo "creative-commons"
 
 
 {-| Creative Commons By - Logo
 -}
 creativeCommonsBy : Icon
 creativeCommonsBy =
-    Icon.Icon "creative-commons-by"
+    Icon.Logo "creative-commons-by"
 
 
 {-| Creative Commons NC - Logo
 -}
 creativeCommonsNc : Icon
 creativeCommonsNc =
-    Icon.Icon "creative-commons-nc"
+    Icon.Logo "creative-commons-nc"
 
 
 {-| Creative Commons NC EU - Logo
 -}
 creativeCommonsNcEu : Icon
 creativeCommonsNcEu =
-    Icon.Icon "creative-commons-nc-eu"
+    Icon.Logo "creative-commons-nc-eu"
 
 
 {-| Creative Commons NC JP - Logo
 -}
 creativeCommonsNcJp : Icon
 creativeCommonsNcJp =
-    Icon.Icon "creative-commons-nc-jp"
+    Icon.Logo "creative-commons-nc-jp"
 
 
 {-| Creative Commons ND - Logo
 -}
 creativeCommonsNd : Icon
 creativeCommonsNd =
-    Icon.Icon "creative-commons-nd"
+    Icon.Logo "creative-commons-nd"
 
 
 {-| Creative Commons PD - Logo
 -}
 creativeCommonsPd : Icon
 creativeCommonsPd =
-    Icon.Icon "creative-commons-pd"
+    Icon.Logo "creative-commons-pd"
 
 
 {-| Creative Commons PD Alternate - Logo
 -}
 creativeCommonsPdAlt : Icon
 creativeCommonsPdAlt =
-    Icon.Icon "creative-commons-pd-alt"
+    Icon.Logo "creative-commons-pd-alt"
 
 
 {-| Creative Commons Remix - Logo
 -}
 creativeCommonsRemix : Icon
 creativeCommonsRemix =
-    Icon.Icon "creative-commons-remix"
+    Icon.Logo "creative-commons-remix"
 
 
 {-| Creative Commons SA - Logo
 -}
 creativeCommonsSa : Icon
 creativeCommonsSa =
-    Icon.Icon "creative-commons-sa"
+    Icon.Logo "creative-commons-sa"
 
 
 {-| Creative Commons Sampling - Logo
 -}
 creativeCommonsSampling : Icon
 creativeCommonsSampling =
-    Icon.Icon "creative-commons-sampling"
+    Icon.Logo "creative-commons-sampling"
 
 
 {-| Creative Commons Sampling Plus - Logo
 -}
 creativeCommonsSamplingPlus : Icon
 creativeCommonsSamplingPlus =
-    Icon.Icon "creative-commons-sampling-plus"
+    Icon.Logo "creative-commons-sampling-plus"
 
 
 {-| Creative Commons Share - Logo
 -}
 creativeCommonsShare : Icon
 creativeCommonsShare =
-    Icon.Icon "creative-commons-share"
+    Icon.Logo "creative-commons-share"
 
 
 {-| Creative Commons Zero - Logo
 -}
 creativeCommonsZero : Icon
 creativeCommonsZero =
-    Icon.Icon "creative-commons-zero"
+    Icon.Logo "creative-commons-zero"
 
 
 {-| Credit Card - Icon
@@ -5301,14 +5301,14 @@ crosshairs =
 -}
 css3 : Icon
 css3 =
-    Icon.Icon "css3"
+    Icon.Logo "css3"
 
 
 {-| CSS3Alternate - Logo
 -}
 css3Alt : Icon
 css3Alt =
-    Icon.Icon "css3-alt"
+    Icon.Logo "css3-alt"
 
 
 {-| Cube - Icon
@@ -5343,14 +5343,14 @@ cut =
 -}
 cuttlefish : Icon
 cuttlefish =
-    Icon.Icon "cuttlefish"
+    Icon.Logo "cuttlefish"
 
 
 {-| Dashcube - Logo
 -}
 dashcube : Icon
 dashcube =
-    Icon.Icon "dashcube"
+    Icon.Logo "dashcube"
 
 
 {-| Database - Icon
@@ -5371,21 +5371,21 @@ deaf =
 -}
 delicious : Icon
 delicious =
-    Icon.Icon "delicious"
+    Icon.Logo "delicious"
 
 
 {-| Deploy Dog - Logo
 -}
 deployDog : Icon
 deployDog =
-    Icon.Icon "deploydog"
+    Icon.Logo "deploydog"
 
 
 {-| Deskpro - Logo
 -}
 deskpro : Icon
 deskpro =
-    Icon.Icon "deskpro"
+    Icon.Logo "deskpro"
 
 
 {-| Desktop - Icon
@@ -5406,7 +5406,7 @@ desktopAlt =
 -}
 deviantArt : Icon
 deviantArt =
-    Icon.Icon "deviantart"
+    Icon.Logo "deviantart"
 
 
 {-| Diagnoses - Icon
@@ -5427,28 +5427,28 @@ diamond =
 -}
 digg : Icon
 digg =
-    Icon.Icon "digg"
+    Icon.Logo "digg"
 
 
 {-| Digital Ocean - Logo
 -}
 digitalOcean : Icon
 digitalOcean =
-    Icon.Icon "digital-ocean"
+    Icon.Logo "digital-ocean"
 
 
 {-| Discord - Logo
 -}
 discord : Icon
 discord =
-    Icon.Icon "discord"
+    Icon.Logo "discord"
 
 
 {-| Discourse - Logo
 -}
 discourse : Icon
 discourse =
-    Icon.Icon "discourse"
+    Icon.Logo "discourse"
 
 
 {-| DNA - Icon
@@ -5462,14 +5462,14 @@ dna =
 -}
 docHub : Icon
 docHub =
-    Icon.Icon "dochub"
+    Icon.Logo "dochub"
 
 
 {-| Docker - Logo
 -}
 docker : Icon
 docker =
-    Icon.Icon "docker"
+    Icon.Logo "docker"
 
 
 {-| Dollar Sign - Icon
@@ -5546,35 +5546,35 @@ download =
 -}
 draft2Digital : Icon
 draft2Digital =
-    Icon.Icon "draft2digital"
+    Icon.Logo "draft2digital"
 
 
 {-| Dribbble - Logo
 -}
 dribbble : Icon
 dribbble =
-    Icon.Icon "dribbble"
+    Icon.Logo "dribbble"
 
 
 {-| Dribbble Square - Logo
 -}
 dribbbleSquare : Icon
 dribbbleSquare =
-    Icon.Icon "dribbble-square"
+    Icon.Logo "dribbble-square"
 
 
 {-| Dropbox - Logo
 -}
 dropbox : Icon
 dropbox =
-    Icon.Icon "dropbox"
+    Icon.Logo "dropbox"
 
 
 {-| Drupal - Logo
 -}
 drupal : Icon
 drupal =
-    Icon.Icon "drupal"
+    Icon.Logo "drupal"
 
 
 {-| Dumbbell - Icon
@@ -5588,35 +5588,35 @@ dumbbell =
 -}
 dAndD : Icon
 dAndD =
-    Icon.Icon "d-and-d"
+    Icon.Logo "d-and-d"
 
 
 {-| Dyalog - Logo
 -}
 dyalog : Icon
 dyalog =
-    Icon.Icon "dyalog"
+    Icon.Logo "dyalog"
 
 
 {-| Early Birds - Logo
 -}
 earlyBirds : Icon
 earlyBirds =
-    Icon.Icon "earlybirds"
+    Icon.Logo "earlybirds"
 
 
 {-| Ebay - Logo
 -}
 ebay : Icon
 ebay =
-    Icon.Icon "ebay"
+    Icon.Logo "ebay"
 
 
 {-| Edge - Logo
 -}
 edge : Icon
 edge =
-    Icon.Icon "edge"
+    Icon.Logo "edge"
 
 
 {-| Edit - Icon
@@ -5637,7 +5637,7 @@ eject =
 -}
 elementor : Icon
 elementor =
-    Icon.Icon "elementor"
+    Icon.Logo "elementor"
 
 
 {-| Ellipsis Horizontal - Icon
@@ -5672,14 +5672,14 @@ ellipsisVerticalAlt =
 -}
 ember : Icon
 ember =
-    Icon.Icon "ember"
+    Icon.Logo "ember"
 
 
 {-| Empire - Logo
 -}
 empire : Icon
 empire =
-    Icon.Icon "empire"
+    Icon.Logo "empire"
 
 
 {-| Envelope - Icon
@@ -5707,7 +5707,7 @@ envelopeSquare =
 -}
 envira : Icon
 envira =
-    Icon.Icon "envira"
+    Icon.Logo "envira"
 
 
 {-| Eraser - Icon
@@ -5721,21 +5721,21 @@ eraser =
 -}
 erlang : Icon
 erlang =
-    Icon.Icon "erlang"
+    Icon.Logo "erlang"
 
 
 {-| Ethereum - Logo
 -}
 ethereum : Icon
 ethereum =
-    Icon.Icon "ethereum"
+    Icon.Logo "ethereum"
 
 
 {-| Etsy - Logo
 -}
 etsy : Icon
 etsy =
-    Icon.Icon "etsy"
+    Icon.Logo "etsy"
 
 
 {-| Euro Sign - Icon
@@ -5826,7 +5826,7 @@ expandWide =
 -}
 expeditedSSL : Icon
 expeditedSSL =
-    Icon.Icon "expeditedssl"
+    Icon.Logo "expeditedssl"
 
 
 {-| External Link - Icon
@@ -5882,28 +5882,28 @@ eyeSlash =
 -}
 facebook : Icon
 facebook =
-    Icon.Icon "facebook"
+    Icon.Logo "facebook"
 
 
 {-| Facebook F - Logo
 -}
 facebookF : Icon
 facebookF =
-    Icon.Icon "facebook-f"
+    Icon.Logo "facebook-f"
 
 
 {-| Facebook Messenger - Logo
 -}
 facebookMessenger : Icon
 facebookMessenger =
-    Icon.Icon "facebook-messenger"
+    Icon.Logo "facebook-messenger"
 
 
 {-| Facebook Square - Logo
 -}
 facebookSquare : Icon
 facebookSquare =
-    Icon.Icon "facebook-square"
+    Icon.Logo "facebook-square"
 
 
 {-| Fast Backward - Icon
@@ -6120,7 +6120,7 @@ fireExtinguisher =
 -}
 firefox : Icon
 firefox =
-    Icon.Icon "firefox"
+    Icon.Logo "firefox"
 
 
 {-| First Aid - Icon
@@ -6134,21 +6134,21 @@ firstAid =
 -}
 firstDraft : Icon
 firstDraft =
-    Icon.Icon "firstdraft"
+    Icon.Logo "firstdraft"
 
 
 {-| First Order - Logo
 -}
 firstOrder : Icon
 firstOrder =
-    Icon.Icon "first-order"
+    Icon.Logo "first-order"
 
 
 {-| First Order Alternate - Logo
 -}
 firstOrderAlt : Icon
 firstOrderAlt =
-    Icon.Icon "first-order-alt"
+    Icon.Logo "first-order-alt"
 
 
 {-| Flag - Icon
@@ -6176,21 +6176,21 @@ flask =
 -}
 flickr : Icon
 flickr =
-    Icon.Icon "flickr"
+    Icon.Logo "flickr"
 
 
 {-| Flipboard - Logo
 -}
 flipboard : Icon
 flipboard =
-    Icon.Icon "flipboard"
+    Icon.Logo "flipboard"
 
 
 {-| Fly - Logo
 -}
 fly : Icon
 fly =
-    Icon.Icon "fly"
+    Icon.Logo "fly"
 
 
 {-| Folder - Icon
@@ -6218,42 +6218,42 @@ font =
 -}
 fontAwesome : Icon
 fontAwesome =
-    Icon.Icon "font-awesome"
+    Icon.Logo "font-awesome"
 
 
 {-| Font Awesome Alternate - Logo
 -}
 fontAwesomeAlt : Icon
 fontAwesomeAlt =
-    Icon.Icon "font-awesome-alt"
+    Icon.Logo "font-awesome-alt"
 
 
 {-| Font Awesome Flag - Logo
 -}
 fontAwesomeFlag : Icon
 fontAwesomeFlag =
-    Icon.Icon "font-awesome-flag"
+    Icon.Logo "font-awesome-flag"
 
 
 {-| Font Awesome Logo Full - Logo
 -}
 fontAwesomeLogoFull : Icon
 fontAwesomeLogoFull =
-    Icon.Icon "font-awesome-logo-full"
+    Icon.Logo "font-awesome-logo-full"
 
 
 {-| Font Icons - Logo
 -}
 fontIcons : Icon
 fontIcons =
-    Icon.Icon "fonticons"
+    Icon.Logo "fonticons"
 
 
 {-| Font Icons Fi - Logo
 -}
 fontIconsFi : Icon
 fontIconsFi =
-    Icon.Icon "fonticons-fi"
+    Icon.Logo "fonticons-fi"
 
 
 {-| Football Ball - Icon
@@ -6281,21 +6281,21 @@ forklift =
 -}
 fortAwesome : Icon
 fortAwesome =
-    Icon.Icon "fort-awesome"
+    Icon.Logo "fort-awesome"
 
 
 {-| Fort Awesome Alternate - Logo
 -}
 fortAwesomeAlt : Icon
 fortAwesomeAlt =
-    Icon.Icon "fort-awesome-alt"
+    Icon.Logo "fort-awesome-alt"
 
 
 {-| Forumbee - Logo
 -}
 forumbee : Icon
 forumbee =
-    Icon.Icon "forumbee"
+    Icon.Logo "forumbee"
 
 
 {-| Forward - Icon
@@ -6309,7 +6309,7 @@ forward =
 -}
 foursquare : Icon
 foursquare =
-    Icon.Icon "foursquare"
+    Icon.Logo "foursquare"
 
 
 {-| Fragile - Icon
@@ -6323,14 +6323,14 @@ fragile =
 -}
 freeBSD : Icon
 freeBSD =
-    Icon.Icon "freebsd"
+    Icon.Logo "freebsd"
 
 
 {-| Free Code Camp - Logo
 -}
 freeCodeCamp : Icon
 freeCodeCamp =
-    Icon.Icon "free-code-camp"
+    Icon.Logo "free-code-camp"
 
 
 {-| Frown - Icon
@@ -6344,7 +6344,7 @@ frown =
 -}
 fulcrum : Icon
 fulcrum =
-    Icon.Icon "fulcrum"
+    Icon.Logo "fulcrum"
 
 
 {-| Futbol - Icon
@@ -6358,14 +6358,14 @@ futbol =
 -}
 galacticRepublic : Icon
 galacticRepublic =
-    Icon.Icon "galactic-republic"
+    Icon.Logo "galactic-republic"
 
 
 {-| Galactic Senate - Logo
 -}
 galacticSenate : Icon
 galacticSenate =
-    Icon.Icon "galactic-senate"
+    Icon.Logo "galactic-senate"
 
 
 {-| Gamepad - Icon
@@ -6400,21 +6400,21 @@ genderless =
 -}
 getPocket : Icon
 getPocket =
-    Icon.Icon "get-pocket"
+    Icon.Logo "get-pocket"
 
 
 {-| GG - Logo
 -}
 gg : Icon
 gg =
-    Icon.Icon "gg"
+    Icon.Logo "gg"
 
 
 {-| GG Circle - Logo
 -}
 ggCircle : Icon
 ggCircle =
-    Icon.Icon "gg-circle"
+    Icon.Logo "gg-circle"
 
 
 {-| Gift - Icon
@@ -6428,56 +6428,56 @@ gift =
 -}
 git : Icon
 git =
-    Icon.Icon "git"
+    Icon.Logo "git"
 
 
 {-| Git Square - Logo
 -}
 gitSquare : Icon
 gitSquare =
-    Icon.Icon "git-square"
+    Icon.Logo "git-square"
 
 
 {-| GitHub - Logo
 -}
 gitHub : Icon
 gitHub =
-    Icon.Icon "github"
+    Icon.Logo "github"
 
 
 {-| GitHub Alternate - Logo
 -}
 gitHubAlt : Icon
 gitHubAlt =
-    Icon.Icon "github-alt"
+    Icon.Logo "github-alt"
 
 
 {-| GitHub Square - Logo
 -}
 gitHubSquare : Icon
 gitHubSquare =
-    Icon.Icon "github-square"
+    Icon.Logo "github-square"
 
 
 {-| GitKraken - Logo
 -}
 gitKraken : Icon
 gitKraken =
-    Icon.Icon "gitkraken"
+    Icon.Logo "gitkraken"
 
 
 {-| GitLab - Logo
 -}
 gitLab : Icon
 gitLab =
-    Icon.Icon "gitlab"
+    Icon.Logo "gitlab"
 
 
 {-| Gitter - Logo
 -}
 gitter : Icon
 gitter =
-    Icon.Icon "gitter"
+    Icon.Logo "gitter"
 
 
 {-| Glass Martini - Icon
@@ -6491,14 +6491,14 @@ glassMartini =
 -}
 glide : Icon
 glide =
-    Icon.Icon "glide"
+    Icon.Logo "glide"
 
 
 {-| Glide G - Logo
 -}
 glideG : Icon
 glideG =
-    Icon.Icon "glide-g"
+    Icon.Logo "glide-g"
 
 
 {-| Globe - Icon
@@ -6512,7 +6512,7 @@ globe =
 -}
 gofore : Icon
 gofore =
-    Icon.Icon "gofore"
+    Icon.Logo "gofore"
 
 
 {-| Golf Ball - Icon
@@ -6533,63 +6533,63 @@ golfClub =
 -}
 goodreads : Icon
 goodreads =
-    Icon.Icon "goodreads"
+    Icon.Logo "goodreads"
 
 
 {-| Goodreads G - Logo
 -}
 goodreadsG : Icon
 goodreadsG =
-    Icon.Icon "goodreads-g"
+    Icon.Logo "goodreads-g"
 
 
 {-| Google - Logo
 -}
 google : Icon
 google =
-    Icon.Icon "google"
+    Icon.Logo "google"
 
 
 {-| Google Drive - Logo
 -}
 googleDrive : Icon
 googleDrive =
-    Icon.Icon "google-drive"
+    Icon.Logo "google-drive"
 
 
 {-| Google Play - Logo
 -}
 googlePlay : Icon
 googlePlay =
-    Icon.Icon "google-play"
+    Icon.Logo "google-play"
 
 
 {-| Google Plus - Logo
 -}
 googlePlus : Icon
 googlePlus =
-    Icon.Icon "google-plus"
+    Icon.Logo "google-plus"
 
 
 {-| Google Plus G - Logo
 -}
 googlePlusG : Icon
 googlePlusG =
-    Icon.Icon "google-plus-g"
+    Icon.Logo "google-plus-g"
 
 
 {-| Google Plus Square - Logo
 -}
 googlePlusSquare : Icon
 googlePlusSquare =
-    Icon.Icon "google-plus-square"
+    Icon.Logo "google-plus-square"
 
 
 {-| Google Wallet - Logo
 -}
 googleWallet : Icon
 googleWallet =
-    Icon.Icon "google-wallet"
+    Icon.Logo "google-wallet"
 
 
 {-| Graduation Cap - Icon
@@ -6603,35 +6603,35 @@ graduationCap =
 -}
 gratipay : Icon
 gratipay =
-    Icon.Icon "gratipay"
+    Icon.Logo "gratipay"
 
 
 {-| Grav - Logo
 -}
 grav : Icon
 grav =
-    Icon.Icon "grav"
+    Icon.Logo "grav"
 
 
 {-| Gripfire - Logo
 -}
 gripfire : Icon
 gripfire =
-    Icon.Icon "gripfire"
+    Icon.Logo "gripfire"
 
 
 {-| Grunt - Logo
 -}
 grunt : Icon
 grunt =
-    Icon.Icon "grunt"
+    Icon.Logo "grunt"
 
 
 {-| Gulp - Logo
 -}
 gulp : Icon
 gulp =
-    Icon.Icon "gulp"
+    Icon.Logo "gulp"
 
 
 {-| H Square - Icon
@@ -6666,14 +6666,14 @@ h3 =
 -}
 hackerNews : Icon
 hackerNews =
-    Icon.Icon "hacker-news"
+    Icon.Logo "hacker-news"
 
 
 {-| Hacker News Square - Logo
 -}
 hackerNewsSquare : Icon
 hackerNewsSquare =
-    Icon.Icon "hacker-news-square"
+    Icon.Logo "hacker-news-square"
 
 
 {-| Hand Heart - Icon
@@ -6918,14 +6918,14 @@ hexagon =
 -}
 hips : Icon
 hips =
-    Icon.Icon "hips"
+    Icon.Logo "hips"
 
 
 {-| HireAHelper - Logo
 -}
 hireAHelper : Icon
 hireAHelper =
-    Icon.Icon "hire-a-helper"
+    Icon.Logo "hire-a-helper"
 
 
 {-| History - Icon
@@ -6967,7 +6967,7 @@ homeHeart =
 -}
 hooli : Icon
 hooli =
-    Icon.Icon "hooli"
+    Icon.Logo "hooli"
 
 
 {-| Hospital - Icon
@@ -6995,7 +6995,7 @@ hospitalSymbol =
 -}
 hotjar : Icon
 hotjar =
-    Icon.Icon "hotjar"
+    Icon.Logo "hotjar"
 
 
 {-| Hourglass - Icon
@@ -7030,21 +7030,21 @@ hourglassStart =
 -}
 houzz : Icon
 houzz =
-    Icon.Icon "houzz"
+    Icon.Logo "houzz"
 
 
 {-| Html5 - Logo
 -}
 html5 : Icon
 html5 =
-    Icon.Icon "html5"
+    Icon.Logo "html5"
 
 
 {-| HubSpot - Logo
 -}
 hubSpot : Icon
 hubSpot =
-    Icon.Icon "hubspot"
+    Icon.Logo "hubspot"
 
 
 {-| I Cursor - Icon
@@ -7093,7 +7093,7 @@ images =
 -}
 imdb : Icon
 imdb =
-    Icon.Icon "imdb"
+    Icon.Logo "imdb"
 
 
 {-| Inbox - Icon
@@ -7163,14 +7163,14 @@ infoSquare =
 -}
 instagram : Icon
 instagram =
-    Icon.Icon "instagram"
+    Icon.Logo "instagram"
 
 
 {-| Internet Explorer - Logo
 -}
 internetExplorer : Icon
 internetExplorer =
-    Icon.Icon "internet-explorer"
+    Icon.Logo "internet-explorer"
 
 
 {-| Inventory - Icon
@@ -7184,7 +7184,7 @@ inventory =
 -}
 ioxHost : Icon
 ioxHost =
-    Icon.Icon "ioxhost"
+    Icon.Logo "ioxhost"
 
 
 {-| Italic - Icon
@@ -7198,14 +7198,14 @@ italic =
 -}
 iTunes : Icon
 iTunes =
-    Icon.Icon "itunes"
+    Icon.Logo "itunes"
 
 
 {-| iTunes Note - Logo
 -}
 iTunesNote : Icon
 iTunesNote =
-    Icon.Icon "itunes-note"
+    Icon.Logo "itunes-note"
 
 
 {-| Jack o' Lantern - Icon
@@ -7219,56 +7219,56 @@ jackOLantern =
 -}
 java : Icon
 java =
-    Icon.Icon "java"
+    Icon.Logo "java"
 
 
 {-| JavaScript - Logo
 -}
 js : Icon
 js =
-    Icon.Icon "js"
+    Icon.Logo "js"
 
 
 {-| JavaScript Square - Logo
 -}
 jsSquare : Icon
 jsSquare =
-    Icon.Icon "js-square"
+    Icon.Logo "js-square"
 
 
 {-| Jedi Order - Logo
 -}
 jediOrder : Icon
 jediOrder =
-    Icon.Icon "jedi-order"
+    Icon.Logo "jedi-order"
 
 
 {-| Jenkins - Logo
 -}
 jenkins : Icon
 jenkins =
-    Icon.Icon "jenkins"
+    Icon.Logo "jenkins"
 
 
 {-| Joget - Logo
 -}
 joget : Icon
 joget =
-    Icon.Icon "joget"
+    Icon.Logo "joget"
 
 
 {-| Joomla - Logo
 -}
 joomla : Icon
 joomla =
-    Icon.Icon "joomla"
+    Icon.Logo "joomla"
 
 
 {-| JSFiddle - Logo
 -}
 jsFiddle : Icon
 jsFiddle =
-    Icon.Icon "jsfiddle"
+    Icon.Logo "jsfiddle"
 
 
 {-| Key - Icon
@@ -7282,14 +7282,14 @@ key =
 -}
 keyCDN : Icon
 keyCDN =
-    Icon.Icon "keycdn"
+    Icon.Logo "keycdn"
 
 
 {-| Keybase - Logo
 -}
 keybase : Icon
 keybase =
-    Icon.Icon "keybase"
+    Icon.Logo "keybase"
 
 
 {-| Keyboard - Icon
@@ -7303,21 +7303,21 @@ keyboard =
 -}
 kickstarter : Icon
 kickstarter =
-    Icon.Icon "kickstarter"
+    Icon.Logo "kickstarter"
 
 
 {-| Kickstarter K - Logo
 -}
 kickstarterK : Icon
 kickstarterK =
-    Icon.Icon "kickstarter-k"
+    Icon.Logo "kickstarter-k"
 
 
 {-| Korvue - Logo
 -}
 korvue : Icon
 korvue =
-    Icon.Icon "korvue"
+    Icon.Logo "korvue"
 
 
 {-| Lamp - Icon
@@ -7345,21 +7345,21 @@ laptop =
 -}
 laravel : Icon
 laravel =
-    Icon.Icon "laravel"
+    Icon.Logo "laravel"
 
 
 {-| Last.fm - Logo
 -}
 lastfm : Icon
 lastfm =
-    Icon.Icon "lastfm"
+    Icon.Logo "lastfm"
 
 
 {-| Last.fm Square - Logo
 -}
 lastfmSquare : Icon
 lastfmSquare =
-    Icon.Icon "lastfm-square"
+    Icon.Logo "lastfm-square"
 
 
 {-| Leaf - Icon
@@ -7380,7 +7380,7 @@ leafHeart =
 -}
 leanpub : Icon
 leanpub =
-    Icon.Icon "leanpub"
+    Icon.Logo "leanpub"
 
 
 {-| Lemon - Icon
@@ -7394,7 +7394,7 @@ lemon =
 -}
 less : Icon
 less =
-    Icon.Icon "less"
+    Icon.Logo "less"
 
 
 {-| Level Down - Icon
@@ -7443,7 +7443,7 @@ lightbulb =
 -}
 line : Icon
 line =
-    Icon.Icon "line"
+    Icon.Logo "line"
 
 
 {-| Link - Icon
@@ -7457,28 +7457,28 @@ link =
 -}
 linkedIn : Icon
 linkedIn =
-    Icon.Icon "linkedin"
+    Icon.Logo "linkedin"
 
 
 {-| LinkedIn Inverted - Logo
 -}
 linkedInInverted : Icon
 linkedInInverted =
-    Icon.Icon "linkedin-in"
+    Icon.Logo "linkedin-in"
 
 
 {-| Linode - Logo
 -}
 linode : Icon
 linode =
-    Icon.Icon "linode"
+    Icon.Logo "linode"
 
 
 {-| Linux - Logo
 -}
 linux : Icon
 linux =
-    Icon.Icon "linux"
+    Icon.Logo "linux"
 
 
 {-| Lira Sign - Icon
@@ -7632,14 +7632,14 @@ luchador =
 -}
 lyft : Icon
 lyft =
-    Icon.Icon "lyft"
+    Icon.Logo "lyft"
 
 
 {-| Magento - Logo
 -}
 magento : Icon
 magento =
-    Icon.Icon "magento"
+    Icon.Logo "magento"
 
 
 {-| Magic - Icon
@@ -7667,7 +7667,7 @@ male =
 -}
 mandalorian : Icon
 mandalorian =
-    Icon.Icon "mandalorian"
+    Icon.Logo "mandalorian"
 
 
 {-| Map - Icon
@@ -7744,35 +7744,35 @@ marsStrokeVertical =
 -}
 mastodon : Icon
 mastodon =
-    Icon.Icon "mastodon"
+    Icon.Logo "mastodon"
 
 
 {-| MaxCDN - Logo
 -}
 maxCDN : Icon
 maxCDN =
-    Icon.Icon "maxcdn"
+    Icon.Logo "maxcdn"
 
 
 {-| MedApps - Logo
 -}
 medApps : Icon
 medApps =
-    Icon.Icon "medapps"
+    Icon.Logo "medapps"
 
 
 {-| Medium - Logo
 -}
 medium : Icon
 medium =
-    Icon.Icon "medium"
+    Icon.Logo "medium"
 
 
 {-| Medium M - Logo
 -}
 mediumM : Icon
 mediumM =
-    Icon.Icon "medium-m"
+    Icon.Logo "medium-m"
 
 
 {-| Medkit - Icon
@@ -7786,14 +7786,14 @@ medkit =
 -}
 medRT : Icon
 medRT =
-    Icon.Icon "medrt"
+    Icon.Logo "medrt"
 
 
 {-| Meetup - Logo
 -}
 meetup : Icon
 meetup =
-    Icon.Icon "meetup"
+    Icon.Logo "meetup"
 
 
 {-| Meh - Icon
@@ -7842,7 +7842,7 @@ microphoneSlash =
 -}
 microsoft : Icon
 microsoft =
-    Icon.Icon "microsoft"
+    Icon.Logo "microsoft"
 
 
 {-| Minus - Icon
@@ -7884,21 +7884,21 @@ minusSquare =
 -}
 mix : Icon
 mix =
-    Icon.Icon "mix"
+    Icon.Logo "mix"
 
 
 {-| Mixcloud - Logo
 -}
 mixcloud : Icon
 mixcloud =
-    Icon.Icon "mixcloud"
+    Icon.Logo "mixcloud"
 
 
 {-| Mizuni - Logo
 -}
 mizuni : Icon
 mizuni =
-    Icon.Icon "mizuni"
+    Icon.Logo "mizuni"
 
 
 {-| Mobile - Icon
@@ -7933,14 +7933,14 @@ mobileAndroidAlt =
 -}
 modX : Icon
 modX =
-    Icon.Icon "modx"
+    Icon.Logo "modx"
 
 
 {-| Monero - Logo
 -}
 monero : Icon
 monero =
-    Icon.Icon "monero"
+    Icon.Logo "monero"
 
 
 {-| Money Bill - Icon
@@ -7989,7 +7989,7 @@ music =
 -}
 napster : Icon
 napster =
-    Icon.Icon "napster"
+    Icon.Logo "napster"
 
 
 {-| Neuter - Icon
@@ -8010,21 +8010,21 @@ newspaper =
 -}
 nintendoSwitch : Icon
 nintendoSwitch =
-    Icon.Icon "nintendo-switch"
+    Icon.Logo "nintendo-switch"
 
 
 {-| Node - Logo
 -}
 node : Icon
 node =
-    Icon.Icon "node"
+    Icon.Logo "node"
 
 
 {-| Node.js - Logo
 -}
 nodejs : Icon
 nodejs =
-    Icon.Icon "node-js"
+    Icon.Logo "node-js"
 
 
 {-| Notes Medical - Icon
@@ -8038,21 +8038,21 @@ notesMedical =
 -}
 npm : Icon
 npm =
-    Icon.Icon "npm"
+    Icon.Logo "npm"
 
 
 {-| Ns8 - Logo
 -}
 ns8 : Icon
 ns8 =
-    Icon.Icon "ns8"
+    Icon.Logo "ns8"
 
 
 {-| Nutritionix - Logo
 -}
 nutritionix : Icon
 nutritionix =
-    Icon.Icon "nutritionix"
+    Icon.Logo "nutritionix"
 
 
 {-| Object Group - Icon
@@ -8080,56 +8080,56 @@ octagon =
 -}
 odnoklassniki : Icon
 odnoklassniki =
-    Icon.Icon "odnoklassniki"
+    Icon.Logo "odnoklassniki"
 
 
 {-| Odnoklassniki Square - Logo
 -}
 odnoklassnikiSquare : Icon
 odnoklassnikiSquare =
-    Icon.Icon "odnoklassniki-square"
+    Icon.Logo "odnoklassniki-square"
 
 
 {-| Old Republic - Logo
 -}
 oldRepublic : Icon
 oldRepublic =
-    Icon.Icon "old-republic"
+    Icon.Logo "old-republic"
 
 
 {-| Open Cart - Logo
 -}
 openCart : Icon
 openCart =
-    Icon.Icon "opencart"
+    Icon.Logo "opencart"
 
 
 {-| Open ID - Logo
 -}
 openID : Icon
 openID =
-    Icon.Icon "openid"
+    Icon.Logo "openid"
 
 
 {-| Open Source Initiative - Logo
 -}
 openSourceInitiative : Icon
 openSourceInitiative =
-    Icon.Icon "osi"
+    Icon.Logo "osi"
 
 
 {-| Opera - Logo
 -}
 opera : Icon
 opera =
-    Icon.Icon "opera"
+    Icon.Logo "opera"
 
 
 {-| Optin Monster - Logo
 -}
 optinMonster : Icon
 optinMonster =
-    Icon.Icon "optin-monster"
+    Icon.Logo "optin-monster"
 
 
 {-| Outdent - Icon
@@ -8143,14 +8143,14 @@ outdent =
 -}
 pageLines : Icon
 pageLines =
-    Icon.Icon "pagelines"
+    Icon.Logo "pagelines"
 
 
 {-| page4 - Logo
 -}
 page4 : Icon
 page4 =
-    Icon.Icon "page4"
+    Icon.Logo "page4"
 
 
 {-| Paint Brush - Icon
@@ -8164,7 +8164,7 @@ paintBrush =
 -}
 palFed : Icon
 palFed =
-    Icon.Icon "palfed"
+    Icon.Logo "palfed"
 
 
 {-| Pallet - Icon
@@ -8220,7 +8220,7 @@ paste =
 -}
 patreon : Icon
 patreon =
-    Icon.Icon "patreon"
+    Icon.Logo "patreon"
 
 
 {-| Pause - Icon
@@ -8248,7 +8248,7 @@ paw =
 -}
 payPal : Icon
 payPal =
-    Icon.Icon "paypal"
+    Icon.Logo "paypal"
 
 
 {-| Pen - Icon
@@ -8311,7 +8311,7 @@ percent =
 -}
 periscope : Icon
 periscope =
-    Icon.Icon "periscope"
+    Icon.Logo "periscope"
 
 
 {-| Person Carry - Icon
@@ -8339,21 +8339,21 @@ personDollyEmpty =
 -}
 phabricator : Icon
 phabricator =
-    Icon.Icon "phabricator"
+    Icon.Logo "phabricator"
 
 
 {-| Phoenix Framework - Logo
 -}
 phoenixFramework : Icon
 phoenixFramework =
-    Icon.Icon "phoenix-framework"
+    Icon.Logo "phoenix-framework"
 
 
 {-| Phoenix Squadron - Logo
 -}
 phoenixSquadron : Icon
 phoenixSquadron =
-    Icon.Icon "phoenix-squadron"
+    Icon.Logo "phoenix-squadron"
 
 
 {-| Phone - Icon
@@ -8395,35 +8395,35 @@ phoneVolume =
 -}
 php : Icon
 php =
-    Icon.Icon "php"
+    Icon.Logo "php"
 
 
 {-| Pied Piper - Logo
 -}
 piedPiper : Icon
 piedPiper =
-    Icon.Icon "pied-piper"
+    Icon.Logo "pied-piper"
 
 
 {-| Pied Piper Alternate - Logo
 -}
 piedPiperAlt : Icon
 piedPiperAlt =
-    Icon.Icon "pied-piper-alt"
+    Icon.Logo "pied-piper-alt"
 
 
 {-| Pied Piper Hat - Logo
 -}
 piedPiperHat : Icon
 piedPiperHat =
-    Icon.Icon "pied-piper-hat"
+    Icon.Logo "pied-piper-hat"
 
 
 {-| Pied Piper PP - Logo
 -}
 piedPiperPP : Icon
 piedPiperPP =
-    Icon.Icon "pied-piper-pp"
+    Icon.Logo "pied-piper-pp"
 
 
 {-| Piggy Bank - Icon
@@ -8444,21 +8444,21 @@ pills =
 -}
 pinterest : Icon
 pinterest =
-    Icon.Icon "pinterest"
+    Icon.Logo "pinterest"
 
 
 {-| Pinterest P - Logo
 -}
 pinterestP : Icon
 pinterestP =
-    Icon.Icon "pinterest-p"
+    Icon.Logo "pinterest-p"
 
 
 {-| Pinterest Square - Logo
 -}
 pinterestSquare : Icon
 pinterestSquare =
-    Icon.Icon "pinterest-square"
+    Icon.Logo "pinterest-square"
 
 
 {-| Plane - Icon
@@ -8493,7 +8493,7 @@ playCircle =
 -}
 playstation : Icon
 playstation =
-    Icon.Icon "playstation"
+    Icon.Logo "playstation"
 
 
 {-| Plug - Icon
@@ -8605,14 +8605,14 @@ procedures =
 -}
 productHunt : Icon
 productHunt =
-    Icon.Icon "product-hunt"
+    Icon.Logo "product-hunt"
 
 
 {-| Pushed - Logo
 -}
 pushed : Icon
 pushed =
-    Icon.Icon "pushed"
+    Icon.Logo "pushed"
 
 
 {-| Puzzle Piece - Icon
@@ -8626,14 +8626,14 @@ puzzlePiece =
 -}
 python : Icon
 python =
-    Icon.Icon "python"
+    Icon.Logo "python"
 
 
 {-| QQ - Logo
 -}
 qq : Icon
 qq =
-    Icon.Icon "qq"
+    Icon.Logo "qq"
 
 
 {-| QR Code - Icon
@@ -8675,14 +8675,14 @@ quidditch =
 -}
 quinScape : Icon
 quinScape =
-    Icon.Icon "quinscape"
+    Icon.Logo "quinscape"
 
 
 {-| Quora - Logo
 -}
 quora : Icon
 quora =
-    Icon.Icon "quora"
+    Icon.Logo "quora"
 
 
 {-| Quote Left - Icon
@@ -8703,7 +8703,7 @@ quoteRight =
 -}
 rProject : Icon
 rProject =
-    Icon.Icon "r-project"
+    Icon.Logo "r-project"
 
 
 {-| Racquet - Icon
@@ -8731,28 +8731,28 @@ random =
 -}
 ravelry : Icon
 ravelry =
-    Icon.Icon "ravelry"
+    Icon.Logo "ravelry"
 
 
 {-| React - Logo
 -}
 react : Icon
 react =
-    Icon.Icon "react"
+    Icon.Logo "react"
 
 
 {-| Readme - Logo
 -}
 readme : Icon
 readme =
-    Icon.Icon "readme"
+    Icon.Logo "readme"
 
 
 {-| Rebel - Logo
 -}
 rebel : Icon
 rebel =
-    Icon.Icon "rebel"
+    Icon.Logo "rebel"
 
 
 {-| Rectangle Landscape - Icon
@@ -8787,28 +8787,28 @@ recycle =
 -}
 redRiver : Icon
 redRiver =
-    Icon.Icon "red-river"
+    Icon.Logo "red-river"
 
 
 {-| Reddit - Logo
 -}
 reddit : Icon
 reddit =
-    Icon.Icon "reddit"
+    Icon.Logo "reddit"
 
 
 {-| Reddit Alien - Logo
 -}
 redditAlien : Icon
 redditAlien =
-    Icon.Icon "reddit-alien"
+    Icon.Logo "reddit-alien"
 
 
 {-| Reddit Square - Logo
 -}
 redditSquare : Icon
 redditSquare =
-    Icon.Icon "reddit-square"
+    Icon.Logo "reddit-square"
 
 
 {-| Redo - Icon
@@ -8836,14 +8836,14 @@ registered =
 -}
 rendact : Icon
 rendact =
-    Icon.Icon "rendact"
+    Icon.Logo "rendact"
 
 
 {-| Renren - Logo
 -}
 renren : Icon
 renren =
-    Icon.Icon "renren"
+    Icon.Logo "renren"
 
 
 {-| Repeat - Icon
@@ -8892,21 +8892,21 @@ replyAll =
 -}
 replyd : Icon
 replyd =
-    Icon.Icon "replyd"
+    Icon.Logo "replyd"
 
 
 {-| ResearchGate - Logo
 -}
 researchGate : Icon
 researchGate =
-    Icon.Icon "researchgate"
+    Icon.Logo "researchgate"
 
 
 {-| Resolving - Logo
 -}
 resolving : Icon
 resolving =
-    Icon.Icon "resolving"
+    Icon.Logo "resolving"
 
 
 {-| Retweet - Icon
@@ -8941,7 +8941,7 @@ road =
 -}
 rockRMS : Icon
 rockRMS =
-    Icon.Icon "rockrms"
+    Icon.Logo "rockrms"
 
 
 {-| Rocket - Icon
@@ -8955,7 +8955,7 @@ rocket =
 -}
 rocketChat : Icon
 rocketChat =
-    Icon.Icon "rocketchat"
+    Icon.Logo "rocketchat"
 
 
 {-| Route - Icon
@@ -8997,14 +8997,14 @@ rupeeSign =
 -}
 safari : Icon
 safari =
-    Icon.Icon "safari"
+    Icon.Logo "safari"
 
 
 {-| Sass - Logo
 -}
 sass : Icon
 sass =
-    Icon.Icon "sass"
+    Icon.Logo "sass"
 
 
 {-| Save - Icon
@@ -9039,14 +9039,14 @@ scannerTouchscreen =
 -}
 schlix : Icon
 schlix =
-    Icon.Icon "schlix"
+    Icon.Logo "schlix"
 
 
 {-| Scribd - Logo
 -}
 scribd : Icon
 scribd =
-    Icon.Icon "scribd"
+    Icon.Logo "scribd"
 
 
 {-| Scrubber - Icon
@@ -9081,7 +9081,7 @@ searchPlus =
 -}
 searchengin : Icon
 searchengin =
-    Icon.Icon "searchengin"
+    Icon.Logo "searchengin"
 
 
 {-| Seedling - Icon
@@ -9095,14 +9095,14 @@ seedling =
 -}
 sellCast : Icon
 sellCast =
-    Icon.Icon "sellcast"
+    Icon.Logo "sellcast"
 
 
 {-| Sellsy - Logo
 -}
 sellsy : Icon
 sellsy =
-    Icon.Icon "sellsy"
+    Icon.Logo "sellsy"
 
 
 {-| Server - Icon
@@ -9116,7 +9116,7 @@ server =
 -}
 serviceStack : Icon
 serviceStack =
-    Icon.Icon "servicestack"
+    Icon.Logo "servicestack"
 
 
 {-| Share - Icon
@@ -9207,7 +9207,7 @@ shippingTimed =
 -}
 shirtsInBulk : Icon
 shirtsInBulk =
-    Icon.Icon "shirtsinbulk"
+    Icon.Logo "shirtsinbulk"
 
 
 {-| Shopping Bag - Icon
@@ -9298,14 +9298,14 @@ signal =
 -}
 simplyBuilt : Icon
 simplyBuilt =
-    Icon.Icon "simplybuilt"
+    Icon.Logo "simplybuilt"
 
 
 {-| Sistrix - Logo
 -}
 sistrix : Icon
 sistrix =
-    Icon.Icon "sistrix"
+    Icon.Logo "sistrix"
 
 
 {-| Sitemap - Icon
@@ -9319,35 +9319,35 @@ sitemap =
 -}
 sith : Icon
 sith =
-    Icon.Icon "sith"
+    Icon.Logo "sith"
 
 
 {-| Sky Atlas - Logo
 -}
 skyAtlas : Icon
 skyAtlas =
-    Icon.Icon "skyatlas"
+    Icon.Logo "skyatlas"
 
 
 {-| Skype - Logo
 -}
 skype : Icon
 skype =
-    Icon.Icon "skype"
+    Icon.Logo "skype"
 
 
 {-| Slack - Logo
 -}
 slack : Icon
 slack =
-    Icon.Icon "slack"
+    Icon.Logo "slack"
 
 
 {-| Slack Hash - Logo
 -}
 slackHash : Icon
 slackHash =
-    Icon.Icon "slack-hash"
+    Icon.Logo "slack-hash"
 
 
 {-| Sliders Horizontal - Icon
@@ -9382,7 +9382,7 @@ slidersVerticalSquare =
 -}
 slideshare : Icon
 slideshare =
-    Icon.Icon "slideshare"
+    Icon.Logo "slideshare"
 
 
 {-| Smile - Icon
@@ -9410,21 +9410,21 @@ smoking =
 -}
 snapchat : Icon
 snapchat =
-    Icon.Icon "snapchat"
+    Icon.Logo "snapchat"
 
 
 {-| Snapchat Ghost - Logo
 -}
 snapchatGhost : Icon
 snapchatGhost =
-    Icon.Icon "snapchat-ghost"
+    Icon.Logo "snapchat-ghost"
 
 
 {-| Snapchat Square - Logo
 -}
 snapchatSquare : Icon
 snapchatSquare =
-    Icon.Icon "snapchat-square"
+    Icon.Logo "snapchat-square"
 
 
 {-| Snowflake - Icon
@@ -9501,7 +9501,7 @@ sortUp =
 -}
 soundCloud : Icon
 soundCloud =
-    Icon.Icon "soundcloud"
+    Icon.Logo "soundcloud"
 
 
 {-| Space Shuttle - Icon
@@ -9522,7 +9522,7 @@ spade =
 -}
 speakap : Icon
 speakap =
-    Icon.Icon "speakap"
+    Icon.Logo "speakap"
 
 
 {-| Spinner - Icon
@@ -9543,7 +9543,7 @@ spinnerThird =
 -}
 spotify : Icon
 spotify =
-    Icon.Icon "spotify"
+    Icon.Logo "spotify"
 
 
 {-| Square - Icon
@@ -9564,14 +9564,14 @@ squareFull =
 -}
 stackExchange : Icon
 stackExchange =
-    Icon.Icon "stack-exchange"
+    Icon.Logo "stack-exchange"
 
 
 {-| Stack Overflow - Logo
 -}
 stackOverflow : Icon
 stackOverflow =
-    Icon.Icon "stack-overflow"
+    Icon.Logo "stack-overflow"
 
 
 {-| Star - Icon
@@ -9599,28 +9599,28 @@ starHalf =
 -}
 stayLinked : Icon
 stayLinked =
-    Icon.Icon "staylinked"
+    Icon.Logo "staylinked"
 
 
 {-| Steam - Logo
 -}
 steam : Icon
 steam =
-    Icon.Icon "steam"
+    Icon.Logo "steam"
 
 
 {-| Steam Square - Logo
 -}
 steamSquare : Icon
 steamSquare =
-    Icon.Icon "steam-square"
+    Icon.Logo "steam-square"
 
 
 {-| Steam Symbol - Logo
 -}
 steamSymbol : Icon
 steamSymbol =
-    Icon.Icon "steam-symbol"
+    Icon.Logo "steam-symbol"
 
 
 {-| Step Backward - Icon
@@ -9648,7 +9648,7 @@ stethoscope =
 -}
 stickerMule : Icon
 stickerMule =
-    Icon.Icon "sticker-mule"
+    Icon.Logo "sticker-mule"
 
 
 {-| Sticky Note - Icon
@@ -9683,7 +9683,7 @@ stopwatch =
 -}
 strava : Icon
 strava =
-    Icon.Icon "strava"
+    Icon.Logo "strava"
 
 
 {-| Street View - Icon
@@ -9704,35 +9704,35 @@ strikethrough =
 -}
 stripe : Icon
 stripe =
-    Icon.Icon "stripe"
+    Icon.Logo "stripe"
 
 
 {-| Stripe S - Logo
 -}
 stripeS : Icon
 stripeS =
-    Icon.Icon "stripe-s"
+    Icon.Logo "stripe-s"
 
 
 {-| Studio Vinari - Logo
 -}
 studioVinari : Icon
 studioVinari =
-    Icon.Icon "studiovinari"
+    Icon.Logo "studiovinari"
 
 
 {-| StumbleUpon - Logo
 -}
 stumbleUpon : Icon
 stumbleUpon =
-    Icon.Icon "stumbleupon"
+    Icon.Logo "stumbleupon"
 
 
 {-| StumbleUpon Circle - Logo
 -}
 stumbleUponCircle : Icon
 stumbleUponCircle =
-    Icon.Icon "stumbleupon-circle"
+    Icon.Logo "stumbleupon-circle"
 
 
 {-| Subscript - Icon
@@ -9767,7 +9767,7 @@ sun =
 -}
 superpowers : Icon
 superpowers =
-    Icon.Icon "superpowers"
+    Icon.Logo "superpowers"
 
 
 {-| Superscript - Icon
@@ -9781,7 +9781,7 @@ superscript =
 -}
 supple : Icon
 supple =
-    Icon.Icon "supple"
+    Icon.Logo "supple"
 
 
 {-| Sync - Icon
@@ -9914,28 +9914,28 @@ taxi =
 -}
 teamSpeak : Icon
 teamSpeak =
-    Icon.Icon "teamspeak"
+    Icon.Logo "teamspeak"
 
 
 {-| Telegram - Logo
 -}
 telegram : Icon
 telegram =
-    Icon.Icon "telegram"
+    Icon.Logo "telegram"
 
 
 {-| Telegram Plane - Logo
 -}
 telegramPlane : Icon
 telegramPlane =
-    Icon.Icon "telegram-plane"
+    Icon.Logo "telegram-plane"
 
 
 {-| Tencent Weibo - Logo
 -}
 tencentWeibo : Icon
 tencentWeibo =
-    Icon.Icon "tencent-weibo"
+    Icon.Logo "tencent-weibo"
 
 
 {-| Tennis Ball - Icon
@@ -9991,7 +9991,7 @@ thList =
 -}
 themeIsle : Icon
 themeIsle =
-    Icon.Icon "themeisle"
+    Icon.Logo "themeisle"
 
 
 {-| Thermometer - Icon
@@ -10131,7 +10131,7 @@ toggleOn =
 -}
 tradeFederation : Icon
 tradeFederation =
-    Icon.Icon "trade-federation"
+    Icon.Logo "trade-federation"
 
 
 {-| Trademark - Icon
@@ -10194,7 +10194,7 @@ treeAlt =
 -}
 trello : Icon
 trello =
-    Icon.Icon "trello"
+    Icon.Logo "trello"
 
 
 {-| Triangle - Icon
@@ -10208,7 +10208,7 @@ triangle =
 -}
 tripAdvisor : Icon
 tripAdvisor =
-    Icon.Icon "tripadvisor"
+    Icon.Logo "tripadvisor"
 
 
 {-| Trophy - Icon
@@ -10278,14 +10278,14 @@ tty =
 -}
 tumblr : Icon
 tumblr =
-    Icon.Icon "tumblr"
+    Icon.Logo "tumblr"
 
 
 {-| Tumblr Square - Logo
 -}
 tumblrSquare : Icon
 tumblrSquare =
-    Icon.Icon "tumblr-square"
+    Icon.Logo "tumblr-square"
 
 
 {-| TV - Icon
@@ -10306,42 +10306,42 @@ tvRetro =
 -}
 twitch : Icon
 twitch =
-    Icon.Icon "twitch"
+    Icon.Logo "twitch"
 
 
 {-| Twitter - Logo
 -}
 twitter : Icon
 twitter =
-    Icon.Icon "twitter"
+    Icon.Logo "twitter"
 
 
 {-| Twitter Square - Logo
 -}
 twitterSquare : Icon
 twitterSquare =
-    Icon.Icon "twitter-square"
+    Icon.Logo "twitter-square"
 
 
 {-| Typo3 - Logo
 -}
 typo3 : Icon
 typo3 =
-    Icon.Icon "typo3"
+    Icon.Logo "typo3"
 
 
 {-| Uber - Logo
 -}
 uber : Icon
 uber =
-    Icon.Icon "uber"
+    Icon.Logo "uber"
 
 
 {-| UIkit - Logo
 -}
 uiKit : Icon
 uiKit =
-    Icon.Icon "uikit"
+    Icon.Logo "uikit"
 
 
 {-| Umbrella - Icon
@@ -10376,7 +10376,7 @@ undoAlt =
 -}
 uniregistry : Icon
 uniregistry =
-    Icon.Icon "uniregistry"
+    Icon.Logo "uniregistry"
 
 
 {-| Universal Access - Icon
@@ -10418,7 +10418,7 @@ unlockAlt =
 -}
 untappd : Icon
 untappd =
-    Icon.Icon "untappd"
+    Icon.Logo "untappd"
 
 
 {-| Upload - Icon
@@ -10432,14 +10432,14 @@ upload =
 -}
 usSunnah : Icon
 usSunnah =
-    Icon.Icon "ussunnah"
+    Icon.Logo "ussunnah"
 
 
 {-| USB - Logo
 -}
 usb : Icon
 usb =
-    Icon.Icon "usb"
+    Icon.Logo "usb"
 
 
 {-| USD Circle - Icon
@@ -10663,7 +10663,7 @@ utensilsAlt =
 -}
 vaadin : Icon
 vaadin =
-    Icon.Icon "vaadin"
+    Icon.Logo "vaadin"
 
 
 {-| Venus - Icon
@@ -10691,21 +10691,21 @@ venusMars =
 -}
 viacoin : Icon
 viacoin =
-    Icon.Icon "viacoin"
+    Icon.Logo "viacoin"
 
 
 {-| Viadeo - Logo
 -}
 viadeo : Icon
 viadeo =
-    Icon.Icon "viadeo"
+    Icon.Logo "viadeo"
 
 
 {-| Viadeo Square - Logo
 -}
 viadeoSquare : Icon
 viadeoSquare =
-    Icon.Icon "viadeo-square"
+    Icon.Logo "viadeo-square"
 
 
 {-| Vial - Icon
@@ -10726,7 +10726,7 @@ vials =
 -}
 viber : Icon
 viber =
-    Icon.Icon "viber"
+    Icon.Logo "viber"
 
 
 {-| Video - Icon
@@ -10754,42 +10754,42 @@ videoSlash =
 -}
 vimeo : Icon
 vimeo =
-    Icon.Icon "vimeo"
+    Icon.Logo "vimeo"
 
 
 {-| Vimeo Square - Logo
 -}
 vimeoSquare : Icon
 vimeoSquare =
-    Icon.Icon "vimeo-square"
+    Icon.Logo "vimeo-square"
 
 
 {-| Vimeo V - Logo
 -}
 vimeoV : Icon
 vimeoV =
-    Icon.Icon "vimeo-v"
+    Icon.Logo "vimeo-v"
 
 
 {-| Vine - Logo
 -}
 vine : Icon
 vine =
-    Icon.Icon "vine"
+    Icon.Logo "vine"
 
 
 {-| VK - Logo
 -}
 vk : Icon
 vk =
-    Icon.Icon "vk"
+    Icon.Logo "vk"
 
 
 {-| Vnv - Logo
 -}
 vnv : Icon
 vnv =
-    Icon.Icon "vnv"
+    Icon.Logo "vnv"
 
 
 {-| Volleyball - Icon
@@ -10831,7 +10831,7 @@ volumeUp =
 -}
 vuejs : Icon
 vuejs =
-    Icon.Icon "vuejs"
+    Icon.Logo "vuejs"
 
 
 {-| Warehouse - Icon
@@ -10859,7 +10859,7 @@ watch =
 -}
 weibo : Icon
 weibo =
-    Icon.Icon "weibo"
+    Icon.Logo "weibo"
 
 
 {-| Weight - Icon
@@ -10873,21 +10873,21 @@ weight =
 -}
 weixin : Icon
 weixin =
-    Icon.Icon "weixin"
+    Icon.Logo "weixin"
 
 
 {-| WhatsApp - Logo
 -}
 whatsApp : Icon
 whatsApp =
-    Icon.Icon "whatsapp"
+    Icon.Logo "whatsapp"
 
 
 {-| WhatsApp Square - Logo
 -}
 whatsAppSquare : Icon
 whatsAppSquare =
-    Icon.Icon "whatsapp-square"
+    Icon.Logo "whatsapp-square"
 
 
 {-| Wheelchair - Icon
@@ -10908,7 +10908,7 @@ whistle =
 -}
 whmcs : Icon
 whmcs =
-    Icon.Icon "whmcs"
+    Icon.Logo "whmcs"
 
 
 {-| Wifi - Icon
@@ -10922,7 +10922,7 @@ wifi =
 -}
 wikipedia : Icon
 wikipedia =
-    Icon.Icon "wikipedia-w"
+    Icon.Logo "wikipedia-w"
 
 
 {-| Window - Icon
@@ -10971,7 +10971,7 @@ windowRestore =
 -}
 windows : Icon
 windows =
-    Icon.Icon "windows"
+    Icon.Logo "windows"
 
 
 {-| Wine Glass - Icon
@@ -10985,7 +10985,7 @@ wineGlass =
 -}
 wolfPackBattalion : Icon
 wolfPackBattalion =
-    Icon.Icon "wolf-pack-battalion"
+    Icon.Logo "wolf-pack-battalion"
 
 
 {-| Won Sign - Icon
@@ -10999,35 +10999,35 @@ wonSign =
 -}
 wordPress : Icon
 wordPress =
-    Icon.Icon "wordpress"
+    Icon.Logo "wordpress"
 
 
 {-| WordPress Simple - Logo
 -}
 wordPressSimple : Icon
 wordPressSimple =
-    Icon.Icon "wordpress-simple"
+    Icon.Logo "wordpress-simple"
 
 
 {-| WPBeginner - Logo
 -}
 wpBeginner : Icon
 wpBeginner =
-    Icon.Icon "wpbeginner"
+    Icon.Logo "wpbeginner"
 
 
 {-| WPExplorer - Logo
 -}
 wpExplorer : Icon
 wpExplorer =
-    Icon.Icon "wpexplorer"
+    Icon.Logo "wpexplorer"
 
 
 {-| WPForms - Logo
 -}
 wpForms : Icon
 wpForms =
-    Icon.Icon "wpforms"
+    Icon.Logo "wpforms"
 
 
 {-| Wrench - Icon
@@ -11048,56 +11048,56 @@ xray =
 -}
 xbox : Icon
 xbox =
-    Icon.Icon "xbox"
+    Icon.Logo "xbox"
 
 
 {-| XING - Logo
 -}
 xing : Icon
 xing =
-    Icon.Icon "xing"
+    Icon.Logo "xing"
 
 
 {-| XING Square - Logo
 -}
 xingSquare : Icon
 xingSquare =
-    Icon.Icon "xing-square"
+    Icon.Logo "xing-square"
 
 
 {-| Yahoo - Logo
 -}
 yahoo : Icon
 yahoo =
-    Icon.Icon "yahoo"
+    Icon.Logo "yahoo"
 
 
 {-| Yandex - Logo
 -}
 yandex : Icon
 yandex =
-    Icon.Icon "yandex"
+    Icon.Logo "yandex"
 
 
 {-| Yandex International - Logo
 -}
 yandexInternational : Icon
 yandexInternational =
-    Icon.Icon "yandex-international"
+    Icon.Logo "yandex-international"
 
 
 {-| YCombinator - Logo
 -}
 yCombinator : Icon
 yCombinator =
-    Icon.Icon "y-combinator"
+    Icon.Logo "y-combinator"
 
 
 {-| Yelp - Logo
 -}
 yelp : Icon
 yelp =
-    Icon.Icon "yelp"
+    Icon.Logo "yelp"
 
 
 {-| Yen Sign - Icon
@@ -11111,18 +11111,18 @@ yenSign =
 -}
 yoast : Icon
 yoast =
-    Icon.Icon "yoast"
+    Icon.Logo "yoast"
 
 
 {-| YouTube - Logo
 -}
 youTube : Icon
 youTube =
-    Icon.Icon "youtube"
+    Icon.Logo "youtube"
 
 
 {-| YouTube Square - Logo
 -}
 youTubeSquare : Icon
 youTubeSquare =
-    Icon.Icon "youtube-square"
+    Icon.Logo "youtube-square"
