@@ -2763,6 +2763,7 @@ module FontAwesome
 import FontAwesome.Icon as Icon
 import FontAwesome.Utils exposing (dedup, onlyOne)
 import Html exposing (Attribute, Html)
+import Html.Keyed as Keyed
 import Html.Attributes
 
 
@@ -2836,12 +2837,30 @@ iconWithOptions icon style options htmlAttributes =
     let
         opts =
             filterAttrs options
+
+        classList =
+            classes icon style opts
+
+        iconKey =
+            case icon of
+                Icon.Icon i ->
+                    i
+
+                Icon.Logo l ->
+                    l
+
+        classesKey =
+            List.map Tuple.first classList
+                |> String.concat
+
+        safetyKey =
+            iconKey ++ classesKey
     in
         htmlTag opts
-            (classes icon style opts
+            (Html.Attributes.classList classList
                 :: htmlAttrs opts htmlAttributes
             )
-            []
+            safetyKey
 
 
 findTag : Option -> HtmlTag -> HtmlTag
@@ -2854,18 +2873,34 @@ findTag option previousTag =
             previousTag
 
 
-htmlTag : List Option -> (List (Attribute msg) -> List (Html msg) -> Html msg)
-htmlTag opts =
+htmlTag : List Option -> List (Attribute msg) -> String -> Html msg
+htmlTag opts htmlAttributes safetyKey =
     let
         tag =
             List.foldl findTag I opts
-    in
-        case tag of
-            I ->
-                Html.i
 
-            Span ->
-                Html.span
+        element =
+            case tag of
+                I ->
+                    Html.i htmlAttributes []
+
+                Span ->
+                    Html.span htmlAttributes []
+    in
+        -- We have to key the element with the Icon, Style and Options
+        -- (which turn into classes) to prevent Elm run-time errors when
+        -- we try to change any of these attributes (e.g. on mouse over).
+        -- This only affects the 'SVG & JS' variation of FontAwesome.
+        Keyed.node "div"
+            []
+            [ ( safetyKey
+              , -- The 'element' will get replaced by FontAwesome, so we need
+                -- to wrap it inside another div, otherwise FontAwesome create
+                -- a new element when its icon's changed without clearing up
+                -- the previous one.
+                Html.div [] [ element ]
+              )
+            ]
 
 
 htmlAttrs : List Option -> List (Attribute msg) -> List (Attribute msg)
@@ -3087,12 +3122,11 @@ className opt =
             ( "", False )
 
 
-classes : Icon -> Style -> List Option -> Attribute msg
+classes : Icon -> Style -> List Option -> List ( String, Bool )
 classes icon style options =
     ( styleClass icon style, True )
         :: ( iconClass icon, True )
         :: List.map className options
-        |> Html.Attributes.classList
 
 
 transformVal : Transform -> String
