@@ -2856,8 +2856,7 @@ iconWithOptions icon style options htmlAttributes =
         safetyKey =
             iconKey ++ classesKey
     in
-        htmlTag icon
-            opts
+        htmlTag opts
             (Html.Attributes.classList classList
                 :: htmlAttrs opts htmlAttributes
             )
@@ -2874,8 +2873,8 @@ findTag option previousTag =
             previousTag
 
 
-htmlTag : Icon -> List Option -> List (Attribute msg) -> String -> Html msg
-htmlTag icon opts htmlAttributes safetyKey =
+htmlTag : List Option -> List (Attribute msg) -> String -> Html msg
+htmlTag opts htmlAttributes safetyKey =
     let
         tag =
             List.foldl findTag I opts
