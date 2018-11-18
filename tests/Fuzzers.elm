@@ -1,4 +1,4 @@
-module Fuzzers exposing (..)
+module Fuzzers exposing (animationFuzzer, attributesFuzzer, borderFuzzer, htmlTagFuzzer, iconFuzzer, invertFuzzer, maskFuzzer, optionsFuzzer, pullFuzzer, sizeFuzzer, styleFuzzer, transformFuzzer, transformOptionFuzzer, widthFuzzer)
 
 import FontAwesome as FA
 import FontAwesome.Icon exposing (Icon)
@@ -8,9 +8,9 @@ import Fuzz
         , constant
         , float
         , list
-        , maybe
         , map
         , map2
+        , maybe
         , oneOf
         )
 import Html exposing (Attribute)
@@ -42,7 +42,7 @@ transformFuzzer =
                 , constant FA.FlipVertical
                 ]
     in
-        list fuzzer
+    list fuzzer
 
 
 transformOptionFuzzer : Fuzzer FA.Option
@@ -62,7 +62,7 @@ attributesFuzzer =
                 , Fuzz.constant (Html.Attributes.attribute "data-test-attr" "attr val")
                 ]
     in
-        Fuzz.list attributeFuzzer
+    Fuzz.list attributeFuzzer
 
 
 borderFuzzer : Fuzz.Fuzzer FA.Option
@@ -89,7 +89,7 @@ htmlTagFuzzer =
                 , Fuzz.constant FA.Span
                 ]
     in
-        Fuzz.map FA.HtmlTag fuzzer
+    Fuzz.map FA.HtmlTag fuzzer
 
 
 animationFuzzer : Fuzz.Fuzzer FA.Option
@@ -101,7 +101,7 @@ animationFuzzer =
                 , Fuzz.constant FA.Pulse
                 ]
     in
-        Fuzz.map FA.Animation fuzzer
+    Fuzz.map FA.Animation fuzzer
 
 
 pullFuzzer : Fuzz.Fuzzer FA.Option
@@ -113,7 +113,7 @@ pullFuzzer =
                 , Fuzz.constant FA.Right
                 ]
     in
-        Fuzz.map FA.Pull fuzzer
+    Fuzz.map FA.Pull fuzzer
 
 
 sizeFuzzer : Fuzz.Fuzzer FA.Option
@@ -130,7 +130,7 @@ sizeFuzzer =
                 , multFuzzer
                 ]
     in
-        Fuzz.map FA.Size fuzzer
+    Fuzz.map FA.Size fuzzer
 
 
 maskFuzzer : Fuzz.Fuzzer FA.Option
@@ -154,7 +154,7 @@ optionsFuzzer =
                 , transformOptionFuzzer
                 ]
     in
-        Fuzz.list optionFuzzer
+    Fuzz.list optionFuzzer
 
 
 iconFuzzer : Fuzzer Icon

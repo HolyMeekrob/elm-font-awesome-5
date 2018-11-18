@@ -1,10 +1,7 @@
-module FontAwesome.Layers
-    exposing
-        ( BadgePosition(..)
-        , IconLayer(..)
-        , LayerOption(..)
-        , layers
-        )
+module FontAwesome.Layers exposing
+    ( layers
+    , IconLayer(..), LayerOption(..), BadgePosition(..)
+    )
 
 {-| This module enables the layers feature of Font Awesome 5. Layers allows you
 to stack any number of Font Awesome icons and elements, as well as overlay text
@@ -26,8 +23,8 @@ Note that this feature requires using SVG Font Awesome elements.
 
 import FontAwesome
     exposing
-        ( Style
-        , Option
+        ( Option
+        , Style
         , Transform
         , iconWithOptions
         )
@@ -52,21 +49,22 @@ import Html.Attributes exposing (class, classList)
 
 -}
 layers : List (IconLayer msg) -> List (LayerOption msg) -> Html msg
-layers icons options =
+layers iconsList options =
     span
         [ classes options ]
-        (List.map icon icons ++ optionLayers options)
+        (List.map icon iconsList ++ optionLayers options)
 
 
 icon : IconLayer msg -> Html msg
-icon (IconLayer icon style options attributes) =
-    iconWithOptions icon style options attributes
+icon (IconLayer iconType style options attributes) =
+    iconWithOptions iconType style options attributes
 
 
 classes : List (LayerOption msg) -> Attribute msg
 classes options =
-    if (List.member LayerHasFixedWidth options) then
+    if List.member LayerHasFixedWidth options then
         class "fa-layers fa-fw"
+
     else
         class "fa-layers"
 
@@ -102,7 +100,7 @@ text layerOption layerOptions =
                         )
                         [ Html.text txt ]
             in
-                elem :: layerOptions
+            elem :: layerOptions
 
         _ ->
             layerOptions
@@ -112,25 +110,25 @@ transformVal : Transform -> String
 transformVal transform =
     case transform of
         FontAwesome.Grow n ->
-            "grow-" ++ toString n
+            "grow-" ++ String.fromFloat n
 
         FontAwesome.Shrink n ->
-            "shrink-" ++ toString n
+            "shrink-" ++ String.fromFloat n
 
         FontAwesome.ShiftDown n ->
-            "down-" ++ toString n
+            "down-" ++ String.fromFloat n
 
         FontAwesome.ShiftLeft n ->
-            "left-" ++ toString n
+            "left-" ++ String.fromFloat n
 
         FontAwesome.ShiftRight n ->
-            "right-" ++ toString n
+            "right-" ++ String.fromFloat n
 
         FontAwesome.ShiftUp n ->
-            "up-" ++ toString n
+            "up-" ++ String.fromFloat n
 
         FontAwesome.Rotate n ->
-            "rotate-" ++ toString n
+            "rotate-" ++ String.fromFloat n
 
         FontAwesome.FlipHorizontal ->
             "flip-h"
@@ -147,7 +145,7 @@ transformAttr transforms =
                 |> List.map transformVal
                 |> String.join " "
     in
-        Html.Attributes.attribute "data-fa-transform" val
+    Html.Attributes.attribute "data-fa-transform" val
 
 
 badge : LayerOption msg -> List (Html msg) -> List (Html msg)
@@ -165,7 +163,7 @@ badge layerOption layerOptions =
                         )
                         [ Html.text str ]
             in
-                elem :: layerOptions
+            elem :: layerOptions
 
         _ ->
             layerOptions

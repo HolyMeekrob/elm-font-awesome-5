@@ -155,7 +155,7 @@ testIcons icons =
         _ ->
             let
                 indexedIcons =
-                    List.indexedMap (,) icons
+                    List.indexedMap Tuple.pair icons
             in
                 Expect.all (List.map testIconAt indexedIcons)
 
